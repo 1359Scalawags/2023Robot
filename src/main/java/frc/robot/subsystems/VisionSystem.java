@@ -102,9 +102,9 @@ public class VisionSystem extends SubsystemBase {
     @Override
     public void periodic() {
         // // read values periodically
-        // double x = tx.getDouble(0.0);
-        // double y = ty.getDouble(0.0);
-        // double area = ta.getDouble(0.0);
+        //double x = tx.getDouble(0.0);
+        //double y = ty.getDouble(0.0);
+        ///double area = ta.getDouble(0.0);
 
         // // post to smart dashboard periodically
         // SmartDashboard.putNumber("LimelightX", x);
@@ -125,15 +125,15 @@ public class VisionSystem extends SubsystemBase {
     }
 
     public Double getTargetX() {
-        return x;
+        return tx.getDouble(0.0);
     }
 
     public Double getTargetY() {
-        return y;
+        return ty.getDouble(0.0);
     }
 
     public Double getTargetArea() {
-        return area;
+        return ta.getDouble(0.0);
     }
 
     public UsbCamera getCamera1() {

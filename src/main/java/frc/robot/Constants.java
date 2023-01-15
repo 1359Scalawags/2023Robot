@@ -32,7 +32,12 @@ public final class Constants {
         BackLeft,
         BackRight
     }
-
+    public static final class DisplaySystem {
+        public static final int PDHCANID = 1;
+        public static final int CAM_WIDTH = 320;
+        public static final int CAM_HEIGHT = 240;
+        public static final int CAM_FPS = 15;
+    }
     public static final class SwerveDrive {
         public static final class FrontLeft {
             public static final int DRIVE_MOTOR = 7; // FIXME Set front left module drive motor ID

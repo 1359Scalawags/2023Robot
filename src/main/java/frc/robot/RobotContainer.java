@@ -27,11 +27,14 @@ import frc.robot.subsystems.DrivetrainSubsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
 
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick m_logitech = new Joystick(0);
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -42,12 +45,16 @@ public class RobotContainer {
     // Left stick Y axis -> forward and backwards movement
     // Left stick X axis -> left and right movement
     // Right stick X axis -> rotation
+    
+    
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
+      
             m_drivetrainSubsystem,
             () -> -modifyAxis(m_logitech.getY()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
             () -> -modifyAxis(m_logitech.getX()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
             () -> -modifyAxis(m_logitech.getZ()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
-    ));
+    )
+    );
 
 // This line For test purposes  only
        // m_drivetrainSubsystem.setDefaultCommand(new DrivetrainNoAction(m_drivetrainSubsystem));
@@ -67,6 +74,11 @@ public class RobotContainer {
     new JoystickButton(m_logitech, 3).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
             // No requirements because we don't need to interrupt anything         
   }
+  
+  
+  
+  
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -76,11 +88,13 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return new InstantCommand();
+    
   }
 
   public Command getTestCommand() {
     double angle = 30;//Rotation2d.fromDegrees(30).getDegrees();
     double speed = 1;
+    
     return new TurnWheelToAngleCommand(m_drivetrainSubsystem, WheelPositions.FrontLeft, speed, angle);
 
   }
@@ -97,6 +111,12 @@ public class RobotContainer {
     }
   }
 
+
+  double modifyAxis(double axisValue, double throttleValue){
+    double throttle  = 1 -( 0.5 * m_logitech.getThrottle());
+    return throttle;
+  }
+
   private static double modifyAxis(double value) {
     // Deadband
     value = deadband(value, 0.05);
@@ -104,6 +124,6 @@ public class RobotContainer {
     // Square the axis
     value = Math.copySign(value * value, value);
 
-    return Constants.SwerveDrive.motorSpeed * value;
+    return Constants.SwerveDrive.motorSpeed * value * modifyAxis(value);
   }
 }

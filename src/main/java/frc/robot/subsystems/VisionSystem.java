@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+/*package frc.robot.subsystems;
 
 
     import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -101,15 +101,15 @@ public class VisionSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // // read values periodically
-        //double x = tx.getDouble(0.0);
-        //double y = ty.getDouble(0.0);
-        ///double area = ta.getDouble(0.0);
+        // read values periodically
+        double x = tx.getDouble(0.0);
+        double y = ty.getDouble(0.0);
+        double area = ta.getDouble(0.0);
 
-        // // post to smart dashboard periodically
-        // SmartDashboard.putNumber("LimelightX", x);
-        // SmartDashboard.putNumber("LimelightY", y);
-        // SmartDashboard.putNumber("LimelightArea", area);
+        // post to smart dashboard periodically
+        SmartDashboard.putNumber("LimelightX", x);
+        SmartDashboard.putNumber("LimelightY", y);
+        SmartDashboard.putNumber("LimelightArea", area);
     }
 
     private static NetworkTableEntry getValue(String key) {
@@ -145,4 +145,4 @@ public class VisionSystem extends SubsystemBase {
 
     }
 
-}
+}*/

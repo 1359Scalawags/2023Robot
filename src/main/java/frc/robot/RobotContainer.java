@@ -6,7 +6,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.Joystick;
+import java.util.concurrent.ThreadPoolExecutor;
+
 //import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -18,8 +21,10 @@ import frc.robot.Constants.WheelPositions;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DrivetrainNoAction;
 import frc.robot.commands.TurnWheelToAngleCommand;
+import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
+import frc.robot.commands.ZeroGyroCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -31,7 +36,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
-
+  private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick m_logitech = new Joystick(0);
 
@@ -50,9 +55,9 @@ public class RobotContainer {
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
       
             m_drivetrainSubsystem,
-            () -> -modifyAxis(m_logitech.getY()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
-            () -> -modifyAxis(m_logitech.getX()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
-            () -> -modifyAxis(m_logitech.getZ()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+            () -> -modifyAxis(m_logitech.getY(), m_logitech.getThrottle()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
+            () -> -modifyAxis(m_logitech.getX(), m_logitech.getThrottle()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
+            () -> -modifyAxis(m_logitech.getZ(), m_logitech.getThrottle()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     )
     );
 
@@ -71,7 +76,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
-    new JoystickButton(m_logitech, 3).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+    //new JoystickButton(m_logitech, 3).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+    new JoystickButton(m_logitech, 3).whileTrue(m_ZeroGyroCommand);
             // No requirements because we don't need to interrupt anything         
   }
   
@@ -112,18 +118,19 @@ public class RobotContainer {
   }
 
 
-  double modifyAxis(double axisValue, double throttleValue){
-    double throttle  = 1 -( 0.5 * m_logitech.getThrottle());
-    return throttle;
-  }
+  //double modifyAxis(double axisValue, double throttleValue){
 
-  private static double modifyAxis(double value) {
-    // Deadband
+  
+
+  private static double modifyAxis(double value, double throttleValue) {
+    // Deadband 
+    double throttle  = 1 -( 0.5 * throttleValue);
+    
     value = deadband(value, 0.05);
 
     // Square the axis
     value = Math.copySign(value * value, value);
 
-    return Constants.SwerveDrive.motorSpeed * value * modifyAxis(value);
+    return Constants.SwerveDrive.motorSpeed * value * throttle;
   }
 }

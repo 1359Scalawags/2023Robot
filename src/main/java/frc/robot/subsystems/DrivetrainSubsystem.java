@@ -36,7 +36,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * <p>
    * This can be reduced to cap the robot's maximum speed. Typically, this is useful during initial testing of the robot.
    */
-  public static final double MAX_VOLTAGE = 12.0;
+  private static DrivetrainSubsystem instance;
+  
+  public static DrivetrainSubsystem getInstance() {
+        return instance;
+  }
+
+
+public static final double MAX_VOLTAGE = 12.0;
   // FIXME Measure the drivetrain's maximum velocity or calculate the theoretical.
   //  The formula for calculating the theoretical maximum velocity is:
   //   <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> * pi
@@ -166,6 +173,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             BackRight.STEER_ENCODER,
             BackRight.STEER_OFFSET
     );
+    instance = this;
   }
 
   /**
@@ -229,6 +237,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 //
 //    // We have to invert the angle of the NavX so that rotating the robot counter-clockwise makes the angle increase.
     return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
+  }
+
+  public double getYaw() {
+        return m_navx.getYaw();
   }
 
   public void drive(ChassisSpeeds chassisSpeeds) {

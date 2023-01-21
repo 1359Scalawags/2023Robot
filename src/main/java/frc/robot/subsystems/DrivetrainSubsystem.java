@@ -36,8 +36,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * <p>
    * This can be reduced to cap the robot's maximum speed. Typically, this is useful during initial testing of the robot.
    */
-  private static DrivetrainSubsystem instance;
   
+/**
+ * Get the current instance of the drivetrain used on the robot.
+ */
+  private static DrivetrainSubsystem instance;  
   public static DrivetrainSubsystem getInstance() {
         return instance;
   }

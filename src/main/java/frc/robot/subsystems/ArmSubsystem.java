@@ -16,14 +16,14 @@ public class ArmSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public CommandBase exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
+  // public CommandBase exampleMethodCommand() {
+  //   // Inline construction of command goes here.
+  //   // Subsystem::RunOnce implicitly requires `this` subsystem.
+  //   return runOnce(
+  //       () -> {
+  //         /* one-time action goes here */
+  //       });
+  // }
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
@@ -32,6 +32,24 @@ public class ArmSubsystem extends SubsystemBase {
    */
   public boolean exampleCondition() {
     // Query some boolean state, such as a digital sensor.
+    return false;
+  }
+
+  public void rotateUpperArm() {
+
+  }
+
+  public boolean isArmAtUpperLimit() {
+    //TODO: Fill this out when know more about the upper arm
+    return false;
+  }
+
+  public void rotateLowerArm() {
+
+  } 
+
+  public boolean isArmAtLowerLimit() {
+    //TODO: Fill this out when know more about the lower arm
     return false;
   }
 

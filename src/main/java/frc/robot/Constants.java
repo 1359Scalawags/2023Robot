@@ -63,15 +63,24 @@ public final class Constants {
             public static final int STEER_ENCODER = 13; // FIXME Set front left steer encoder ID
             public static final double STEER_OFFSET = -Math.toRadians(333.0); // FIXME Measure and set front left steer offset                 
         }
+
+
         public static final class Pneumatic {
             public static final int pistionOne = 1;                
             public static final int pistionTwo = 2;                
         } 
-            public static final double motorSpeed = 0.3;
-            public static final double gearRatio = 8.14;
+        public static final double motorSpeed = 0.3;
+        public static final double gearRatio = 8.14;
 
-            public static final double P = 0.00004;
-            public static final double I = 0.00004;
-            public static final double D = 0.00004;
+        public static final double P = 0.00004;
+        public static final double I = 0.00004;
+        public static final double D = 0.00004;
+    }
+    public static final class TurnToAngle {
+        public static final double P= 0.01;
+        public static final double I = 0.0001;
+        public static final double D = 0.0;
+        public static final double PositionTolerance = 1.0;
+        public static final double VelocityTolerance = 0.05;
     }
 }

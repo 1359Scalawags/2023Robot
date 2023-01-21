@@ -229,7 +229,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
      * Get the translation and rotation speeds of the drive.
      * @return A ChassisSpeeds object.
      */
-    public ChassisSpeeds getSpeeds() {
+    public ChassisSpeeds getChassisSpeeds() {
         return m_chassisSpeeds;
     }
 

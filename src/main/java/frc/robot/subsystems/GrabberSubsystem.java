@@ -11,8 +11,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class GrabberSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
+  boolean grabberOpen;
+
   public GrabberSubsystem() {}
-  //TODO what are we using
+  //TODO: what are we using and where is it going
   //Compressor pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
   //Compressor phCompressor = new Compressor(1, PneumaticsModuleType.REVPH);
   /** 
@@ -28,11 +30,14 @@ public class GrabberSubsystem extends SubsystemBase {
   //         /* one-time action goes here */
   //       });
   // }
-  public boolean close(){
-    return true;
+  public boolean isOpen(){
+    return grabberOpen;
   }
-  public boolean open(){
-    return false;
+  public void close(){
+    grabberOpen = false;
+  }
+  public void open(){
+    grabberOpen = true;
   }
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).

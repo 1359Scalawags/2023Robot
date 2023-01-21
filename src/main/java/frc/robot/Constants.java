@@ -64,7 +64,7 @@ public final class Constants {
             public static final double STEER_OFFSET = -Math.toRadians(333.0); // FIXME Measure and set front left steer offset                 
         }
             
-            public static final double motorSpeed = 0.1;
+            public static final double motorSpeed = 0.3;
             public static final double gearRatio = 8.14;
 
             public static final double P = 0.00004;

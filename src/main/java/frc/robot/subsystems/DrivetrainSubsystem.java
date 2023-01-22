@@ -9,6 +9,8 @@ import com.kauailabs.navx.frc.AHRS;
 import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
+import com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
+import com.swervedrivespecialties.swervelib.MotorType;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
@@ -23,6 +25,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
@@ -99,18 +102,30 @@ public class DrivetrainSubsystem extends SubsystemBase {
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
         // TODO: Setup motor configuration
-        m_frontLeftModule = Mk4iSwerveModuleHelper.createFalcon500(
-            // See the current state of the module on the dashboard.
-            tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-                    .withSize(2, 4)
-                    .withPosition(0, 0),
-            // This can either be STANDARD or FAST depending on your gear configuration
-            Mk4iSwerveModuleHelper.GearRatio.L1,
-            FrontLeft.DRIVE_MOTOR,
-            FrontLeft.STEER_MOTOR,
-            FrontLeft.STEER_ENCODER,
-            FrontLeft.STEER_OFFSET);
+        // m_frontLeftModule = Mk4iSwerveModuleHelper.createFalcon500(
+        //     // See the current state of the module on the dashboard.
+        //     tab.getLayout("Front Left Module", BuiltInLayouts.kList)
+        //             .withSize(2, 4)
+        //             .withPosition(0, 0),
+        //     // This can either be STANDARD or FAST depending on your gear configuration
+        //     Mk4iSwerveModuleHelper.GearRatio.L1,
+        //     FrontLeft.DRIVE_MOTOR,
+        //     FrontLeft.STEER_MOTOR,
+        //     FrontLeft.STEER_ENCODER,
+        //     FrontLeft.STEER_OFFSET);
 
+        m_frontLeftModule = new MkSwerveModuleBuilder()
+            .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)
+                    .withSize(2, 4)
+                    .withPosition(0, 0))
+            .withGearRatio(SdsModuleConfigurations.MK4I_L1)
+            .withDriveMotor(MotorType.FALCON, FrontLeft.DRIVE_MOTOR)
+            .withSteerMotor(MotorType.FALCON, FrontLeft.STEER_MOTOR)
+            .withSteerEncoderPort(FrontLeft.STEER_ENCODER)
+            .withSteerOffset(FrontLeft.STEER_OFFSET)
+            .build();
+
+        // TODO: Change Mk4iSwerveModuleHelper to MkSwerveModuleBuilder
         // We will do the same for the other modules
         m_frontRightModule = Mk4iSwerveModuleHelper.createFalcon500(
             tab.getLayout("Front Right Module", BuiltInLayouts.kList)

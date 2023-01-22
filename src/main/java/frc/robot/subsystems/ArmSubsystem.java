@@ -7,7 +7,15 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 public class ArmSubsystem extends SubsystemBase {
+  private CANSparkMax elbowMotor;
+  private CANSparkMax shoulderMotor;
   /** Creates a new ExampleSubsystem. */
   public ArmSubsystem() {}
 
@@ -52,7 +60,12 @@ public class ArmSubsystem extends SubsystemBase {
     //TODO: Fill this out when know more about the lower arm
     return false;
   }
-
+  public void setelbowMotor(double speed) {
+    elbowMotor.set(speed);
+  }  
+  public void setshoulderMotor(double speed) {
+    shoulderMotor.set(speed);
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

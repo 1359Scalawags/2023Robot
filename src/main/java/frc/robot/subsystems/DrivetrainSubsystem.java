@@ -116,7 +116,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         m_frontLeftModule = new MkSwerveModuleBuilder()
             .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-                    .withSize(0, 4)
+                    .withSize(2, 4)
                     .withPosition(0, 0))
             .withGearRatio(SdsModuleConfigurations.MK4I_L1)
             .withDriveMotor(MotorType.FALCON, FrontLeft.DRIVE_MOTOR)
@@ -128,7 +128,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // TODO: Change Mk4iSwerveModuleHelper to MkSwerveModuleBuilder
         // We will do the same for the other modules
         m_frontRightModule = new MkSwerveModuleBuilder()
-        .withLayout(tab.getLayout("Front Right Module", BuiltInLayouts.kList)
+            .withLayout(tab.getLayout("Front Right Module", BuiltInLayouts.kList)
                     .withSize(2, 4)
                     .withPosition(2, 0))
                     .withGearRatio(SdsModuleConfigurations.MK4I_L1)
@@ -151,7 +151,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             BackLeft.STEER_ENCODER,
             BackLeft.STEER_OFFSET);*/
         m_backLeftModule = new MkSwerveModuleBuilder()
-         .withLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList)
+             .withLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(4, 0))
                         .withGearRatio(SdsModuleConfigurations.MK4I_L1)
@@ -174,7 +174,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             BackRight.STEER_OFFSET);*/
 
         m_backRightModule = new MkSwerveModuleBuilder()
-        .withLayout(tab.getLayout("Back Right Module", BuiltInLayouts.kList)
+            .withLayout(tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(6, 0))
                         .withGearRatio(SdsModuleConfigurations.MK4I_L1)

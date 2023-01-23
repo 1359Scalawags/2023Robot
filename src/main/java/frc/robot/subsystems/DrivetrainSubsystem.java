@@ -132,10 +132,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
                     .withSize(2, 4)
                     .withPosition(2, 0))
                     .withGearRatio(SdsModuleConfigurations.MK4I_L1)
-                    .withDriveMotor(MotorType.FALCON, FrontLeft.DRIVE_MOTOR)
-                    .withSteerMotor(MotorType.FALCON, FrontLeft.STEER_MOTOR)
-                    .withSteerEncoderPort(FrontLeft.STEER_ENCODER)
-                    .withSteerOffset(FrontLeft.STEER_OFFSET)
+                    .withDriveMotor(MotorType.FALCON, FrontRight.DRIVE_MOTOR)
+                    .withSteerMotor(MotorType.FALCON, FrontRight.STEER_MOTOR)
+                    .withSteerEncoderPort(FrontRight.STEER_ENCODER)
+                    .withSteerOffset(FrontRight.STEER_OFFSET)
                     .build();
 
 

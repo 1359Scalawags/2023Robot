@@ -15,10 +15,13 @@ import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -186,6 +189,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         // set the current instance as the public instance
         instance = this;
+
+// Creating my odometry object from the kinematics object and the initial wheel positions.
+// Here, our starting pose is 5 meters along the long end of the field and in the
+// center of the field along the short end, facing the opposing alliance wall.
+        SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+        m_kinematics, m_navx.getRotation2d(),
+    new SwerveModulePosition[] {
+        m_frontLeftModule.getPosition(),
+        m_frontRightModule.getPosition(),
+        m_backLeftModule.getPosition(),
+        m_backRightModule.getPosition()
+  }, new Pose2d(5.0, 13.5, new Rotation2d()));
+
     }
 
     /**

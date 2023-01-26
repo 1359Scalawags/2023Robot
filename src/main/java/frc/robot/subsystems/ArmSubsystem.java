@@ -75,10 +75,10 @@ public class ArmSubsystem extends SubsystemBase {
     //TODO: Fill this out when know more about the lower arm
     return false;
   }
-  public void setelbowMotor(double speed) {
+  public void setElbowMotor(double speed) {
     elbowMotor.set(speed);
   }  
-  public void setshoulderMotor(double speed) {
+  public void setShoulderMotor(double speed) {
     shoulderMotor.set(speed);
   }
   @Override

@@ -13,11 +13,19 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import frc.robot.Constants;
 public class ArmSubsystem extends SubsystemBase {
   private CANSparkMax elbowMotor;
   private CANSparkMax shoulderMotor;
   /** Creates a new ExampleSubsystem. */
-  public ArmSubsystem() {}
+  public ArmSubsystem() {
+    elbowMotor = new CANSparkMax(Constants.SwerveDrive.ArmMotors.elbow, MotorType.kBrushless);
+
+    shoulderMotor = new CANSparkMax(Constants.SwerveDrive.ArmMotors.shoulder, MotorType.kBrushless);
+
+
+
+  }
 
   /**
    * Example command factory method.

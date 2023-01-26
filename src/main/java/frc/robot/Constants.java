@@ -67,6 +67,10 @@ public final class Constants {
             public static final int pistionOne = 1;                
             public static final int pistionTwo = 2;                
         } 
+        public static final class ArmMotors {
+            public static final int elbow = 1;                
+            public static final int shoulder = 2;                
+        } 
             public static final double motorSpeed = 0.3;
             public static final double gearRatio = 8.14;
 

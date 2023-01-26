@@ -14,17 +14,24 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants;
+import frc.robot.extensions.SendableCANSparkMax;
 public class ArmSubsystem extends SubsystemBase {
-  private CANSparkMax elbowMotor;
-  private CANSparkMax shoulderMotor;
+  private SendableCANSparkMax elbowMotor;
+  private SendableCANSparkMax shoulderMotor;
   /** Creates a new ExampleSubsystem. */
   public ArmSubsystem() {
-    elbowMotor = new CANSparkMax(Constants.SwerveDrive.ArmMotors.elbow, MotorType.kBrushless);
+    elbowMotor = new SendableCANSparkMax(Constants.SwerveDrive.ArmMotors.elbow, MotorType.kBrushless);
+    elbowMotor.restoreFactoryDefaults();
+    elbowMotor.setInverted(false);
+    elbowMotor.setIdleMode(IdleMode.kCoast);
 
-    shoulderMotor = new CANSparkMax(Constants.SwerveDrive.ArmMotors.shoulder, MotorType.kBrushless);
+    shoulderMotor = new SendableCANSparkMax(Constants.SwerveDrive.ArmMotors.shoulder, MotorType.kBrushless);
+    shoulderMotor.restoreFactoryDefaults();
+    shoulderMotor.setInverted(false);
+    shoulderMotor.setIdleMode(IdleMode.kCoast);
 
-
-
+    addChild("elbowMotor", elbowMotor);
+    addChild("shoulderMotor", shoulderMotor);
   }
 
   /**

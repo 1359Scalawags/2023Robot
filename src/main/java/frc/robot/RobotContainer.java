@@ -92,6 +92,8 @@ public class RobotContainer {
   private void configureDashboardButtons() {
     ShuffleboardTab tab = Shuffleboard.getTab("Testing");
     tab.add("Turn to 30", new TurnToAngle(30));
+
+    tab.add("Turn to -90", new TurnToAngle(-90));
    
   }
   

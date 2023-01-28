@@ -8,6 +8,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import java.util.concurrent.ThreadPoolExecutor;
 
 //import edu.wpi.first.wpilibj.XboxController;
@@ -18,8 +22,11 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants.WheelPositions;
+import frc.robot.commands.Autonamous;
+import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DrivetrainNoAction;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.TurnWheelToAngleCommand;
 import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -66,6 +73,7 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+    configureDashboardButtons();
   }
 
   /**
@@ -79,6 +87,14 @@ public class RobotContainer {
     //new JoystickButton(m_logitech, 3).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
     new JoystickButton(m_logitech, 3).whileTrue(m_ZeroGyroCommand);
             // No requirements because we don't need to interrupt anything         
+  }
+
+  private void configureDashboardButtons() {
+    ShuffleboardTab tab = Shuffleboard.getTab("Testing");
+    tab.add("Turn to 30", new TurnToAngle(30));
+
+    tab.add("Turn to -90", new TurnToAngle(-90));
+   
   }
   
   

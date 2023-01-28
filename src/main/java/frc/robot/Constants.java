@@ -61,7 +61,7 @@ public final class Constants {
             public static final int DRIVE_MOTOR = 3; // FIXME Set front left module drive motor ID
             public static final int STEER_MOTOR = 4; // FIXME Set front left module steer motor ID
             public static final int STEER_ENCODER = 13; // FIXME Set front left steer encoder ID
-            public static final double STEER_OFFSET = -Math.toRadians(333.0); // FIXME Measure and set front left steer offset                 
+            public static final double STEER_OFFSET = -Math.toRadians(333.0+70); // FIXME Measure and set front left steer offset                 
         }
 
 
@@ -77,9 +77,8 @@ public final class Constants {
         public static final double D = 0.00004;
     }
     public static final class TurnToAngle {
-        //TODO update pid values
-        public static final double P= 0.1;
-        public static final double I = 0.000;
+        public static final double P= 0.01;
+        public static final double I = 0.0001;
         public static final double D = 0.0;
         public static final double PositionTolerance = 1.0;
         public static final double VelocityTolerance = 0.05;

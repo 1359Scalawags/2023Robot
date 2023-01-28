@@ -4,18 +4,35 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.Path;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
 //import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants.WheelPositions;
 import frc.robot.commands.DefaultDriveCommand;
@@ -40,6 +57,7 @@ public class RobotContainer {
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick m_logitech = new Joystick(0);
 
+  SendableChooser<Command> chooser = new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -50,6 +68,11 @@ public class RobotContainer {
     // Left stick Y axis -> forward and backwards movement
     // Left stick X axis -> left and right movement
     // Right stick X axis -> rotation
+
+    chooser.addOption("Straight", Object);
+    chooser.addOption("Curvy", Object);
+
+    Shuffleboard.getTab("Autonomous").add(chooser);
     
     
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
@@ -66,6 +89,24 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+  }
+
+  // Convert Tracjectory to Ramsete command
+  public Command loadPathPlanner(String filename, boolean resetOdometry){
+    Trajectory trajectory;
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(filename);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    } catch (IOException  exception){
+      DriverStation.reportError("Unable to open trajectory" + filename, exception.getStackTrace());
+      return new InstantCommand();
+    }
+
+    //TODO: pose can be find with odometry, Kinemetic.
+    RamseteCommand ramseteCommand = new RamseteCommand(trajectory, null, new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta), 
+    new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquarePerMeter), 
+    null, null, new PIDController(Constants.kPDriveVel, 0, 0), new PIDController(Constants.kPDriveVel, 0, 0), 
+    null);
   }
 
   /**

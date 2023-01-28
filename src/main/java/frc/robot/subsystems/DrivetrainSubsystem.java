@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 //import com.ctre.phoenix.sensors.PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.RelativeEncoder;
 import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
@@ -16,7 +17,10 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -86,6 +90,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // the robot counter-clockwise should
     // cause the angle reading to increase until it wraps back over to zero.
     private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
+    SwerveDriveOdometry m_Odometry;
 
     // These are our modules. We initialize them in the constructor.
     private final SwerveModule m_frontLeftModule;
@@ -96,6 +101,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
     public DrivetrainSubsystem() {
+
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
         // TODO: Setup motor configuration
@@ -147,6 +153,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         // set the current instance as the public instance
         instance = this;
+
+        m_Odometry = new SwerveDriveOdometry(m_kinematics, m_navx.getRotation2d(), new SwerveModulePosition[]
+        {
+            m_frontLeftModule.
+        });
     }
 
     /**
@@ -235,6 +246,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+
         if (!Robot.isTestMode()) {
             SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
             SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_MPS);
@@ -250,5 +262,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         }
 
     }
+
+        
 
 }

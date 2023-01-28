@@ -41,9 +41,10 @@ public class VisionSystem extends SubsystemBase {
     double x, y, area;
 
     static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    NetworkTableEntry tx = getValue("tx");
-    NetworkTableEntry ty = getValue("ty");
-    NetworkTableEntry ta = getValue("ta");
+    NetworkTableEntry tx = getLimelightEntry("tx");
+    NetworkTableEntry ty = getLimelightEntry("ty");
+    NetworkTableEntry ta = getLimelightEntry("ta");
+
 
     public VisionSystem() {
         // limelight initialization
@@ -87,7 +88,7 @@ public class VisionSystem extends SubsystemBase {
     }
 
     public static void setCamMode(LimelightModes mode) {
-        getValue("camMode").setNumber(mode.ordinal());
+        getLimelightEntry("camMode").setNumber(mode.ordinal());
     }
 
     public void setUSBCamera(USBCameras camera) {
@@ -113,7 +114,7 @@ public class VisionSystem extends SubsystemBase {
         SmartDashboard.putNumber("LimelightArea", area);
     }
 
-    private static NetworkTableEntry getValue(String key) {
+    private static NetworkTableEntry getLimelightEntry(String key) {
         if (table == null) {
             table = NetworkTableInstance.getDefault().getTable("limelight");
         }

@@ -27,16 +27,16 @@ public class ArmSubsystem extends SubsystemBase {
     elbowMotor = new SendableCANSparkMax(Constants.SwerveDrive.Arm.elbow.motor, MotorType.kBrushless);
     elbowMotor.restoreFactoryDefaults();
     elbowMotor.setInverted(false);
-    elbowMotor.setIdleMode(IdleMode.kCoast);
+    elbowMotor.setIdleMode(IdleMode.kBrake);
 
     shoulderMotor = new SendableCANSparkMax(Constants.SwerveDrive.Arm.shoulder.motor, MotorType.kBrushless);
     shoulderMotor.restoreFactoryDefaults();
     shoulderMotor.setInverted(false);
-    shoulderMotor.setIdleMode(IdleMode.kCoast);
+    shoulderMotor.setIdleMode(IdleMode.kBrake);
 
 
-    elbowEncoder = new Encoder(0, 1, false, Encoder.EncodingType.k2X);
-    shoulderEncoder = new Encoder(0, 1, false, Encoder.EncodingType.k2X);
+    elbowEncoder = new Encoder(Constants.SwerveDrive.Arm.elbow.channelA, Constants.SwerveDrive.Arm.elbow.channelB, false, Encoder.EncodingType.k2X);
+    shoulderEncoder = new Encoder(Constants.SwerveDrive.Arm.shoulder.channelA, Constants.SwerveDrive.Arm.shoulder.channelB, false, Encoder.EncodingType.k2X);
 
 
     

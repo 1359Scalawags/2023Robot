@@ -77,8 +77,9 @@ public final class Constants {
         public static final double D = 0.00004;
     }
     public static final class TurnToAngle {
-        public static final double P= 0.01;
-        public static final double I = 0.0001;
+        //todo change pid values back
+        public static final double P= 0.1;
+        public static final double I = 0.000;
         public static final double D = 0.0;
         public static final double PositionTolerance = 1.0;
         public static final double VelocityTolerance = 0.05;

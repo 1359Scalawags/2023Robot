@@ -55,11 +55,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
-  private DrivetrainSubsystem drivetrainSubsystem;
   //private final XboxController m_controller = new XboxController(0);
-  private final Joystick m_logitech = new Joystick(0);
-
-  SendableChooser<Command> chooser = new SendableChooser<>();
+  private final Joystick m_logitech = new Joystick(0);  
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -70,11 +67,6 @@ public class RobotContainer {
     // Left stick Y axis -> forward and backwards movement
     // Left stick X axis -> left and right movement
     // Right stick X axis -> rotation
-
-    chooser.addOption("Straight", Object);
-    chooser.addOption("Curvy", Object);
-
-    Shuffleboard.getTab("Autonomous").add(chooser);
     
     
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
@@ -94,24 +86,6 @@ public class RobotContainer {
   }
 
   // Convert Tracjectory to Ramsete command
-  public Command loadPathPlanner(String filename, boolean resetOdometry){
-    Trajectory trajectory;
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(filename);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    } catch (IOException  exception){
-      DriverStation.reportError("Unable to open trajectory" + filename, exception.getStackTrace());
-      return new InstantCommand();
-    }
-
-    //TODO: requirement.
-    RamseteCommand ramseteCommand = new RamseteCommand(trajectory, DrivetrainSubsystem::getPose,
-    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta), 
-    new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquarePerMeter), 
-    Constants.kDriveKinematics, DrivetrainSubsystem::getWheelSpeeds, 
-    new PIDController(Constants.kPDriveVel, 0, 0), new PIDController(Constants.kPDriveVel, 0, 0),
-    DrivetrainSubsystem::outputVoltage, drivetrainSubsystem);
-  }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by

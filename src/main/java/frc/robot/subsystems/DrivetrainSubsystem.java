@@ -6,6 +6,11 @@ package frc.robot.subsystems;
 
 //import com.ctre.phoenix.sensors.PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import com.revrobotics.RelativeEncoder;
 import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
@@ -24,12 +29,18 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -77,7 +88,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_MPS /
         Math.hypot(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0);
 
-    private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+    private static final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
         // Front left
         new Translation2d(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0),
         // Front right
@@ -94,7 +105,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // cause the angle reading to increase until it wraps back over to zero.
     private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
     private SwerveDriveOdometry m_Odometry;
-    private Pose2d m_pose;
+    private Pose2d m_pose;  
+    private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
 
     // These are our modules. We initialize them in the constructor.
     private final SwerveModule m_frontLeftModule;
@@ -103,6 +115,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule m_backRightModule;
 
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
+    PathPlannerTrajectory trajectory = new PathPlanner.load("Straight.path", new PathConstraints(MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, kMaxAccelerationMetersPerSecondSquared));
 
     public DrivetrainSubsystem() {
 
@@ -163,7 +176,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
             m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
             m_backLeftModule.getPosition(), m_backRightModule.getPosition()
         }, new Pose2d(kMaxAccelerationMetersPerSecondSquared, MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, new Rotation2d()));
+
     }
+
 
     /**
      * Access the modules individually for testing
@@ -253,17 +268,33 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return m_pose;
     }
 
-    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-        return new DifferentialDriveWheelSpeeds(kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
-    }
+    //TODO: Create setModuleStates method.
 
-    public void outputVoltage(double leftVolts, double rightVolts){
-        m_frontLeftModule.set(leftVolts, m_frontLeftModule.getSteerAngle());
-        m_frontRightModule.set(rightVolts, m_frontRightModule.getSteerAngle());
-        m_backLeftModule.set(leftVolts, m_backLeftModule.getSteerAngle());
-        m_backRightModule.set(rightVolts, m_backRightModule.getSteerAngle());
-        //TODO: missing part
-    }
+    public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
+        return new SequentialCommandGroup(
+             new InstantCommand(() -> {
+               // Reset odometry for the first path you run during auto
+               if(isFirstPath){
+                   m_Odometry.resetPosition(m_navx.getRotation2d(), new SwerveModulePosition[] {
+                    m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
+                    m_backLeftModule.getPosition(), m_backRightModule.getPosition()
+                   },traj.getInitialHolonomicPose());
+               }
+             }),
+             new PPSwerveControllerCommand(
+                 traj, 
+                 DrivetrainSubsystem::getPose, // Pose supplier
+                 DrivetrainSubsystem.m_kinematics, // SwerveDriveKinematics
+                 new PIDController(Constants.pXController, Constants.iXController, Constants.dXController), // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+                 new PIDController(Constants.pYController, Constants.iYController, Constants.dYController), // Y controller (usually the same values as X controller)
+                 new PIDController(Constants.pRotationController, Constants.iRotationController, Constants.dRotationController), // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+                 DrivetrainSubsystem::setModuleStates, // Module states consumer
+                 true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
+                 drivetrainSubsystem// Requires this drive subsystem
+             )
+         );
+     }
+
 
     @Override
     public void periodic() {
@@ -289,6 +320,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     }
 
+}
+
         
 
-}

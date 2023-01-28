@@ -38,6 +38,17 @@ public final class Constants {
     public static final double kvVoltSecondsPerMeter = 2.8444; 
     public static final double kaVoltSecondsSquarePerMeter = 0.20256;
     public static final double kPDriveVel = 0.17182;
+    public static final double pXController = 0.0;
+    public static final double iXController = 0.0;
+    public static final double dXController = 0.0;
+    public static final double pYController = 0.0;
+    public static final double iYController = 0.0;
+    public static final double dYController = 0.0;
+    public static final double pRotationController = 0.0;
+    public static final double iRotationController = 0.0;
+    public static final double dRotationController = 0.0;
+    
+
 
     public enum WheelPositions {
         FrontLeft,

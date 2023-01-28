@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants.WheelPositions;
 import frc.robot.commands.DefaultDriveCommand;
@@ -54,6 +55,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
+  private DrivetrainSubsystem drivetrainSubsystem;
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick m_logitech = new Joystick(0);
 
@@ -102,11 +104,13 @@ public class RobotContainer {
       return new InstantCommand();
     }
 
-    //TODO: pose can be find with odometry, Kinemetic.
-    RamseteCommand ramseteCommand = new RamseteCommand(trajectory, null, new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta), 
+    //TODO: requirement.
+    RamseteCommand ramseteCommand = new RamseteCommand(trajectory, DrivetrainSubsystem::getPose,
+    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta), 
     new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquarePerMeter), 
-    null, null, new PIDController(Constants.kPDriveVel, 0, 0), new PIDController(Constants.kPDriveVel, 0, 0), 
-    null);
+    Constants.kDriveKinematics, DrivetrainSubsystem::getWheelSpeeds, 
+    new PIDController(Constants.kPDriveVel, 0, 0), new PIDController(Constants.kPDriveVel, 0, 0),
+    DrivetrainSubsystem::outputVoltage, drivetrainSubsystem);
   }
 
   /**

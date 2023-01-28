@@ -14,10 +14,12 @@ import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -30,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import static frc.robot.Constants.SwerveDrive.*;
 import static frc.robot.Constants.*;
@@ -90,7 +93,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // the robot counter-clockwise should
     // cause the angle reading to increase until it wraps back over to zero.
     private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
-    SwerveDriveOdometry m_Odometry;
+    private SwerveDriveOdometry m_Odometry;
+    private Pose2d m_pose;
 
     // These are our modules. We initialize them in the constructor.
     private final SwerveModule m_frontLeftModule;
@@ -156,8 +160,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         m_Odometry = new SwerveDriveOdometry(m_kinematics, m_navx.getRotation2d(), new SwerveModulePosition[]
         {
-            m_frontLeftModule.
-        });
+            m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
+            m_backLeftModule.getPosition(), m_backRightModule.getPosition()
+        }, new Pose2d(kMaxAccelerationMetersPerSecondSquared, MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, new Rotation2d()));
     }
 
     /**
@@ -244,8 +249,29 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return m_chassisSpeeds;
     }
 
+    public Pose2d getPose() {
+        return m_pose;
+    }
+
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+        return new DifferentialDriveWheelSpeeds(kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
+    }
+
+    public void outputVoltage(double leftVolts, double rightVolts){
+        m_frontLeftModule.set(leftVolts, m_frontLeftModule.getSteerAngle());
+        m_frontRightModule.set(rightVolts, m_frontRightModule.getSteerAngle());
+        m_backLeftModule.set(leftVolts, m_backLeftModule.getSteerAngle());
+        m_backRightModule.set(rightVolts, m_backRightModule.getSteerAngle());
+        //TODO: missing part
+    }
+
     @Override
     public void periodic() {
+
+        m_pose = m_Odometry.update(m_navx.getRotation2d(),  new SwerveModulePosition[] {
+            m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
+            m_backLeftModule.getPosition(), m_backRightModule.getPosition()
+          });
 
         if (!Robot.isTestMode()) {
             SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);

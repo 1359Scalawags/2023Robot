@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -18,18 +19,27 @@ import frc.robot.extensions.SendableCANSparkMax;
 public class ArmSubsystem extends SubsystemBase {
   private SendableCANSparkMax elbowMotor;
   private SendableCANSparkMax shoulderMotor;
+  private Encoder elbowEncoder;
+  private Encoder shoulderEncoder;
+  
   /** Creates a new ExampleSubsystem. */
   public ArmSubsystem() {
-    elbowMotor = new SendableCANSparkMax(Constants.SwerveDrive.ArmMotors.elbow, MotorType.kBrushless);
+    elbowMotor = new SendableCANSparkMax(Constants.SwerveDrive.Arm.elbow.motor, MotorType.kBrushless);
     elbowMotor.restoreFactoryDefaults();
     elbowMotor.setInverted(false);
     elbowMotor.setIdleMode(IdleMode.kCoast);
 
-    shoulderMotor = new SendableCANSparkMax(Constants.SwerveDrive.ArmMotors.shoulder, MotorType.kBrushless);
+    shoulderMotor = new SendableCANSparkMax(Constants.SwerveDrive.Arm.shoulder.motor, MotorType.kBrushless);
     shoulderMotor.restoreFactoryDefaults();
     shoulderMotor.setInverted(false);
     shoulderMotor.setIdleMode(IdleMode.kCoast);
 
+
+    elbowEncoder = new Encoder(0, 1, false, Encoder.EncodingType.k2X);
+    shoulderEncoder = new Encoder(0, 1, false, Encoder.EncodingType.k2X);
+
+
+    
     addChild("elbowMotor", elbowMotor);
     addChild("shoulderMotor", shoulderMotor);
   }
@@ -83,6 +93,27 @@ public class ArmSubsystem extends SubsystemBase {
   }
   @Override
   public void periodic() {
+          if (elbowEncoder.get() > Constants.SwerveDrive.Arm.elbow.lowerlimit) {
+            if (elbowMotor.getAppliedOutput() > 0) {
+              elbowMotor.stopMotor(); 
+            }
+          }
+          if (shoulderEncoder.get() > Constants.SwerveDrive.Arm.shoulder.lowerlimit) { 
+            if (elbowMotor.getAppliedOutput() > 0) {
+             shoulderMotor.stopMotor();
+            } 
+          }
+          if (elbowEncoder.get() < Constants.SwerveDrive.Arm.elbow.upperlimit) {
+            if (elbowMotor.getAppliedOutput() < 0) {
+             elbowMotor.stopMotor(); 
+            }
+          }
+          if (shoulderEncoder.get() < Constants.SwerveDrive.Arm.shoulder.upperlimit) { 
+            if (elbowMotor.getAppliedOutput() < 0) {
+              shoulderMotor.stopMotor();
+            }
+          }
+
     // This method will be called once per scheduler run
   }
 

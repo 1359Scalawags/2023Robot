@@ -65,11 +65,21 @@ public final class Constants {
         }
         public static final class Pneumatic {
             public static final int pistionOne = 1;                
-            public static final int pistionTwo = 2;                
+            public static final int pistionTwo = 2;  
+           
         } 
-        public static final class ArmMotors {
-            public static final int elbow = 1;                
-            public static final int shoulder = 2;                
+        public static final class Arm {
+    public static final class shoulder {                        
+        public static final int motor = 2;
+        public static final double lowerlimit = 0.0;
+        public static final double upperlimit = 0.0;
+    }
+    public static final class elbow {
+         public static final int motor = 1;
+         public static final double lowerlimit = 0.0;
+         public static final double upperlimit = 0.0;
+    }
+
         } 
             public static final double motorSpeed = 0.3;
             public static final double gearRatio = 8.14;

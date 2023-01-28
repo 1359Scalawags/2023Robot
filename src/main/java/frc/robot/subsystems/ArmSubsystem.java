@@ -98,24 +98,24 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
           if(isElbowAtUpperLimit()){
-            if (elbowMotor.getAppliedOutput() > 0) {
+            if (elbowMotor.get() > 0) {
               elbowMotor.stopMotor(); 
             }
           }
           if(isShoulderAtUpperLimit()){
-            if (elbowMotor.getAppliedOutput() > 0) {
+            if (elbowMotor.get() > 0) {
              shoulderMotor.stopMotor();
             } 
           }
 
           if (isElbowAtLowerLimit()) {
-            if (elbowMotor.getAppliedOutput() < 0) {
+            if (elbowMotor.get() < 0) {
              elbowMotor.stopMotor(); 
             }
           }
 
           if (isshoulderAtLowerLimit()) { 
-            if (elbowMotor.getAppliedOutput() < 0) {
+            if (elbowMotor.get() < 0) {
               shoulderMotor.stopMotor();
             }
           }

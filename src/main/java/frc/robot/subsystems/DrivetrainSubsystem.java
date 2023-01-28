@@ -115,7 +115,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule m_backRightModule;
 
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
-    PathPlannerTrajectory trajectory = new PathPlanner.load("Straight.path", new PathConstraints(MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, kMaxAccelerationMetersPerSecondSquared));
+    private PathPlannerTrajectory straightPath = new PathPlanner.load("Straight.path", new PathConstraints(MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, kMaxAccelerationMetersPerSecondSquared));
 
     public DrivetrainSubsystem() {
 

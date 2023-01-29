@@ -107,6 +107,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private SwerveDriveOdometry m_Odometry;
     private Pose2d m_pose;  
     private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
+    private final PIDController xController = new PIDController(Constants.kp_XController, Constants.ki_XController, Constants.kd_XController);
+    private final PIDController yController = new PIDController(Constants.kp_YController, Constants.ki_YController, Constants.kd_YController);
+    private final PIDController rotationController = new PIDController(Constants.kp_RotationController, Constants.ki_RotationController, Constants.kd_RotationController);
 
     // These are our modules. We initialize them in the constructor.
     private final SwerveModule m_frontLeftModule;
@@ -115,7 +118,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule m_backRightModule;
 
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
-    private PathPlannerTrajectory straightPath = new PathPlanner.load("Straight.path", new PathConstraints(MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, kMaxAccelerationMetersPerSecondSquared));
+
 
     public DrivetrainSubsystem() {
 
@@ -268,9 +271,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return m_pose;
     }
 
-    //TODO: Create setModuleStates method.
-
     public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
+        PPSwerveControllerCommand swerveCommand = new PPSwerveControllerCommand(traj, 
+        this::getPose, 
+        m_kinematics, 
+        xController,
+        yController,
+        rotationController, 
+        this::setModuleStates, 
+        isFirstPath, 
+        this);
         return new SequentialCommandGroup(
              new InstantCommand(() -> {
                // Reset odometry for the first path you run during auto
@@ -280,19 +290,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
                     m_backLeftModule.getPosition(), m_backRightModule.getPosition()
                    },traj.getInitialHolonomicPose());
                }
-             }),
-             new PPSwerveControllerCommand(
-                 traj, 
-                 DrivetrainSubsystem::getPose, // Pose supplier
-                 DrivetrainSubsystem.m_kinematics, // SwerveDriveKinematics
-                 new PIDController(Constants.pXController, Constants.iXController, Constants.dXController), // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
-                 new PIDController(Constants.pYController, Constants.iYController, Constants.dYController), // Y controller (usually the same values as X controller)
-                 new PIDController(Constants.pRotationController, Constants.iRotationController, Constants.dRotationController), // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
-                 DrivetrainSubsystem::setModuleStates, // Module states consumer
-                 true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
-                 drivetrainSubsystem// Requires this drive subsystem
-             )
+             }), swerveCommand
          );
+     }
+
+     public void setModuleStates(SwerveModuleState[] states){
+        m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
+                    states[0].angle.getRadians());
+        m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
+                    states[1].angle.getRadians());
+        m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
+                    states[2].angle.getRadians());
+        m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
+                    states[3].angle.getRadians());
      }
 
 

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -38,15 +39,17 @@ public final class Constants {
     public static final double kvVoltSecondsPerMeter = 2.8444; 
     public static final double kaVoltSecondsSquarePerMeter = 0.20256;
     public static final double kPDriveVel = 0.17182;
-    public static final double pXController = 0.0;
-    public static final double iXController = 0.0;
-    public static final double dXController = 0.0;
-    public static final double pYController = 0.0;
-    public static final double iYController = 0.0;
-    public static final double dYController = 0.0;
-    public static final double pRotationController = 0.0;
-    public static final double iRotationController = 0.0;
-    public static final double dRotationController = 0.0;
+    
+
+    public static final double kp_XController = 0.0;
+    public static final double ki_XController = 0.0;
+    public static final double kd_XController = 0.0;
+    public static final double kp_YController = 0.0;
+    public static final double ki_YController = 0.0;
+    public static final double kd_YController = 0.0;
+    public static final double kp_RotationController = 0.0;
+    public static final double ki_RotationController = 0.0;
+    public static final double kd_RotationController = 0.0;
     
 
 
@@ -98,4 +101,5 @@ public final class Constants {
             public static final double I = 0.00004;
             public static final double D = 0.00004;
     }
+
 }

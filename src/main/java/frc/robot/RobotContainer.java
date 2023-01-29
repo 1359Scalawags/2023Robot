@@ -18,6 +18,10 @@ import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -57,12 +61,20 @@ public class RobotContainer {
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick m_logitech = new Joystick(0);  
+  SendableChooser<Command> chooser = new SendableChooser<>();
+  PathConstraints constraints = new PathConstraints(4, 3);
+  PathPlannerTrajectory straightPath = PathPlanner.loadPath("Straight.path", constraints);
+  PathPlannerTrajectory curvyPath = PathPlanner.loadPath("Curvy.path", constraints);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Set up the default command for the drivetrain.
+    
+    chooser.addOption("Straight path", m_drivetrainSubsystem.followTrajectoryCommand(straightPath, true));
+    chooser.addOption("Curvy path", m_drivetrainSubsystem.followTrajectoryCommand(curvyPath, true));
+
+    // Set up the default command for the drivetrain.s
     // The controls are for field-oriented driving:
     // Left stick Y axis -> forward and backwards movement
     // Left stick X axis -> left and right movement
@@ -83,6 +95,8 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+    Shuffleboard.getTab("Autonomous").add(chooser);
+
   }
 
   // Convert Tracjectory to Ramsete command

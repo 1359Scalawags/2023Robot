@@ -4,11 +4,11 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.hal.simulation.REVPHDataJNI;
+//import edu.wpi.first.hal.simulation.REVPHDataJNI;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+//import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -21,7 +21,7 @@ public class GrabberSubsystem extends SubsystemBase {
   boolean grabberOpen;
   Compressor phCompressor;
   public GrabberSubsystem() {
-    Compressor phCompressor = new Compressor(Constants.SwerveDrive.Arm.grabber.compressorModule, PneumaticsModuleType.REVPH);
+    phCompressor = new Compressor(Constants.SwerveDrive.Arm.grabber.compressorModule, PneumaticsModuleType.REVPH);
     phCompressor.enableDigital();
     Open = new Solenoid(Constants.SwerveDrive.Arm.grabber.openSolenoidModuleA, PneumaticsModuleType.REVPH, Constants.SwerveDrive.Arm.grabber.openSolenoidModuleB);
     Closed = new Solenoid(Constants.SwerveDrive.Arm.grabber.closedSolenoidModuleA, PneumaticsModuleType.REVPH, Constants.SwerveDrive.Arm.grabber.closedSolenoidModuleB);

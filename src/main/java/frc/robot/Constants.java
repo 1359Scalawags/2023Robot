@@ -70,9 +70,11 @@ public final class Constants {
         } 
         public static final class Arm {
     public static final class grabber { 
-        public static final int module = 1;        
-
-
+        public static final int compressorModule = 1;        
+        public static final int closedSolenoidModuleA = 1;
+        public static final int closedSolenoidModuleB = 1;
+        public static final int openSolenoidModuleA = 1;
+        public static final int openSolenoidModuleB = 1;
     }
     public static final class shoulder {  
         public static final int channel = 1;                      

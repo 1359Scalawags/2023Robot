@@ -38,12 +38,13 @@ public class VisionSystem extends SubsystemBase {
     private VideoSink server;
 
     // variables for Limelight
-    double x, y, area;
+    double x, y, area, pose;
 
     static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tx = getValue("tx");
     NetworkTableEntry ty = getValue("ty");
     NetworkTableEntry ta = getValue("ta");
+    NetworkTableEntry botPose = table.getEntry("botpose");
 
     public VisionSystem() {
         // limelight initialization
@@ -84,6 +85,8 @@ public class VisionSystem extends SubsystemBase {
         //     server.setSource(camera2);
         // }
 
+         
+
     }
 
     public static void setCamMode(LimelightModes mode) {
@@ -106,11 +109,13 @@ public class VisionSystem extends SubsystemBase {
         double x = tx.getDouble(0.0);
         double y = ty.getDouble(0.0);
         double area = ta.getDouble(0.0);
+        double[] pose = botPose.getDoubleArray(new double[6]);
 
         // post to smart dashboard periodically
         SmartDashboard.putNumber("LimelightX", x);
         SmartDashboard.putNumber("LimelightY", y);
         SmartDashboard.putNumber("LimelightArea", area);
+        SmartDashboard.putNumberArray("Limelight", pose);
     }
 
     private static NetworkTableEntry getValue(String key) {
@@ -135,6 +140,10 @@ public class VisionSystem extends SubsystemBase {
 
     public Double getTargetArea() {
         return ta.getDouble(0.0);
+    }
+
+    public double[] getBotPose() {
+        return botPose.getDoubleArray(new double[6]);
     }
 
     public UsbCamera getCamera1() {

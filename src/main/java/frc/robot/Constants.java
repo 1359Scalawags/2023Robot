@@ -69,16 +69,19 @@ public final class Constants {
            
         } 
         public static final class Arm {
+    public static final class grabber { 
+        public static final int module = 1;        
+
+
+    }
     public static final class shoulder {  
-        public static final int channelA = 1;        
-        public static final int channelB = 2;               
+        public static final int channel = 1;                      
         public static final int motor = 2;
         public static final double lowerlimit = 0.0;
         public static final double upperlimit = 0.0;
     }
     public static final class elbow {
-         public static final int channelA = 3;        
-         public static final int channelB = 4;    
+         public static final int channel = 3;        
          public static final int motor = 1;
          public static final double lowerlimit = 0.0;
          public static final double upperlimit = 0.0;

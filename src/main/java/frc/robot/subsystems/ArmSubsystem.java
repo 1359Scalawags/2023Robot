@@ -39,8 +39,8 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderMotor.setIdleMode(IdleMode.kBrake);
 
 
-    elbowEncoder = new AnalogInput(Constants.SwerveDrive.Arm.elbow.channelA);
-    shoulderEncoder = new AnalogInput(Constants.SwerveDrive.Arm.shoulder.channelA);
+    elbowEncoder = new AnalogInput(Constants.SwerveDrive.Arm.elbow.channel);
+    shoulderEncoder = new AnalogInput(Constants.SwerveDrive.Arm.shoulder.channel);
     elbowEncoder.setAverageBits(4); 
     shoulderEncoder.setAverageBits(4);
 

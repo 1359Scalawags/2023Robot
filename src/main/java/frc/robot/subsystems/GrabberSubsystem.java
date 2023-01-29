@@ -8,15 +8,19 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class GrabberSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   boolean grabberOpen;
+  Compressor phCompressor;
+  public GrabberSubsystem() {
+    Compressor phCompressor = new Compressor(Constants.SwerveDrive.Arm.grabber.module, PneumaticsModuleType.REVPH);
+    phCompressor.enableDigital();
 
-  public GrabberSubsystem() {}
+  }
   //TODO: what are we using and where is it going
   //Compressor pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
-  //Compressor phCompressor = new Compressor(1, PneumaticsModuleType.REVPH);
   /** 
    * Example command factory method.
    *
@@ -30,6 +34,13 @@ public class GrabberSubsystem extends SubsystemBase {
   //         /* one-time action goes here */
   //       });
   // }
+  public void TurnOff(){
+    phCompressor.disable();
+  }
+  public void TurnOn(){
+    phCompressor.enableDigital();
+  }
+
   public boolean isOpen(){
     return grabberOpen;
   }

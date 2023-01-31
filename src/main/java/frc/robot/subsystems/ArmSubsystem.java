@@ -74,7 +74,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
 
-
+  // TODO: Double-Check the lower/upper consistency
   public boolean isElbowAtUpperLimit() {
     return elbowEncoder.getAverageValue() < Constants.SwerveDrive.Arm.elbow.lowerlimit;
   }
@@ -97,28 +97,31 @@ public class ArmSubsystem extends SubsystemBase {
   }
   @Override
   public void periodic() {
-          if(isElbowAtUpperLimit()){
-            if (elbowMotor.get() > 0) {
-              elbowMotor.stopMotor(); 
-            }
-          }
-          if(isShoulderAtUpperLimit()){
-            if (elbowMotor.get() > 0) {
-             shoulderMotor.stopMotor();
-            } 
-          }
+    if(isElbowAtUpperLimit()){
+        if (elbowMotor.get() > 0) {
+            elbowMotor.stopMotor(); 
+        }
+    }
 
-          if (isElbowAtLowerLimit()) {
-            if (elbowMotor.get() < 0) {
-             elbowMotor.stopMotor(); 
-            }
-          }
+    //TODO: Fix this
+    if(isShoulderAtUpperLimit()){
+        if (elbowMotor.get() > 0) {
+            shoulderMotor.stopMotor();
+        } 
+    }
 
-          if (isshoulderAtLowerLimit()) { 
-            if (elbowMotor.get() < 0) {
-              shoulderMotor.stopMotor();
-            }
-          }
+    if (isElbowAtLowerLimit()) {
+        if (elbowMotor.get() < 0) {
+            elbowMotor.stopMotor(); 
+        }
+    }
+
+    //TODO: Fix this
+    if (isshoulderAtLowerLimit()) { 
+        if (elbowMotor.get() < 0) {
+            shoulderMotor.stopMotor(); 
+        }
+    }
 
     // This method will be called once per scheduler run
   }

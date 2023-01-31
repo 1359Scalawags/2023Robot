@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants.WheelPositions;
+import frc.robot.commands.DefaultArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DrivetrainNoAction;
 import frc.robot.commands.TurnWheelToAngleCommand;
@@ -62,7 +63,7 @@ public class RobotContainer {
             () -> -modifyAxis(driverJoystick.getZ(), driverJoystick.getThrottle()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     )
     );
-    m_armSubsystem.setDefaultCommand(new DefaultDriveCommand(
+    m_armSubsystem.setDefaultCommand(new DefaultArmCommand(
             m_armSubsystem,
             () -> driverJoystick.getY(),
             () -> driverJoystick.getX()

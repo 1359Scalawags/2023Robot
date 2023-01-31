@@ -22,6 +22,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DrivetrainNoAction;
 import frc.robot.commands.TurnWheelToAngleCommand;
 import frc.robot.commands.ZeroGyroCommand;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 import frc.robot.commands.ZeroGyroCommand;
@@ -36,10 +37,11 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
+  private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
   //private final XboxController m_controller = new XboxController(0);
-  private final Joystick m_logitech = new Joystick(0);
-
+  private final Joystick driverJoystick = new Joystick(0);
+  private final Joystick assistantJoystick = new Joystick(1);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -55,12 +57,17 @@ public class RobotContainer {
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
       
             m_drivetrainSubsystem,
-            () -> -modifyAxis(m_logitech.getY(), m_logitech.getThrottle()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
-            () -> -modifyAxis(m_logitech.getX(), m_logitech.getThrottle()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
-            () -> -modifyAxis(m_logitech.getZ(), m_logitech.getThrottle()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+            () -> -modifyAxis(driverJoystick.getY(), driverJoystick.getThrottle()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
+            () -> -modifyAxis(driverJoystick.getX(), driverJoystick.getThrottle()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
+            () -> -modifyAxis(driverJoystick.getZ(), driverJoystick.getThrottle()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     )
     );
-
+    m_armSubsystem.setDefaultCommand(new DefaultDriveCommand(
+            m_armSubsystem,
+            () -> driverJoystick.getY(),
+            () -> driverJoystick.getX()
+    )
+    );
 // This line For test purposes  only
        // m_drivetrainSubsystem.setDefaultCommand(new DrivetrainNoAction(m_drivetrainSubsystem));
 
@@ -77,7 +84,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
     //new JoystickButton(m_logitech, 3).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
-    new JoystickButton(m_logitech, 3).whileTrue(m_ZeroGyroCommand);
+    new JoystickButton(driverJoystick, 3).whileTrue(m_ZeroGyroCommand);
             // No requirements because we don't need to interrupt anything         
   }
   

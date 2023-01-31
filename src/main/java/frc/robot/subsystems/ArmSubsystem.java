@@ -74,7 +74,6 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
 
-  // TODO: Double-Check the lower/upper consistency
   public boolean isElbowAtUpperLimit() {
     return elbowEncoder.getAverageValue() < Constants.SwerveDrive.Arm.elbow.lowerlimit;
   }
@@ -103,9 +102,8 @@ public class ArmSubsystem extends SubsystemBase {
         }
     }
 
-    //TODO: Fix this
     if(isShoulderAtUpperLimit()){
-        if (elbowMotor.get() > 0) {
+        if (shoulderMotor.get() > 0) {
             shoulderMotor.stopMotor();
         } 
     }
@@ -116,9 +114,8 @@ public class ArmSubsystem extends SubsystemBase {
         }
     }
 
-    //TODO: Fix this
     if (isshoulderAtLowerLimit()) { 
-        if (elbowMotor.get() < 0) {
+        if (shoulderMotor.get() < 0) {
             shoulderMotor.stopMotor(); 
         }
     }

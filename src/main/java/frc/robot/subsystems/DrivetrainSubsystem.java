@@ -41,6 +41,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.commands.FieldOrientedCommand;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -105,7 +106,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // cause the angle reading to increase until it wraps back over to zero.
     private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
     private SwerveDriveOdometry m_Odometry;
-    private Pose2d m_pose;  
+    private Pose2d m_pose;
+    private FieldOrientedCommand m_FieldOrientedCommand;
     private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
     private final PIDController xController = new PIDController(Constants.kp_XController, Constants.ki_XController, Constants.kd_XController);
     private final PIDController yController = new PIDController(Constants.kp_YController, Constants.ki_YController, Constants.kd_YController);
@@ -281,7 +283,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         this::setModuleStates, 
         isFirstPath, 
         this);
-        return new SequentialCommandGroup(
+        return new SequentialCommandGroup(  
              new InstantCommand(() -> {
                // Reset odometry for the first path you run during auto
                if(isFirstPath){
@@ -315,7 +317,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
           });
 
         if (!Robot.isTestMode()) {
-            SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
+            ChassisSpeeds tempSpeeds = m_chassisSpeeds;
+            if (m_FieldOrientedCommand.getIsFieldOriented()){
+                tempSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_chassisSpeeds, getGyroscopeRotation()); 
+            }
+
+            SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(tempSpeeds);
             SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_MPS);
 
             m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,

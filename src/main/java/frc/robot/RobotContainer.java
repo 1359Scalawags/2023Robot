@@ -46,7 +46,9 @@ import frc.robot.commands.DrivetrainNoAction;
 import frc.robot.commands.SetDriveMode;
 import frc.robot.commands.TurnWheelToAngleCommand;
 import frc.robot.commands.ZeroGyroCommand;
+import frc.robot.subsystems.DisplaySubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.VisionSystem;
 import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
 import frc.robot.commands.ZeroGyroCommand;
 /**
@@ -60,6 +62,8 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
+  private final VisionSystem m_VisionSystem = new VisionSystem();
+  private final DisplaySubsystem m_DisplaySubsystem = new DisplaySubsystem(m_VisionSystem);
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick m_logitech = new Joystick(0);  

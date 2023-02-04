@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import java.util.Map;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -17,13 +18,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DisplaySubsystem extends SubsystemBase {
   private ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
-  private NetworkTableEntry timeEntry;
-  private VisionSystem visionEntry;
+  private GenericEntry timeEntry;
+  private int counter = 0;
   /** Creates a new ExampleSubsystem. */
   public DisplaySubsystem(VisionSystem vision) {
-    visionEntry = vision;
     Shuffleboard.selectTab("Main");
-    timeEntry = mainTab.add("Match time", 0).getEntry();
+    timeEntry = mainTab.add("Match time", 0).getEntry();  
+    mainTab.add("Camera", vision.getCamera1());
   }
 
   public boolean exampleCondition() {
@@ -33,8 +34,12 @@ public class DisplaySubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    timeEntry.setDouble(DriverStation.getMatchTime());
     // This method will be called once per scheduler run
+
+    if (counter > 5){
+      timeEntry.setDouble(DriverStation.getMatchTime());
+    }
+    counter++;
   }
 
   @Override

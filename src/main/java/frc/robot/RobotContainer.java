@@ -43,11 +43,11 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants.WheelPositions;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DrivetrainNoAction;
-import frc.robot.commands.FieldOrientedCommand;
+import frc.robot.commands.SetDriveMode;
 import frc.robot.commands.TurnWheelToAngleCommand;
 import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
-
+import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
 import frc.robot.commands.ZeroGyroCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -61,7 +61,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
-  private final FieldOrientedCommand m_FieldOrientedCommand = new FieldOrientedCommand(m_drivetrainSubsystem);
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick m_logitech = new Joystick(0);  
   SendableChooser<Command> chooser = new SendableChooser<>();
@@ -116,7 +115,8 @@ public class RobotContainer {
     //new JoystickButton(m_logitech, 3).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
     new JoystickButton(m_logitech, 3).whileTrue(m_ZeroGyroCommand);
             // No requirements because we don't need to interrupt anything 
-    new JoystickButton(m_logitech, 4).toggleOnTrue(m_FieldOrientedCommand);     
+    new JoystickButton(m_logitech, 4).whileTrue(new SetDriveMode(m_drivetrainSubsystem, DriveModes.FieldCentric));
+    new JoystickButton(m_logitech, 5).whileTrue(new SetDriveMode(m_drivetrainSubsystem, DriveModes.RobotCentric));  
   }
 
   

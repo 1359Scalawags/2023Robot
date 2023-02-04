@@ -6,18 +6,22 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class FieldOrientedCommand extends CommandBase {
+public class SetDriveMode extends CommandBase {
+
+
   private DrivetrainSubsystem m_subsystem;
-  private boolean m_isFieldsOriented;
+  private DriveModes mode;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public FieldOrientedCommand(DrivetrainSubsystem subsystem) {
+  public SetDriveMode(DrivetrainSubsystem subsystem, DriveModes mode) {
+    this.mode = mode;
     m_subsystem = subsystem;
     addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -26,12 +30,12 @@ public class FieldOrientedCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  m_isFieldsOriented = true;
   }
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
-
+  public void execute() {
+    m_subsystem.setDriveMode(mode);
+  }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
@@ -41,7 +45,6 @@ public class FieldOrientedCommand extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-  public boolean getIsFieldOriented(){
-    return m_isFieldsOriented;
-  }
+
+  
 }

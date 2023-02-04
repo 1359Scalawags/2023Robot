@@ -43,7 +43,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.commands.FieldOrientedCommand;
+import frc.robot.commands.SetDriveMode;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -63,6 +63,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public static final double MAX_VOLTAGE = 12.0;
+    public enum DriveModes {
+        RobotCentric,
+        FieldCentric
+      }
+    private DriveModes driveMode;
     // FIXME Measure the drivetrain's maximum velocity or calculate the theoretical.
     // The formula for calculating the theoretical maximum velocity is:
     // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
@@ -109,23 +114,22 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
     private SwerveDriveOdometry m_Odometry;
     private Pose2d m_pose;
-    private FieldOrientedCommand m_FieldOrientedCommand;
     private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
     private final PIDController xController = new PIDController(Constants.kp_XController, Constants.ki_XController, Constants.kd_XController);
     private final PIDController yController = new PIDController(Constants.kp_YController, Constants.ki_YController, Constants.kd_YController);
     private final PIDController rotationController = new PIDController(Constants.kp_RotationController, Constants.ki_RotationController, Constants.kd_RotationController);
-
     // These are our modules. We initialize them in the constructor.
     private final SwerveModule m_frontLeftModule;
     private final SwerveModule m_frontRightModule;
     private final SwerveModule m_backLeftModule;
     private final SwerveModule m_backRightModule;
+    
 
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
 
     public DrivetrainSubsystem() {
-
+        driveMode = DriveModes.RobotCentric;
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 // TODO: Setup motor configuration
         // m_frontLeftModule = Mk4iSwerveModuleHelper.createFalcon500(
@@ -298,6 +302,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         m_chassisSpeeds = chassisSpeeds;
     }
 
+    public void setDriveMode(DriveModes mode) {
+        driveMode = mode;
+    }
+
     /**
      * Get the translation and rotation speeds of the drive.
      * @return A ChassisSpeeds object.
@@ -355,7 +363,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         if (!Robot.isTestMode()) {
             ChassisSpeeds tempSpeeds = m_chassisSpeeds;
-            if (m_FieldOrientedCommand.getIsFieldOriented()){
+            if (driveMode == DriveModes.FieldCentric){
                 tempSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_chassisSpeeds, getGyroscopeRotation()); 
             }
 

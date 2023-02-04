@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.autonomous;
-
+import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -17,7 +17,15 @@ public class Grab extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+   
+      // if(GrabberSubsystem.isOpen()){
+      //   GrabberSubsystem.close();
+      // }
+      // else{
+      //   GrabberSubsystem.open();
+      // }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

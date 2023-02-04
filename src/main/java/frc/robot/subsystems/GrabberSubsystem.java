@@ -61,6 +61,14 @@ public class GrabberSubsystem extends SubsystemBase {
     Closed.set(false);
     grabberOpen = true;
   }
+  public void reverseState(){
+      if(this.isOpen()){
+        this.close();
+      }
+      else{
+        this.open();
+      }
+      }
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *

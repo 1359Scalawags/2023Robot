@@ -14,6 +14,14 @@ public class MoveAhead extends CommandBase {
 
 
   private DrivetrainSubsystem m_drivetrainSubsystem;
+
+  public MoveAhead(DrivetrainSubsystem driveSystem){
+    m_drivetrainSubsystem = driveSystem;
+    addRequirements(driveSystem);
+  }
+
+
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() { 

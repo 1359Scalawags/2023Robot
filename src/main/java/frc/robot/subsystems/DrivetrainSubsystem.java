@@ -217,7 +217,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // set the current instance as the public instance
         instance = this;
 
-        m_Odometry = new SwerveDriveOdometry(m_kinematics, m_navx.getRotation2d(), new SwerveModulePosition[]
+        m_Odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation(), new SwerveModulePosition[]
         {
             m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
             m_backLeftModule.getPosition(), m_backRightModule.getPosition()
@@ -332,7 +332,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
              new InstantCommand(() -> {
                // Reset odometry for the first path you run during auto
                if(isFirstPath){
-                   m_Odometry.resetPosition(m_navx.getRotation2d(), new SwerveModulePosition[] {
+                   m_Odometry.resetPosition(getGyroscopeRotation(), new SwerveModulePosition[] {
                     m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
                     m_backLeftModule.getPosition(), m_backRightModule.getPosition()
                    },traj.getInitialHolonomicPose());
@@ -356,7 +356,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
 
-        m_pose = m_Odometry.update(m_navx.getRotation2d(),  new SwerveModulePosition[] {
+        m_pose = m_Odometry.update(getGyroscopeRotation(),  new SwerveModulePosition[] {
             m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
             m_backLeftModule.getPosition(), m_backRightModule.getPosition()
           });

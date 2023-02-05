@@ -70,21 +70,21 @@ public final class Constants {
         } 
         public static final class Arm {
     public static final class grabber { 
-        public static final int compressorModule = 1;        
-        public static final int closedSolenoidModuleA = 1;
-        public static final int closedSolenoidModuleB = 1;
+        public static final int compressorModule =  21;        
+        public static final int closedSolenoidModuleA = 0;
+       // public static final int closedSolenoidModuleB = 1;
         public static final int openSolenoidModuleA = 1;
-        public static final int openSolenoidModuleB = 1;
+       // public static final int openSolenoidModuleB = 1;
     }
     public static final class shoulder {  
-        public static final int channel = 1;                      
-        public static final int motor = 2;
+        public static final int channel = 30;                      
+        public static final int motor = 30;
         public static final double lowerlimit = 0.0;
         public static final double upperlimit = 0.0;
     }
     public static final class elbow {
-         public static final int channel = 3;        
-         public static final int motor = 1;
+         public static final int channel = 23;        
+         public static final int motor = 23;
          public static final double lowerlimit = 0.0;
          public static final double upperlimit = 0.0;
     }

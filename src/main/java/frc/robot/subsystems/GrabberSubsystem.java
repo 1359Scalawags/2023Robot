@@ -23,8 +23,8 @@ public class GrabberSubsystem extends SubsystemBase {
   public GrabberSubsystem() {
     phCompressor = new Compressor(Constants.SwerveDrive.Arm.grabber.compressorModule, PneumaticsModuleType.REVPH);
     phCompressor.enableDigital();
-    solenoidOpen = new Solenoid(Constants.SwerveDrive.Arm.grabber.openSolenoidModuleA, PneumaticsModuleType.REVPH, Constants.SwerveDrive.Arm.grabber.openSolenoidModuleB);
-    solenoidClosed = new Solenoid(Constants.SwerveDrive.Arm.grabber.closedSolenoidModuleA, PneumaticsModuleType.REVPH, Constants.SwerveDrive.Arm.grabber.closedSolenoidModuleB);
+    solenoidOpen = new Solenoid(PneumaticsModuleType.REVPH, Constants.SwerveDrive.Arm.grabber.openSolenoidModuleA);
+    solenoidClosed = new Solenoid(PneumaticsModuleType.REVPH, Constants.SwerveDrive.Arm.grabber.closedSolenoidModuleA);
 }
   //TODO: what are we using and where is it going
   //Compressor pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);

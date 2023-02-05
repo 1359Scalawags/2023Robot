@@ -80,6 +80,7 @@ public class RobotContainer {
     
     chooser.addOption("Straight path", m_drivetrainSubsystem.followTrajectoryCommand(straightPath, true));
     chooser.addOption("Curvy path", m_drivetrainSubsystem.followTrajectoryCommand(curvyPath, true));
+    Shuffleboard.getTab("Autonomous").add(chooser);
 
     // Set up the default command for the drivetrain.s
     // The controls are for field-oriented driving:
@@ -102,7 +103,7 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
-    Shuffleboard.getTab("Autonomous").add(chooser);
+    
 
   }
 

@@ -69,6 +69,7 @@ public final class Constants {
            
         } 
         public static final class Arm {
+            public static final double armSpeedMultiplier = 0.1;
     public static final class grabber { 
         public static final int compressorModule =  21;        
         public static final int closedSolenoidModuleA = 0;

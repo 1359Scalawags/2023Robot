@@ -65,8 +65,8 @@ public class RobotContainer {
     );
     m_armSubsystem.setDefaultCommand(new DefaultArmCommand(
             m_armSubsystem,
-            () -> assistantJoystick.getY() * 0.1,
-            () -> assistantJoystick.getX() * 0.1
+            () -> assistantJoystick.getY() * Constants.SwerveDrive.Arm.armSpeedMultiplier,
+            () -> assistantJoystick.getX() * Constants.SwerveDrive.Arm.armSpeedMultiplier
     )
     );
 // This line For test purposes  only

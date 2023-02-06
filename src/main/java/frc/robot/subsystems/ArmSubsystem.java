@@ -5,6 +5,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 //import edu.wpi.first.wpilibj.DigitalInput;
 //import edu.wpi.first.wpilibj.Encoder;
 //import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -28,6 +31,7 @@ public class ArmSubsystem extends SubsystemBase {
   
   /** Creates a new ExampleSubsystem. */
   public ArmSubsystem() {
+    ShuffleboardTab tab = Shuffleboard.getTab("Arm");
     elbowMotor = new SendableCANSparkMax(Constants.SwerveDrive.Arm.elbow.motor, MotorType.kBrushless);
     elbowMotor.restoreFactoryDefaults();
     elbowMotor.setInverted(false);
@@ -43,10 +47,14 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderEncoder = new AnalogInput(Constants.SwerveDrive.Arm.shoulder.channel);
     elbowEncoder.setAverageBits(4); 
     shoulderEncoder.setAverageBits(4);
-
     
     addChild("elbowMotor", elbowMotor);
     addChild("shoulderMotor", shoulderMotor);
+
+    tab.add("Shoulder encoder", shoulderEncoder);
+    tab.add("Elbow encoder",elbowEncoder);
+            // This can either be STANDARD or FAST depending on your gear configuration
+            ;
   }
 
   /**

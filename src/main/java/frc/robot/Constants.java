@@ -77,13 +77,13 @@ public final class Constants {
        // public static final int openSolenoidModuleB = 1;
     }
     public static final class shoulder {  
-        public static final int channel = 30;                      
+        public static final int channel = 1;                      
         public static final int motor = 30;
         public static final double lowerlimit = 0.0;
         public static final double upperlimit = 0.0;
     }
     public static final class elbow {
-         public static final int channel = 23;        
+         public static final int channel = 2;        
          public static final int motor = 23;
          public static final double lowerlimit = 0.0;
          public static final double upperlimit = 0.0;

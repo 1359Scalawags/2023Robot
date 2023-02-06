@@ -65,8 +65,8 @@ public class RobotContainer {
     );
     m_armSubsystem.setDefaultCommand(new DefaultArmCommand(
             m_armSubsystem,
-            () -> driverJoystick.getY(),
-            () -> driverJoystick.getX()
+            () -> assistantJoystick.getY() * 0.1,
+            () -> assistantJoystick.getX() * 0.1
     )
     );
 // This line For test purposes  only

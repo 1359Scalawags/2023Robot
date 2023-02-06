@@ -4,7 +4,9 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -26,8 +28,8 @@ import frc.robot.extensions.SendableCANSparkMax;
 public class ArmSubsystem extends SubsystemBase {
   private SendableCANSparkMax elbowMotor;
   private SendableCANSparkMax shoulderMotor;
-  private AnalogInput elbowEncoder;
-  private AnalogInput shoulderEncoder;
+  private DutyCycleEncoder elbowEncoder;
+  private DutyCycleEncoder shoulderEncoder;
   
   /** Creates a new ExampleSubsystem. */
   public ArmSubsystem() {
@@ -42,11 +44,12 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderMotor.setInverted(false);
     shoulderMotor.setIdleMode(IdleMode.kBrake);
 
-
-    elbowEncoder = new AnalogInput(Constants.SwerveDrive.Arm.elbow.channel);
-    shoulderEncoder = new AnalogInput(Constants.SwerveDrive.Arm.shoulder.channel);
-    elbowEncoder.setAverageBits(4); 
-    shoulderEncoder.setAverageBits(4);
+    elbowEncoder = new DutyCycleEncoder(Constants.SwerveDrive.Arm.elbow.channel);
+    shoulderEncoder = new DutyCycleEncoder(Constants.SwerveDrive.Arm.shoulder.channel);
+    elbowEncoder.setDistancePerRotation(0.5);
+    shoulderEncoder.setDistancePerRotation(0.5);  
+    // elbowEncoder.setAverageBits(4); 
+    // shoulderEncoder.setAverageBits(4);
     
     addChild("elbowMotor", elbowMotor);
     addChild("shoulderMotor", shoulderMotor);
@@ -83,17 +86,17 @@ public class ArmSubsystem extends SubsystemBase {
 
 
   public boolean isElbowAtUpperLimit() {
-    return elbowEncoder.getAverageValue() < Constants.SwerveDrive.Arm.elbow.lowerlimit;
+    return elbowEncoder.get() < Constants.SwerveDrive.Arm.elbow.lowerlimit;
   }
   public boolean isElbowAtLowerLimit() {
-    return elbowEncoder.getAverageValue() > Constants.SwerveDrive.Arm.elbow.upperlimit;
+    return elbowEncoder.get() > Constants.SwerveDrive.Arm.elbow.upperlimit;
   }
 
   public boolean isShoulderAtUpperLimit() {
-    return shoulderEncoder.getAverageValue() < Constants.SwerveDrive.Arm.shoulder.lowerlimit;
+    return shoulderEncoder.get() < Constants.SwerveDrive.Arm.shoulder.lowerlimit;
   }
   public boolean isshoulderAtLowerLimit() {
-    return shoulderEncoder.getAverageValue() > Constants.SwerveDrive.Arm.shoulder.upperlimit;
+    return shoulderEncoder.get() > Constants.SwerveDrive.Arm.shoulder.upperlimit;
   }
 
   public void setElbowMotor(double speed) {

@@ -27,6 +27,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.commands.ZeroGyroCommand;
+import frc.robot.commands.TurnCompressorOff;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -41,6 +42,8 @@ public class RobotContainer {
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
+  private final TurnCompressorOff m_compressorOff = new TurnCompressorOff(m_grabberSubsystem);
+
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick driverJoystick = new Joystick(0);
   private final Joystick assistantJoystick = new Joystick(1);
@@ -50,6 +53,8 @@ public class RobotContainer {
    */
   public RobotContainer() {
     m_grabberSubsystem.TurnOn(); 
+
+    //m_grabberSubsystem.TurnOff();
     // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:
     // Left stick Y axis -> forward and backwards movement
@@ -88,6 +93,7 @@ public class RobotContainer {
     // Back button zeros the gyroscope
     //new JoystickButton(m_logitech, 3).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
     new JoystickButton(driverJoystick, 3).whileTrue(m_ZeroGyroCommand);
+    new JoystickButton(driverJoystick, 10).whileTrue(m_compressorOff);
             // No requirements because we don't need to interrupt anything         
   }
   

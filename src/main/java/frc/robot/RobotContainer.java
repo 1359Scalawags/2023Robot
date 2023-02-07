@@ -65,8 +65,8 @@ public class RobotContainer {
     );
     m_armSubsystem.setDefaultCommand(new DefaultArmCommand(
             m_armSubsystem,
-            () -> assistantJoystick.getY() * Constants.SwerveDrive.Arm.armSpeedMultiplier,
-            () -> assistantJoystick.getX() * Constants.SwerveDrive.Arm.armSpeedMultiplier
+            () -> deadband(assistantJoystick.getY(), Constants.UI.deadband) * Constants.Arm.armSpeedMultiplier,
+            () -> deadband(assistantJoystick.getZ(), Constants.UI.deadband) * Constants.Arm.armSpeedMultiplier
     )
     );
 // This line For test purposes  only
@@ -134,7 +134,7 @@ public class RobotContainer {
     // Deadband 
     double throttle  = 1 -( 0.5 * throttleValue);
     
-    value = deadband(value, 0.05);
+    value = deadband(value, Constants.UI.deadband);
 
     // Square the axis
     value = Math.copySign(value * value, value);

@@ -63,39 +63,42 @@ public final class Constants {
             public static final int STEER_ENCODER = 13; // FIXME Set front left steer encoder ID
             public static final double STEER_OFFSET = -Math.toRadians(333.0+70); // FIXME Measure and set front left steer offset                 
         }
-        public static final class Pneumatic {
-            public static final int pistionOne = 1;                
-            public static final int pistionTwo = 2;  
-           
-        } 
-        public static final class Arm {
-            public static final double armSpeedMultiplier = 0.1;
-    public static final class grabber { 
+        public static final double motorSpeed = 0.3;
+        public static final double gearRatio = 8.14;
+        public static final double P = 0.00004;
+        public static final double I = 0.00004;
+        public static final double D = 0.00004;
+    }
+
+    public static final class Arm {
+        public static final double armSpeedMultiplier = 0.1;
+        public static final class Shoulder {
+            public static final int channel = 1;                      
+            public static final int motor = 30;
+            public static final double lowerlimit = 0.08761;
+            public static final double upperlimit = 0.1818;
+        }
+        public static final class Elbow {
+            public static final int channel = 2;        
+            public static final int motor = 23;
+            public static final double lowerlimit = 3.3731;
+            public static final double upperlimit = 0.1502;
+        }
+    }
+
+    public static final class Grabber {
         public static final int compressorModule =  21;        
         public static final int closedSolenoidModuleA = 0;
        // public static final int closedSolenoidModuleB = 1;
         public static final int openSolenoidModuleA = 1;
        // public static final int openSolenoidModuleB = 1;
-    }
-    public static final class shoulder {  
-        public static final int channel = 1;                      
-        public static final int motor = 30;
-        public static final double lowerlimit = 0.0;
-        public static final double upperlimit = 0.0;
-    }
-    public static final class elbow {
-         public static final int channel = 2;        
-         public static final int motor = 23;
-         public static final double lowerlimit = 0.0;
-         public static final double upperlimit = 0.0;
+        public static class Pneumatic {
+            public static final int pistionOne = 1;                
+            public static final int pistionTwo = 2;
+        }
     }
 
-        } 
-            public static final double motorSpeed = 0.3;
-            public static final double gearRatio = 8.14;
-
-            public static final double P = 0.00004;
-            public static final double I = 0.00004;
-            public static final double D = 0.00004;
+    public static final class UI {
+        public static final double deadband = 0.05;
     }
 }

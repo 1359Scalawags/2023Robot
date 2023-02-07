@@ -5,11 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.GrabberSubsystem;
 
 /** An example command that uses an example subsystem. */
-public class TurnCompressorOn {
- 
-  public GrabberSubsystem(GrabberSubsystem subsystem) {
+public class TurnCompressorOn extends CommandBase{
+ private GrabberSubsystem m_Grabber;
+
+
+  public TurnCompressorOn(GrabberSubsystem subsystem) {
     m_Grabber = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -17,7 +20,9 @@ public class TurnCompressorOn {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_Grabber.TurnOn();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

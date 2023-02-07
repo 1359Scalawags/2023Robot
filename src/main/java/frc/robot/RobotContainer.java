@@ -25,7 +25,7 @@ import frc.robot.commands.TurnWheelToAngleCommand;
 import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
-
+import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.commands.ZeroGyroCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -39,6 +39,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
+  private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick driverJoystick = new Joystick(0);
@@ -48,6 +49,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    m_grabberSubsystem.TurnOn();
     // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:
     // Left stick Y axis -> forward and backwards movement

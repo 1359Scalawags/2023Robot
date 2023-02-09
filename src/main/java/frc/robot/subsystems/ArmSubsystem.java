@@ -46,8 +46,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     elbowEncoder = new DutyCycleEncoder(Constants.Arm.Elbow.channel);
     shoulderEncoder = new DutyCycleEncoder(Constants.Arm.Shoulder.channel);
-    elbowEncoder.setDistancePerRotation(0.5);
-    shoulderEncoder.setDistancePerRotation(0.5);  
+    elbowEncoder.setDistancePerRotation(360.0);
+    shoulderEncoder.setDistancePerRotation(360.0);  
     // elbowEncoder.setAverageBits(4); 
     // shoulderEncoder.setAverageBits(4);
     

@@ -30,6 +30,9 @@ public class ArmSubsystem extends SubsystemBase {
   private SendableCANSparkMax shoulderMotor;
   private DutyCycleEncoder elbowEncoder;
   private DutyCycleEncoder shoulderEncoder;
+  private SparkMaxPIDController elbowPidController;
+  private SparkMaxPIDController shoulderPidController;
+
   
   /** Creates a new ExampleSubsystem. */
   public ArmSubsystem() {
@@ -50,6 +53,23 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderEncoder.setDistancePerRotation(360.0);  
     // elbowEncoder.setAverageBits(4); 
     // shoulderEncoder.setAverageBits(4);
+
+    elbowPidController = elbowMotor.getPIDController();
+    shoulderPidController = shoulderMotor.getPIDController();
+    
+    elbowPidController.setP(Constants.Arm.kP);
+    elbowPidController.setI(Constants.Arm.kI);
+    elbowPidController.setD(Constants.Arm.kD);
+    elbowPidController.setIZone(Constants.Arm.kIz);
+    elbowPidController.setFF(Constants.Arm.kFF);
+    elbowPidController.setOutputRange(Constants.Arm.kMinOutput, Constants.Arm.kMaxOutput);
+    
+    shoulderPidController.setP(Constants.Arm.kP);
+    shoulderPidController.setI(Constants.Arm.kI);
+    shoulderPidController.setD(Constants.Arm.kD);
+    shoulderPidController.setIZone(Constants.Arm.kIz);
+    shoulderPidController.setFF(Constants.Arm.kFF);
+    shoulderPidController.setOutputRange(Constants.Arm.kMinOutput, Constants.Arm.kMaxOutput);
     
     addChild("elbowMotor", elbowMotor);
     addChild("shoulderMotor", shoulderMotor);

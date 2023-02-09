@@ -18,7 +18,7 @@ public class GrabCommandClose extends CommandBase {
   }
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() { m_GrabberSubsystem.reverseState();}
+  public void initialize() { m_GrabberSubsystem.close();}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

@@ -74,15 +74,16 @@ public final class Constants {
         public static final double armSpeedMultiplier = 0.1;
         public static final class Shoulder {
             public static final int channel = 1;                      
-            public static final int motor = 30;
-            public static final double lowerlimit = 0.08761;
-            public static final double upperlimit = 0.1818;
+            public static final int motor = 30;  
+            public static final double upperlimit = 65;
+            public static final double lowerlimit = 125;
         }
         public static final class Elbow {
             public static final int channel = 2;        
             public static final int motor = 23;
-            public static final double lowerlimit = 3.3731;
-            public static final double upperlimit = 0.1502;
+            public static final double upperlimit = 265;
+            public static final double lowerlimit = 120;
+            
         }
     }
 

@@ -56,6 +56,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     tab.add("Shoulder encoder", shoulderEncoder);
     tab.add("Elbow encoder",elbowEncoder);
+
             // This can either be STANDARD or FAST depending on your gear configuration
             ;
   }

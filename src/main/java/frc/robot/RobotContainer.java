@@ -21,6 +21,7 @@ import frc.robot.Constants.WheelPositions;
 import frc.robot.commands.DefaultArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DrivetrainNoAction;
+import frc.robot.commands.TurnCompressorOn;
 import frc.robot.commands.TurnWheelToAngleCommand;
 import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -142,5 +143,10 @@ public class RobotContainer {
     value = Math.copySign(value * value, value);
 
     return Constants.SwerveDrive.motorSpeed * value * throttle;
+  }
+
+
+  public Command getCompressorStartCommand() {
+    return new TurnCompressorOn(m_grabberSubsystem);
   }
 }

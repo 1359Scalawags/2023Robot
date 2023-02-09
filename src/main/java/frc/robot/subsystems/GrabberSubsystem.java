@@ -61,6 +61,9 @@ public class GrabberSubsystem extends SubsystemBase {
     solenoidOpen.set(true);
     grabberOpen = true;
   }
+  public boolean isCompressorOn(){
+    return phCompressor.isEnabled();
+  }
   public void reverseState(){
       if(this.isOpen()){
         this.close();

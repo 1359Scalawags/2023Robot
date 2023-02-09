@@ -21,6 +21,8 @@ import frc.robot.Constants.WheelPositions;
 import frc.robot.commands.DefaultArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DrivetrainNoAction;
+import frc.robot.commands.GrabCommandClose;
+import frc.robot.commands.GrabCommandOpen;
 import frc.robot.commands.TurnCompressorOn;
 import frc.robot.commands.TurnWheelToAngleCommand;
 import frc.robot.commands.ZeroGyroCommand;
@@ -44,6 +46,8 @@ public class RobotContainer {
   private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
   private final TurnCompressorOff m_compressorOff = new TurnCompressorOff(m_grabberSubsystem);
+  private final GrabCommandOpen m_opengrabber = new GrabCommandOpen(m_grabberSubsystem);
+  private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
 
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick driverJoystick = new Joystick(0);
@@ -95,6 +99,8 @@ public class RobotContainer {
     //new JoystickButton(m_logitech, 3).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
     new JoystickButton(driverJoystick, 3).whileTrue(m_ZeroGyroCommand);
     new JoystickButton(driverJoystick, 10).whileTrue(m_compressorOff);
+    new JoystickButton(assistantJoystick, 1).whileTrue(m_closegrabber);
+    new JoystickButton(assistantJoystick, 2).whileTrue(m_opengrabber);
             // No requirements because we don't need to interrupt anything         
   }
   

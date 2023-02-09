@@ -8,11 +8,11 @@ import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class Grab extends CommandBase {
+public class GrabCommandOpen extends CommandBase {
 
   private GrabberSubsystem m_GrabberSubsystem;
 
-  public Grab(GrabberSubsystem driveSystem){
+  public GrabCommandOpen(GrabberSubsystem driveSystem){
     m_GrabberSubsystem = driveSystem;
     addRequirements(driveSystem);
   }

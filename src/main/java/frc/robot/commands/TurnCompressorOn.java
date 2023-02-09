@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.GrabberSubsystem;
 
 /** An example command that uses an example subsystem. */
-public class TurnCompressorOnCommand extends CommandBase{
+public class TurnCompressorOn extends CommandBase{
  private GrabberSubsystem m_Grabber;
 
 
-  public TurnCompressorOnCommand(GrabberSubsystem subsystem) {
+  public TurnCompressorOn(GrabberSubsystem subsystem) {
     m_Grabber = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);

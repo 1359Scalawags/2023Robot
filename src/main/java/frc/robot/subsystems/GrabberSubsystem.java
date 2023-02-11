@@ -29,6 +29,7 @@ public class GrabberSubsystem extends SubsystemBase {
   //  m_doublesolenoid = m_pH.makeDoubleSolenoid(1,0);
 
   public GrabberSubsystem() {
+    phCompressor = new Compressor(Constants.Grabber.compressorModule, PneumaticsModuleType.REVPH);
     m_pH = new PneumaticHub(Constants.Grabber.Pneumatic.PneumaticHub);
     m_doubleSolenoid = m_pH.makeDoubleSolenoid(Constants.Grabber.closedSolenoidModuleA,Constants.Grabber.openSolenoidModuleA);
 
@@ -64,7 +65,7 @@ public class GrabberSubsystem extends SubsystemBase {
     grabberOpen = false;
   }
   public void open(){
-    m_doubleSolenoid.set(DoubleSolenoid.Value.kForward);
+    m_doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
     grabberOpen = true;
   }
   public boolean isCompressorOn(){

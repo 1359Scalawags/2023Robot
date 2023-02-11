@@ -170,6 +170,22 @@ public class ArmSubsystem extends SubsystemBase {
     elbowPidController.setReference(angle, ControlType.kPosition);
   }
 
+  public void setShoulderTarget(double angle) {
+    angle = Math.min(angle, Constants.Arm.Shoulder.upperlimit);
+    angle = Math.max(angle, Constants.Arm.Shoulder.lowerlimit);
+    shoulderPidController.setReference(angle, ControlType.kPosition);
+  }
+
+  public void changeElbowTarget(double delta) {
+    double angle = elbowEncoder.getAbsolutePosition();
+    setElbowTarget(angle);
+  }
+
+  public void changeShoulderTarget(double delta) {
+    double angle = shoulderEncoder.getAbsolutePosition();
+    setShoulderTarget(angle);
+  }
+
   @Override
   public void periodic() {
 
@@ -203,7 +219,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
     if (e_CurrentRotation != e_TargetRotation) {
       // Move elbow to target position
-      
+
     }
     
     if (s_p != s_kP) {elbowPidController.setP(s_p); s_kP = s_p;}

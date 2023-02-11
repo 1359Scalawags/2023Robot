@@ -26,8 +26,8 @@ public class DefaultArmCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_ArmSubsystem.setShoulderMotor(m_Shoulder.getAsDouble());
-        m_ArmSubsystem.setElbowMotor(m_Elbow.getAsDouble());
+        m_ArmSubsystem.changeShoulderTarget(m_Shoulder.getAsDouble());
+        m_ArmSubsystem.changeElbowTarget(m_Elbow.getAsDouble());
     }
 
     @Override

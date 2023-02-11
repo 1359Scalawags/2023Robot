@@ -87,17 +87,17 @@ public class ArmSubsystem extends SubsystemBase {
 
 
   public boolean isElbowAtUpperLimit() {
-    return elbowEncoder.getDistance() >= Constants.Arm.Elbow.upperlimit;
+    return elbowEncoder.getAbsolutePosition() >= Constants.Arm.Elbow.upperlimit;
   }
   public boolean isElbowAtLowerLimit() {
-    return elbowEncoder.getDistance() <= Constants.Arm.Elbow.lowerlimit;
+    return elbowEncoder.getAbsolutePosition() <= Constants.Arm.Elbow.lowerlimit;
   }
 
   public boolean isShoulderAtUpperLimit() {
-    return shoulderEncoder.getDistance() >= Constants.Arm.Shoulder.upperlimit;
+    return shoulderEncoder.getAbsolutePosition() >= Constants.Arm.Shoulder.upperlimit;
   }
   public boolean isshoulderAtLowerLimit() {
-    return shoulderEncoder.getDistance() <= Constants.Arm.Shoulder.lowerlimit;
+    return shoulderEncoder.getAbsolutePosition() <= Constants.Arm.Shoulder.lowerlimit;
   }
 
   public void setElbowMotor(double speed) {

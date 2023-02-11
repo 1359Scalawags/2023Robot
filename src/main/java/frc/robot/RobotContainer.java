@@ -46,6 +46,7 @@ public class RobotContainer {
   private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
   private final TurnCompressorOff m_compressorOff = new TurnCompressorOff(m_grabberSubsystem);
+  private final TurnCompressorOn m_compressorOn = new TurnCompressorOn(m_grabberSubsystem);
   private final GrabCommandOpen m_opengrabber = new GrabCommandOpen(m_grabberSubsystem);
   private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
 
@@ -97,8 +98,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
     //new JoystickButton(m_logitech, 3).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
-    new JoystickButton(assistantJoystick, 3).whileTrue(m_ZeroGyroCommand);
+    new JoystickButton(driverJoystick, 3).whileTrue(m_ZeroGyroCommand);
     new JoystickButton(assistantJoystick, 10).whileTrue(m_compressorOff);
+    new JoystickButton(assistantJoystick, 11).whileTrue(m_compressorOn);
     new JoystickButton(assistantJoystick, 1).whileTrue(m_closegrabber);
     new JoystickButton(assistantJoystick, 2).whileTrue(m_opengrabber);
             // No requirements because we don't need to interrupt anything         

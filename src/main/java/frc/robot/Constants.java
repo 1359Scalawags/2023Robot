@@ -94,6 +94,7 @@ public final class Constants {
         public static final int openSolenoidModuleA = 1;
        // public static final int openSolenoidModuleB = 1;
         public static class Pneumatic {
+            public static final int PneumaticHub = 21;
             public static final int pistionOne = 1;                
             public static final int pistionTwo = 2;
             public static int forwardChannel =0;

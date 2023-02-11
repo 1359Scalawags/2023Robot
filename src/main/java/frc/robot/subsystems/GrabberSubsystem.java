@@ -21,7 +21,7 @@ public class GrabberSubsystem extends SubsystemBase {
   boolean grabberOpen;
   Compressor phCompressor;
   DoubleSolenoid m_doubleSolenoid;
-
+  PneumaticHub m_pH;
   // public GrabberSubsystem() {
   //   phCompressor = new Compressor(Constants.Grabber.compressorModule, PneumaticsModuleType.REVPH);
   //   phCompressor.enableDigital();
@@ -29,10 +29,10 @@ public class GrabberSubsystem extends SubsystemBase {
   //  m_doublesolenoid = m_pH.makeDoubleSolenoid(1,0);
 
   public GrabberSubsystem() {
-    PneumaticHub m_pH = new PneumaticHub(21);
-    DoubleSolenoid m_doubleSolenoid = m_pH.makeDoubleSolenoid(Constants.Grabber.closedSolenoidModuleA,Constants.Grabber.openSolenoidModuleA);
+    m_pH = new PneumaticHub(Constants.Grabber.Pneumatic.PneumaticHub);
+    m_doubleSolenoid = m_pH.makeDoubleSolenoid(Constants.Grabber.closedSolenoidModuleA,Constants.Grabber.openSolenoidModuleA);
 
-    boolean grabberOpen = true;
+    grabberOpen = true;
   }
   //TODO: what are we using and where is it going
   //Compressor pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);

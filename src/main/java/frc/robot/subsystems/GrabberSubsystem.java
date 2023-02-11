@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.TimedRobot;
 //import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -30,11 +29,9 @@ public class GrabberSubsystem extends SubsystemBase {
   //  DoubleSolenoid m_doublesolenoid;
   //  m_doublesolenoid = m_pH.makeDoubleSolenoid(1,0);
 
-  public static class Robot extends TimedRobot {
+  public GrabberSubsystem() {
     PneumaticHub m_pH = new PneumaticHub(21);
-    DoubleSolenoid m_doubleSolenoid = m_pH.makeDoubleSolenoid(0,1);
-  
-
+    DoubleSolenoid m_doubleSolenoid = m_pH.makeDoubleSolenoid(1,0);
   }
   //TODO: what are we using and where is it going
   //Compressor pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);

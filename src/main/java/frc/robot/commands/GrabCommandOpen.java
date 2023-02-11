@@ -18,11 +18,12 @@ public class GrabCommandOpen extends CommandBase {
   }
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() { m_GrabberSubsystem.open();}
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_GrabberSubsystem.open();
    
       // if(GrabberSubsystem.isOpen()){
       //   GrabberSubsystem.close();

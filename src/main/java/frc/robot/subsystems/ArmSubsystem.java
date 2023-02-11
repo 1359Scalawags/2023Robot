@@ -20,6 +20,7 @@ import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.swervedrivespecialties.swervelib.Mk3ModuleConfiguration;
 
@@ -30,6 +31,12 @@ public class ArmSubsystem extends SubsystemBase {
   private SendableCANSparkMax shoulderMotor;
   private DutyCycleEncoder elbowEncoder;
   private DutyCycleEncoder shoulderEncoder;
+  private SparkMaxPIDController elbowPidController;
+  private SparkMaxPIDController shoulderPidController;
+
+  private double elbowTargetSpeed = 0;
+  private double shoulderTargetSpeed = 0;
+
   
   /** Creates a new ExampleSubsystem. */
   public ArmSubsystem() {
@@ -50,6 +57,23 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderEncoder.setDistancePerRotation(360.0);  
     // elbowEncoder.setAverageBits(4); 
     // shoulderEncoder.setAverageBits(4);
+
+    elbowPidController = elbowMotor.getPIDController();
+    shoulderPidController = shoulderMotor.getPIDController();
+    
+    elbowPidController.setP(Constants.Arm.kP);
+    elbowPidController.setI(Constants.Arm.kI);
+    elbowPidController.setD(Constants.Arm.kD);
+    elbowPidController.setIZone(Constants.Arm.kIz);
+    elbowPidController.setFF(Constants.Arm.kFF);
+    elbowPidController.setOutputRange(Constants.Arm.kMinOutput, Constants.Arm.kMaxOutput);
+    
+    shoulderPidController.setP(Constants.Arm.kP);
+    shoulderPidController.setI(Constants.Arm.kI);
+    shoulderPidController.setD(Constants.Arm.kD);
+    shoulderPidController.setIZone(Constants.Arm.kIz);
+    shoulderPidController.setFF(Constants.Arm.kFF);
+    shoulderPidController.setOutputRange(Constants.Arm.kMinOutput, Constants.Arm.kMaxOutput);
     
     addChild("elbowMotor", elbowMotor);
     addChild("shoulderMotor", shoulderMotor);
@@ -101,36 +125,52 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setElbowMotor(double speed) {
-    elbowMotor.set(speed);
+    elbowTargetSpeed = speed;
+    //elbowMotor.set(speed);
   }  
   public void setShoulderMotor(double speed) {
-    shoulderMotor.set(speed);
+    shoulderTargetSpeed = speed;
+    //shoulderMotor.set(speed);
   }
+
+  public void setElbowTarget(double angle) {
+    angle = Math.min(angle, Constants.Arm.Elbow.upperlimit);
+    angle = Math.max(angle, Constants.Arm.Elbow.lowerlimit);
+    elbowPidController.setReference(angle, ControlType.kPosition);
+  }
+
   @Override
   public void periodic() {
     if(isElbowAtUpperLimit()){
-        if (elbowMotor.get() > 0) {
-            elbowMotor.stopMotor(); 
+        if(elbowMotor.get() > 0 || elbowTargetSpeed > 0) {
+          elbowMotor.stopMotor(); 
+          elbowTargetSpeed = 0;          
         }
-    }
+    } else if (isElbowAtLowerLimit()) {
+        if(elbowMotor.get() < 0 || elbowTargetSpeed < 0) {
+          elbowMotor.stopMotor(); 
+          elbowTargetSpeed = 0; 
+        }
+    } 
 
+    elbowMotor.set(elbowTargetSpeed);
+    
+    
     if(isShoulderAtUpperLimit()){
-        if (shoulderMotor.get() > 0) {
+        if (shoulderMotor.get() > 0 || shoulderTargetSpeed > 0) {
             shoulderMotor.stopMotor();
+            shoulderTargetSpeed = 0;
         } 
-    }
+    } else if (isshoulderAtLowerLimit()) {
+        if (shoulderMotor.get() < 0 || shoulderTargetSpeed < 0) {
+          shoulderMotor.stopMotor(); 
+          shoulderTargetSpeed = 0;
+      }
+  }
 
-    if (isElbowAtLowerLimit()) {
-        if (elbowMotor.get() < 0) {
-            elbowMotor.stopMotor(); 
-        }
-    }
+    shoulderMotor.set(shoulderTargetSpeed);
 
-    if (isshoulderAtLowerLimit()) { 
-        if (shoulderMotor.get() < 0) {
-            shoulderMotor.stopMotor(); 
-        }
-    }
+
 
     // This method will be called once per scheduler run
   }

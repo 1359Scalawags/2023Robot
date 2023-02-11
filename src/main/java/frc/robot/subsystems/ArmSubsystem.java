@@ -98,8 +98,8 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderPidController.setFF(s_kFF);
     shoulderPidController.setOutputRange(s_kMinOutput, s_kMaxOutput);
     
-    addChild("elbowMotor", elbowMotor);
-    addChild("shoulderMotor", shoulderMotor);
+    //addChild("elbowMotor", elbowMotor);
+    //addChild("shoulderMotor", shoulderMotor);
 
     shoulderRotationEntry = tab.add("Shoulder rotation", 0).getEntry();
     elbowRotationEntry = tab.add("Elbow rotation", 0).getEntry();

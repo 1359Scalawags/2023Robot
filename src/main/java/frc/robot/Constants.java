@@ -72,25 +72,33 @@ public final class Constants {
 
     public static final class Arm {
         public static final double armSpeedMultiplier = 0.1;
-        public static final double armCoefficientMultiplier = 0.1;
-        public static final double kP = 0.1;
-        public static final double kI = 1e-4 ;
-        public static final double kD = 1;
-        public static final double kIz = 0;
-        public static final double kFF = 0;
-        public static final double kMaxOutput = 1;
-        public static final double kMinOutput = -1; 
         public static final class Shoulder {
             public static final int channel = 1;                      
             public static final int motor = 30;  
             public static final double upperlimit = 65;
             public static final double lowerlimit = 125;
+            public static final double CoefficientMultiplier = 0.1;
+            public static final double kP = 0.1;
+            public static final double kI = 1e-4 ;
+            public static final double kD = 1;
+            public static final double kIz = 0;
+            public static final double kFF = 0;
+            public static final double kMaxOutput = 1;
+            public static final double kMinOutput = -1; 
         }
         public static final class Elbow {
             public static final int channel = 2;        
             public static final int motor = 23;
             public static final double upperlimit = 265;
             public static final double lowerlimit = 120;
+            public static final double CoefficientMultiplier = 0.1;
+            public static final double kP = 0.1;
+            public static final double kI = 1e-4 ;
+            public static final double kD = 1;
+            public static final double kIz = 0;
+            public static final double kFF = 0;
+            public static final double kMaxOutput = 1;
+            public static final double kMinOutput = -1; 
             
         }
     }

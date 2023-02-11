@@ -4,12 +4,14 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.DigitalInput;
 //import edu.wpi.first.wpilibj.Encoder;
 //import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -33,14 +35,35 @@ public class ArmSubsystem extends SubsystemBase {
   private DutyCycleEncoder shoulderEncoder;
   private SparkMaxPIDController elbowPidController;
   private SparkMaxPIDController shoulderPidController;
+  ShuffleboardTab tab = Shuffleboard.getTab("Arm");
+  
+  GenericEntry shoulderRotationEntry;
+  GenericEntry elbowRotationEntry;
 
   private double elbowTargetSpeed = 0;
   private double shoulderTargetSpeed = 0;
 
+  private double e_kP = Constants.Arm.Elbow.kP,
+                 e_kI = Constants.Arm.Elbow.kI, 
+                 e_kD = Constants.Arm.Elbow.kD, 
+                 e_kIz = Constants.Arm.Elbow.kIz, 
+                 e_kFF = Constants.Arm.Elbow.kFF, 
+                 e_kMaxOutput = Constants.Arm.Elbow.kMaxOutput, 
+                 e_kMinOutput = Constants.Arm.Elbow.kMinOutput, 
+                 e_rotation;
+  private double s_kP = Constants.Arm.Shoulder.kP, 
+                 s_kI = Constants.Arm.Shoulder.kI, 
+                 s_kD = Constants.Arm.Shoulder.kD, 
+                 s_kIz = Constants.Arm.Shoulder.kIz, 
+                 s_kFF = Constants.Arm.Shoulder.kFF, 
+                 s_kMaxOutput = Constants.Arm.Shoulder.kMaxOutput, 
+                 s_kMinOutput = Constants.Arm.Shoulder.kMinOutput, 
+                 s_rotation;
+
+
   
   /** Creates a new ExampleSubsystem. */
   public ArmSubsystem() {
-    ShuffleboardTab tab = Shuffleboard.getTab("Arm");
     elbowMotor = new SendableCANSparkMax(Constants.Arm.Elbow.motor, MotorType.kBrushless);
     elbowMotor.restoreFactoryDefaults();
     elbowMotor.setInverted(false);
@@ -61,28 +84,36 @@ public class ArmSubsystem extends SubsystemBase {
     elbowPidController = elbowMotor.getPIDController();
     shoulderPidController = shoulderMotor.getPIDController();
     
-    elbowPidController.setP(Constants.Arm.kP);
-    elbowPidController.setI(Constants.Arm.kI);
-    elbowPidController.setD(Constants.Arm.kD);
-    elbowPidController.setIZone(Constants.Arm.kIz);
-    elbowPidController.setFF(Constants.Arm.kFF);
-    elbowPidController.setOutputRange(Constants.Arm.kMinOutput, Constants.Arm.kMaxOutput);
+    elbowPidController.setP(Constants.Arm.Elbow.kP);
+    elbowPidController.setI(Constants.Arm.Elbow.kI);
+    elbowPidController.setD(Constants.Arm.Elbow.kD);
+    elbowPidController.setIZone(Constants.Arm.Elbow.kIz);
+    elbowPidController.setFF(Constants.Arm.Elbow.kFF);
+    elbowPidController.setOutputRange(Constants.Arm.Elbow.kMinOutput, Constants.Arm.Elbow.kMaxOutput);
     
-    shoulderPidController.setP(Constants.Arm.kP);
-    shoulderPidController.setI(Constants.Arm.kI);
-    shoulderPidController.setD(Constants.Arm.kD);
-    shoulderPidController.setIZone(Constants.Arm.kIz);
-    shoulderPidController.setFF(Constants.Arm.kFF);
-    shoulderPidController.setOutputRange(Constants.Arm.kMinOutput, Constants.Arm.kMaxOutput);
+    shoulderPidController.setP(Constants.Arm.Shoulder.kP);
+    shoulderPidController.setI(Constants.Arm.Shoulder.kI);
+    shoulderPidController.setD(Constants.Arm.Shoulder.kD);
+    shoulderPidController.setIZone(Constants.Arm.Shoulder.kIz);
+    shoulderPidController.setFF(Constants.Arm.Shoulder.kFF);
+    shoulderPidController.setOutputRange(Constants.Arm.Shoulder.kMinOutput, Constants.Arm.Shoulder.kMaxOutput);
     
     addChild("elbowMotor", elbowMotor);
     addChild("shoulderMotor", shoulderMotor);
 
+    shoulderRotationEntry = tab.add("Shoulder rotation", 0).getEntry();
+    elbowRotationEntry = tab.add("Elbow rotation", 0).getEntry();
+    tab.add("Shoulder pid", shoulderPidController);
+    tab.add("Elbow pid", elbowPidController);
     tab.add("Shoulder encoder", shoulderEncoder);
     tab.add("Elbow encoder",elbowEncoder);
 
+    shoulderPidController.setReference(shoulderRotationEntry.getDouble(0), CANSparkMax.ControlType.kPosition);
+    elbowPidController.setReference(elbowRotationEntry.getDouble(0), CANSparkMax.ControlType.kPosition);
+
+
             // This can either be STANDARD or FAST depending on your gear configuration
-            ;
+            
   }
 
   /**
@@ -170,13 +201,55 @@ public class ArmSubsystem extends SubsystemBase {
 
     shoulderMotor.set(shoulderTargetSpeed);
 
+    double e_p = elbowPidController.getP();
+    double e_i = elbowPidController.getI();
+    double e_d = elbowPidController.getD();
+    double e_Iz = elbowPidController.getIZone();
+    double e_FF = elbowPidController.getFF();
+    double e_max = elbowPidController.getOutputMax();
+    double e_min = elbowPidController.getOutputMin();
+    double eRotation = elbowRotationEntry.getDouble(e_rotation); 
 
+    double s_p = shoulderPidController.getP();
+    double s_i = shoulderPidController.getI();
+    double s_d = shoulderPidController.getD();
+    double s_Iz = shoulderPidController.getIZone();
+    double s_FF = shoulderPidController.getFF();
+    double s_max = shoulderPidController.getOutputMax();
+    double s_min = shoulderPidController.getOutputMin();
+    double sRotation = elbowRotationEntry.getDouble(s_rotation); 
 
+    if (e_p != e_kP) {elbowPidController.setP(e_p); e_kP = e_p;}
+    if (e_i != e_kI) {elbowPidController.setP(e_i); e_kI = e_i;}
+    if (e_d != e_kD) {elbowPidController.setP(e_d); e_kD = e_d;}
+    if (e_Iz != e_kIz) {elbowPidController.setP(e_Iz); e_kIz = e_Iz;}
+    if (e_FF != e_kFF) {elbowPidController.setP(e_FF); e_kFF = e_FF;}
+    if (e_max != e_kMaxOutput || e_min != e_kMinOutput) {
+      elbowPidController.setOutputRange(e_min, e_max); 
+      e_kMaxOutput = e_max;
+      e_kMinOutput = e_min;
+    }
+    
+    if (s_p != s_kP) {elbowPidController.setP(s_p); s_kP = s_p;}
+    if (s_i != s_kI) {elbowPidController.setP(s_i); s_kI = s_i;}
+    if (s_d != s_kD) {elbowPidController.setP(s_d); s_kD = s_d;}
+    if (s_Iz != s_kIz) {elbowPidController.setP(s_Iz); s_kIz = s_Iz;}
+    if (s_FF != s_kFF) {elbowPidController.setP(s_FF); s_kFF = s_FF;}
+    if (s_max != s_kMaxOutput || s_min != s_kMinOutput) {
+      elbowPidController.setOutputRange(s_min, s_max); 
+      s_kMaxOutput = s_max;
+      s_kMinOutput = s_min;
+    }
     // This method will be called once per scheduler run
+  
   }
 
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
+
+  
 }
+
+

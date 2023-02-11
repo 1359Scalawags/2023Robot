@@ -41,7 +41,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     shoulderMotor = new SendableCANSparkMax(Constants.Arm.Shoulder.motor, MotorType.kBrushless);
     shoulderMotor.restoreFactoryDefaults();
-    shoulderMotor.setInverted(false);
+    shoulderMotor.setInverted(true);
     shoulderMotor.setIdleMode(IdleMode.kBrake);
 
     elbowEncoder = new DutyCycleEncoder(Constants.Arm.Elbow.channel);
@@ -51,8 +51,8 @@ public class ArmSubsystem extends SubsystemBase {
     // elbowEncoder.setAverageBits(4); 
     // shoulderEncoder.setAverageBits(4);
     
-    addChild("elbowMotor", elbowMotor);
-    addChild("shoulderMotor", shoulderMotor);
+    tab.add("elbowMotor", elbowMotor);
+    tab.add("shoulderMotor", shoulderMotor);
 
     tab.add("Shoulder encoder", shoulderEncoder);
     tab.add("Elbow encoder",elbowEncoder);

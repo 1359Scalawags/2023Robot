@@ -41,7 +41,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     shoulderMotor = new SendableCANSparkMax(Constants.Arm.Shoulder.motor, MotorType.kBrushless);
     shoulderMotor.restoreFactoryDefaults();
-    shoulderMotor.setInverted(true);
+    shoulderMotor.setInverted(false);
     shoulderMotor.setIdleMode(IdleMode.kBrake);
 
     elbowEncoder = new DutyCycleEncoder(Constants.Arm.Elbow.channel);
@@ -87,17 +87,17 @@ public class ArmSubsystem extends SubsystemBase {
 
 
   public boolean isElbowAtUpperLimit() {
-    return elbowEncoder.getDistance() < Constants.Arm.Elbow.lowerlimit;
+    return elbowEncoder.getDistance() >= Constants.Arm.Elbow.upperlimit;
   }
   public boolean isElbowAtLowerLimit() {
-    return elbowEncoder.getDistance() > Constants.Arm.Elbow.upperlimit;
+    return elbowEncoder.getDistance() <= Constants.Arm.Elbow.lowerlimit;
   }
 
   public boolean isShoulderAtUpperLimit() {
-    return shoulderEncoder.getDistance() < Constants.Arm.Shoulder.lowerlimit;
+    return shoulderEncoder.getDistance() >= Constants.Arm.Shoulder.upperlimit;
   }
   public boolean isshoulderAtLowerLimit() {
-    return shoulderEncoder.getDistance() > Constants.Arm.Shoulder.upperlimit;
+    return shoulderEncoder.getDistance() <= Constants.Arm.Shoulder.lowerlimit;
   }
 
   public void setElbowMotor(double speed) {

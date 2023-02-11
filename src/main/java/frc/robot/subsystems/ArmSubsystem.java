@@ -103,10 +103,25 @@ public class ArmSubsystem extends SubsystemBase {
 
     shoulderRotationEntry = tab.add("Shoulder rotation", 0).getEntry();
     elbowRotationEntry = tab.add("Elbow rotation", 0).getEntry();
-    tab.add("Shoulder pid", shoulderPidController);
-    tab.add("Elbow pid", elbowPidController);
     tab.add("Shoulder encoder", shoulderEncoder);
     tab.add("Elbow encoder",elbowEncoder);
+
+    tab.add("Shoulder P", shoulderPidController.getP());
+    tab.add("Shoulder I", shoulderPidController.getI()); 
+    tab.add("Shoulder D", shoulderPidController.getD());
+    //tab.add("Shoulder Iz", shoulderPidController.getIZone()); 
+    tab.add("Shoulder FF", shoulderPidController.getFF());
+    //tab.add("Shoulder Output Max", shoulderPidController.getOutputMax());
+    //tab.add("Shoulder Output Min", shoulderPidController.getOutputMin());
+   
+    tab.add("elbow P", elbowPidController.getP());
+    tab.add("elbow I", elbowPidController.getI()); 
+    tab.add("elbow D", elbowPidController.getD());
+    //tab.add("elbow Iz", elbowPidController.getIZone()); 
+    tab.add("elbow FF", elbowPidController.getFF());
+    //tab.add("elbow Output Max", elbowPidController.getOutputMax());
+    //tab.add("elbow Output Min", elbowPidController.getOutputMin());
+    
 
     shoulderPidController.setReference(shoulderEncoder.getAbsolutePosition(), CANSparkMax.ControlType.kPosition);
     elbowPidController.setReference(elbowEncoder.getAbsolutePosition(), CANSparkMax.ControlType.kPosition);  
@@ -192,50 +207,42 @@ public class ArmSubsystem extends SubsystemBase {
     double e_p = elbowPidController.getP();
     double e_i = elbowPidController.getI();
     double e_d = elbowPidController.getD();
-    double e_Iz = elbowPidController.getIZone();
+    //double e_Iz = elbowPidController.getIZone();
     double e_FF = elbowPidController.getFF();
-    double e_max = elbowPidController.getOutputMax();
-    double e_min = elbowPidController.getOutputMin();
-    double e_CurrentRotation = elbowEncoder.getAbsolutePosition();
+    //double e_max = elbowPidController.getOutputMax();
+    //double e_min = elbowPidController.getOutputMin();
+    //double e_CurrentRotation = elbowEncoder.getAbsolutePosition();
 
     double s_p = shoulderPidController.getP();
     double s_i = shoulderPidController.getI();
     double s_d = shoulderPidController.getD();
-    double s_Iz = shoulderPidController.getIZone();
+    //double s_Iz = shoulderPidController.getIZone();
     double s_FF = shoulderPidController.getFF();
-    double s_max = shoulderPidController.getOutputMax();
-    double s_min = shoulderPidController.getOutputMin();
-    double s_CurrentRotation = shoulderEncoder.getAbsolutePosition();
+    //double s_max = shoulderPidController.getOutputMax();
+    //double s_min = shoulderPidController.getOutputMin();
+    //double s_CurrentRotation = shoulderEncoder.getAbsolutePosition();
 
     if (e_p != e_kP) {elbowPidController.setP(e_p); e_kP = e_p;}
     if (e_i != e_kI) {elbowPidController.setP(e_i); e_kI = e_i;}
     if (e_d != e_kD) {elbowPidController.setP(e_d); e_kD = e_d;}
-    if (e_Iz != e_kIz) {elbowPidController.setP(e_Iz); e_kIz = e_Iz;}
+    //if (e_Iz != e_kIz) {elbowPidController.setP(e_Iz); e_kIz = e_Iz;}
     if (e_FF != e_kFF) {elbowPidController.setP(e_FF); e_kFF = e_FF;}
-    if (e_max != e_kMaxOutput || e_min != e_kMinOutput) {
-      elbowPidController.setOutputRange(e_min, e_max); 
-      e_kMaxOutput = e_max;
-      e_kMinOutput = e_min;
-    }
-    if (e_CurrentRotation != e_TargetRotation) {
-      // Move elbow to target position
-
-    }
+    //if (e_max != e_kMaxOutput || e_min != e_kMinOutput) {
+      //elbowPidController.setOutputRange(e_min, e_max); 
+      //e_kMaxOutput = e_max;
+      //e_kMinOutput = e_min;
+    //}
     
     if (s_p != s_kP) {elbowPidController.setP(s_p); s_kP = s_p;}
     if (s_i != s_kI) {elbowPidController.setP(s_i); s_kI = s_i;}
     if (s_d != s_kD) {elbowPidController.setP(s_d); s_kD = s_d;}
-    if (s_Iz != s_kIz) {elbowPidController.setP(s_Iz); s_kIz = s_Iz;}
+    //if (s_Iz != s_kIz) {elbowPidController.setP(s_Iz); s_kIz = s_Iz;}
     if (s_FF != s_kFF) {elbowPidController.setP(s_FF); s_kFF = s_FF;}
-    if (s_max != s_kMaxOutput || s_min != s_kMinOutput) {
-      elbowPidController.setOutputRange(s_min, s_max); 
-      s_kMaxOutput = s_max;
-      s_kMinOutput = s_min;
-    }
-    if (s_CurrentRotation != s_TargetRotation) {
-      //Move shoulder to target position
-
-    }
+    //if (s_max != s_kMaxOutput || s_min != s_kMinOutput) {
+    //  elbowPidController.setOutputRange(s_min, s_max); 
+    //  s_kMaxOutput = s_max;
+    //  s_kMinOutput = s_min;
+    //}
 
     if(isElbowAtUpperLimit()){
         if(elbowMotor.get() > 0 || elbowTargetSpeed > 0) {

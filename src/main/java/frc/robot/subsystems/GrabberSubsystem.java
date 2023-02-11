@@ -31,10 +31,8 @@ public class GrabberSubsystem extends SubsystemBase {
   //  m_doublesolenoid = m_pH.makeDoubleSolenoid(1,0);
 
   public static class Robot extends TimedRobot {
-    private static int forwardChannel =0;
-    private static int reverseChannel =1;
     PneumaticHub m_pH = new PneumaticHub(21);
-    DoubleSolenoid m_doubleSolenoid = m_pH.makeDoubleSolenoid(forwardChannel,reverseChannel);
+    DoubleSolenoid m_doubleSolenoid = m_pH.makeDoubleSolenoid(0,1);
   
 
   }

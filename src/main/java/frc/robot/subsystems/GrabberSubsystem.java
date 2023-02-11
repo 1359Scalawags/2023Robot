@@ -18,7 +18,6 @@ public class GrabberSubsystem extends SubsystemBase {
  
 
   /** Creates a new ExampleSubsystem. */
-  DoubleSolenoid doublesolenoid;
   boolean grabberOpen;
   Compressor phCompressor;
   DoubleSolenoid m_doubleSolenoid;
@@ -31,7 +30,9 @@ public class GrabberSubsystem extends SubsystemBase {
 
   public GrabberSubsystem() {
     PneumaticHub m_pH = new PneumaticHub(21);
-    DoubleSolenoid m_doubleSolenoid = m_pH.makeDoubleSolenoid(1,0);
+    DoubleSolenoid m_doubleSolenoid = m_pH.makeDoubleSolenoid(Constants.Grabber.closedSolenoidModuleA,Constants.Grabber.openSolenoidModuleA);
+
+    boolean grabberOpen = true;
   }
   //TODO: what are we using and where is it going
   //Compressor pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);

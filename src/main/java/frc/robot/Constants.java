@@ -79,8 +79,8 @@ public final class Constants {
             public static final double lowerlimit = 125;
             public static final double CoefficientMultiplier = 0.1;
             public static final double kP = 0.1;
-            public static final double kI = 1e-4 ;
-            public static final double kD = 1;
+            public static final double kI = 0;  //10e-4
+            public static final double kD = 0;  //1
             public static final double kIz = 0;
             public static final double kFF = 0;
             public static final double kMaxOutput = 1;
@@ -93,8 +93,8 @@ public final class Constants {
             public static final double lowerlimit = 120;
             public static final double CoefficientMultiplier = 0.1;
             public static final double kP = 0.1;
-            public static final double kI = 1e-4 ;
-            public static final double kD = 1;
+            public static final double kI = 0;  //10e-4
+            public static final double kD = 0;  //1
             public static final double kIz = 0;
             public static final double kFF = 0;
             public static final double kMaxOutput = 1;

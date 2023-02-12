@@ -77,7 +77,7 @@ public final class Constants {
             public static final int motor = 30;  
             public static final double upperlimit = 65;
             public static final double lowerlimit = 125;
-            public static final double CoefficientMultiplier = 0.1;
+            public static final double CoefficientMultiplier = (1/360.0);
             public static final double kP = 0.1;
             public static final double kI = 0;  //10e-4
             public static final double kD = 0;  //1
@@ -91,7 +91,7 @@ public final class Constants {
             public static final int motor = 23;
             public static final double upperlimit = 265;
             public static final double lowerlimit = 120;
-            public static final double CoefficientMultiplier = 0.1;
+            public static final double CoefficientMultiplier = (1/360.0);
             public static final double kP = 0.1;
             public static final double kI = 0;  //10e-4
             public static final double kD = 0;  //1

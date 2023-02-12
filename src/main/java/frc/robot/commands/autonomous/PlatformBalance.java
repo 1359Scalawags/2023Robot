@@ -15,9 +15,9 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.SPI;
 
 public class PlatformBalance extends CommandBase {
-
+  
   private DrivetrainSubsystem m_drivetrainSubsystem;
-  private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200);
+
   private static final PIDController pid = new PIDController(Constants.Autonomous.kP, Constants.Autonomous.kI, Constants.Autonomous.kD);
 
 
@@ -31,7 +31,7 @@ public class PlatformBalance extends CommandBase {
   @Override
   public void execute() {
     // This method will be called once per scheduler run 
-      double K = pid.calculate(m_navx.getPitch());
+      double K = pid.calculate(m_drivetrainSubsystem.getPitch());
       m_drivetrainSubsystem.drive(
         new ChassisSpeeds(K,0,0)
       );

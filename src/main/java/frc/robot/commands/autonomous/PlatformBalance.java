@@ -25,26 +25,18 @@ public class PlatformBalance extends CommandBase {
   /** Creates a new ExampleSubsystem. */
   public PlatformBalance(DrivetrainSubsystem driveSystem){
     m_drivetrainSubsystem = driveSystem;
-
+    pid.setSetpoint(0);
+    pid.setTolerance(-1, 1);
   }
 
   @Override
   public void execute() {
-    // This method will be called once per scheduler run
-    if(m_navx.getPitch() > 10){
+    // This method will be called once per scheduler run 
+      double K = pid.calculate(m_navx.getPitch());
       m_drivetrainSubsystem.drive(
-        new ChassisSpeeds(1,0,0)
+        new ChassisSpeeds(K,0,0)
       );
-    }
-    else if (m_navx.getPitch() < 10){
-     m_drivetrainSubsystem.drive(
-        new ChassisSpeeds(-1,0,0)
-      );
-   }else{ 
-    m_drivetrainSubsystem.drive(
-      new ChassisSpeeds(0,0,0)
-    );
-   }
+
   }
 
 

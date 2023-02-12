@@ -85,8 +85,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     elbowPidController = new PIDController(e_kP, e_kI, e_kD);
     shoulderPidController = new PIDController(s_kP, s_kI, s_kD);
-    e_TargetRotation = elbowEncoder.getAbsolutePosition();
-    s_TargetRotation = shoulderEncoder.getAbsolutePosition();
+    e_TargetRotation = getRotationInDegree(elbowEncoder);
+    s_TargetRotation = getRotationInDegree(shoulderEncoder);
     // elbowPidController.setP(e_kP);
     // elbowPidController.setI(e_kI);
     // elbowPidController.setD(e_kD);
@@ -104,8 +104,8 @@ public class ArmSubsystem extends SubsystemBase {
     //addChild("elbowMotor", elbowMotor);
     //addChild("shoulderMotor", shoulderMotor);
 
-    shoulderRotationEntry = tab.add("Shoulder rotation", 0).getEntry();
-    elbowRotationEntry = tab.add("Elbow rotation", 0).getEntry();
+    shoulderRotationEntry = tab.add("Shoulder rotation", getRotationInDegree(shoulderEncoder)).getEntry();
+    elbowRotationEntry = tab.add("Elbow rotation", getRotationInDegree(elbowEncoder)).getEntry();
     tab.add("Shoulder PID", shoulderPidController);
     tab.add("Elbow PID", elbowPidController);
     tab.add("Shoulder encoder", shoulderEncoder);
@@ -147,17 +147,17 @@ public class ArmSubsystem extends SubsystemBase {
 
 
   public boolean isElbowAtUpperLimit() {
-    return elbowEncoder.getAbsolutePosition() * 360 >= Constants.Arm.Elbow.upperlimit;
+    return getRotationInDegree(elbowEncoder) >= Constants.Arm.Elbow.upperlimit;
   }
   public boolean isElbowAtLowerLimit() {
-    return elbowEncoder.getAbsolutePosition() * 360 <= Constants.Arm.Elbow.lowerlimit;
+    return getRotationInDegree(elbowEncoder) <= Constants.Arm.Elbow.lowerlimit;
   }
 
   public boolean isShoulderAtUpperLimit() {
-    return shoulderEncoder.getAbsolutePosition() * 360 >= Constants.Arm.Shoulder.upperlimit;
+    return getRotationInDegree(shoulderEncoder) >= Constants.Arm.Shoulder.upperlimit;
   }
   public boolean isshoulderAtLowerLimit() {
-    return shoulderEncoder.getAbsolutePosition() * 360 <= Constants.Arm.Shoulder.lowerlimit;
+    return getRotationInDegree(shoulderEncoder) <= Constants.Arm.Shoulder.lowerlimit;
   }
 
   // public void setElbowMotor(double speed) {
@@ -181,15 +181,19 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderPidController.setSetpoint(angle);
   }
 
-  //TODO: WHAT IS DELTA USED TO?
+
   public void changeElbowTarget(double delta) {
-    double angle = elbowEncoder.getAbsolutePosition() * 360;
+    double angle = e_TargetRotation + delta;
     setElbowTarget(angle);
   }
 
   public void changeShoulderTarget(double delta) {
-    double angle = shoulderEncoder.getAbsolutePosition() * 360;
+    double angle = s_TargetRotation + delta;
     setShoulderTarget(angle);
+  }
+
+  public double getRotationInDegree(DutyCycleEncoder encoder) {
+    return encoder.getAbsolutePosition() * 360;
   }
 
   @Override
@@ -235,8 +239,8 @@ public class ArmSubsystem extends SubsystemBase {
     //  s_kMinOutput = s_min;
     //}
 
-    elbowMotor.set(elbowPidController.calculate(elbowEncoder.getAbsolutePosition() * 360, e_TargetRotation));
-    shoulderMotor.set(shoulderPidController.calculate(shoulderEncoder.getAbsolutePosition() * 360, s_TargetRotation));
+    elbowMotor.set(elbowPidController.calculate(getRotationInDegree(elbowEncoder), e_TargetRotation));
+    shoulderMotor.set(shoulderPidController.calculate(getRotationInDegree(shoulderEncoder), s_TargetRotation));
     elbowRotationEntry.setDouble(e_TargetRotation);
     shoulderRotationEntry.setDouble(s_TargetRotation);
 

@@ -33,7 +33,7 @@ public class PlatformBalance extends CommandBase {
     // This method will be called once per scheduler run 
       double K = pid.calculate(m_drivetrainSubsystem.getPitch());
       m_drivetrainSubsystem.drive(
-        new ChassisSpeeds(K,0,0)
+        new ChassisSpeeds(0,K,0)
       );
 
   }

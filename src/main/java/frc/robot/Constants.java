@@ -117,6 +117,12 @@ public final class Constants {
             public static int reverseChannel =1;
         }
     }
+    public static final class Autonomous {
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+
+    }
 
     public static final class UI {
         public static final double deadband = 0.05;

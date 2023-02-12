@@ -146,19 +146,19 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
 
-  public boolean isElbowAtUpperLimit() {
-    return getRotationInDegree(elbowEncoder) >= Constants.Arm.Elbow.upperlimit;
-  }
-  public boolean isElbowAtLowerLimit() {
-    return getRotationInDegree(elbowEncoder) <= Constants.Arm.Elbow.lowerlimit;
-  }
+  // public boolean isElbowAtUpperLimit() {
+  //   return getRotationInDegree(elbowEncoder) >= Constants.Arm.Elbow.upperlimit;
+  // }
+  // public boolean isElbowAtLowerLimit() {
+  //   return getRotationInDegree(elbowEncoder) <= Constants.Arm.Elbow.lowerlimit;
+  // }
 
-  public boolean isShoulderAtUpperLimit() {
-    return getRotationInDegree(shoulderEncoder) >= Constants.Arm.Shoulder.upperlimit;
-  }
-  public boolean isshoulderAtLowerLimit() {
-    return getRotationInDegree(shoulderEncoder) <= Constants.Arm.Shoulder.lowerlimit;
-  }
+  // public boolean isShoulderAtUpperLimit() {
+  //   return getRotationInDegree(shoulderEncoder) >= Constants.Arm.Shoulder.upperlimit;
+  // }
+  // public boolean isshoulderAtLowerLimit() {
+  //   return getRotationInDegree(shoulderEncoder) <= Constants.Arm.Shoulder.lowerlimit;
+  // }
 
   // public void setElbowMotor(double speed) {
   //   elbowTargetSpeed = speed;
@@ -172,13 +172,15 @@ public class ArmSubsystem extends SubsystemBase {
   public void setElbowTarget(double angle) {
     angle = Math.min(angle, Constants.Arm.Elbow.upperlimit);
     angle = Math.max(angle, Constants.Arm.Elbow.lowerlimit);
-    elbowPidController.setSetpoint(angle);
+    e_TargetRotation = angle;
+    elbowPidController.setSetpoint(e_TargetRotation);
   }
 
   public void setShoulderTarget(double angle) {
     angle = Math.min(angle, Constants.Arm.Shoulder.upperlimit);
     angle = Math.max(angle, Constants.Arm.Shoulder.lowerlimit);
-    shoulderPidController.setSetpoint(angle);
+    s_TargetRotation = angle;
+    shoulderPidController.setSetpoint(s_TargetRotation);
   }
 
 
@@ -241,8 +243,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     elbowMotor.set(elbowPidController.calculate(getRotationInDegree(elbowEncoder), e_TargetRotation));
     shoulderMotor.set(shoulderPidController.calculate(getRotationInDegree(shoulderEncoder), s_TargetRotation));
-    elbowRotationEntry.setDouble(e_TargetRotation);
-    shoulderRotationEntry.setDouble(s_TargetRotation);
+    elbowRotationEntry.setDouble(getRotationInDegree(elbowEncoder));
+    shoulderRotationEntry.setDouble(getRotationInDegree(shoulderEncoder));
 
 //     if(isShoulderAtUpperLimit()){
 //       if (shoulderMotorSpeed > 0){

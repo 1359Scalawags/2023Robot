@@ -174,6 +174,7 @@ public class ArmSubsystem extends SubsystemBase {
     angle = Math.max(angle, Constants.Arm.Elbow.lowerlimit);
     e_TargetRotation = angle;
     elbowPidController.setSetpoint(e_TargetRotation);
+    System.out.println("e_angle: " + angle + "  e_TargetRotation: " + e_TargetRotation);
   }
 
   public void setShoulderTarget(double angle) {
@@ -181,6 +182,7 @@ public class ArmSubsystem extends SubsystemBase {
     angle = Math.max(angle, Constants.Arm.Shoulder.lowerlimit);
     s_TargetRotation = angle;
     shoulderPidController.setSetpoint(s_TargetRotation);
+    System.out.println("s_angle: " + angle + "  s_TargetRotation: " + s_TargetRotation);
   }
 
 

@@ -23,6 +23,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DrivetrainNoAction;
 import frc.robot.commands.GrabCommandClose;
 import frc.robot.commands.GrabCommandOpen;
+import frc.robot.commands.PlatformBalance;
 import frc.robot.commands.TurnCompressorOn;
 import frc.robot.commands.TurnWheelToAngleCommand;
 import frc.robot.commands.ZeroGyroCommand;
@@ -31,6 +32,8 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.commands.TurnCompressorOff;
+import frc.robot.commands.PlatformBalance;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -42,6 +45,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
+  private final PlatformBalance m_PlatformBalance = new PlatformBalance(m_drivetrainSubsystem);
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
@@ -103,6 +107,9 @@ public class RobotContainer {
     new JoystickButton(assistantJoystick, 11).whileTrue(m_compressorOn);
     new JoystickButton(assistantJoystick, 1).whileTrue(m_closegrabber);
     new JoystickButton(assistantJoystick, 2).whileTrue(m_opengrabber);
+    
+    new JoystickButton(assistantJoystick, 3).whileTrue(m_PlatformBalance);
+
             // No requirements because we don't need to interrupt anything         
   }
   

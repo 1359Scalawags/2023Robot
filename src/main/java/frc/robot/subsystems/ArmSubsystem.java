@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.AnalogEncoder;
@@ -30,12 +31,16 @@ import com.swervedrivespecialties.swervelib.Mk3ModuleConfiguration;
 import frc.robot.Constants;
 import frc.robot.extensions.SendableCANSparkMax;
 public class ArmSubsystem extends SubsystemBase {
+  
   private SendableCANSparkMax elbowMotor;
   private SendableCANSparkMax shoulderMotor;
   private DutyCycleEncoder elbowEncoder;
   private DutyCycleEncoder shoulderEncoder;
+
   private PIDController elbowPidController;
   private PIDController shoulderPidController;
+  private ArmFeedforward elbowFFController;
+  
   private GenericEntry shoulderRotationEntry;
   private GenericEntry elbowRotationEntry;
 
@@ -87,6 +92,9 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderPidController = new PIDController(s_kP, s_kI, s_kD);
     e_TargetRotation = getRotationInDegree(elbowEncoder);
     s_TargetRotation = getRotationInDegree(shoulderEncoder);
+
+    // FIXME: need to characterize the elbow to find these values
+    elbowFFController = new ArmFeedforward(0, 0, 0);
     // elbowPidController.setP(e_kP);
     // elbowPidController.setI(e_kI);
     // elbowPidController.setD(e_kD);

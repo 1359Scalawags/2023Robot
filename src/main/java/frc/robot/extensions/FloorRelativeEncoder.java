@@ -13,8 +13,9 @@ public class FloorRelativeEncoder implements Sendable {
     private double direction;
     private double offset;
     private DutyCycleEncoder encoder;
+    private double lastRetrievedValue;
 
-    /***
+    /**
      * Create an encoder where measurements are relative to the floor.
      * @param channel The digital channel to attach to.
      * @param angleAtFloor The native angle of the encoder.
@@ -30,15 +31,24 @@ public class FloorRelativeEncoder implements Sendable {
             this.direction = 1;
     }
 
-    /***
+    /**
      * Get the position relative to the floor (in degrees).
      * @return An angle in degrees.
      */
     public double getDegrees() {
-        return (this.direction) * (this.encoder.getAbsolutePosition() - this.offset);
+        this.lastRetrievedValue = (this.direction) * (this.encoder.getAbsolutePosition() - this.offset);
+        return this.lastRetrievedValue;
     }
 
-    /***
+    /**
+     * Get position when it was last requested.
+     * @return A position in degrees relative to the floor.
+     */
+    public double getPriorReadingDegrees() {
+        return this.lastRetrievedValue;
+    }
+
+    /**
      * Get the position relative to the floor (in radians).
      * @return An angle in radians.
      */
@@ -46,7 +56,15 @@ public class FloorRelativeEncoder implements Sendable {
         return this.getDegrees() * Math.PI / 180.0;
     }
 
-    /***
+    /**
+     * Get position when it was last requested.
+     * @return A position in radians relative to the floor.
+     */
+    public double getPriorReadingRadians() {
+        return this.lastRetrievedValue * Math.PI / 180.0;
+    }
+
+    /**
      * Set offset based on current position of the arm.
      * Added as an example for future robots. No current use is anticipated.
      */
@@ -54,19 +72,27 @@ public class FloorRelativeEncoder implements Sendable {
         this.offset = this.encoder.getAbsolutePosition();
     }
 
+    /**
+     * Get the offset from the native encoder measurement.
+     * @return An angle in degrees.
+     */
     public double getOffset() {
         return this.offset;
     }
 
+    /**
+     * Are we reversing the native encoder scale.
+     * @return True, if the encoder scale is reversed.
+     */
     public boolean isReversed() {
         return this.direction == -1;   
     }
 
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("Floor Relative Encoder");
-        builder.addDoubleProperty("Degrees", this::getDegrees, null);
-        builder.addDoubleProperty("Radians", this::getRadians, null);
-        builder.addDoubleProperty("Offset", this::getOffset, null);
+        builder.addDoubleProperty("ϴ Deg", this::getDegrees, null);
+        builder.addDoubleProperty("ϴ Rad", this::getRadians, null);
+        builder.addDoubleProperty("ϴ Offset", this::getOffset, null);
         builder.addBooleanProperty("Reversed?", this::isReversed, null);
       }
 

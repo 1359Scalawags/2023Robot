@@ -23,6 +23,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DrivetrainNoAction;
 import frc.robot.commands.GrabCommandClose;
 import frc.robot.commands.GrabCommandOpen;
+import frc.robot.commands.InitializeTargetRotationCommand;
 import frc.robot.commands.PlatformBalance;
 import frc.robot.commands.TurnCompressorOn;
 import frc.robot.commands.TurnWheelToAngleCommand;
@@ -169,5 +170,10 @@ public class RobotContainer {
 
   public Command getCompressorStartCommand() {
     return new TurnCompressorOn(m_grabberSubsystem);
+  }
+
+
+  public Command getInitializeArmEncoders() {
+    return new InitializeTargetRotationCommand(m_armSubsystem);
   }
 }

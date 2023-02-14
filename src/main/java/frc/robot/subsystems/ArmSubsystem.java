@@ -29,6 +29,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.swervedrivespecialties.swervelib.Mk3ModuleConfiguration;
 
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.extensions.SendableCANSparkMax;
 public class ArmSubsystem extends SubsystemBase {
   
@@ -40,6 +41,7 @@ public class ArmSubsystem extends SubsystemBase {
   private PIDController elbowPidController;
   private PIDController shoulderPidController;
   private ArmFeedforward elbowFFController;
+  private ArmFeedforward shoulderFFController;
   
   private GenericEntry shoulderRotationEntry;
   private GenericEntry elbowRotationEntry;
@@ -52,7 +54,8 @@ public class ArmSubsystem extends SubsystemBase {
   private double e_kP = Constants.Arm.Elbow.kP * Constants.Arm.Elbow.CoefficientMultiplier,
                  e_kI = Constants.Arm.Elbow.kI * Constants.Arm.Elbow.CoefficientMultiplier, 
                  e_kD = Constants.Arm.Elbow.kD * Constants.Arm.Elbow.CoefficientMultiplier,
-                 e_TargetRotation; 
+                 e_TargetRotation,
+                 e_TargetVelocity; 
                 //  e_kIz = Constants.Arm.Elbow.kIz * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kFF = Constants.Arm.Elbow.kFF * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kMaxOutput = Constants.Arm.Elbow.kMaxOutput * Constants.Arm.Elbow.CoefficientMultiplier, 
@@ -60,7 +63,8 @@ public class ArmSubsystem extends SubsystemBase {
   private double s_kP = Constants.Arm.Shoulder.kP * Constants.Arm.Shoulder.CoefficientMultiplier, 
                  s_kI = Constants.Arm.Shoulder.kI * Constants.Arm.Shoulder.CoefficientMultiplier, 
                  s_kD = Constants.Arm.Shoulder.kD * Constants.Arm.Shoulder.CoefficientMultiplier,
-                 s_TargetRotation; 
+                 s_TargetRotation,
+                 s_TargetVelocity; 
                 //  s_kIz = Constants.Arm.Shoulder.kIz * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kFF = Constants.Arm.Shoulder.kFF * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kMaxOutput = Constants.Arm.Shoulder.kMaxOutput * Constants.Arm.Shoulder.CoefficientMultiplier, 
@@ -94,7 +98,8 @@ public class ArmSubsystem extends SubsystemBase {
     s_TargetRotation = getRotationInDegree(shoulderEncoder);
 
     // FIXME: need to characterize the elbow to find these values
-    elbowFFController = new ArmFeedforward(0, 0, 0);
+    elbowFFController = new ArmFeedforward(Constants.Arm.Elbow.kS, Constants.Arm.Elbow.kG, Constants.Arm.Elbow.kV);
+    shoulderFFController = new ArmFeedforward(Constants.Arm.Shoulder.kS, Constants.Arm.Shoulder.kG, Constants.Arm.Shoulder.kV);
     // elbowPidController.setP(e_kP);
     // elbowPidController.setI(e_kI);
     // elbowPidController.setD(e_kD);
@@ -116,6 +121,8 @@ public class ArmSubsystem extends SubsystemBase {
     elbowRotationEntry = tab.add("Elbow rotation", getRotationInDegree(elbowEncoder)).getEntry();
     tab.add("Shoulder PID", shoulderPidController);
     tab.add("Elbow PID", elbowPidController);
+    tab.add("Shoulder Feedforward", shoulderFFController);
+    tab.add("Elbow Feedforward", elbowFFController);
     tab.add("Shoulder encoder", shoulderEncoder);
     tab.add("Elbow encoder",elbowEncoder);
 
@@ -193,7 +200,6 @@ public class ArmSubsystem extends SubsystemBase {
     System.out.println("s_angle: " + angle + "  s_TargetRotation: " + s_TargetRotation);
   }
 
-
   public void changeElbowTarget(double delta) {
     double angle = e_TargetRotation + delta;
     setElbowTarget(angle);
@@ -208,51 +214,107 @@ public class ArmSubsystem extends SubsystemBase {
     return encoder.getAbsolutePosition() * 360;
   }
 
+  public double getElbowRotation() {
+    return getRotationInDegree(elbowEncoder);
+  }
+
+  public double getShoulderRotation() {
+    return getRotationInDegree(shoulderEncoder);
+  }
+
+  public double getShoulderSetpoint() {
+    return shoulderPidController.getSetpoint();
+  }
+
+  public double getElbowSetPoint() {
+    return elbowPidController.getSetpoint();
+  }
+
+  public double calculateFeedForward(ArmFeedforward controller, double targetSpeed) {
+    if (controller == elbowFFController) 
+      return controller.calculate(getElbowRelativeAngle(), targetSpeed); 
+    else 
+      return controller.calculate(getShoulderRelativeAngle(), targetSpeed);
+  }
+
+  public double calculatePID(PIDController controller) {
+    if (controller == elbowPidController) 
+      return controller.calculate(getElbowRotation(), getElbowRelativeAngle());
+    else 
+      return controller.calculate(getShoulderRotation(), getShoulderRelativeAngle());
+  }
+
+  public double getShoulderRelativeAngle(double angle) {
+    return angle - Constants.Arm.Shoulder.offset;
+  }
+
+  public double getShoulderRelativeAngle() {
+    return getShoulderRelativeAngle(getShoulderRotation());
+  }
+
+  public double getElbowRelativeAngle(double angle) {
+    return angle + getElbowRelativeAngle() - Constants.Arm.Elbow.offset;
+  }
+
+  public double getElbowRelativeAngle() {
+    return getElbowRelativeAngle(getElbowRotation());
+  }
+
+  public void setShoulderTargetSpeed(double speed) {
+    s_TargetVelocity = speed;
+  }
+
+  public void setElbowTargetSpeed(double speed) {
+    e_TargetVelocity = speed;
+  }
+
   @Override
   public void periodic() {
+    if (Robot.isTestMode()){
+      double e_p = elbowPidController.getP();
+      double e_i = elbowPidController.getI();
+      double e_d = elbowPidController.getD();
+      //double e_Iz = elbowPidController.getIZone();
+      //double e_FF = elbowPidController.getFF();
+      //double e_max = elbowPidController.getOutputMax();
+      //double e_min = elbowPidController.getOutputMin();
+      //double e_CurrentRotation = elbowEncoder.getAbsolutePosition();
 
-    double e_p = elbowPidController.getP();
-    double e_i = elbowPidController.getI();
-    double e_d = elbowPidController.getD();
-    //double e_Iz = elbowPidController.getIZone();
-    //double e_FF = elbowPidController.getFF();
-    //double e_max = elbowPidController.getOutputMax();
-    //double e_min = elbowPidController.getOutputMin();
-    //double e_CurrentRotation = elbowEncoder.getAbsolutePosition();
+      double s_p = shoulderPidController.getP();
+      double s_i = shoulderPidController.getI();
+      double s_d = shoulderPidController.getD();
+      //double s_Iz = shoulderPidController.getIZone();
+      //double s_FF = shoulderPidController.getFF();
+      //double s_max = shoulderPidController.getOutputMax();
+      //double s_min = shoulderPidController.getOutputMin();
+      //double s_CurrentRotation = shoulderEncoder.getAbsolutePosition();
 
-    double s_p = shoulderPidController.getP();
-    double s_i = shoulderPidController.getI();
-    double s_d = shoulderPidController.getD();
-    //double s_Iz = shoulderPidController.getIZone();
-    //double s_FF = shoulderPidController.getFF();
-    //double s_max = shoulderPidController.getOutputMax();
-    //double s_min = shoulderPidController.getOutputMin();
-    //double s_CurrentRotation = shoulderEncoder.getAbsolutePosition();
-
-    if (e_p != e_kP) {elbowPidController.setP(e_p); e_kP = e_p;}
-    if (e_i != e_kI) {elbowPidController.setP(e_i); e_kI = e_i;}
-    if (e_d != e_kD) {elbowPidController.setP(e_d); e_kD = e_d;}
-    //if (e_Iz != e_kIz) {elbowPidController.setP(e_Iz); e_kIz = e_Iz;}
-    //if (e_FF != e_kFF) {elbowPidController.setP(e_FF); e_kFF = e_FF;}
-    //if (e_max != e_kMaxOutput || e_min != e_kMinOutput) {
-      //elbowPidController.setOutputRange(e_min, e_max); 
-      //e_kMaxOutput = e_max;
-      //e_kMinOutput = e_min;
-    //}
+      if (e_p != e_kP) {elbowPidController.setP(e_p); e_kP = e_p;}
+      if (e_i != e_kI) {elbowPidController.setI(e_i); e_kI = e_i;}
+      if (e_d != e_kD) {elbowPidController.setD(e_d); e_kD = e_d;}
+      //if (e_Iz != e_kIz) {elbowPidController.setP(e_Iz); e_kIz = e_Iz;}
+      //if (e_FF != e_kFF) {elbowPidController.setP(e_FF); e_kFF = e_FF;}
+      //if (e_max != e_kMaxOutput || e_min != e_kMinOutput) {
+        //elbowPidController.setOutputRange(e_min, e_max); 
+        //e_kMaxOutput = e_max;
+        //e_kMinOutput = e_min;
+      //}
+      
+      if (s_p != s_kP) {shoulderPidController.setP(s_p); s_kP = s_p;}
+      if (s_i != s_kI) {shoulderPidController.setI(s_i); s_kI = s_i;}
+      if (s_d != s_kD) {shoulderPidController.setD(s_d); s_kD = s_d;}
+      //if (s_Iz != s_kIz) {elbowPidController.setP(s_Iz); s_kIz = s_Iz;}
+      //if (s_FF != s_kFF) {elbowPidController.setP(s_FF); s_kFF = s_FF;}
+      //if (s_max != s_kMaxOutput || s_min != s_kMinOutput) {
+      //  elbowPidController.setOutputRange(s_min, s_max); 
+      //  s_kMaxOutput = s_max;
+      //  s_kMinOutput = s_min;
+      //}
+    }
     
-    if (s_p != s_kP) {elbowPidController.setP(s_p); s_kP = s_p;}
-    if (s_i != s_kI) {elbowPidController.setP(s_i); s_kI = s_i;}
-    if (s_d != s_kD) {elbowPidController.setP(s_d); s_kD = s_d;}
-    //if (s_Iz != s_kIz) {elbowPidController.setP(s_Iz); s_kIz = s_Iz;}
-    //if (s_FF != s_kFF) {elbowPidController.setP(s_FF); s_kFF = s_FF;}
-    //if (s_max != s_kMaxOutput || s_min != s_kMinOutput) {
-    //  elbowPidController.setOutputRange(s_min, s_max); 
-    //  s_kMaxOutput = s_max;
-    //  s_kMinOutput = s_min;
-    //}
+    elbowMotor.setVoltage(calculatePID(elbowPidController) + calculateFeedForward(elbowFFController, e_TargetVelocity));
+    shoulderMotor.setVoltage(calculatePID(shoulderPidController) + calculateFeedForward(shoulderFFController, s_TargetVelocity));
 
-    elbowMotor.set(elbowPidController.calculate(getRotationInDegree(elbowEncoder), e_TargetRotation));
-    shoulderMotor.set(shoulderPidController.calculate(getRotationInDegree(shoulderEncoder), s_TargetRotation));
     elbowRotationEntry.setDouble(getRotationInDegree(elbowEncoder));
     shoulderRotationEntry.setDouble(getRotationInDegree(shoulderEncoder));
 

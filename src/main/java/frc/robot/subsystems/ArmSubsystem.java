@@ -41,10 +41,10 @@ public class ArmSubsystem extends SubsystemBase {
   private PIDController elbowPidController;
   private PIDController shoulderPidController;
   private ArmFeedforward elbowFFController;
+  private ArmFeedforward shoulderFFController;
   
   private GenericEntry shoulderRotationEntry;
   private GenericEntry elbowRotationEntry;
-  private boolean isElbowMoving;
 
   ShuffleboardTab tab = Shuffleboard.getTab("Arm");
 
@@ -55,7 +55,7 @@ public class ArmSubsystem extends SubsystemBase {
                  e_kI = Constants.Arm.Elbow.kI * Constants.Arm.Elbow.CoefficientMultiplier, 
                  e_kD = Constants.Arm.Elbow.kD * Constants.Arm.Elbow.CoefficientMultiplier,
                  e_TargetRotation,
-                 e_speed; 
+                 e_TargetVelocity; 
                 //  e_kIz = Constants.Arm.Elbow.kIz * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kFF = Constants.Arm.Elbow.kFF * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kMaxOutput = Constants.Arm.Elbow.kMaxOutput * Constants.Arm.Elbow.CoefficientMultiplier, 
@@ -64,7 +64,7 @@ public class ArmSubsystem extends SubsystemBase {
                  s_kI = Constants.Arm.Shoulder.kI * Constants.Arm.Shoulder.CoefficientMultiplier, 
                  s_kD = Constants.Arm.Shoulder.kD * Constants.Arm.Shoulder.CoefficientMultiplier,
                  s_TargetRotation,
-                 s_speed; 
+                 s_TargetVelocity; 
                 //  s_kIz = Constants.Arm.Shoulder.kIz * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kFF = Constants.Arm.Shoulder.kFF * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kMaxOutput = Constants.Arm.Shoulder.kMaxOutput * Constants.Arm.Shoulder.CoefficientMultiplier, 
@@ -98,7 +98,8 @@ public class ArmSubsystem extends SubsystemBase {
     s_TargetRotation = getRotationInDegree(shoulderEncoder);
 
     // FIXME: need to characterize the elbow to find these values
-    elbowFFController = new ArmFeedforward(0, 0, 0);
+    elbowFFController = new ArmFeedforward(Constants.Arm.Elbow.kS, Constants.Arm.Elbow.kG, Constants.Arm.Elbow.kV);
+    shoulderFFController = new ArmFeedforward(Constants.Arm.Shoulder.kS, Constants.Arm.Shoulder.kG, Constants.Arm.Shoulder.kV);
     // elbowPidController.setP(e_kP);
     // elbowPidController.setI(e_kI);
     // elbowPidController.setD(e_kD);
@@ -120,6 +121,8 @@ public class ArmSubsystem extends SubsystemBase {
     elbowRotationEntry = tab.add("Elbow rotation", getRotationInDegree(elbowEncoder)).getEntry();
     tab.add("Shoulder PID", shoulderPidController);
     tab.add("Elbow PID", elbowPidController);
+    tab.add("Shoulder Feedforward", shoulderFFController);
+    tab.add("Elbow Feedforward", elbowFFController);
     tab.add("Shoulder encoder", shoulderEncoder);
     tab.add("Elbow encoder",elbowEncoder);
 
@@ -227,12 +230,42 @@ public class ArmSubsystem extends SubsystemBase {
     return elbowPidController.getSetpoint();
   }
 
-  public boolean isElbowMoving() {
-    return e_speed > 0;
+  public double calculateFeedForward(ArmFeedforward controller, double targetSpeed) {
+    if (controller == elbowFFController) 
+      return controller.calculate(getElbowRelativeAngle(), targetSpeed); 
+    else 
+      return controller.calculate(getShoulderRelativeAngle(), targetSpeed);
   }
 
-  public boolean isShoulderMoving() {
-    return s_speed > 0;
+  public double calculatePID(PIDController controller) {
+    if (controller == elbowPidController) 
+      return controller.calculate(getElbowRotation(), getElbowRelativeAngle());
+    else 
+      return controller.calculate(getShoulderRotation(), getShoulderRelativeAngle());
+  }
+
+  public double getShoulderRelativeAngle(double angle) {
+    return angle - Constants.Arm.Shoulder.offset;
+  }
+
+  public double getShoulderRelativeAngle() {
+    return getShoulderRelativeAngle(getShoulderRotation());
+  }
+
+  public double getElbowRelativeAngle(double angle) {
+    return angle + getElbowRelativeAngle() - Constants.Arm.Elbow.offset;
+  }
+
+  public double getElbowRelativeAngle() {
+    return getElbowRelativeAngle(getElbowRotation());
+  }
+
+  public void setShoulderTargetSpeed(double speed) {
+    s_TargetVelocity = speed;
+  }
+
+  public void setElbowTargetSpeed(double speed) {
+    e_TargetVelocity = speed;
   }
 
   @Override
@@ -278,17 +311,10 @@ public class ArmSubsystem extends SubsystemBase {
       //  s_kMinOutput = s_min;
       //}
     }
+    
+    elbowMotor.setVoltage(calculatePID(elbowPidController) + calculateFeedForward(elbowFFController, e_TargetVelocity));
+    shoulderMotor.setVoltage(calculatePID(shoulderPidController) + calculateFeedForward(shoulderFFController, s_TargetVelocity));
 
-    if (isElbowMoving()) {
-      elbowMotor.set(e_speed);
-    }
-    if (isShoulderMoving()) {
-      shoulderMotor.set(s_speed);
-    }
-    else {
-      elbowMotor.set(elbowPidController.calculate(getRotationInDegree(elbowEncoder), e_TargetRotation));
-      shoulderMotor.set(shoulderPidController.calculate(getRotationInDegree(shoulderEncoder), s_TargetRotation));
-    }
     elbowRotationEntry.setDouble(getRotationInDegree(elbowEncoder));
     shoulderRotationEntry.setDouble(getRotationInDegree(shoulderEncoder));
 

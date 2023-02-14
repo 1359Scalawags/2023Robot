@@ -81,6 +81,11 @@ public final class Constants {
             public static final double kP = 0.1;  // After tuning, 0.05/2
             public static final double kI = 0;  //10e-4
             public static final double kD = 0;  //1
+            public static final double kS = 0;
+            public static final double kG = 0;
+            public static final double kV = 0;
+            public static final double kA = 0;
+            public static final double offset = 0;
             // public static final double kIz = 0;
             // public static final double kFF = 0;
             // public static final double kMaxOutput = 1;
@@ -95,6 +100,11 @@ public final class Constants {
             public static final double kP = 0.1;
             public static final double kI = 0;  //10e-4
             public static final double kD = 0;  //1
+            public static final double kS = 0;
+            public static final double kG = 0;
+            public static final double kV = 0;
+            public static final double kA = 0;
+            public static final double offset = 0;
             // public static final double kIz = 0;
             // public static final double kFF = 0;
             // public static final double kMaxOutput = 1;

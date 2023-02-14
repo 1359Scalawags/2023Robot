@@ -17,7 +17,7 @@ public class DefaultArmCommand extends CommandBase {
     private final DoubleSupplier m_Shoulder;
     private final DoubleSupplier m_Elbow;
 
-    private static int counter = 2;
+    private static int counter = 0;
 
     private static ShuffleboardTab tab = Shuffleboard.getTab("Testing");
     private static GenericEntry counterEntry = tab.add("Counter", counter).getEntry();
@@ -34,11 +34,18 @@ public class DefaultArmCommand extends CommandBase {
     }
 
     @Override
+    public void initialize() {
+
+    }
+
+    @Override
     public void execute() {
+        double elbow = m_ArmSubsystem.getElbowSetPoint() + m_Elbow.getAsDouble();
+        double shoulder = m_ArmSubsystem.getShoulderSetpoint() + m_Shoulder.getAsDouble();
         counter++;
         counterEntry.setInteger(counter);
-        m_ArmSubsystem.changeShoulderTarget(m_Shoulder.getAsDouble());
-        m_ArmSubsystem.changeElbowTarget(m_Elbow.getAsDouble());
+        m_ArmSubsystem.setShoulderTarget(shoulder);
+        m_ArmSubsystem.setElbowTarget(elbow);
     }
 
     @Override

@@ -212,10 +212,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return m_navx.getYaw();
         //return getGyroscopeRotation().getDegrees();
     }
-
+    
     public double getYawAsRadians() {
         return Rotation2d.fromDegrees(m_navx.getYaw()).getRadians();
     }
+
+    public double getPitch() {
+        return m_navx.getPitch();
+        //return getGyroscopeRotation().getDegrees();
+    }
+
 
     /**
      * Set translation and rotation speeds of the drive.

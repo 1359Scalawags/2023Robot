@@ -32,8 +32,8 @@ public class InitializeTargetRotationCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    subsystem.setElbowTarget(subsystem.getElbowRotation());
-    subsystem.setShoulderTarget(subsystem.getShoulderRotation());
+    subsystem.changeRelativeSetPoint("elbow", 0);
+    subsystem.changeRelativeSetPoint("shoulder", 0);
   }
 
   // Called once the command ends or is interrupted.

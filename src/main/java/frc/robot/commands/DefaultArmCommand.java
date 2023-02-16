@@ -40,12 +40,12 @@ public class DefaultArmCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double elbow = m_ArmSubsystem.getElbowSetPoint() + m_Elbow.getAsDouble();
-        double shoulder = m_ArmSubsystem.getShoulderSetpoint() + m_Shoulder.getAsDouble();
+        double elbow = m_Elbow.getAsDouble();
+        double shoulder = m_Shoulder.getAsDouble();
         counter++;
         counterEntry.setInteger(counter);
-        m_ArmSubsystem.setShoulderTarget(shoulder);
-        m_ArmSubsystem.setElbowTarget(elbow);
+        m_ArmSubsystem.changeRelativeSetPoint("shoulder", shoulder);
+        m_ArmSubsystem.changeRelativeSetPoint("elbow", elbow);
     }
 
     @Override

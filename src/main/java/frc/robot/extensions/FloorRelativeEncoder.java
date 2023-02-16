@@ -36,9 +36,10 @@ public class FloorRelativeEncoder implements Sendable {
      * @return An angle in degrees.
      */
     public double getDegrees() {
-        this.lastRetrievedValue = (this.direction) * (this.encoder.getAbsolutePosition() - this.offset);
+        this.lastRetrievedValue = (this.direction) * (this.encoder.getAbsolutePosition() * 360 - this.offset);
         return this.lastRetrievedValue;
     }
+
 
     /**
      * Get position when it was last requested.
@@ -69,7 +70,7 @@ public class FloorRelativeEncoder implements Sendable {
      * Added as an example for future robots. No current use is anticipated.
      */
     public void setDynamicOffset() {
-        this.offset = this.encoder.getAbsolutePosition();
+        this.offset = this.encoder.getAbsolutePosition() * 360;
     }
 
     /**
@@ -87,6 +88,7 @@ public class FloorRelativeEncoder implements Sendable {
     public boolean isReversed() {
         return this.direction == -1;   
     }
+
 
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("Floor Relative Encoder");

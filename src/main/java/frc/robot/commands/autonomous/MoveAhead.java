@@ -3,11 +3,9 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.autonomous;
-import javax.swing.DefaultDesktopManager;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 /** An example command that uses an example subsystem. */
 public class MoveAhead extends CommandBase {

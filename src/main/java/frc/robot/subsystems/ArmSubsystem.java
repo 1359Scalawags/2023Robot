@@ -102,8 +102,8 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderPidController.setSetpoint(shoulderRelativeEncoder.getDegrees());
 
     // FIXME: need to characterize the elbow to find these values
-    elbowFFController = new ArmFeedforward(Constants.Arm.Elbow.kS, Constants.Arm.Elbow.kG, Constants.Arm.Elbow.kV);
-    shoulderFFController = new ArmFeedforward(Constants.Arm.Shoulder.kS, Constants.Arm.Shoulder.kG, Constants.Arm.Shoulder.kV);
+    elbowFFController = new ArmFeedforward(Constants.Arm.Elbow.kS, Constants.Arm.Elbow.kG, Constants.Arm.Elbow.kV, Constants.Arm.Elbow.kA);
+    shoulderFFController = new ArmFeedforward(Constants.Arm.Shoulder.kS, Constants.Arm.Shoulder.kG, Constants.Arm.Shoulder.kV, Constants.Arm.Shoulder.kA);
     // elbowPidController.setP(e_kP);
     // elbowPidController.setI(e_kI);
     // elbowPidController.setD(e_kD);
@@ -267,7 +267,7 @@ public class ArmSubsystem extends SubsystemBase {
   //   return elbowPidController.getSetpoint();
   // }
 
-  //TODO: Do we control targetSpeed by using joystick?
+
   public double calculateFeedForward(ArmFeedforward controller) {
     if (controller == elbowFFController) 
       return controller.calculate(getRelativeSetPoint(elbowPidController), Constants.Arm.Elbow.targetSpeed); 
@@ -275,7 +275,7 @@ public class ArmSubsystem extends SubsystemBase {
       return controller.calculate(getRelativeSetPoint(shoulderPidController), Constants.Arm.Shoulder.targetSpeed);
   }
 
-  //TODO: Do I need to have values relative to the floor?
+ 
   public double calculatePID(PIDController controller) {
     if (controller == elbowPidController) 
       return controller.calculate(elbowRelativeEncoder.getDegrees(), getRelativeSetPoint(elbowPidController));
@@ -334,61 +334,73 @@ public class ArmSubsystem extends SubsystemBase {
       //  s_kMinOutput = s_min;
       //}
     }
-    double elbowSpeed = calculatePID(elbowPidController) + calculateFeedForward(elbowFFController);
-    double shoulderSpeed = calculatePID(shoulderPidController) + calculateFeedForward(shoulderFFController);
-    elbowSpeed = MathUtil.clamp(elbowSpeed, Constants.Arm.Elbow.minSpeed, Constants.Arm.Elbow.maxSpeed);
-    shoulderSpeed = MathUtil.clamp(shoulderSpeed, Constants.Arm.Shoulder.minSpeed, Constants.Arm.Shoulder.minSpeed);
-    if(elbowRelativeEncoder.getDegrees() > Constants.Arm.Elbow.upperlimit && elbowSpeed > 0) {
-      elbowSpeed = 0;
+
+    else {
+
+      double elbowVoltage = calculatePID(elbowPidController) + calculateFeedForward(elbowFFController);
+      double shoulderVoltage = calculatePID(shoulderPidController) + calculateFeedForward(shoulderFFController);
+      elbowVoltage = MathUtil.clamp(elbowVoltage, Constants.Arm.Elbow.minVoltage, Constants.Arm.Elbow.maxVoltage);
+      shoulderVoltage = MathUtil.clamp(shoulderVoltage, Constants.Arm.Shoulder.minVoltage, Constants.Arm.Shoulder.maxVoltage);
+
+      if(elbowRelativeEncoder.getDegrees() > Constants.Arm.Elbow.upperlimit && elbowVoltage > 0) {
+        elbowVoltage = 0;
+      }
+      if(shoulderRelativeEncoder.getDegrees() > Constants.Arm.Shoulder.upperlimit && shoulderVoltage > 0) {
+        shoulderVoltage = 0;
+      }
+      
+      if(elbowRelativeEncoder.getDegrees() < Constants.Arm.Elbow.lowerlimit && elbowVoltage < 0) {
+        elbowVoltage = 0;
+      }
+      if(shoulderRelativeEncoder.getDegrees() < Constants.Arm.Shoulder.lowerlimit && shoulderVoltage < 0) {
+        shoulderVoltage = 0;
+      }
+
+      elbowMotor.setVoltage(elbowVoltage);
+      shoulderMotor.setVoltage(shoulderVoltage);
+
+      elbowRotationEntry.setDouble(elbowRelativeEncoder.getDegrees());
+      shoulderRotationEntry.setDouble(shoulderRelativeEncoder.getDegrees());
+
+  //     if(isShoulderAtUpperLimit()){
+  //       if (shoulderMotorSpeed > 0){
+  //           shoulderMotor.stopMotor();
+  //           shoulderMotorSpeed = 0;
+  //       } 
+  //   } 
+  //   if (isshoulderAtLowerLimit()) {
+  //       if (shoulderMotorSpeed < 0) {
+  //         shoulderMotor.stopMotor(); 
+  //         shoulderMotorSpeed = 0;
+  //     }
+  // }
+
+  //   shoulderMotor.set(shoulderMotorSpeed);
+  //   double elbowAdustSpeed = shoulderMotorSpeed * 0.595;
+    
+
+  //     if(isElbowAtUpperLimit()){
+  //       if(elbowMotorSpeed > 0) {
+  //         elbowMotor.stopMotor();    
+  //         elbowMotorSpeed = 0;   
+  //         if(shoulderMotorSpeed < 0)
+  //           elbowAdustSpeed = 0;   
+          
+  //       }
+  //   } 
+
+  //   if (isElbowAtLowerLimit()) {
+  //       if(elbowMotorSpeed < 0) {
+  //         elbowMotor.stopMotor(); 
+  //         elbowMotorSpeed = 0; 
+  //         if(shoulderMotorSpeed > 0)
+  //           elbowAdustSpeed = 0;
+          
+  //       }
+  //   } 
+
+      // This method will be called once per scheduler run
     }
-    if(shoulderRelativeEncoder.getDegrees() > Constants.Arm.Shoulder.upperlimit && shoulderSpeed > 0) {
-      shoulderSpeed = 0;
-    }
-
-    elbowMotor.setVoltage(elbowSpeed);
-    shoulderMotor.setVoltage(shoulderSpeed);
-
-    elbowRotationEntry.setDouble(elbowRelativeEncoder.getDegrees());
-    shoulderRotationEntry.setDouble(shoulderRelativeEncoder.getDegrees());
-
-//     if(isShoulderAtUpperLimit()){
-//       if (shoulderMotorSpeed > 0){
-//           shoulderMotor.stopMotor();
-//           shoulderMotorSpeed = 0;
-//       } 
-//   } 
-//   if (isshoulderAtLowerLimit()) {
-//       if (shoulderMotorSpeed < 0) {
-//         shoulderMotor.stopMotor(); 
-//         shoulderMotorSpeed = 0;
-//     }
-// }
-
-//   shoulderMotor.set(shoulderMotorSpeed);
-//   double elbowAdustSpeed = shoulderMotorSpeed * 0.595;
-  
-
-//     if(isElbowAtUpperLimit()){
-//       if(elbowMotorSpeed > 0) {
-//         elbowMotor.stopMotor();    
-//         elbowMotorSpeed = 0;   
-//         if(shoulderMotorSpeed < 0)
-//           elbowAdustSpeed = 0;   
-        
-//       }
-//   } 
-
-//   if (isElbowAtLowerLimit()) {
-//       if(elbowMotorSpeed < 0) {
-//         elbowMotor.stopMotor(); 
-//         elbowMotorSpeed = 0; 
-//         if(shoulderMotorSpeed > 0)
-//           elbowAdustSpeed = 0;
-        
-//       }
-//   } 
-
-    // This method will be called once per scheduler run
   
   }
 

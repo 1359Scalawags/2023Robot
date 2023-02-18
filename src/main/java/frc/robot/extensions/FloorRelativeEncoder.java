@@ -14,6 +14,7 @@ public class FloorRelativeEncoder implements Sendable {
     private double offset;
     private DutyCycleEncoder encoder;
     private double lastRetrievedValue;
+    private FloorRelativeEncoder relativeTo;
 
     /**
      * Create an encoder where measurements are relative to the floor.
@@ -29,17 +30,44 @@ public class FloorRelativeEncoder implements Sendable {
             this.direction = -1;
         else 
             this.direction = 1;
+        relativeTo = null;
     }
 
+    /**
+     * Create an encoder where measurements are relative to the floor.
+     * @param channel The digital channel to attach to.
+     * @param angleAtFloor The native angle of the encoder.
+     * @param reverse Does the encoder read angles backwards?
+     * @param relativeTo The encoder of a parent arm.
+     */
+    public FloorRelativeEncoder(int channel, double angleAtFloor, boolean reversed, FloorRelativeEncoder relativeTo) {
+        this(channel, angleAtFloor, reversed);
+        this.relativeTo = relativeTo;
+    }
+
+    /**
+     * Set offset based on current position of the arm.
+     * Added as an example for future robots. No current use is anticipated.
+     */
+    public void setDynamicOffset() {
+        this.offset = this.encoder.getAbsolutePosition() * 360;
+    }  
+    
+    public boolean isAttachedToParent() {
+        return (relativeTo != null);
+    }
+    
     /**
      * Get the position relative to the floor (in degrees).
      * @return An angle in degrees.
      */
     public double getDegrees() {
         this.lastRetrievedValue = (this.direction) * (this.encoder.getAbsolutePosition() * 360 - this.offset);
+        if(relativeTo != null) {
+            this.lastRetrievedValue = this.lastRetrievedValue + relativeTo.getDegrees();
+        }
         return this.lastRetrievedValue;
     }
-
 
     /**
      * Get position when it was last requested.
@@ -65,13 +93,7 @@ public class FloorRelativeEncoder implements Sendable {
         return this.lastRetrievedValue * Math.PI / 180.0;
     }
 
-    /**
-     * Set offset based on current position of the arm.
-     * Added as an example for future robots. No current use is anticipated.
-     */
-    public void setDynamicOffset() {
-        this.offset = this.encoder.getAbsolutePosition() * 360;
-    }
+
 
     /**
      * Get the offset from the native encoder measurement.

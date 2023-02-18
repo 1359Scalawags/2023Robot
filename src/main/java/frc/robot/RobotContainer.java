@@ -21,12 +21,16 @@ import frc.robot.Constants.WheelPositions;
 import frc.robot.commands.DefaultArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DrivetrainNoAction;
+import frc.robot.commands.GrabCommandClose;
+import frc.robot.commands.GrabCommandOpen;
+import frc.robot.commands.TurnCompressorOn;
 import frc.robot.commands.TurnWheelToAngleCommand;
 import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
-
+import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.commands.ZeroGyroCommand;
+import frc.robot.commands.TurnCompressorOff;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -39,7 +43,13 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
+  private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
+  private final TurnCompressorOff m_compressorOff = new TurnCompressorOff(m_grabberSubsystem);
+  private final TurnCompressorOn m_compressorOn = new TurnCompressorOn(m_grabberSubsystem);
+  private final GrabCommandOpen m_opengrabber = new GrabCommandOpen(m_grabberSubsystem);
+  private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
+
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick driverJoystick = new Joystick(0);
   private final Joystick assistantJoystick = new Joystick(1);
@@ -48,6 +58,9 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    m_grabberSubsystem.TurnOn(); 
+
+    //m_grabberSubsystem.TurnOff();
     // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:
     // Left stick Y axis -> forward and backwards movement
@@ -65,8 +78,8 @@ public class RobotContainer {
     );
     m_armSubsystem.setDefaultCommand(new DefaultArmCommand(
             m_armSubsystem,
-            () -> driverJoystick.getY(),
-            () -> driverJoystick.getX()
+            () -> deadband(assistantJoystick.getY(), Constants.UI.deadband) * Constants.Arm.armSpeedMultiplier,
+            () -> deadband(assistantJoystick.getZ(), Constants.UI.deadband) * Constants.Arm.armSpeedMultiplier
     )
     );
 // This line For test purposes  only
@@ -86,6 +99,10 @@ public class RobotContainer {
     // Back button zeros the gyroscope
     //new JoystickButton(m_logitech, 3).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
     new JoystickButton(driverJoystick, 3).whileTrue(m_ZeroGyroCommand);
+    new JoystickButton(assistantJoystick, 10).whileTrue(m_compressorOff);
+    new JoystickButton(assistantJoystick, 11).whileTrue(m_compressorOn);
+    new JoystickButton(assistantJoystick, 1).whileTrue(m_closegrabber);
+    new JoystickButton(assistantJoystick, 2).whileTrue(m_opengrabber);
             // No requirements because we don't need to interrupt anything         
   }
   
@@ -134,11 +151,16 @@ public class RobotContainer {
     // Deadband 
     double throttle  = 1 -( 0.5 * throttleValue);
     
-    value = deadband(value, 0.05);
+    value = deadband(value, Constants.UI.deadband);
 
     // Square the axis
     value = Math.copySign(value * value, value);
 
     return Constants.SwerveDrive.motorSpeed * value * throttle;
+  }
+
+
+  public Command getCompressorStartCommand() {
+    return new TurnCompressorOn(m_grabberSubsystem);
   }
 }

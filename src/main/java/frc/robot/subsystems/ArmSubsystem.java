@@ -4,7 +4,13 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 //import edu.wpi.first.wpilibj.DigitalInput;
 //import edu.wpi.first.wpilibj.Encoder;
 //import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -14,6 +20,9 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.swervedrivespecialties.swervelib.Mk3ModuleConfiguration;
@@ -23,30 +32,47 @@ import frc.robot.extensions.SendableCANSparkMax;
 public class ArmSubsystem extends SubsystemBase {
   private SendableCANSparkMax elbowMotor;
   private SendableCANSparkMax shoulderMotor;
-  private AnalogInput elbowEncoder;
-  private AnalogInput shoulderEncoder;
+  private DutyCycleEncoder elbowEncoder;
+  private DutyCycleEncoder shoulderEncoder;
+  private GenericEntry shoulderPositionEntry;
+  private GenericEntry elbowPositionEntry;
+
+  private double elbowMotorSpeed;
+  private double shoulderMotorSpeed;
+  private ShuffleboardTab tab;
   
   /** Creates a new ExampleSubsystem. */
   public ArmSubsystem() {
-    elbowMotor = new SendableCANSparkMax(Constants.SwerveDrive.Arm.elbow.motor, MotorType.kBrushless);
+    tab = Shuffleboard.getTab("Arm");
+    shoulderPositionEntry = tab.add("Shoulder Absolute Position", 0).getEntry();
+    elbowPositionEntry = tab.add("Elbow Absolute Position", 0).getEntry();
+    elbowMotor = new SendableCANSparkMax(Constants.Arm.Elbow.motor, MotorType.kBrushless);
     elbowMotor.restoreFactoryDefaults();
     elbowMotor.setInverted(false);
     elbowMotor.setIdleMode(IdleMode.kBrake);
 
-    shoulderMotor = new SendableCANSparkMax(Constants.SwerveDrive.Arm.shoulder.motor, MotorType.kBrushless);
+    shoulderMotor = new SendableCANSparkMax(Constants.Arm.Shoulder.motor, MotorType.kBrushless);
     shoulderMotor.restoreFactoryDefaults();
     shoulderMotor.setInverted(false);
     shoulderMotor.setIdleMode(IdleMode.kBrake);
 
+    elbowEncoder = new DutyCycleEncoder(Constants.Arm.Elbow.channel);
+    shoulderEncoder = new DutyCycleEncoder(Constants.Arm.Shoulder.channel);
+    elbowEncoder.setDistancePerRotation(360.0);
+    shoulderEncoder.setDistancePerRotation(360.0);  
+    // elbowEncoder.setAverageBits(4); 
+    // shoulderEncoder.setAverageBits(4);
+    
+    tab.add("elbowMotor", elbowMotor);
+    tab.add("shoulderMotor", shoulderMotor);
 
-    elbowEncoder = new AnalogInput(Constants.SwerveDrive.Arm.elbow.channel);
-    shoulderEncoder = new AnalogInput(Constants.SwerveDrive.Arm.shoulder.channel);
-    elbowEncoder.setAverageBits(4); 
-    shoulderEncoder.setAverageBits(4);
+    tab.add("Shoulder encoder", shoulderEncoder);
+    tab.add("Elbow encoder",elbowEncoder); 
 
     
-    addChild("elbowMotor", elbowMotor);
-    addChild("shoulderMotor", shoulderMotor);
+
+            // This can either be STANDARD or FAST depending on your gear configuration
+            ;
   }
 
   /**
@@ -75,51 +101,70 @@ public class ArmSubsystem extends SubsystemBase {
 
 
   public boolean isElbowAtUpperLimit() {
-    return elbowEncoder.getAverageValue() < Constants.SwerveDrive.Arm.elbow.lowerlimit;
+    return elbowEncoder.getAbsolutePosition() * 360 >= Constants.Arm.Elbow.upperlimit;
   }
   public boolean isElbowAtLowerLimit() {
-    return elbowEncoder.getAverageValue() > Constants.SwerveDrive.Arm.elbow.upperlimit;
+    return elbowEncoder.getAbsolutePosition() * 360 <= Constants.Arm.Elbow.lowerlimit;
   }
 
   public boolean isShoulderAtUpperLimit() {
-    return shoulderEncoder.getAverageValue() < Constants.SwerveDrive.Arm.shoulder.lowerlimit;
+    return shoulderEncoder.getAbsolutePosition() * 360 >= Constants.Arm.Shoulder.upperlimit;
   }
   public boolean isshoulderAtLowerLimit() {
-    return shoulderEncoder.getAverageValue() > Constants.SwerveDrive.Arm.shoulder.upperlimit;
+    return shoulderEncoder.getAbsolutePosition() * 360 <= Constants.Arm.Shoulder.lowerlimit;
   }
 
   public void setElbowMotor(double speed) {
-    elbowMotor.set(speed);
+    elbowMotorSpeed = speed;
   }  
   public void setShoulderMotor(double speed) {
-    shoulderMotor.set(speed);
+    shoulderMotorSpeed = speed;
   }
   @Override
   public void periodic() {
-    if(isElbowAtUpperLimit()){
-        if (elbowMotor.get() > 0) {
-            elbowMotor.stopMotor(); 
-        }
-    }
+    
+    shoulderPositionEntry.setDouble(shoulderEncoder.getAbsolutePosition() * 360);
+    elbowPositionEntry.setDouble(elbowEncoder.getAbsolutePosition() * 360);
 
     if(isShoulderAtUpperLimit()){
-        if (shoulderMotor.get() > 0) {
-            shoulderMotor.stopMotor();
-        } 
+      if (shoulderMotorSpeed > 0){
+          shoulderMotor.stopMotor();
+          shoulderMotorSpeed = 0;
+      } 
+  } 
+  if (isshoulderAtLowerLimit()) {
+      if (shoulderMotorSpeed < 0) {
+        shoulderMotor.stopMotor(); 
+        shoulderMotorSpeed = 0;
     }
+}
 
-    if (isElbowAtLowerLimit()) {
-        if (elbowMotor.get() < 0) {
-            elbowMotor.stopMotor(); 
-        }
-    }
+  shoulderMotor.set(shoulderMotorSpeed);
+  double elbowAdustSpeed = shoulderMotorSpeed * 0.595;
+  
 
-    if (isshoulderAtLowerLimit()) { 
-        if (shoulderMotor.get() < 0) {
-            shoulderMotor.stopMotor(); 
-        }
-    }
+    if(isElbowAtUpperLimit()){
+      if(elbowMotorSpeed > 0) {
+        elbowMotor.stopMotor();    
+        elbowMotorSpeed = 0;   
+        if(shoulderMotorSpeed < 0)
+          elbowAdustSpeed = 0;   
+        
+      }
+  } 
 
+  if (isElbowAtLowerLimit()) {
+      if(elbowMotorSpeed < 0) {
+        elbowMotor.stopMotor(); 
+        elbowMotorSpeed = 0; 
+        if(shoulderMotorSpeed > 0)
+          elbowAdustSpeed = 0;
+        
+      }
+  } 
+
+  elbowMotor.set(elbowMotorSpeed - elbowAdustSpeed);
+  
     // This method will be called once per scheduler run
   }
 

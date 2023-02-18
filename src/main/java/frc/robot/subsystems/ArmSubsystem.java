@@ -293,6 +293,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    double elbowVoltage = 0;
+    double shoulderVoltage = 0;
     if (Robot.isTestMode()){
       double e_p = elbowPidController.getP();
       double e_i = elbowPidController.getI();
@@ -337,8 +339,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     else {
 
-      double elbowVoltage = calculatePID(elbowPidController) + calculateFeedForward(elbowFFController);
-      double shoulderVoltage = calculatePID(shoulderPidController) + calculateFeedForward(shoulderFFController);
+      elbowVoltage = calculatePID(elbowPidController) + calculateFeedForward(elbowFFController);
+      shoulderVoltage = calculatePID(shoulderPidController) + calculateFeedForward(shoulderFFController);
       elbowVoltage = MathUtil.clamp(elbowVoltage, Constants.Arm.Elbow.minVoltage, Constants.Arm.Elbow.maxVoltage);
       shoulderVoltage = MathUtil.clamp(shoulderVoltage, Constants.Arm.Shoulder.minVoltage, Constants.Arm.Shoulder.maxVoltage);
 
@@ -355,12 +357,13 @@ public class ArmSubsystem extends SubsystemBase {
       if(shoulderRelativeEncoder.getDegrees() < Constants.Arm.Shoulder.lowerlimit && shoulderVoltage < 0) {
         shoulderVoltage = 0;
       }
+    }
 
-      elbowMotor.setVoltage(elbowVoltage);
-      shoulderMotor.setVoltage(shoulderVoltage);
+    elbowMotor.setVoltage(elbowVoltage);
+    shoulderMotor.setVoltage(shoulderVoltage);
 
-      elbowRotationEntry.setDouble(elbowRelativeEncoder.getDegrees());
-      shoulderRotationEntry.setDouble(shoulderRelativeEncoder.getDegrees());
+    elbowRotationEntry.setDouble(elbowRelativeEncoder.getDegrees());
+    shoulderRotationEntry.setDouble(shoulderRelativeEncoder.getDegrees());
 
   //     if(isShoulderAtUpperLimit()){
   //       if (shoulderMotorSpeed > 0){
@@ -400,7 +403,7 @@ public class ArmSubsystem extends SubsystemBase {
   //   } 
 
       // This method will be called once per scheduler run
-    }
+
   
   }
 

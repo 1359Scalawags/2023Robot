@@ -134,8 +134,8 @@ public class RobotContainer {
     double angle = 30;//Rotation2d.fromDegrees(30).getDegrees();
     double speed = 1;
     
-    return new TurnWheelToAngleCommand(m_drivetrainSubsystem, WheelPositions.FrontLeft, speed, angle);
-
+    //return new TurnWheelToAngleCommand(m_drivetrainSubsystem, WheelPositions.FrontLeft, speed, angle);
+    return null;
   }
 
   private static double deadband(double value, double deadband) {
@@ -173,7 +173,7 @@ public class RobotContainer {
   }
 
 
-  public Command getInitializeArmEncoders() {
+  public Command getInitializeArmTargetRotation() {
     return new InitializeTargetRotationCommand(m_armSubsystem);
   }
 }

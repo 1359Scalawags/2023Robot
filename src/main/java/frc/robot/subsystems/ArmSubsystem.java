@@ -49,6 +49,7 @@ public class ArmSubsystem extends SubsystemBase {
   
   private GenericEntry shoulderRotationEntry;
   private GenericEntry elbowRotationEntry;
+  
 
   ShuffleboardTab tab = Shuffleboard.getTab("Arm");
 
@@ -57,14 +58,16 @@ public class ArmSubsystem extends SubsystemBase {
 
   private double e_kP = Constants.Arm.Elbow.kP * Constants.Arm.Elbow.CoefficientMultiplier,
                  e_kI = Constants.Arm.Elbow.kI * Constants.Arm.Elbow.CoefficientMultiplier, 
-                 e_kD = Constants.Arm.Elbow.kD * Constants.Arm.Elbow.CoefficientMultiplier;
+                 e_kD = Constants.Arm.Elbow.kD * Constants.Arm.Elbow.CoefficientMultiplier,
+                 e_targetPosition = 0;
                 //  e_kIz = Constants.Arm.Elbow.kIz * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kFF = Constants.Arm.Elbow.kFF * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kMaxOutput = Constants.Arm.Elbow.kMaxOutput * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kMinOutput = Constants.Arm.Elbow.kMinOutput * Constants.Arm.Elbow.CoefficientMultiplier, 
   private double s_kP = Constants.Arm.Shoulder.kP * Constants.Arm.Shoulder.CoefficientMultiplier, 
                  s_kI = Constants.Arm.Shoulder.kI * Constants.Arm.Shoulder.CoefficientMultiplier, 
-                 s_kD = Constants.Arm.Shoulder.kD * Constants.Arm.Shoulder.CoefficientMultiplier;
+                 s_kD = Constants.Arm.Shoulder.kD * Constants.Arm.Shoulder.CoefficientMultiplier,
+                 s_targetPosition = 0;
                 //  s_kIz = Constants.Arm.Shoulder.kIz * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kFF = Constants.Arm.Shoulder.kFF * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kMaxOutput = Constants.Arm.Shoulder.kMaxOutput * Constants.Arm.Shoulder.CoefficientMultiplier, 
@@ -91,15 +94,15 @@ public class ArmSubsystem extends SubsystemBase {
     // shoulderEncoder.setDistancePerRotation(360.0);
     
 
-    elbowRelativeEncoder = new FloorRelativeEncoder(Constants.Arm.Elbow.channel, Constants.Arm.Elbow.angleAtFloor, false);
-    shoulderRelativeEncoder = new FloorRelativeEncoder(Constants.Arm.Shoulder.channel, Constants.Arm.Shoulder.angleAtFloor, false);
+    shoulderRelativeEncoder = new FloorRelativeEncoder(Constants.Arm.Shoulder.channel, Constants.Arm.Shoulder.angleAtFloor, true);
+    elbowRelativeEncoder = new FloorRelativeEncoder(Constants.Arm.Elbow.channel, Constants.Arm.Elbow.angleAtFloor, false, shoulderRelativeEncoder);
     // elbowEncoder.setAverageBits(4); 
     // shoulderEncoder.setAverageBits(4);
 
     elbowPidController = new PIDController(e_kP, e_kI, e_kD);
     shoulderPidController = new PIDController(s_kP, s_kI, s_kD);
-    elbowPidController.setSetpoint(elbowRelativeEncoder.getDegrees());
-    shoulderPidController.setSetpoint(shoulderRelativeEncoder.getDegrees());
+    elbowPidController.setSetpoint(e_targetPosition);
+    shoulderPidController.setSetpoint(s_targetPosition);
 
     // FIXME: need to characterize the elbow to find these values
     elbowFFController = new ArmFeedforward(Constants.Arm.Elbow.kS, Constants.Arm.Elbow.kG, Constants.Arm.Elbow.kV, Constants.Arm.Elbow.kA);
@@ -125,8 +128,8 @@ public class ArmSubsystem extends SubsystemBase {
     elbowRotationEntry = tab.add("Elbow relative rotation", elbowRelativeEncoder.getDegrees()).getEntry();
     tab.add("Shoulder PID", shoulderPidController);
     tab.add("Elbow PID", elbowPidController);
-    tab.add("Shoulder Feedforward", shoulderFFController);
-    tab.add("Elbow Feedforward", elbowFFController);
+    // tab.add("Shoulder Feedforward", shoulderFFController);
+    // tab.add("Elbow Feedforward", elbowFFController);
     tab.add("Shoulder encoder", shoulderRelativeEncoder);
     tab.add("Elbow encoder",elbowRelativeEncoder);
 
@@ -165,19 +168,19 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
 
-  // public boolean isElbowAtUpperLimit() {
-  //   return getRotationInDegree(elbowEncoder) >= Constants.Arm.Elbow.upperlimit;
-  // }
-  // public boolean isElbowAtLowerLimit() {
-  //   return getRotationInDegree(elbowEncoder) <= Constants.Arm.Elbow.lowerlimit;
-  // }
+  public boolean isElbowAtUpperLimit() {
+    return elbowRelativeEncoder.getDegrees() >= Constants.Arm.Elbow.upperlimit;
+  }
+  public boolean isElbowAtLowerLimit() {
+    return elbowRelativeEncoder.getDegrees() <= Constants.Arm.Elbow.lowerlimit;
+  }
 
-  // public boolean isShoulderAtUpperLimit() {
-  //   return getRotationInDegree(shoulderEncoder) >= Constants.Arm.Shoulder.upperlimit;
-  // }
-  // public boolean isshoulderAtLowerLimit() {
-  //   return getRotationInDegree(shoulderEncoder) <= Constants.Arm.Shoulder.lowerlimit;
-  // }
+  public boolean isShoulderAtUpperLimit() {
+    return shoulderRelativeEncoder.getDegrees() >= Constants.Arm.Shoulder.upperlimit;
+  }
+  public boolean isShoulderAtLowerLimit() {
+    return shoulderRelativeEncoder.getDegrees() <= Constants.Arm.Shoulder.lowerlimit;
+  }
 
   // public void setElbowMotor(double speed) {
   //   elbowTargetSpeed = speed;
@@ -228,19 +231,19 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void changeRelativeSetpoint(PIDController controller, double delta) {
     if (controller == elbowPidController) {
-      controller.setSetpoint(elbowRelativeEncoder.getDegrees() + delta);
+      controller.setSetpoint(e_targetPosition + delta);
     }
     else {
-      controller.setSetpoint(shoulderRelativeEncoder.getDegrees() + delta);
+      controller.setSetpoint(s_targetPosition + delta);
     }
   }
 
   public void changeRelativeSetPoint(String name, double delta) {
     if (name.toLowerCase().equals("elbow")) {
-      elbowPidController.setSetpoint(elbowRelativeEncoder.getDegrees() + delta);
+      changeRelativeSetpoint(elbowPidController, delta);
     }
     else if (name.toLowerCase().equals("shoulder")) {
-      shoulderPidController.setSetpoint(shoulderRelativeEncoder.getDegrees() + delta);
+      changeRelativeSetpoint(shoulderPidController, delta);
     }
   }
 
@@ -250,10 +253,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double getRelativeSetPoint(String name) {
     if (name.toLowerCase().equals("elbow")) {
-      return elbowPidController.getSetpoint();
+      getRelativeSetPoint(elbowPidController);
     }
     else if (name.toLowerCase().equals("shoulder")) {
-      return shoulderPidController.getSetpoint();
+      getRelativeSetPoint(shoulderPidController);
     }
     // In case of error
     return 0;
@@ -296,6 +299,12 @@ public class ArmSubsystem extends SubsystemBase {
     double elbowVoltage = 0;
     double shoulderVoltage = 0;
     if (Robot.isTestMode()){
+      SmartDashboard.putBoolean("Elbow Lower Limit", isElbowAtLowerLimit());
+      SmartDashboard.putBoolean("Elbow Upper Limit", isElbowAtUpperLimit());
+      SmartDashboard.putBoolean("Shoulder Lower Limit", isShoulderAtLowerLimit());
+      SmartDashboard.putBoolean("Shoulder Upper Limit", isShoulderAtUpperLimit());
+      SmartDashboard.putNumber("Elbow Setpoint", elbowPidController.getSetpoint());
+      SmartDashboard.putNumber("shoulder Setpoint", shoulderPidController.getSetpoint());
       double e_p = elbowPidController.getP();
       double e_i = elbowPidController.getI();
       double e_d = elbowPidController.getD();
@@ -344,17 +353,17 @@ public class ArmSubsystem extends SubsystemBase {
       elbowVoltage = MathUtil.clamp(elbowVoltage, Constants.Arm.Elbow.minVoltage, Constants.Arm.Elbow.maxVoltage);
       shoulderVoltage = MathUtil.clamp(shoulderVoltage, Constants.Arm.Shoulder.minVoltage, Constants.Arm.Shoulder.maxVoltage);
 
-      if(elbowRelativeEncoder.getDegrees() > Constants.Arm.Elbow.upperlimit && elbowVoltage > 0) {
+      if(isElbowAtUpperLimit() && elbowVoltage > 0) {
         elbowVoltage = 0;
       }
-      if(shoulderRelativeEncoder.getDegrees() > Constants.Arm.Shoulder.upperlimit && shoulderVoltage > 0) {
+      if(isShoulderAtUpperLimit() && shoulderVoltage > 0) {
         shoulderVoltage = 0;
       }
       
-      if(elbowRelativeEncoder.getDegrees() < Constants.Arm.Elbow.lowerlimit && elbowVoltage < 0) {
+      if(isElbowAtLowerLimit() && elbowVoltage < 0) {
         elbowVoltage = 0;
       }
-      if(shoulderRelativeEncoder.getDegrees() < Constants.Arm.Shoulder.lowerlimit && shoulderVoltage < 0) {
+      if(isShoulderAtLowerLimit() && shoulderVoltage < 0) {
         shoulderVoltage = 0;
       }
     }

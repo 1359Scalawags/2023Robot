@@ -73,23 +73,23 @@ public final class Constants {
     public static final class Arm {
         public static final double radtoDegree = 180 / Math.PI;
         public static final double armSpeedMultiplier = 0.1;
+        public static final double ffTestRatio = 0.8;
         public static final class Shoulder {
             public static final int channel = 1;                      
             public static final int motor = 30;  
-            public static final double upperlimit = 125;
-            public static final double lowerlimit = 65;
+            public static final double upperlimit = 50;
+            public static final double lowerlimit = 25;
             public static final double CoefficientMultiplier = (1/360.0);
             public static final double kP = 0;  // After tuning, 0.05/2
             public static final double kI = 0;  //10e-4
             public static final double kD = 0;  //1
-            public static final double kS = 0;
-            public static final double kG = 0.52;
+            public static final double kS = 0.15 * ffTestRatio;
+            public static final double kG = 0.52 * ffTestRatio;
             public static final double kV = 1.19 * radtoDegree;
-            public static final double kA = 0.07 * radtoDegree;
-            public static final double offset = 0;
-            public static final double angleAtFloor = 0;
+            public static final double kA = 0.07 * radtoDegree * ffTestRatio;
+            public static final double angleAtFloor = 145;
             public static final double targetSpeed = 0.1;
-            public static final double maxVoltage = 0.5;
+            public static final double maxVoltage = 0.2 * 12;
             public static final double minVoltage = -maxVoltage;
             // public static final double kIz = 0;
             // public static final double kFF = 0;
@@ -99,21 +99,19 @@ public final class Constants {
         public static final class Elbow {
             public static final int channel = 2;        
             public static final int motor = 23;
-            public static final double upperlimit = 265;
-            public static final double lowerlimit = 120;
+            public static final double upperlimit = 0;
+            public static final double lowerlimit = -60;
             public static final double CoefficientMultiplier = (1/360.0);
             public static final double kP = 0;
             public static final double kI = 0;  //10e-4
             public static final double kD = 0;  //1
-            public static final double ffTestRatio = 0.8;
             public static final double kS = 0.15 * ffTestRatio; // cut by 20% for initial testing
             public static final double kG = 0.20 * ffTestRatio;
             public static final double kV = 1.17 / radtoDegree;
             public static final double kA = 0.02 / radtoDegree * ffTestRatio ;
-            public static final double offset = 0;
-            public static final double angleAtFloor = 0;
+            public static final double angleAtFloor = 272;
             public static final double targetSpeed = 0.1;
-            public static final double maxVoltage = 0.5 * 12; // based on 12V
+            public static final double maxVoltage = 0.2 * 12; // based on 12V
             public static final double minVoltage = -maxVoltage;
             // public static final double kIz = 0;
             // public static final double kFF = 0;

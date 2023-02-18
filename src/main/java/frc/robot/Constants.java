@@ -71,6 +71,7 @@ public final class Constants {
     }
 
     public static final class Arm {
+        public static final double radtoDegree = 180 * Math.PI;
         public static final double armSpeedMultiplier = 0.1;
         public static final class Shoulder {
             public static final int channel = 1;                      
@@ -78,18 +79,18 @@ public final class Constants {
             public static final double upperlimit = 125;
             public static final double lowerlimit = 65;
             public static final double CoefficientMultiplier = (1/360.0);
-            public static final double kP = 0.1;  // After tuning, 0.05/2
+            public static final double kP = 0;  // After tuning, 0.05/2
             public static final double kI = 0;  //10e-4
             public static final double kD = 0;  //1
             public static final double kS = 0;
-            public static final double kG = 0;
-            public static final double kV = 0;
-            public static final double kA = 0;
+            public static final double kG = 0.52;
+            public static final double kV = 1.19 * radtoDegree;
+            public static final double kA = 0.07 * radtoDegree;
             public static final double offset = 0;
             public static final double angleAtFloor = 0;
             public static final double targetSpeed = 0.1;
-            public static final double maxSpeed = 0.5;
-            public static final double minSpeed = 0;
+            public static final double maxVoltage = 0.5;
+            public static final double minVoltage = -maxVoltage;
             // public static final double kIz = 0;
             // public static final double kFF = 0;
             // public static final double kMaxOutput = 1;
@@ -101,18 +102,18 @@ public final class Constants {
             public static final double upperlimit = 265;
             public static final double lowerlimit = 120;
             public static final double CoefficientMultiplier = (1/360.0);
-            public static final double kP = 0.1;
+            public static final double kP = 0;
             public static final double kI = 0;  //10e-4
             public static final double kD = 0;  //1
-            public static final double kS = 0;
-            public static final double kG = 0;
-            public static final double kV = 0;
-            public static final double kA = 0;
+            public static final double kS = 0.15;
+            public static final double kG = 0.20;
+            public static final double kV = 1.17 * radtoDegree;
+            public static final double kA = 0.02 * radtoDegree;
             public static final double offset = 0;
             public static final double angleAtFloor = 0;
             public static final double targetSpeed = 0.1;
-            public static final double maxSpeed = 0.5;
-            public static final double minSpeed = 0;
+            public static final double maxVoltage = 0.5;
+            public static final double minVoltage = -maxVoltage;
             // public static final double kIz = 0;
             // public static final double kFF = 0;
             // public static final double kMaxOutput = 1;

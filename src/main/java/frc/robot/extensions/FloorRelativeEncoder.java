@@ -1,11 +1,8 @@
 package frc.robot.extensions;
 
-import java.io.NotActiveException;
-
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 
 public class FloorRelativeEncoder implements Sendable {

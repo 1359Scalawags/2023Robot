@@ -49,12 +49,12 @@ public class ArmSubsystem extends SubsystemBase {
     elbowMotor = new SendableCANSparkMax(Constants.Arm.Elbow.motor, MotorType.kBrushless);
     elbowMotor.restoreFactoryDefaults();
     elbowMotor.setInverted(false);
-    elbowMotor.setIdleMode(IdleMode.kBrake);
+    elbowMotor.setIdleMode(IdleMode.kCoast);
 
     shoulderMotor = new SendableCANSparkMax(Constants.Arm.Shoulder.motor, MotorType.kBrushless);
     shoulderMotor.restoreFactoryDefaults();
     shoulderMotor.setInverted(false);
-    shoulderMotor.setIdleMode(IdleMode.kBrake);
+    shoulderMotor.setIdleMode(IdleMode.kCoast);
 
     elbowEncoder = new DutyCycleEncoder(Constants.Arm.Elbow.channel);
     shoulderEncoder = new DutyCycleEncoder(Constants.Arm.Shoulder.channel);
@@ -63,8 +63,8 @@ public class ArmSubsystem extends SubsystemBase {
     // elbowEncoder.setAverageBits(4); 
     // shoulderEncoder.setAverageBits(4);
     
-    tab.add("elbowMotor", elbowMotor);
-    tab.add("shoulderMotor", shoulderMotor);
+    //tab.add("elbowMotor", elbowMotor);
+    //tab.add("shoulderMotor", shoulderMotor);
 
     tab.add("Shoulder encoder", shoulderEncoder);
     tab.add("Elbow encoder",elbowEncoder); 
@@ -139,7 +139,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 }
 if(shoulderMotorSpeed == 0) {
-  shoulderMotorSpeed = 0.05;
+  //shoulderMotorSpeed = 0.05;
 }
 
   shoulderMotor.set(shoulderMotorSpeed);
@@ -166,7 +166,7 @@ if(shoulderMotorSpeed == 0) {
       }
   } 
 
-  elbowMotor.set(elbowMotorSpeed - elbowAdustSpeed);
+  elbowMotor.set(elbowMotorSpeed);
   
     // This method will be called once per scheduler run
   }

@@ -59,7 +59,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double e_kP = Constants.Arm.Elbow.kP * Constants.Arm.Elbow.CoefficientMultiplier,
                  e_kI = Constants.Arm.Elbow.kI * Constants.Arm.Elbow.CoefficientMultiplier, 
                  e_kD = Constants.Arm.Elbow.kD * Constants.Arm.Elbow.CoefficientMultiplier,
-                 e_targetPosition = 0;
+                 e_targetPosition = -45;
                 //  e_kIz = Constants.Arm.Elbow.kIz * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kFF = Constants.Arm.Elbow.kFF * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kMaxOutput = Constants.Arm.Elbow.kMaxOutput * Constants.Arm.Elbow.CoefficientMultiplier, 
@@ -67,7 +67,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double s_kP = Constants.Arm.Shoulder.kP * Constants.Arm.Shoulder.CoefficientMultiplier, 
                  s_kI = Constants.Arm.Shoulder.kI * Constants.Arm.Shoulder.CoefficientMultiplier, 
                  s_kD = Constants.Arm.Shoulder.kD * Constants.Arm.Shoulder.CoefficientMultiplier,
-                 s_targetPosition = 0;
+                 s_targetPosition = 45;
                 //  s_kIz = Constants.Arm.Shoulder.kIz * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kFF = Constants.Arm.Shoulder.kFF * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kMaxOutput = Constants.Arm.Shoulder.kMaxOutput * Constants.Arm.Shoulder.CoefficientMultiplier, 
@@ -229,6 +229,22 @@ public class ArmSubsystem extends SubsystemBase {
   //   return getRotationInDegree(shoulderEncoder);
   // }
 
+  public void setElbowSetpoint(double value) {
+    e_targetPosition = value;
+  }
+
+  public void setShoulderSetpoint(double value) {
+    s_targetPosition = value;
+  }
+
+  public double getElbowPosition() {
+    return elbowRelativeEncoder.getDegrees();
+  }
+
+  public double getShoulderPosition() {
+    return shoulderRelativeEncoder.getDegrees();
+  }
+  
   public void changeRelativeSetpoint(PIDController controller, double delta) {
     if (controller == elbowPidController) {
       controller.setSetpoint(e_targetPosition + delta);

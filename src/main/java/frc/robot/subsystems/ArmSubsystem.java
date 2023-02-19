@@ -125,13 +125,6 @@ public class ArmSubsystem extends SubsystemBase {
     tab.add("Shoulder encoder", shoulderRelativeEncoder);
     tab.add("Elbow encoder",elbowRelativeEncoder);
 
-    
-
-    // shoulderPidController.setReference(shoulderEncoder.getAbsolutePosition() * 360, CANSparkMax.ControlType.kPosition);
-    // elbowPidController.setReference(elbowEncoder.getAbsolutePosition() * 360, CANSparkMax.ControlType.kPosition);  
-
-
-            // This can either be STANDARD or FAST depending on your gear configuration
             
   }
 
@@ -157,20 +150,6 @@ public class ArmSubsystem extends SubsystemBase {
   public void initializeSetpoints() {
     initializeSetpoints(true, true);
   }
-
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  // public CommandBase exampleMethodCommand() {
-  //   // Inline construction of command goes here.
-  //   // Subsystem::RunOnce implicitly requires `this` subsystem.
-  //   return runOnce(
-  //       () -> {
-  //         /* one-time action goes here */
-  //       });
-  // }
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
@@ -306,27 +285,27 @@ public class ArmSubsystem extends SubsystemBase {
     return shoulderRelativeEncoder.getDegrees();
   }
   
-  @Deprecated
-  public void changeRelativeSetpoint(PIDController controller, double delta) {
-    if (controller == elbowPidController) {
-      e_targetPosition += delta;
-      controller.setSetpoint(e_targetPosition + delta);
-    }
-    else {
-      s_targetPosition += delta;
-      controller.setSetpoint(s_targetPosition + delta);
-    }
-  }
+//   @Deprecated
+//   public void changeRelativeSetpoint(PIDController controller, double delta) {
+//     if (controller == elbowPidController) {
+//       e_targetPosition += delta;
+//       controller.setSetpoint(e_targetPosition + delta);
+//     }
+//     else {
+//       s_targetPosition += delta;
+//       controller.setSetpoint(s_targetPosition + delta);
+//     }
+//   }
 
-  @Deprecated
-  public void changeRelativeSetPoint(String name, double delta) {
-    if (name.toLowerCase().equals("elbow")) {
-      changeRelativeSetpoint(elbowPidController, delta);
-    }
-    else if (name.toLowerCase().equals("shoulder")) {
-      changeRelativeSetpoint(shoulderPidController, delta);
-    }
-  }
+//   @Deprecated
+//   public void changeRelativeSetPoint(String name, double delta) {
+//     if (name.toLowerCase().equals("elbow")) {
+//       changeRelativeSetpoint(elbowPidController, delta);
+//     }
+//     else if (name.toLowerCase().equals("shoulder")) {
+//       changeRelativeSetpoint(shoulderPidController, delta);
+//     }
+//   }
 
   // public double getRelativeSetPoint(PIDController controller) {
   //   return controller.getSetpoint();
@@ -351,21 +330,37 @@ public class ArmSubsystem extends SubsystemBase {
   //   return elbowPidController.getSetpoint();
   // }
 
-
-  public double calculateFeedForward(ArmFeedforward controller) {
-    if (controller == elbowFFController) 
-      return controller.calculate(e_targetPosition, Constants.Arm.Elbow.targetSpeed); 
-    else 
-      return controller.calculate(s_targetPosition, Constants.Arm.Shoulder.targetSpeed);
+  public double getElbowFF() {
+      return elbowFFController.calculate(e_targetPosition, Constants.Arm.Elbow.targetSpeed); 
   }
 
- 
-  public double calculatePID(PIDController controller) {
-    if (controller == elbowPidController) 
-      return controller.calculate(elbowRelativeEncoder.getDegrees(), e_targetPosition);
-    else 
-      return controller.calculate(shoulderRelativeEncoder.getDegrees(), s_targetPosition);
+  public double getShoulderFF() {
+      return shoulderFFController.calculate(s_targetPosition, Constants.Arm.Shoulder.targetSpeed);
   }
+
+  public double getElbowPID() {
+    return elbowPidController.calculate(elbowRelativeEncoder.getDegrees(), e_targetPosition);
+  }
+
+  public double getShoulderPID() {
+    return shoulderPidController.calculate(shoulderRelativeEncoder.getDegrees(), s_targetPosition);    
+  }
+
+//   @Deprecated
+//   public double calculateFeedForward(ArmFeedforward controller) {
+//     if (controller == elbowFFController) 
+//       return controller.calculate(e_targetPosition, Constants.Arm.Elbow.targetSpeed); 
+//     else 
+//       return controller.calculate(s_targetPosition, Constants.Arm.Shoulder.targetSpeed);
+//   }
+
+//   @Deprecated
+//   public double calculatePID(PIDController controller) {
+//     if (controller == elbowPidController) 
+//       return controller.calculate(elbowRelativeEncoder.getDegrees(), e_targetPosition);
+//     else 
+//       return controller.calculate(shoulderRelativeEncoder.getDegrees(), s_targetPosition);
+//   }
 
   // public void setShoulderTargetSpeed(double speed) {
   //   s_TargetVelocity = speed;
@@ -430,8 +425,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     else {
 
-      elbowVoltage = calculatePID(elbowPidController) + calculateFeedForward(elbowFFController);
-      shoulderVoltage = calculatePID(shoulderPidController) + calculateFeedForward(shoulderFFController);
+      elbowVoltage = getElbowPID() + getElbowFF();
+      shoulderVoltage = getShoulderPID() + getShoulderFF();
       elbowVoltage = MathUtil.clamp(elbowVoltage, Constants.Arm.Elbow.minVoltage, Constants.Arm.Elbow.maxVoltage);
       shoulderVoltage = MathUtil.clamp(shoulderVoltage, Constants.Arm.Shoulder.minVoltage, Constants.Arm.Shoulder.maxVoltage);
 

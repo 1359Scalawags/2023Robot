@@ -247,20 +247,20 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
-  public double getRelativeSetPoint(PIDController controller) {
-    return controller.getSetpoint();
-  }
+  // public double getRelativeSetPoint(PIDController controller) {
+  //   return controller.getSetpoint();
+  // }
 
-  public double getRelativeSetPoint(String name) {
-    if (name.toLowerCase().equals("elbow")) {
-      getRelativeSetPoint(elbowPidController);
-    }
-    else if (name.toLowerCase().equals("shoulder")) {
-      getRelativeSetPoint(shoulderPidController);
-    }
-    // In case of error
-    return 0;
-  }
+  // public double getRelativeSetPoint(String name) {
+  //   if (name.toLowerCase().equals("elbow")) {
+  //     getRelativeSetPoint(elbowPidController);
+  //   }
+  //   else if (name.toLowerCase().equals("shoulder")) {
+  //     getRelativeSetPoint(shoulderPidController);
+  //   }
+  //   // In case of error
+  //   return 0;
+  // }
 
   // public double getShoulderSetPoint() {
   //   return shoulderPidController.getSetpoint();
@@ -273,17 +273,17 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double calculateFeedForward(ArmFeedforward controller) {
     if (controller == elbowFFController) 
-      return controller.calculate(getRelativeSetPoint(elbowPidController), Constants.Arm.Elbow.targetSpeed); 
+      return controller.calculate(e_targetPosition, Constants.Arm.Elbow.targetSpeed); 
     else 
-      return controller.calculate(getRelativeSetPoint(shoulderPidController), Constants.Arm.Shoulder.targetSpeed);
+      return controller.calculate(s_targetPosition, Constants.Arm.Shoulder.targetSpeed);
   }
 
  
   public double calculatePID(PIDController controller) {
     if (controller == elbowPidController) 
-      return controller.calculate(elbowRelativeEncoder.getDegrees(), getRelativeSetPoint(elbowPidController));
+      return controller.calculate(elbowRelativeEncoder.getDegrees(), e_targetPosition);
     else 
-      return controller.calculate(shoulderRelativeEncoder.getDegrees(), getRelativeSetPoint(shoulderPidController));
+      return controller.calculate(shoulderRelativeEncoder.getDegrees(), s_targetPosition);
   }
 
   // public void setShoulderTargetSpeed(double speed) {

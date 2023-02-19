@@ -182,53 +182,6 @@ public class ArmSubsystem extends SubsystemBase {
     return !isShoulderAtLowerLimit() && !isShoulderAtUpperLimit();
   }
 
-  // public void setElbowMotor(double speed) {
-  //   elbowTargetSpeed = speed;
-  //   //elbowMotor.set(speed);
-  // }  
-  // public void setShoulderMotor(double speed) {
-  //   shoulderTargetSpeed = speed;
-  //   //shoulderMotor.set(speed);
-  // }
-
-  // public void setElbowTarget(double angle) {
-  //   angle = Math.min(angle, Constants.Arm.Elbow.upperlimit);
-  //   angle = Math.max(angle, Constants.Arm.Elbow.lowerlimit);
-  //   e_TargetRotation = angle;
-  //   elbowPidController.setSetpoint(e_TargetRotation);
-  //   System.out.println("e_angle: " + angle + "  e_TargetRotation: " + e_TargetRotation);
-  // }
-
-  // public void setShoulderTarget(double angle) {
-  //   angle = Math.min(angle, Constants.Arm.Shoulder.upperlimit);
-  //   angle = Math.max(angle, Constants.Arm.Shoulder.lowerlimit);
-  //   s_TargetRotation = angle;
-  //   shoulderPidController.setSetpoint(s_TargetRotation);
-  //   System.out.println("s_angle: " + angle + "  s_TargetRotation: " + s_TargetRotation);
-  // }
-
-  // public void changeElbowTarget(double delta) {
-  //   double angle = e_TargetRotation + delta;
-  //   setElbowTarget(angle);
-  // }
-
-  // public void changeShoulderTarget(double delta) {
-  //   double angle = s_TargetRotation + delta;
-  //   setShoulderTarget(angle);
-  // }
-
-  // public double getRotationInDegree(DutyCycleEncoder encoder) {
-  //   return encoder.getAbsolutePosition() * 360;
-  // }
-
-  // public double getElbowRotation() {
-  //   return getRotationInDegree(elbowEncoder);
-  // }
-
-  // public double getShoulderRotation() {
-  //   return getRotationInDegree(shoulderEncoder);
-  // }
-
   /**
    * Set target position for elbow and its controllers.
    * The value will be restricted within the elbow's physical limits.
@@ -285,50 +238,6 @@ public class ArmSubsystem extends SubsystemBase {
     return shoulderRelativeEncoder.getDegrees();
   }
   
-//   @Deprecated
-//   public void changeRelativeSetpoint(PIDController controller, double delta) {
-//     if (controller == elbowPidController) {
-//       e_targetPosition += delta;
-//       controller.setSetpoint(e_targetPosition + delta);
-//     }
-//     else {
-//       s_targetPosition += delta;
-//       controller.setSetpoint(s_targetPosition + delta);
-//     }
-//   }
-
-//   @Deprecated
-//   public void changeRelativeSetPoint(String name, double delta) {
-//     if (name.toLowerCase().equals("elbow")) {
-//       changeRelativeSetpoint(elbowPidController, delta);
-//     }
-//     else if (name.toLowerCase().equals("shoulder")) {
-//       changeRelativeSetpoint(shoulderPidController, delta);
-//     }
-//   }
-
-  // public double getRelativeSetPoint(PIDController controller) {
-  //   return controller.getSetpoint();
-  // }
-
-  // public double getRelativeSetPoint(String name) {
-  //   if (name.toLowerCase().equals("elbow")) {
-  //     getRelativeSetPoint(elbowPidController);
-  //   }
-  //   else if (name.toLowerCase().equals("shoulder")) {
-  //     getRelativeSetPoint(shoulderPidController);
-  //   }
-  //   // In case of error
-  //   return 0;
-  // }
-
-  // public double getShoulderSetPoint() {
-  //   return shoulderPidController.getSetpoint();
-  // }
-
-  // public double getElbowSetPoint() {
-  //   return elbowPidController.getSetpoint();
-  // }
 
   public double getElbowFF() {
       return elbowFFController.calculate(e_targetPosition, Constants.Arm.Elbow.targetSpeed); 
@@ -346,29 +255,6 @@ public class ArmSubsystem extends SubsystemBase {
     return shoulderPidController.calculate(shoulderRelativeEncoder.getDegrees(), s_targetPosition);    
   }
 
-//   @Deprecated
-//   public double calculateFeedForward(ArmFeedforward controller) {
-//     if (controller == elbowFFController) 
-//       return controller.calculate(e_targetPosition, Constants.Arm.Elbow.targetSpeed); 
-//     else 
-//       return controller.calculate(s_targetPosition, Constants.Arm.Shoulder.targetSpeed);
-//   }
-
-//   @Deprecated
-//   public double calculatePID(PIDController controller) {
-//     if (controller == elbowPidController) 
-//       return controller.calculate(elbowRelativeEncoder.getDegrees(), e_targetPosition);
-//     else 
-//       return controller.calculate(shoulderRelativeEncoder.getDegrees(), s_targetPosition);
-//   }
-
-  // public void setShoulderTargetSpeed(double speed) {
-  //   s_TargetVelocity = speed;
-  // }
-
-  // public void setElbowTargetSpeed(double speed) {
-  //   e_TargetVelocity = speed;
-  // }
 
   @Override
   public void periodic() {

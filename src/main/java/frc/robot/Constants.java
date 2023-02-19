@@ -78,7 +78,7 @@ public final class Constants {
         public static final class Shoulder {
             public static final int channel = 1;                      
             public static final int motor = 30;  
-            public static final double upperlimit = 50;
+            public static final double upperlimit = 70;
             public static final double lowerlimit = 25;
             public static final double defaultSetpoint = 45;
             public static final double CoefficientMultiplier = (1/360.0);
@@ -102,7 +102,7 @@ public final class Constants {
             public static final int channel = 2;        
             public static final int motor = 23;
             public static final double upperlimit = 0;
-            public static final double lowerlimit = -60;
+            public static final double lowerlimit = -85;
             public static final double defaultSetpoint = -45;
             public static final double CoefficientMultiplier = (1/360.0);
             public static final double kP = 0;

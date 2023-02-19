@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /** An example command that uses an example subsystem. */
 public class MoveBackwards extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  //TODO: Just a test
+
   //private final ExampleSubsystem m_subsystem;
 
   /**

@@ -32,7 +32,7 @@ public class GrabberSubsystem extends SubsystemBase {
 
     grabberOpen = true;
   }
-  //TODO: what are we using and where is it going
+
   //Compressor pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
   /** 
    * Example command factory method.

@@ -152,7 +152,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
             return m_frontLeftModule;
         else if (position == WheelPositions.FrontRight)
             return m_frontRightModule;
-        // TODO: need the other cases
+        else if (position == WheelPositions.BackLeft)
+            return m_backLeftModule;
+        else if (position == WheelPositions.BackRight)
+            return m_backRightModule;
         else
             return null;
 

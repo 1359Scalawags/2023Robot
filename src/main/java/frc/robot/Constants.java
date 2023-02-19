@@ -110,8 +110,8 @@ public final class Constants {
             public static final double kD = 0;  //1
             public static final double kS = 0.15 * ffTestRatio; // cut by 20% for initial testing
             public static final double kG = 0.20 * ffTestRatio;
-            public static final double kV = 1.17 / radtoDegree;
-            public static final double kA = 0.02 / radtoDegree * ffTestRatio ;
+            public static final double kV = 1.17 * radtoDegree;
+            public static final double kA = 0.02 * radtoDegree * ffTestRatio ;
             public static final double angleAtFloor = 272;
             public static final double targetSpeed = 0.05;
             public static final double maxVoltage = 0.2 * 12; // based on 12V

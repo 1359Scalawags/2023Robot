@@ -98,7 +98,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
     //new JoystickButton(m_logitech, 3).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
-    new JoystickButton(driverJoystick, 3).whileTrue(m_ZeroGyroCommand);
+    new JoystickButton(driverJoystick, 7).whileTrue(m_ZeroGyroCommand);
     new JoystickButton(assistantJoystick, 10).whileTrue(m_compressorOff);
     new JoystickButton(assistantJoystick, 11).whileTrue(m_compressorOn);
     new JoystickButton(assistantJoystick, 1).whileTrue(m_closegrabber);

@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     instance = this;
     m_robotContainer = new RobotContainer();
+    m_robotContainer.initializeArmSetpoints();    
     Command enableCompressor = m_robotContainer.getCompressorStartCommand();
     enableCompressor.schedule();
   }
@@ -70,7 +71,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-
+    m_robotContainer.initializeArmSetpoints();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -85,7 +86,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
- 
+    m_robotContainer.initializeArmSetpoints();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -93,7 +94,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    m_robotContainer.getInitializeArmTargetRotation().schedule();
+    //m_robotContainer.getInitializeArmTargetRotation().schedule();
   }
 
   /** This function is called periodically during operator control. */
@@ -102,10 +103,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
-
+    m_robotContainer.initializeArmSetpoints();
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    m_robotContainer.getInitializeArmTargetRotation().schedule();
+    //m_robotContainer.getInitializeArmTargetRotation().schedule();
     Command testCommand = m_robotContainer.getTestCommand();
     if(testCommand != null) {
         testCommand.schedule();

@@ -136,6 +136,28 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   /**
+   * Initialize setpoints at current arm joint positions.
+   * @param elbow Set elbow setpoint.
+   * @param shoulder Set shoulder setpoint.
+   */
+  public void initializeSetpoints(boolean elbow, boolean shoulder) {
+    if(elbow) {
+      e_targetPosition = elbowRelativeEncoder.getDegrees();
+    }
+    if(shoulder) {
+      s_targetPosition = shoulderRelativeEncoder.getDegrees();
+    }
+    System.out.println("Initial Setpoints: E:" + e_targetPosition + " S:" + s_targetPosition);
+  }
+
+  /**
+   * Initialize both elbow and shoulder setpoints at current joint positions.
+   */
+  public void initializeSetpoints() {
+    initializeSetpoints(true, true);
+  }
+
+  /**
    * Example command factory method.
    *
    * @return a command

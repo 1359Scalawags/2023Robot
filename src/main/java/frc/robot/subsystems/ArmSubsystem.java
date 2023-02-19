@@ -138,6 +138,9 @@ public class ArmSubsystem extends SubsystemBase {
         shoulderMotorSpeed = 0;
     }
 }
+if(shoulderMotorSpeed == 0) {
+  shoulderMotorSpeed = 0.05;
+}
 
   shoulderMotor.set(shoulderMotorSpeed);
   double elbowAdustSpeed = shoulderMotorSpeed * 0.595;

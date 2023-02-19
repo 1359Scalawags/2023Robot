@@ -71,7 +71,7 @@ public final class Constants {
     }
 
     public static final class Arm {
-        public static final double armSpeedMultiplier = 0.1;
+        public static final double armSpeedMultiplier = 0.3;
         public static final class Shoulder {
             public static final int channel = 1;                      
             public static final int motor = 30;  

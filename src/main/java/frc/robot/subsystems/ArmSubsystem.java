@@ -8,31 +8,18 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.AnalogEncoder;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import edu.wpi.first.wpilibj.DigitalInput;
-//import edu.wpi.first.wpilibj.Encoder;
-//import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxAlternateEncoder;
-import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.swervedrivespecialties.swervelib.Mk3ModuleConfiguration;
 
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.extensions.FloorRelativeEncoder;
 import frc.robot.extensions.SendableCANSparkMax;
+
 public class ArmSubsystem extends SubsystemBase {
   
   private SendableCANSparkMax elbowMotor;
@@ -59,7 +46,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double e_kP = Constants.Arm.Elbow.kP * Constants.Arm.Elbow.CoefficientMultiplier,
                  e_kI = Constants.Arm.Elbow.kI * Constants.Arm.Elbow.CoefficientMultiplier, 
                  e_kD = Constants.Arm.Elbow.kD * Constants.Arm.Elbow.CoefficientMultiplier,
-                 e_targetPosition = -45;
+                 e_targetPosition = Constants.Arm.Elbow.defaultSetpoint;
                 //  e_kIz = Constants.Arm.Elbow.kIz * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kFF = Constants.Arm.Elbow.kFF * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kMaxOutput = Constants.Arm.Elbow.kMaxOutput * Constants.Arm.Elbow.CoefficientMultiplier, 
@@ -67,7 +54,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double s_kP = Constants.Arm.Shoulder.kP * Constants.Arm.Shoulder.CoefficientMultiplier, 
                  s_kI = Constants.Arm.Shoulder.kI * Constants.Arm.Shoulder.CoefficientMultiplier, 
                  s_kD = Constants.Arm.Shoulder.kD * Constants.Arm.Shoulder.CoefficientMultiplier,
-                 s_targetPosition = 45;
+                 s_targetPosition = Constants.Arm.Shoulder.defaultSetpoint;
                 //  s_kIz = Constants.Arm.Shoulder.kIz * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kFF = Constants.Arm.Shoulder.kFF * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kMaxOutput = Constants.Arm.Shoulder.kMaxOutput * Constants.Arm.Shoulder.CoefficientMultiplier, 
@@ -101,8 +88,13 @@ public class ArmSubsystem extends SubsystemBase {
 
     elbowPidController = new PIDController(e_kP, e_kI, e_kD);
     shoulderPidController = new PIDController(s_kP, s_kI, s_kD);
-    elbowPidController.setSetpoint(e_targetPosition);
-    shoulderPidController.setSetpoint(s_targetPosition);
+
+    // elbowPidController.setSetpoint(e_targetPosition);
+    // shoulderPidController.setSetpoint(s_targetPosition);
+
+    //README: routing all setpoint updates through modifier functions
+    setElbowSetpoint(Constants.Arm.Elbow.defaultSetpoint);
+    setShoulderSetpoint(Constants.Arm.Shoulder.defaultSetpoint);
 
     // FIXME: need to characterize the elbow to find these values
     elbowFFController = new ArmFeedforward(Constants.Arm.Elbow.kS, Constants.Arm.Elbow.kG, Constants.Arm.Elbow.kV, Constants.Arm.Elbow.kA);
@@ -229,31 +221,56 @@ public class ArmSubsystem extends SubsystemBase {
   //   return getRotationInDegree(shoulderEncoder);
   // }
 
+  
   public void setElbowSetpoint(double value) {
-    e_targetPosition = value;
+    //TODO: Review method definition
+    e_targetPosition = MathUtil.clamp(value, Constants.Arm.Elbow.lowerlimit, Constants.Arm.Elbow.upperlimit);
+    elbowPidController.setSetpoint(e_targetPosition);
+  }
+
+  public void changeElbowSetpoint(double delta) {
+    setElbowSetpoint(e_targetPosition + delta);
   }
 
   public void setShoulderSetpoint(double value) {
-    s_targetPosition = value;
+    //TODO: Review method definition
+    s_targetPosition = MathUtil.clamp(value, Constants.Arm.Shoulder.lowerlimit, Constants.Arm.Shoulder.upperlimit);
+    shoulderPidController.setSetpoint(s_targetPosition);
   }
 
+  public void changeShoulderSetpoint(double delta) {
+    setShoulderSetpoint(s_targetPosition + delta);
+  }
+
+  /**
+   * Get elbow's position relative to the floor.
+   * @return Angle in degrees
+   */
   public double getElbowPosition() {
     return elbowRelativeEncoder.getDegrees();
   }
 
+  /**
+   * Get shoulder's position relative to the floor.
+   * @return Angle in degrees
+   */
   public double getShoulderPosition() {
     return shoulderRelativeEncoder.getDegrees();
   }
   
+  @Deprecated
   public void changeRelativeSetpoint(PIDController controller, double delta) {
     if (controller == elbowPidController) {
+      e_targetPosition += delta;
       controller.setSetpoint(e_targetPosition + delta);
     }
     else {
+      s_targetPosition += delta;
       controller.setSetpoint(s_targetPosition + delta);
     }
   }
 
+  @Deprecated
   public void changeRelativeSetPoint(String name, double delta) {
     if (name.toLowerCase().equals("elbow")) {
       changeRelativeSetpoint(elbowPidController, delta);
@@ -314,6 +331,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     double elbowVoltage = 0;
     double shoulderVoltage = 0;
+
     if (Robot.isTestMode()){
       SmartDashboard.putBoolean("Elbow Lower Limit", isElbowAtLowerLimit());
       SmartDashboard.putBoolean("Elbow Upper Limit", isElbowAtUpperLimit());

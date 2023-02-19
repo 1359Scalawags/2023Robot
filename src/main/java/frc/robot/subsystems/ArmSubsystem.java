@@ -221,23 +221,42 @@ public class ArmSubsystem extends SubsystemBase {
   //   return getRotationInDegree(shoulderEncoder);
   // }
 
-  
+  /**
+   * Set target position for elbow and its controllers.
+   * The value will be restricted within the elbow's physical limits.
+   * @param value Target angle in degrees relative to the floor.
+   */
   public void setElbowSetpoint(double value) {
     //TODO: Review method definition
     e_targetPosition = MathUtil.clamp(value, Constants.Arm.Elbow.lowerlimit, Constants.Arm.Elbow.upperlimit);
     elbowPidController.setSetpoint(e_targetPosition);
   }
 
+  /**
+   * Change the elbow's target position.
+   * The resulting target will be restricted within the elbow's physical limits.
+   * @param delta Amount to change the position in degrees.
+   */
   public void changeElbowSetpoint(double delta) {
     setElbowSetpoint(e_targetPosition + delta);
   }
 
+    /**
+   * Set target position for shoulder and its controllers.
+   * The value will be restricted within the shoulder's physical limits.
+   * @param value Target angle in degrees relative to the floor.
+   */
   public void setShoulderSetpoint(double value) {
     //TODO: Review method definition
     s_targetPosition = MathUtil.clamp(value, Constants.Arm.Shoulder.lowerlimit, Constants.Arm.Shoulder.upperlimit);
     shoulderPidController.setSetpoint(s_targetPosition);
   }
 
+    /**
+   * Change the shoulder's target position.
+   * The resulting target will be restricted within the elbow's physical limits.
+   * @param delta Amount to change the position in degrees.
+   */
   public void changeShoulderSetpoint(double delta) {
     setShoulderSetpoint(s_targetPosition + delta);
   }

@@ -71,7 +71,7 @@ public final class Constants {
     }
 
     public static final class Arm {
-        public static final double radtoDegree = 180 / Math.PI;
+        public static final double radtoDegree = Math.PI / 180.0;
         public static final double armSpeedMultiplier = 0.1;
         public static final double ffTestRatio = 0.1;
         public static final double softStartRatio = 0.5;

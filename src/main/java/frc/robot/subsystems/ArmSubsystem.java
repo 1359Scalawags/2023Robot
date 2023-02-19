@@ -240,11 +240,11 @@ public class ArmSubsystem extends SubsystemBase {
   
 
   public double getElbowFF() {
-      return elbowFFController.calculate(e_targetPosition, Constants.Arm.Elbow.targetSpeed); 
+      return elbowFFController.calculate(e_targetPosition * Math.PI / 180.0, Constants.Arm.Elbow.targetSpeed); 
   }
 
   public double getShoulderFF() {
-      return shoulderFFController.calculate(s_targetPosition, Constants.Arm.Shoulder.targetSpeed);
+      return shoulderFFController.calculate(s_targetPosition * Math.PI / 180.0, Constants.Arm.Shoulder.targetSpeed);
   }
 
   public double getElbowPID() {

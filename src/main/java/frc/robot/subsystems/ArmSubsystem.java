@@ -319,8 +319,8 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.putBoolean("Elbow Upper Limit", isElbowAtUpperLimit());
       SmartDashboard.putBoolean("Shoulder Lower Limit", isShoulderAtLowerLimit());
       SmartDashboard.putBoolean("Shoulder Upper Limit", isShoulderAtUpperLimit());
-      SmartDashboard.putNumber("Elbow Setpoint", elbowPidController.getSetpoint());
-      SmartDashboard.putNumber("shoulder Setpoint", shoulderPidController.getSetpoint());
+      SmartDashboard.putNumber("Elbow Setpoint", e_targetPosition);
+      SmartDashboard.putNumber("shoulder Setpoint", s_targetPosition);
       double e_p = elbowPidController.getP();
       double e_i = elbowPidController.getI();
       double e_d = elbowPidController.getD();

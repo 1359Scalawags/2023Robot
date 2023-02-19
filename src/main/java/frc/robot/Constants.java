@@ -73,7 +73,7 @@ public final class Constants {
     public static final class Arm {
         public static final double radtoDegree = 180 / Math.PI;
         public static final double armSpeedMultiplier = 0.1;
-        public static final double ffTestRatio = 0.8;
+        public static final double ffTestRatio = 0.1;
         public static final class Shoulder {
             public static final int channel = 1;                      
             public static final int motor = 30;  
@@ -88,7 +88,7 @@ public final class Constants {
             public static final double kV = 1.19 * radtoDegree;
             public static final double kA = 0.07 * radtoDegree * ffTestRatio;
             public static final double angleAtFloor = 145;
-            public static final double targetSpeed = 0.1;
+            public static final double targetSpeed = 0.05;
             public static final double maxVoltage = 0.2 * 12;
             public static final double minVoltage = -maxVoltage;
             // public static final double kIz = 0;
@@ -110,7 +110,7 @@ public final class Constants {
             public static final double kV = 1.17 / radtoDegree;
             public static final double kA = 0.02 / radtoDegree * ffTestRatio ;
             public static final double angleAtFloor = 272;
-            public static final double targetSpeed = 0.1;
+            public static final double targetSpeed = 0.05;
             public static final double maxVoltage = 0.2 * 12; // based on 12V
             public static final double minVoltage = -maxVoltage;
             // public static final double kIz = 0;

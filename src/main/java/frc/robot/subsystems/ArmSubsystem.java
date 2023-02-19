@@ -60,7 +60,7 @@ public class ArmSubsystem extends SubsystemBase {
                 //  s_kMaxOutput = Constants.Arm.Shoulder.kMaxOutput * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kMinOutput = Constants.Arm.Shoulder.kMinOutput * Constants.Arm.Shoulder.CoefficientMultiplier, 
                  
-
+  private boolean initialized = false;
 
   
   /** Creates a new ExampleSubsystem. */
@@ -141,11 +141,12 @@ public class ArmSubsystem extends SubsystemBase {
    * @param shoulder Set shoulder setpoint.
    */
   public void initializeSetpoints(boolean elbow, boolean shoulder) {
+    initialized = false;
     if(elbow) {
-      e_targetPosition = elbowRelativeEncoder.getDegrees();
+      setElbowSetpoint(elbowRelativeEncoder.getDegrees());
     }
     if(shoulder) {
-      s_targetPosition = shoulderRelativeEncoder.getDegrees();
+      setShoulderSetpoint(shoulderRelativeEncoder.getDegrees());
     }
     System.out.println("Initial Setpoints: E:" + e_targetPosition + " S:" + s_targetPosition);
   }
@@ -188,12 +189,18 @@ public class ArmSubsystem extends SubsystemBase {
   public boolean isElbowAtLowerLimit() {
     return elbowRelativeEncoder.getDegrees() <= Constants.Arm.Elbow.lowerlimit;
   }
+  public boolean isElbowWithinLimits() {
+    return !isElbowAtLowerLimit() && !isElbowAtUpperLimit();
+  }
 
   public boolean isShoulderAtUpperLimit() {
     return shoulderRelativeEncoder.getDegrees() >= Constants.Arm.Shoulder.upperlimit;
   }
   public boolean isShoulderAtLowerLimit() {
     return shoulderRelativeEncoder.getDegrees() <= Constants.Arm.Shoulder.lowerlimit;
+  }
+  public boolean isShoulderWithinLimits() {
+    return !isShoulderAtLowerLimit() && !isShoulderAtUpperLimit();
   }
 
   // public void setElbowMotor(double speed) {
@@ -427,6 +434,16 @@ public class ArmSubsystem extends SubsystemBase {
       shoulderVoltage = calculatePID(shoulderPidController) + calculateFeedForward(shoulderFFController);
       elbowVoltage = MathUtil.clamp(elbowVoltage, Constants.Arm.Elbow.minVoltage, Constants.Arm.Elbow.maxVoltage);
       shoulderVoltage = MathUtil.clamp(shoulderVoltage, Constants.Arm.Shoulder.minVoltage, Constants.Arm.Shoulder.maxVoltage);
+
+      //slowdown assembly during startup if not within limits
+      if(initialized == false) {
+        if(isElbowWithinLimits() && isShoulderWithinLimits()) {
+          initialized = true;
+        } else {
+          elbowVoltage *= Constants.Arm.softStartRatio;
+          shoulderVoltage *= Constants.Arm.softStartRatio;          
+        }
+      }
 
       if(isElbowAtUpperLimit() && elbowVoltage > 0) {
         elbowVoltage = 0;

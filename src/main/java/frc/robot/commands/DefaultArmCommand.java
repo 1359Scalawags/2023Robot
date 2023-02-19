@@ -16,8 +16,8 @@ public class DefaultArmCommand extends CommandBase {
 
     private static int counter = 0;
 
-    private static ShuffleboardTab tab = Shuffleboard.getTab("Testing");
-    private static GenericEntry counterEntry = tab.add("Counter", counter).getEntry();
+    // private static ShuffleboardTab tab = Shuffleboard.getTab("Testing");
+    // private static GenericEntry counterEntry = tab.add("Counter", counter).getEntry();
 
     public DefaultArmCommand(ArmSubsystem ArmSubsystem,
                                DoubleSupplier Shoulder,
@@ -39,8 +39,8 @@ public class DefaultArmCommand extends CommandBase {
     public void execute() {
         double elbow = m_Elbow.getAsDouble();
         double shoulder = m_Shoulder.getAsDouble();
-        counter++;
-        counterEntry.setInteger(counter);
+        // counter++;
+        // counterEntry.setInteger(counter);
         m_ArmSubsystem.changeRelativeSetPoint("shoulder", shoulder);
         m_ArmSubsystem.changeRelativeSetPoint("elbow", elbow);
     }

@@ -72,8 +72,8 @@ public final class Constants {
 
     public static final class Arm {
         public static final double radtoDegree = Math.PI / 180.0;
-        public static final double armSpeedMultiplier = 0.1;
-        public static final double ffTestRatio = 0.1;
+        public static final double armSpeedMultiplier = 0.5;
+        public static final double ffTestRatio = 0.8;
         public static final double softStartRatio = 0.5;
         public static final class Shoulder {
             public static final int channel = 1;                      
@@ -85,7 +85,7 @@ public final class Constants {
             public static final double kP = 0;  // After tuning, 0.05/2
             public static final double kI = 0;  //10e-4
             public static final double kD = 0;  //1
-            public static final double kS = 0.15 * ffTestRatio;
+            public static final double kS = 0.1 * ffTestRatio;
             public static final double kG = 0.52 * ffTestRatio;
             public static final double kV = 1.19 * radtoDegree;
             public static final double kA = 0.07 * radtoDegree * ffTestRatio;
@@ -108,7 +108,7 @@ public final class Constants {
             public static final double kP = 0;
             public static final double kI = 0;  //10e-4
             public static final double kD = 0;  //1
-            public static final double kS = 0.15 * ffTestRatio; // cut by 20% for initial testing
+            public static final double kS = 0.1 * ffTestRatio; // cut by 20% for initial testing
             public static final double kG = 0.20 * ffTestRatio;
             public static final double kV = 1.17 * radtoDegree;
             public static final double kA = 0.02 * radtoDegree * ffTestRatio ;

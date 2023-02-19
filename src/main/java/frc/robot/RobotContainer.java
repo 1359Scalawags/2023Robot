@@ -159,10 +159,10 @@ public class RobotContainer {
     return new TurnCompressorOn(m_grabberSubsystem);
   }
 
-  @Deprecated
-  public Command getInitializeArmTargetRotation() {
-    return new InitializeTargetRotationCommand(m_armSubsystem);
-  }
+//   @Deprecated
+//   public Command getInitializeArmTargetRotation() {
+//     return new InitializeTargetRotationCommand(m_armSubsystem);
+//   }
   
   public void initializeArmSetpoints() {
     m_armSubsystem.initializeSetpoints();

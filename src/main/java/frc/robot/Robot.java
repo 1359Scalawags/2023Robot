@@ -88,7 +88,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     //update setpoints before scheduling teleop
-    m_robotContainer.initializeArmSetpoints();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -96,6 +95,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.initializeArmSetpoints();
     //m_robotContainer.getInitializeArmTargetRotation().schedule();
   }
 
@@ -111,9 +111,9 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
     //m_robotContainer.getInitializeArmTargetRotation().schedule();
     Command testCommand = m_robotContainer.getTestCommand();
-    if(testCommand != null) {
-        testCommand.schedule();
-    }
+    // if(testCommand != null) {
+    //     testCommand.schedule();
+    // }
   }
 
   /** This function is called periodically during test mode. */

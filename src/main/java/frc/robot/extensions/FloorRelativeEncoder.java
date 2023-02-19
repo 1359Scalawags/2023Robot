@@ -1,5 +1,6 @@
 package frc.robot.extensions;
 
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -12,6 +13,7 @@ public class FloorRelativeEncoder implements Sendable {
     private DutyCycleEncoder encoder;
     private double lastRetrievedValue;
     private FloorRelativeEncoder relativeTo;
+    private LinearFilter filter = LinearFilter.movingAverage(4);
 
     /**
      * Create an encoder where measurements are relative to the floor.
@@ -59,7 +61,7 @@ public class FloorRelativeEncoder implements Sendable {
      * @return An angle in degrees.
      */
     public double getDegrees() {
-        this.lastRetrievedValue = (this.direction) * (this.encoder.getAbsolutePosition() * 360 - this.offset);
+        this.lastRetrievedValue = (this.direction) * (filter.calculate(this.encoder.getAbsolutePosition()) * 360 - this.offset);
         if(relativeTo != null) {
             this.lastRetrievedValue = this.lastRetrievedValue + relativeTo.getDegrees();
         }

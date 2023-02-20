@@ -76,7 +76,7 @@ public final class Constants {
         //public static final double ffTestRatio = 0.1; //split to each joint
         public static final double softStartRatio = 0.5;
         public static final class Shoulder {
-            public static final double ffTestRatio = 0.1;   
+            public static final double ffTestRatio = 0.8;   
             public static final double pidTestRatio = 0.1;        
             public static final int channel = 1;                      
             public static final int motor = 30;  
@@ -84,9 +84,9 @@ public final class Constants {
             public static final double lowerlimit = 25;
             public static final double defaultSetpoint = 45;
             public static final double CoefficientMultiplier = (1/360.0);
-            public static final double kP = 0;  // After tuning, 0.05/2
-            public static final double kI = 0;  //10e-4
-            public static final double kD = 0;  //1
+            public static final double kP = 0.03 * pidTestRatio;  // After tuning, 0.05/2
+            public static final double kI = 0.12 * pidTestRatio;  //10e-4
+            public static final double kD = 0.001875 * pidTestRatio;  //1
             public static final double kS = 0.15 * ffTestRatio;
             public static final double kG = 0.52 * ffTestRatio;
             public static final double kV = 1.19 * radtoDegreeDivisor;
@@ -101,7 +101,7 @@ public final class Constants {
             // public static final double kMinOutput = -1; 
         }
         public static final class Elbow {
-            public static final double ffTestRatio = 0.1;
+            public static final double ffTestRatio = 0.8;
             public static final double pidTestRatio = 0.1;  
             public static final int channel = 2;        
             public static final int motor = 23;
@@ -109,9 +109,9 @@ public final class Constants {
             public static final double lowerlimit = -85;
             public static final double defaultSetpoint = -45;
             public static final double CoefficientMultiplier = (1/360.0);
-            public static final double kP = 0 * pidTestRatio;
-            public static final double kI = 0 * pidTestRatio;  //10e-4
-            public static final double kD = 0 * pidTestRatio;  //1
+            public static final double kP = 0.03 * pidTestRatio;  // After tuning, 0.05/2
+            public static final double kI = 0.12 * pidTestRatio;  //10e-4
+            public static final double kD = 0.001875 * pidTestRatio;  //1 //1
             public static final double kS = 0.15 * ffTestRatio; // cut by 20% for initial testing
             public static final double kG = 0.20 * ffTestRatio;
             public static final double kV = 1.17 * radtoDegreeDivisor;

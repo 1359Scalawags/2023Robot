@@ -256,8 +256,13 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
 
+  int delayCounter = 0;
   @Override
   public void periodic() {
+    if(delayCounter < 100) {
+      delayCounter++;
+      return;
+    }
     double elbowVoltage = 0;
     double shoulderVoltage = 0;
 

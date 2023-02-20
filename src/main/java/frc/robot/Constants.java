@@ -85,8 +85,8 @@ public final class Constants {
             public static final double defaultSetpoint = 45;
             public static final double CoefficientMultiplier = (1/360.0);
             public static final double kP = 0.03 * pidTestRatio;  // After tuning, 0.05/2
-            public static final double kI = 0.12 * pidTestRatio;  //10e-4
-            public static final double kD = 0.001875 * pidTestRatio;  //1
+            public static final double kI = 0.06 * pidTestRatio;  //10e-4
+            public static final double kD = 0.00375 * pidTestRatio;  //1
             public static final double kS = 0.15 * ffTestRatio;
             public static final double kG = 0.52 * ffTestRatio;
             public static final double kV = 1.19 * radtoDegreeDivisor;
@@ -110,8 +110,8 @@ public final class Constants {
             public static final double defaultSetpoint = -45;
             public static final double CoefficientMultiplier = (1/360.0);
             public static final double kP = 0.03 * pidTestRatio;  // After tuning, 0.05/2
-            public static final double kI = 0.12 * pidTestRatio;  //10e-4
-            public static final double kD = 0.001875 * pidTestRatio;  //1 //1
+            public static final double kI = 0.06 * pidTestRatio;  //10e-4
+            public static final double kD = 0.00375 * pidTestRatio;  //1 //1
             public static final double kS = 0.15 * ffTestRatio; // cut by 20% for initial testing
             public static final double kG = 0.20 * ffTestRatio;
             public static final double kV = 1.17 * radtoDegreeDivisor;

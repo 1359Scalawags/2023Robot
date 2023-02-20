@@ -72,6 +72,12 @@ public class RobotContainer {
   PathPlannerTrajectory straightPath = PathPlanner.loadPath("Straight.path", constraints);
   PathPlannerTrajectory curvyPath = PathPlanner.loadPath("Curvy.path", constraints);
   PathPlannerTrajectory TestPath = PathPlanner.loadPath("Test Forward.path", constraints);
+  PathPlannerTrajectory BlueCSOnePath = PathPlanner.loadPath("BlueCS1", constraints);
+  PathPlannerTrajectory BlueCSTwoPath = PathPlanner.loadPath("BlueCS2", constraints);
+  PathPlannerTrajectory BlueCSThreePath = PathPlanner.loadPath("BlueCS3", constraints);
+  PathPlannerTrajectory RedCSOnePath = PathPlanner.loadPath("RedCS1", constraints);
+  PathPlannerTrajectory RedCSTwoPath = PathPlanner.loadPath("RedCS2", constraints);
+  PathPlannerTrajectory RedCSThreePath = PathPlanner.loadPath("RedCS3", constraints);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -80,6 +86,13 @@ public class RobotContainer {
     
     chooser.addOption("Straight path", m_drivetrainSubsystem.followTrajectoryCommand(straightPath, true));
     chooser.addOption("Curvy path", m_drivetrainSubsystem.followTrajectoryCommand(curvyPath, true));
+    chooser.addOption("BlueCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSOnePath, true));
+    chooser.addOption("BlueCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSTwoPath, true));
+    chooser.addOption("BlueCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSThreePath, true));
+    chooser.addOption("RedCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSOnePath, true));
+    chooser.addOption("RedCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSTwoPath, true));
+    chooser.addOption("RedCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSThreePath, true));
+
     Shuffleboard.getTab("Autonomous").add(chooser);
 
     // Set up the default command for the drivetrain.s

@@ -17,6 +17,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.commands.Tuning.ApplyElbowTuningCommand;
 import frc.robot.extensions.FloorRelativeEncoder;
 import frc.robot.extensions.SendableCANSparkMax;
 
@@ -31,6 +32,9 @@ public class ArmSubsystem extends SubsystemBase {
 
   private PIDController elbowPidController;
   private PIDController shoulderPidController;
+
+  private PIDController elbowTuner;
+
   private ArmFeedforward elbowFFController;
   private ArmFeedforward shoulderFFController;
   
@@ -89,6 +93,8 @@ public class ArmSubsystem extends SubsystemBase {
     elbowPidController = new PIDController(e_kP, e_kI, e_kD);
     shoulderPidController = new PIDController(s_kP, s_kI, s_kD);
 
+    elbowTuner = new PIDController(e_kP, e_kI, e_kD);
+
     // elbowPidController.setSetpoint(e_targetPosition);
     // shoulderPidController.setSetpoint(s_targetPosition);
 
@@ -120,10 +126,12 @@ public class ArmSubsystem extends SubsystemBase {
     elbowRotationEntry = tab.add("Elbow relative rotation", elbowRelativeEncoder.getDegrees()).getEntry();
     tab.add("Shoulder PID", shoulderPidController);
     tab.add("Elbow PID", elbowPidController);
+    tab.add("Elbow Tuner", elbowTuner);
+    tab.add("Apply Elbow Tuning Values", new ApplyElbowTuningCommand(this));
     // tab.add("Shoulder Feedforward", shoulderFFController);
     // tab.add("Elbow Feedforward", elbowFFController);
-    tab.add("Shoulder encoder", shoulderRelativeEncoder);
-    tab.add("Elbow encoder",elbowRelativeEncoder);
+    //tab.add("Shoulder encoder", shoulderRelativeEncoder);
+    //tab.add("Elbow encoder",elbowRelativeEncoder);
 
             
   }
@@ -159,6 +167,16 @@ public class ArmSubsystem extends SubsystemBase {
   public boolean exampleCondition() {
     // Query some boolean state, such as a digital sensor.
     return false;
+  }
+
+  /**
+   * Update PID values from the Tuner.
+   */
+
+  public void applyElbowTuningValues() {
+    elbowPidController.setP(elbowTuner.getP());
+    elbowPidController.setI(elbowTuner.getI());
+    elbowPidController.setD(elbowTuner.getD());
   }
 
 
@@ -349,8 +367,13 @@ public class ArmSubsystem extends SubsystemBase {
     elbowMotor.setVoltage(elbowVoltage);
     shoulderMotor.setVoltage(shoulderVoltage);
 
-    elbowRotationEntry.setDouble(elbowRelativeEncoder.getDegrees());
-    shoulderRotationEntry.setDouble(shoulderRelativeEncoder.getDegrees());
+    if(elbowRotationEntry.getDouble(0) != elbowRelativeEncoder.getDegrees()) {
+      elbowRotationEntry.setDouble(elbowRelativeEncoder.getDegrees());      
+    }
+    if(shoulderRotationEntry.getDouble(0) != shoulderRelativeEncoder.getDegrees()) {
+      shoulderRotationEntry.setDouble(shoulderRelativeEncoder.getDegrees());      
+    }
+
 
   //     if(isShoulderAtUpperLimit()){
   //       if (shoulderMotorSpeed > 0){

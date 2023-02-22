@@ -8,6 +8,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,7 +42,6 @@ public class ArmSubsystem extends SubsystemBase {
   
   private GenericEntry shoulderRotationEntry;
   private GenericEntry elbowRotationEntry;
-  
 
   ShuffleboardTab tab = Shuffleboard.getTab("Arm");
 
@@ -124,10 +125,10 @@ public class ArmSubsystem extends SubsystemBase {
 
     shoulderRotationEntry = tab.add("Shoulder relative rotation", shoulderRelativeEncoder.getDegrees()).getEntry();
     elbowRotationEntry = tab.add("Elbow relative rotation", elbowRelativeEncoder.getDegrees()).getEntry();
-    tab.add("Shoulder PID", shoulderPidController);
-    tab.add("Elbow PID", elbowPidController);
-    tab.add("Elbow Tuner", elbowTuner);
-    tab.add("Apply Elbow Tuning Values", new ApplyElbowTuningCommand(this));
+    tab.add("Shoulder PID", shoulderPidController).withPosition(0, 0).withSize(2, 2);
+    tab.add("Elbow PID", elbowPidController).withWidget(BuiltInWidgets.kPIDController).withPosition(2, 0).withSize(2, 2);
+    tab.add("Elbow Tuner", elbowTuner).withPosition(2, 2).withSize(2, 2);
+    tab.add("Apply Elbow Tuning Values", new ApplyElbowTuningCommand(this)).withPosition(10, 0).withSize(2, 1);
     // tab.add("Shoulder Feedforward", shoulderFFController);
     // tab.add("Elbow Feedforward", elbowFFController);
     //tab.add("Shoulder encoder", shoulderRelativeEncoder);

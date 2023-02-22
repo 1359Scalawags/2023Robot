@@ -146,6 +146,7 @@ public class PidConfig implements Sendable {
     public void initSendable(SendableBuilder builder) {
         builder.setActuator(true);
         builder.setSafeState(this::safeState);
+        builder.addDoubleProperty("Multiplier", this::getTuningScale, this::setTuningScale);
         builder.addDoubleProperty("P", this::getScaledP, this::setScaledP);
         builder.addDoubleProperty("i", this::getScaledI, this::setScaledI);
         builder.addDoubleProperty("d", this::getScaledD, this::setScaledD);

@@ -65,6 +65,8 @@ public final class Constants {
         }
         public static final double motorSpeed = 0.3;
         public static final double gearRatio = 8.14;
+
+        //FIXME: Are these being used?
         public static final double P = 0.00004;
         public static final double I = 0.00004;
         public static final double D = 0.00004;
@@ -95,7 +97,7 @@ public final class Constants {
             public static final double kP = 0.166667; 
             public static final double kI = 0.041667;
             public static final double kD = 0.019444;
-            
+
             public static final double kS = 0.075;
             public static final double kG = 0.3525;
             public static final double kV = 0.020769;
@@ -140,7 +142,7 @@ public final class Constants {
             public static final double angleAtFloor = 272;
             public static final double targetSpeed = 0.05;
             public static final double maxVoltage = 0.2 * 12; // based on 12V
-            public static final double minVoltage = -maxVoltage;
+            public static final double minVoltage = -maxVoltage; // FIXME: this isn't necessary to store in memory
             // public static final double kIz = 0;
             // public static final double kFF = 0;
             // public static final double kMaxOutput = 1;
@@ -163,6 +165,7 @@ public final class Constants {
             public static int reverseChannel =1;
         }
     }
+
     public static final class Autonomous {
         public static final double kP = 0.1;
         public static final double kI = 0;

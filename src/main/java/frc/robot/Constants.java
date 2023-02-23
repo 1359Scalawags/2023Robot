@@ -71,13 +71,13 @@ public final class Constants {
     }
 
     public static final class Arm {
-        public static final double radtoDegreeDivisor = Math.PI / 180.0; // name did not match conversion
+        //public static final double radtoDegreeDivisor = Math.PI / 180.0; // name did not match conversion
         public static final double armSpeedMultiplier = 0.5;
         //public static final double ffTestRatio = 0.1; //split to each joint
         public static final double softStartRatio = 0.5;
         public static final class Shoulder {
-            public static final double ffTestRatio = 0.75;   
-            public static final double pidTestRatio = 1; //30 // 14.25 sec for oscilation       
+            //public static final double ffTestRatio = 0.75;   
+            //public static final double pidTestRatio = 1; //30 // 14.25 sec for oscilation       
             public static final int channel = 1;                      
             public static final int motor = 30;  
             public static final double upperlimit = 70;
@@ -90,10 +90,14 @@ public final class Constants {
             public static final double kP = 0.1666666667; 
             public static final double kI = 0.0416666667;
             public static final double kD = 0.0194444444;
-            public static final double kS = 0.10 * ffTestRatio;
-            public static final double kG = 0.47 * ffTestRatio;
-            public static final double kV = 1.19 * radtoDegreeDivisor;
-            public static final double kA = 0.07 * radtoDegreeDivisor * ffTestRatio;
+            // public static final double kS = 0.10 * ffTestRatio;
+            // public static final double kG = 0.47 * ffTestRatio;
+            // public static final double kV = 1.19 * radtoDegreeDivisor;
+            // public static final double kA = 0.07 * radtoDegreeDivisor * ffTestRatio;
+            public static final double kS = 0.075;
+            public static final double kG = 0.3525;
+            public static final double kV = 0.020769418;
+            public static final double kA = 0.000916298;
             public static final double angleAtFloor = 145;
             public static final double targetSpeed = 0.05;
             public static final double maxVoltage = 0.2 * 12;
@@ -104,8 +108,8 @@ public final class Constants {
             // public static final double kMinOutput = -1; 
         }
         public static final class Elbow {
-            public static final double ffTestRatio = 0.8;
-            public static final double pidTestRatio = 0.2;  
+            //public static final double ffTestRatio = 0.8;
+            //public static final double pidTestRatio = 0.2;  
             public static final int channel = 2;        
             public static final int motor = 23;
             public static final double upperlimit = 0;
@@ -116,13 +120,17 @@ public final class Constants {
             // public static final double kP = 0.03 * pidTestRatio;  // After tuning, 0.05/2
             // public static final double kI = 0.06 * pidTestRatio;  //10e-4
             // public static final double kD = 0.00375 * pidTestRatio;  //1 //1
-            public static final double kP = 0.03 * pidTestRatio;  // After tuning, 0.05/2
-            public static final double kI = 0.06 * pidTestRatio;  //10e-4
-            public static final double kD = 0.00375 * pidTestRatio;  //1 //1
-            public static final double kS = 0.15 * ffTestRatio; // cut by 20% for initial testing
-            public static final double kG = 0.19 * ffTestRatio;
-            public static final double kV = 1.17 * radtoDegreeDivisor;
-            public static final double kA = 0.02 * radtoDegreeDivisor * ffTestRatio ;
+            public static final double kP = 0.000016666667;  // After tuning, 0.05/2
+            public static final double kI = 0.000033333333;  //10e-4
+            public static final double kD = 0.000002083333;  //1 //1
+            // public static final double kS = 0.15 * ffTestRatio; // cut by 20% for initial testing
+            // public static final double kG = 0.19 * ffTestRatio;
+            // public static final double kV = 1.17 * radtoDegreeDivisor;
+            // public static final double kA = 0.02 * radtoDegreeDivisor * ffTestRatio ;
+            public static final double kS = 0.12; // cut by 20% for initial testing
+            public static final double kG = 0.152;
+            public static final double kV = 0.020420352;
+            public static final double kA = 0.000279253;
             public static final double angleAtFloor = 272;
             public static final double targetSpeed = 0.05;
             public static final double maxVoltage = 0.2 * 12; // based on 12V

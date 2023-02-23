@@ -48,17 +48,17 @@ public class ArmSubsystem extends SubsystemBase {
   // private double elbowTargetSpeed = 0;
   // private double shoulderTargetSpeed = 0;
 
-  private double e_kP = Constants.Arm.Elbow.kP * Constants.Arm.Elbow.CoefficientMultiplier,
-                 e_kI = Constants.Arm.Elbow.kI * Constants.Arm.Elbow.CoefficientMultiplier, 
-                 e_kD = Constants.Arm.Elbow.kD * Constants.Arm.Elbow.CoefficientMultiplier,
+  private double e_kP = Constants.Arm.Elbow.kP,
+                 e_kI = Constants.Arm.Elbow.kI, 
+                 e_kD = Constants.Arm.Elbow.kD,
                  e_targetPosition = Constants.Arm.Elbow.defaultSetpoint;
                 //  e_kIz = Constants.Arm.Elbow.kIz * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kFF = Constants.Arm.Elbow.kFF * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kMaxOutput = Constants.Arm.Elbow.kMaxOutput * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kMinOutput = Constants.Arm.Elbow.kMinOutput * Constants.Arm.Elbow.CoefficientMultiplier, 
-  private double s_kP = Constants.Arm.Shoulder.kP * Constants.Arm.Shoulder.CoefficientMultiplier, 
-                 s_kI = Constants.Arm.Shoulder.kI * Constants.Arm.Shoulder.CoefficientMultiplier, 
-                 s_kD = Constants.Arm.Shoulder.kD * Constants.Arm.Shoulder.CoefficientMultiplier,
+  private double s_kP = Constants.Arm.Shoulder.kP, 
+                 s_kI = Constants.Arm.Shoulder.kI, 
+                 s_kD = Constants.Arm.Shoulder.kD,
                  s_targetPosition = Constants.Arm.Shoulder.defaultSetpoint;
                 //  s_kIz = Constants.Arm.Shoulder.kIz * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kFF = Constants.Arm.Shoulder.kFF * Constants.Arm.Shoulder.CoefficientMultiplier, 

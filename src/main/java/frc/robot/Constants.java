@@ -74,7 +74,7 @@ public final class Constants {
 
     public static final class Arm {
         //public static final double radtoDegreeDivisor = Math.PI / 180.0; // name did not match conversion
-        public static final double armSpeedMultiplier = 0.5;
+        public static final double boundaryExtension = 5;
         //public static final double ffTestRatio = 0.1; //split to each joint
         public static final double softStartRatio = 0.5;
         public static final class Shoulder {
@@ -86,6 +86,7 @@ public final class Constants {
             public static final double lowerlimit = 25;
             public static final double defaultSetpoint = 45;
             public static final double CoefficientMultiplier = 1/360.0;
+            public static final double shoulderSpeedMultiplier = 0.85;
             // public static final double kP = 60 * pidTestRatio;  // Aft
             // public static final double kI = 15 * pidTestRatio;// 0.12 * pidTestRatio;  //10e-4
             // public static final double kD = 7 * pidTestRatio;//0.001875 * pidTestRatio;  //1
@@ -121,6 +122,7 @@ public final class Constants {
             public static final double lowerlimit = -85;
             public static final double defaultSetpoint = -45;
             public static final double CoefficientMultiplier = 1/360.0;
+            public static final double elbowSpeedMultiplier = 0.85; //TODO: Tune This... I don't know how much to increase it by
             //(1/360.0);
             // public static final double kP = 0.03 * pidTestRatio;  // After tuning, 0.05/2
             // public static final double kI = 0.06 * pidTestRatio;  //10e-4
@@ -130,12 +132,12 @@ public final class Constants {
             // public static final double kV = 1.17 * radtoDegreeDivisor;
             // public static final double kA = 0.02 * radtoDegreeDivisor * ffTestRatio ;
             
-            public static final double kP = 0.0000166666666667;  // After tuning, 0.05/2
-            public static final double kI = 0.0000333333333333;  //10e-4
-            public static final double kD = 0.0000020833333333;  //1 //1
+            public static final double kP = 0.18;  // After tuning, 0.05/2
+            public static final double kI = 0.0;  //10e-4
+            public static final double kD = 0.0;  //1 //1
 
-            public static final double kS = 0.12; // cut by 20% for initial testing
-            public static final double kG = 0.152;
+            public static final double kS = 0.11; // cut by 20% for initial testing
+            public static final double kG = 0.15;
             public static final double kV = 0.020420352;
             public static final double kA = 0.000279253;
 

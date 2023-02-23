@@ -70,8 +70,8 @@ public class RobotContainer {
     );
     m_armSubsystem.setDefaultCommand(new DefaultArmCommand(
             m_armSubsystem,
-            () -> deadband(assistantJoystick.getY(), Constants.UI.deadband) * Constants.Arm.armSpeedMultiplier,
-            () -> deadband(assistantJoystick.getZ(), Constants.UI.deadband) * Constants.Arm.armSpeedMultiplier
+            () -> deadband(assistantJoystick.getY(), Constants.UI.deadband) * Constants.Arm.Shoulder.shoulderSpeedMultiplier,
+            () -> deadband(assistantJoystick.getZ(), Constants.UI.deadband) * Constants.Arm.Elbow.elbowSpeedMultiplier
     )
     );
 // This line For test purposes  only

@@ -18,7 +18,12 @@ public class DefaultArmCommand extends CommandBase {
 
     // private static ShuffleboardTab tab = Shuffleboard.getTab("Testing");
     // private static GenericEntry counterEntry = tab.add("Counter", counter).getEntry();
-
+    /**
+     * The default command for the arm system.
+     * @param ArmSubsystem
+     * @param Shoulder Shoulder joystick value
+     * @param Elbow Elbow joystick value
+     */
     public DefaultArmCommand(ArmSubsystem ArmSubsystem,
                                DoubleSupplier Shoulder,
                                DoubleSupplier Elbow)

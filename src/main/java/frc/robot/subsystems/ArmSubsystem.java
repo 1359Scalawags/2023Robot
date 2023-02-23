@@ -194,8 +194,14 @@ public class ArmSubsystem extends SubsystemBase {
   public boolean isShoulderAtUpperLimit() {
     return shoulderRelativeEncoder.getDegrees() >= Constants.Arm.Shoulder.upperlimit;
   }
+  public boolean isShoulderAtUpperLimit(double buffer) {
+    return shoulderRelativeEncoder.getDegrees() >= Constants.Arm.Shoulder.upperlimit + buffer;
+  }
   public boolean isShoulderAtLowerLimit() {
     return shoulderRelativeEncoder.getDegrees() <= Constants.Arm.Shoulder.lowerlimit;
+  }
+  public boolean isShoulderAtLowerLimit(double buffer) {
+    return shoulderRelativeEncoder.getDegrees() <= Constants.Arm.Shoulder.lowerlimit - buffer;
   }
   public boolean isShoulderWithinLimits() {
     return !isShoulderAtLowerLimit() && !isShoulderAtUpperLimit();
@@ -353,14 +359,14 @@ public class ArmSubsystem extends SubsystemBase {
       if(isElbowAtUpperLimit() && elbowVoltage > 0) {
         elbowVoltage = 0;
       }
-      if(isShoulderAtUpperLimit() && shoulderVoltage > 0) {
+      if(isShoulderAtUpperLimit(Constants.Arm.boundaryExtension) && shoulderVoltage > 0) {
         shoulderVoltage = 0;
       }
       
       if(isElbowAtLowerLimit() && elbowVoltage < 0) {
         elbowVoltage = 0;
       }
-      if(isShoulderAtLowerLimit() && shoulderVoltage < 0) {
+      if(isShoulderAtLowerLimit(Constants.Arm.boundaryExtension) && shoulderVoltage < 0) {
         shoulderVoltage = 0;
       }
     }

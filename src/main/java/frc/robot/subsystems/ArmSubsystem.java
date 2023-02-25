@@ -14,12 +14,15 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.commands.Tuning.ApplyElbowTuningCommand;
+import frc.robot.commands.Tuning.ApplyShoulderTuningCommand;
 import frc.robot.extensions.FloorRelativeEncoder;
 import frc.robot.extensions.SendableCANSparkMax;
 
@@ -36,6 +39,7 @@ public class ArmSubsystem extends SubsystemBase {
   private PIDController shoulderPidController;
 
   private PIDController elbowTuner;
+  private PIDController shoulderTuner;
 
   private ArmFeedforward elbowFFController;
   private ArmFeedforward shoulderFFController;
@@ -95,6 +99,7 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderPidController = new PIDController(s_kP, s_kI, s_kD);
 
     elbowTuner = new PIDController(e_kP, e_kI, e_kD);
+    shoulderTuner = new PIDController(s_kP, s_kI, s_kD);
 
     // elbowPidController.setSetpoint(e_targetPosition);
     // shoulderPidController.setSetpoint(s_targetPosition);
@@ -129,6 +134,9 @@ public class ArmSubsystem extends SubsystemBase {
     tab.add("Elbow PID", elbowPidController).withWidget(BuiltInWidgets.kPIDController).withPosition(2, 0).withSize(2, 2);
     tab.add("Elbow Tuner", elbowTuner).withPosition(2, 2).withSize(2, 2);
     tab.add("Apply Elbow Tuning Values", new ApplyElbowTuningCommand(this)).withPosition(10, 0).withSize(2, 1);
+    tab.add("Shoulder Tuner", shoulderTuner).withPosition(0, 2).withSize(2, 2);
+    tab.add("Apply Shoulder Tuning Values", new ApplyShoulderTuningCommand(this)).withPosition(10, 0).withSize(2, 1);
+    
     // tab.add("Shoulder Feedforward", shoulderFFController);
     // tab.add("Elbow Feedforward", elbowFFController);
     //tab.add("Shoulder encoder", shoulderRelativeEncoder);
@@ -178,6 +186,12 @@ public class ArmSubsystem extends SubsystemBase {
     elbowPidController.setP(elbowTuner.getP());
     elbowPidController.setI(elbowTuner.getI());
     elbowPidController.setD(elbowTuner.getD());
+  }
+
+  public void applyShoulderTuningValues() {
+    shoulderPidController.setP(shoulderTuner.getP());
+    shoulderPidController.setI(shoulderTuner.getI());
+    shoulderPidController.setD(shoulderTuner.getD());
   }
 
 

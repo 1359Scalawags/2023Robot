@@ -65,7 +65,7 @@ public class RobotContainer {
             m_drivetrainSubsystem,
             () -> -modifyAxis(driverJoystick.getY(), driverJoystick.getThrottle()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
             () -> -modifyAxis(driverJoystick.getX(), driverJoystick.getThrottle()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
-            () -> -modifyAxis(driverJoystick.getZ(), driverJoystick.getThrottle()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+            () -> -modifyAxis(driverJoystick.getZ(), driverJoystick.getThrottle()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.SwerveDrive.rotateMultiplier
     )
     );
     m_armSubsystem.setDefaultCommand(new DefaultArmCommand(

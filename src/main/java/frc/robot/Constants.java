@@ -65,6 +65,7 @@ public final class Constants {
         }
         public static final double motorSpeed = 0.3;
         public static final double gearRatio = 8.14;
+        public static final double rotateMultiplier = 0.3;
 
         //FIXME: Are these being used?
         public static final double P = 0.00004;

@@ -102,8 +102,8 @@ public class ArmSubsystem extends SubsystemBase {
     // elbowEncoder.setAverageBits(4); 
     // shoulderEncoder.setAverageBits(4);
 
-    elbowPidController = new ProfiledPIDController(e_kP, e_kI, e_kD, new TrapezoidProfile.Constraints(5, 10));
-    shoulderPidController = new ProfiledPIDController(s_kP, s_kI, s_kD, new TrapezoidProfile.Constraints(5, 10));
+    elbowPidController = new ProfiledPIDController(e_kP, e_kI, e_kD, new TrapezoidProfile.Constraints(Constants.Arm.Elbow.MaxVelocity, Constants.Arm.Elbow.MaxAcceleration));
+    shoulderPidController = new ProfiledPIDController(s_kP, s_kI, s_kD, new TrapezoidProfile.Constraints(Constants.Arm.Shoulder.MaxVelocity, Constants.Arm.Shoulder.MaxAcceleration));
 
     elbowTuner = new PIDController(e_kP, e_kI, e_kD);
     shoulderTuner = new PIDController(s_kP, s_kI, s_kD);

@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -37,8 +39,8 @@ public class ArmSubsystem extends SubsystemBase {
   private FloorRelativeEncoder elbowRelativeEncoder;
   private FloorRelativeEncoder shoulderRelativeEncoder;
 
-  private PIDController elbowPidController;
-  private PIDController shoulderPidController;
+  private ProfiledPIDController elbowPidController;
+  private ProfiledPIDController shoulderPidController;
 
   private PIDController elbowTuner;
   private PIDController shoulderTuner;
@@ -100,8 +102,8 @@ public class ArmSubsystem extends SubsystemBase {
     // elbowEncoder.setAverageBits(4); 
     // shoulderEncoder.setAverageBits(4);
 
-    elbowPidController = new PIDController(e_kP, e_kI, e_kD);
-    shoulderPidController = new PIDController(s_kP, s_kI, s_kD);
+    elbowPidController = new ProfiledPIDController(e_kP, e_kI, e_kD, new TrapezoidProfile.Constraints(5, 10));
+    shoulderPidController = new ProfiledPIDController(s_kP, s_kI, s_kD, new TrapezoidProfile.Constraints(5, 10));
 
     elbowTuner = new PIDController(e_kP, e_kI, e_kD);
     shoulderTuner = new PIDController(s_kP, s_kI, s_kD);
@@ -264,7 +266,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setElbowSetpoint(double value) {
     //TODO: Review method definition
     e_targetPosition = MathUtil.clamp(value, Constants.Arm.Elbow.lowerlimit, Constants.Arm.Elbow.upperlimit);
-    elbowPidController.setSetpoint(e_targetPosition);
+    elbowPidController.setGoal(s_targetPosition);
   }
 
   /**
@@ -284,7 +286,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setShoulderSetpoint(double value) {
     //TODO: Review method definition
     s_targetPosition = MathUtil.clamp(value, Constants.Arm.Shoulder.lowerlimit, Constants.Arm.Shoulder.upperlimit);
-    shoulderPidController.setSetpoint(s_targetPosition);
+    shoulderPidController.setGoal(s_targetPosition);
   }
 
     /**

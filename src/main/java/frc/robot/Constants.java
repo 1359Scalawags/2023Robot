@@ -96,8 +96,8 @@ public final class Constants {
             // public static final double kA = 0.07 * radtoDegreeDivisor * ffTestRatio;            
             
             public static final double kP = 0.166667; 
-            public static final double kI = 0.041667;
-            public static final double kD = 0.019444;
+            public static final double kI = 0.07;
+            public static final double kD = 0.01;
 
             public static final double kS = 0.075;
             public static final double kG = 0.3525;
@@ -106,7 +106,7 @@ public final class Constants {
 
             public static final double angleAtFloor = 145;
             public static final double targetSpeed = 0.05;
-            public static final double maxVoltage = 0.2 * 12;
+            public static final double maxVoltage = 3;
             public static final double minVoltage = -maxVoltage;
             // public static final double kIz = 0;
             // public static final double kFF = 0;
@@ -132,9 +132,9 @@ public final class Constants {
             // public static final double kV = 1.17 * radtoDegreeDivisor;
             // public static final double kA = 0.02 * radtoDegreeDivisor * ffTestRatio ;
             
-            public static final double kP = 0.18;  // After tuning, 0.05/2
-            public static final double kI = 0.0;  //10e-4
-            public static final double kD = 0.0;  //1 //1
+            public static final double kP = 0.108; //0.18;  // After tuning, 0.05/2
+            public static final double kI = 0.36;  //10e-4
+            public static final double kD = 0.008;  //1 
 
             public static final double kS = 0.11; // cut by 20% for initial testing
             public static final double kG = 0.15;
@@ -143,7 +143,7 @@ public final class Constants {
 
             public static final double angleAtFloor = 272;
             public static final double targetSpeed = 0.05;
-            public static final double maxVoltage = 0.2 * 12; // based on 12V
+            public static final double maxVoltage = 3; // based on 12V
             public static final double minVoltage = -maxVoltage; // FIXME: this isn't necessary to store in memory
             // public static final double kIz = 0;
             // public static final double kFF = 0;

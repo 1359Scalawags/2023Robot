@@ -25,7 +25,6 @@ import java.util.function.DoubleSupplier;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.swervedrivespecialties.swervelib.Mk3ModuleConfiguration;
 
 import frc.robot.Constants;
 import frc.robot.extensions.SendableCANSparkMax;

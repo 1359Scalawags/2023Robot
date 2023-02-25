@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
-import com.swervedrivespecialties.swervelib.SwerveModule;
+import com.Scalawags1359.swervelib.SwerveModule;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;

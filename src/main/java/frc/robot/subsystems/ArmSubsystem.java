@@ -117,9 +117,14 @@ public class ArmSubsystem extends SubsystemBase {
     // shoulderEncoder.setAverageBits(4);
     elbowSparkMaxEncoder = elbowMotor.getAbsoluteEncoder(Type.kDutyCycle);
     shoulderSparkMaxEncoder = shoulderMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    elbowSparkMaxEncoder.setInverted(false);
     shoulderSparkMaxEncoder.setInverted(true);
+    elbowSparkMaxEncoder.setPositionConversionFactor(360.0);
+    shoulderSparkMaxEncoder.setPositionConversionFactor(360.0);
     elbowSparkMaxEncoder.setZeroOffset(Constants.Arm.Elbow.angleAtFloor);
     shoulderSparkMaxEncoder.setZeroOffset(Constants.Arm.Shoulder.angleAtFloor);
+
+    
 
     // elbowPidController = new PIDController(e_kP, e_kI, e_kD);
     // shoulderPidController = new PIDController(s_kP, s_kI, s_kD);
@@ -176,8 +181,8 @@ public class ArmSubsystem extends SubsystemBase {
     //addChild("elbowMotor", elbowMotor);
     //addChild("shoulderMotor", shoulderMotor);
 
-    shoulderRotationEntry = tab.add("Shoulder relative rotation", shoulderRelativeEncoder.getDegrees()).getEntry();
-    elbowRotationEntry = tab.add("Elbow relative rotation", elbowRelativeEncoder.getDegrees()).getEntry();
+    shoulderRotationEntry = tab.add("Shoulder relative rotation", getShoulderDegree()).getEntry();
+    elbowRotationEntry = tab.add("Elbow relative rotation", getElbowDegree()).getEntry();
 
     shoulderAbsoluteTargetEntry = tab.add("Shoulder absolute target", s_targetPosition).getEntry();
     elbowAbsoluteTargetEntry = tab.add("Elbow absolute target", e_targetPosition).getEntry();
@@ -211,10 +216,10 @@ public class ArmSubsystem extends SubsystemBase {
   public void initializeSetpoints(boolean elbow, boolean shoulder) {
     initialized = false;
     if(elbow) {
-      setElbowSetpoint(elbowRelativeEncoder.getDegrees());
+      setElbowSetpoint(getElbowDegree());
     }
     if(shoulder) {
-      setShoulderSetpoint(shoulderRelativeEncoder.getDegrees());
+      setShoulderSetpoint(getShoulderDegree());
     }
     System.out.println("Initial Setpoints: E:" + e_targetPosition + " S:" + s_targetPosition);
   }
@@ -272,28 +277,28 @@ public class ArmSubsystem extends SubsystemBase {
   //   System.out.println("==========================");
   // }
 
-
+  // TODO: Figure out how to change encoders without breaking things?
   public boolean isElbowAtUpperLimit() {
-    return elbowRelativeEncoder.getDegrees() >= Constants.Arm.Elbow.upperlimit;
+    return getElbowDegree() >= Constants.Arm.Elbow.upperlimit;
   }
   public boolean isElbowAtLowerLimit() {
-    return elbowRelativeEncoder.getDegrees() <= Constants.Arm.Elbow.lowerlimit;
+    return getElbowDegree() <= Constants.Arm.Elbow.lowerlimit;
   }
   public boolean isElbowWithinLimits() {
     return !isElbowAtLowerLimit() && !isElbowAtUpperLimit();
   }
 
   public boolean isShoulderAtUpperLimit() {
-    return shoulderRelativeEncoder.getDegrees() >= Constants.Arm.Shoulder.upperlimit;
+    return getShoulderDegree() >= Constants.Arm.Shoulder.upperlimit;
   }
   public boolean isShoulderAtUpperLimit(double buffer) {
-    return shoulderRelativeEncoder.getDegrees() >= Constants.Arm.Shoulder.upperlimit + buffer;
+    return getShoulderDegree() >= Constants.Arm.Shoulder.upperlimit + buffer;
   }
   public boolean isShoulderAtLowerLimit() {
-    return shoulderRelativeEncoder.getDegrees() <= Constants.Arm.Shoulder.lowerlimit;
+    return getShoulderDegree() <= Constants.Arm.Shoulder.lowerlimit;
   }
   public boolean isShoulderAtLowerLimit(double buffer) {
-    return shoulderRelativeEncoder.getDegrees() <= Constants.Arm.Shoulder.lowerlimit - buffer;
+    return getShoulderDegree() <= Constants.Arm.Shoulder.lowerlimit - buffer;
   }
   public boolean isShoulderWithinLimits() {
     return !isShoulderAtLowerLimit() && !isShoulderAtUpperLimit();
@@ -339,20 +344,28 @@ public class ArmSubsystem extends SubsystemBase {
     setShoulderSetpoint(s_targetPosition + delta);
   }
 
-  /**
-   * Get elbow's position relative to the floor.
-   * @return Angle in degrees
-   */
-  public double getElbowPosition() {
-    return elbowRelativeEncoder.getDegrees();
-  }
+  // /**
+  //  * Get elbow's position relative to the floor.
+  //  * @return Angle in degrees
+  //  */
+  // public double getElbowPosition() {
+  //   return elbowRelativeEncoder.getDegrees();
+  // }
 
-  /**
-   * Get shoulder's position relative to the floor.
-   * @return Angle in degrees
-   */
-  public double getShoulderPosition() {
-    return shoulderRelativeEncoder.getDegrees();
+  // /**
+  //  * Get shoulder's position relative to the floor.
+  //  * @return Angle in degrees
+  //  */
+  // public double getShoulderPosition() {
+  //   return shoulderRelativeEncoder.getDegrees();
+  // }
+
+  public double getShoulderDegree() {
+    return shoulderSparkMaxEncoder.getPosition();
+  }
+  
+  public double getElbowDegree() {
+    return elbowSparkMaxEncoder.getPosition() + shoulderSparkMaxEncoder.getPosition();
   }
   
 
@@ -435,8 +448,9 @@ public class ArmSubsystem extends SubsystemBase {
       shoulderSparkMaxPIDController.setReference(s_targetPosition, ControlType.kPosition);
     }
 
-    shoulderRotationEntry.setDouble(shoulderRelativeEncoder.getDegrees());
-    elbowRotationEntry.setDouble(elbowRelativeEncoder.getDegrees());
+    shoulderRotationEntry.setDouble(shoulderSparkMaxEncoder.getPosition());
+    elbowRotationEntry.setDouble(elbowSparkMaxEncoder.getPosition());
+
     shoulderAbsoluteTargetEntry.setDouble(shoulderRelativeEncoder.convertToAbsoluteDegrees(s_targetPosition));
     elbowAbsoluteTargetEntry.setDouble(elbowRelativeEncoder.convertToAbsoluteDegrees(e_targetPosition));
       // elbowVoltage = getElbowPID() + getElbowFF();

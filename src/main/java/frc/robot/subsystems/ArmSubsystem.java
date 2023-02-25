@@ -70,7 +70,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double e_kP = Constants.Arm.Elbow.kP,
                  e_kI = Constants.Arm.Elbow.kI, 
                  e_kD = Constants.Arm.Elbow.kD,
-                 e_targetPosition = Constants.Arm.Elbow.defaultSetpoint;
+                 e_targetPosition = MathUtil.clamp(Constants.Arm.Elbow.defaultSetpoint, Constants.Arm.Elbow.lowerlimit, Constants.Arm.Elbow.upperlimit);
                 //  e_kIz = Constants.Arm.Elbow.kIz * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kFF = Constants.Arm.Elbow.kFF * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kMaxOutput = Constants.Arm.Elbow.kMaxOutput * Constants.Arm.Elbow.CoefficientMultiplier, 
@@ -78,7 +78,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double s_kP = Constants.Arm.Shoulder.kP, 
                  s_kI = Constants.Arm.Shoulder.kI, 
                  s_kD = Constants.Arm.Shoulder.kD,
-                 s_targetPosition = Constants.Arm.Shoulder.defaultSetpoint;
+                 s_targetPosition = MathUtil.clamp(Constants.Arm.Shoulder.defaultSetpoint, Constants.Arm.Shoulder.lowerlimit, Constants.Arm.Shoulder.upperlimit);
                 //  s_kIz = Constants.Arm.Shoulder.kIz * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kFF = Constants.Arm.Shoulder.kFF * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kMaxOutput = Constants.Arm.Shoulder.kMaxOutput * Constants.Arm.Shoulder.CoefficientMultiplier, 
@@ -125,7 +125,6 @@ public class ArmSubsystem extends SubsystemBase {
     elbowSparkMaxPIDController.setFF(Constants.Arm.Elbow.kFF);
     elbowSparkMaxPIDController.setIZone(Constants.Arm.Elbow.kIz);
     elbowSparkMaxPIDController.setOutputRange(Constants.Arm.Elbow.kMinOutput, Constants.Arm.Elbow.kMaxOutput);
-    elbowSparkMaxPIDController.setReference(elbowRelativeEncoder.convertToAbsoluteDegrees(e_targetPosition), ControlType.kPosition);
 
     shoulderSparkMaxPIDController.setP(Constants.Arm.Shoulder.kP);
     shoulderSparkMaxPIDController.setI(Constants.Arm.Shoulder.kI);
@@ -133,7 +132,6 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderSparkMaxPIDController.setFF(Constants.Arm.Shoulder.kFF);
     shoulderSparkMaxPIDController.setIZone(Constants.Arm.Shoulder.kIz);
     shoulderSparkMaxPIDController.setOutputRange(Constants.Arm.Shoulder.kMinOutput, Constants.Arm.Shoulder.kMaxOutput);
-    shoulderSparkMaxPIDController.setReference(shoulderRelativeEncoder.convertToAbsoluteDegrees(s_targetPosition), ControlType.kPosition);
 
 
 
@@ -421,19 +419,15 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     else {
-
-      e_targetPosition = MathUtil.clamp(e_targetPosition, 
-                                        elbowRelativeEncoder.convertToAbsoluteDegrees(Constants.Arm.Elbow.lowerlimit), 
-                                        elbowRelativeEncoder.convertToAbsoluteDegrees(Constants.Arm.Elbow.upperlimit));
-      s_targetPosition = MathUtil.clamp(s_targetPosition, 
-                                        shoulderRelativeEncoder.convertToAbsoluteDegrees(Constants.Arm.Shoulder.lowerlimit), 
-                                        shoulderRelativeEncoder.convertToAbsoluteDegrees(Constants.Arm.Shoulder.upperlimit));                                 
+                                
       elbowSparkMaxPIDController.setReference(e_targetPosition, ControlType.kPosition);
       shoulderSparkMaxPIDController.setReference(s_targetPosition, ControlType.kPosition);
     }
 
     shoulderRotationEntry.setDouble(shoulderRelativeEncoder.getDegrees());
     elbowRotationEntry.setDouble(elbowRelativeEncoder.getDegrees());
+    shoulderAbsoluteTargetEntry.setDouble(shoulderRelativeEncoder.convertToAbsoluteDegrees(s_targetPosition));
+    elbowAbsoluteTargetEntry.setDouble(elbowRelativeEncoder.convertToAbsoluteDegrees(e_targetPosition));
       // elbowVoltage = getElbowPID() + getElbowFF();
       // shoulderVoltage = getShoulderPID() + getShoulderFF();
       // elbowVoltage = MathUtil.clamp(elbowVoltage, Constants.Arm.Elbow.minVoltage, Constants.Arm.Elbow.maxVoltage);

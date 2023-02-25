@@ -113,7 +113,7 @@ public final class Constants {
             // public static final double kFF = 0;
             // public static final double kMaxOutput = 1;
             // public static final double kMinOutput = -1; 
-            public static final double MaxVelocity = 10;
+            public static final double MaxVelocity = 3;
             public static final double MaxAcceleration = .1;
         }
         public static final class Elbow {
@@ -152,7 +152,7 @@ public final class Constants {
             // public static final double kFF = 0;
             // public static final double kMaxOutput = 1;
             // public static final double kMinOutput = -1; 
-            public static final double MaxVelocity = 10;
+            public static final double MaxVelocity = 3;
             public static final double MaxAcceleration = .1;
 
             

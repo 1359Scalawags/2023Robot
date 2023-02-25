@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /** An example command that uses an example subsystem. */
 public class ZeroGyroCommand extends CommandBase {

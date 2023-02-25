@@ -1,9 +1,9 @@
-package com.Scalawags1359.swervelib;
+package org.scalawags.swervelib;
 
-import com.Scalawags1359.swervelib.ctre.*;
-import com.Scalawags1359.swervelib.rev.NeoDriveControllerFactoryBuilder;
-import com.Scalawags1359.swervelib.rev.NeoSteerConfiguration;
-import com.Scalawags1359.swervelib.rev.NeoSteerControllerFactoryBuilder;
+import org.scalawags.swervelib.ctre.*;
+import org.scalawags.swervelib.rev.NeoDriveControllerFactoryBuilder;
+import org.scalawags.swervelib.rev.NeoSteerConfiguration;
+import org.scalawags.swervelib.rev.NeoSteerControllerFactoryBuilder;
 
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 

@@ -1,7 +1,7 @@
-package com.Scalawags1359.swervelib.ctre;
+package org.scalawags.swervelib.ctre;
 
-import com.Scalawags1359.swervelib.AbsoluteEncoder;
-import com.Scalawags1359.swervelib.AbsoluteEncoderFactory;
+import org.scalawags.swervelib.AbsoluteEncoder;
+import org.scalawags.swervelib.AbsoluteEncoderFactory;
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;

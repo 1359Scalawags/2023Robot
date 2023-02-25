@@ -1,8 +1,8 @@
-package com.Scalawags1359.swervelib.ctre;
+package org.scalawags.swervelib.ctre;
 
-import com.Scalawags1359.swervelib.DriveController;
-import com.Scalawags1359.swervelib.DriveControllerFactory;
-import com.Scalawags1359.swervelib.ModuleConfiguration;
+import org.scalawags.swervelib.DriveController;
+import org.scalawags.swervelib.DriveControllerFactory;
+import org.scalawags.swervelib.ModuleConfiguration;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;

@@ -1,4 +1,4 @@
-package com.Scalawags1359.swervelib;
+package org.scalawags.swervelib;
 
 public final class SdsModuleConfigurations {
     public static final ModuleConfiguration MK3_STANDARD = new ModuleConfiguration(

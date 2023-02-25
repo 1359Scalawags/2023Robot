@@ -1,8 +1,8 @@
-package com.Scalawags1359.swervelib.ctre;
+package org.scalawags.swervelib.ctre;
 
-import static com.Scalawags1359.swervelib.ctre.CtreUtils.checkCtreError;
+import static org.scalawags.swervelib.ctre.CtreUtils.checkCtreError;
 
-import com.Scalawags1359.swervelib.*;
+import org.scalawags.swervelib.*;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;

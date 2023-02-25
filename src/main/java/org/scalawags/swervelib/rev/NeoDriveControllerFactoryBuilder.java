@@ -1,10 +1,10 @@
-package com.Scalawags1359.swervelib.rev;
+package org.scalawags.swervelib.rev;
 
-import static com.Scalawags1359.swervelib.rev.RevUtils.checkNeoError;
+import static org.scalawags.swervelib.rev.RevUtils.checkNeoError;
 
-import com.Scalawags1359.swervelib.DriveController;
-import com.Scalawags1359.swervelib.DriveControllerFactory;
-import com.Scalawags1359.swervelib.ModuleConfiguration;
+import org.scalawags.swervelib.DriveController;
+import org.scalawags.swervelib.DriveControllerFactory;
+import org.scalawags.swervelib.ModuleConfiguration;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;

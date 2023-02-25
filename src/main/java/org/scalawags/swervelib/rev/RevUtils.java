@@ -1,4 +1,4 @@
-package com.Scalawags1359.swervelib.rev;
+package org.scalawags.swervelib.rev;
 
 import com.revrobotics.REVLibError;
 import edu.wpi.first.wpilibj.DriverStation;

@@ -1,9 +1,9 @@
-package com.Scalawags1359.swervelib.rev;
+package org.scalawags.swervelib.rev;
 
-import static com.Scalawags1359.swervelib.rev.RevUtils.checkNeoError;
+import static org.scalawags.swervelib.rev.RevUtils.checkNeoError;
 
-import com.Scalawags1359.swervelib.*;
-import com.Scalawags1359.swervelib.AbsoluteEncoder;
+import org.scalawags.swervelib.*;
+import org.scalawags.swervelib.AbsoluteEncoder;
 import com.revrobotics.*;
 
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;

@@ -1,4 +1,4 @@
-package com.Scalawags1359.swervelib;
+package org.scalawags.swervelib;
 
 import java.util.Objects;
 

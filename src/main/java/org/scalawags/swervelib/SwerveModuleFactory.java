@@ -1,6 +1,5 @@
-package com.Scalawags1359.swervelib;
+package org.scalawags.swervelib;
 
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 
 public class SwerveModuleFactory<DriveConfiguration, SteerConfiguration> {

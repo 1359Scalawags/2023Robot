@@ -6,21 +6,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.Joystick;
-import java.util.concurrent.ThreadPoolExecutor;
 
 //import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants.WheelPositions;
 import frc.robot.commands.DefaultArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.DrivetrainNoAction;
 import frc.robot.commands.GrabCommandClose;
 import frc.robot.commands.GrabCommandOpen;
 import frc.robot.commands.TurnCompressorOn;
@@ -29,7 +22,6 @@ import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
-import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.commands.TurnCompressorOff;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

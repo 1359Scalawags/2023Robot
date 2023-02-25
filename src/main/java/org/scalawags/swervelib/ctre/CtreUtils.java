@@ -1,4 +1,4 @@
-package com.Scalawags1359.swervelib.ctre;
+package org.scalawags.swervelib.ctre;
 
 import com.ctre.phoenix.ErrorCode;
 import edu.wpi.first.wpilibj.DriverStation;

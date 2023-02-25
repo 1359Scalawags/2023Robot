@@ -1,4 +1,4 @@
-package com.Scalawags1359.swervelib.ctre;
+package org.scalawags.swervelib.ctre;
 
 public class CanCoderAbsoluteConfiguration {
     private final int id;

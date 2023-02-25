@@ -1,10 +1,6 @@
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
-import com.Scalawags1359.swervelib.SwerveModule;
-
-import edu.wpi.first.math.geometry.Rotation2d;
+import org.scalawags.swervelib.SwerveModule;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.WheelPositions;
 import frc.robot.subsystems.DrivetrainSubsystem;

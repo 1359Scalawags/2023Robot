@@ -15,7 +15,10 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import org.ejml.simple.ops.SimpleOperations_ZDRM;
+
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -47,14 +50,17 @@ public class ArmSubsystem extends SubsystemBase {
   private SparkMaxPIDController elbowSparkMaxPIDController;
   private SparkMaxPIDController shoulderSparkMaxPIDController;
 
-  private ArmFeedforward elbowFFController;
-  private ArmFeedforward shoulderFFController;
+  // private ArmFeedforward elbowFFController;
+  // private ArmFeedforward shoulderFFController;
 
-  private PIDController elbowSGVTuner;
-  private PIDController shoulderSGVTuner;
+  // private PIDController elbowSGVTuner;
+  // private PIDController shoulderSGVTuner;
   
   private GenericEntry shoulderRotationEntry;
   private GenericEntry elbowRotationEntry;
+
+  private GenericEntry shoulderAbsoluteTargetEntry;
+  private GenericEntry elbowAbsoluteTargetEntry;
 
   ShuffleboardTab tab = Shuffleboard.getTab("Arm");
 
@@ -119,6 +125,7 @@ public class ArmSubsystem extends SubsystemBase {
     elbowSparkMaxPIDController.setFF(Constants.Arm.Elbow.kFF);
     elbowSparkMaxPIDController.setIZone(Constants.Arm.Elbow.kIz);
     elbowSparkMaxPIDController.setOutputRange(Constants.Arm.Elbow.kMinOutput, Constants.Arm.Elbow.kMaxOutput);
+    elbowSparkMaxPIDController.setReference(elbowRelativeEncoder.convertToAbsoluteDegrees(e_targetPosition), ControlType.kPosition);
 
     shoulderSparkMaxPIDController.setP(Constants.Arm.Shoulder.kP);
     shoulderSparkMaxPIDController.setI(Constants.Arm.Shoulder.kI);
@@ -126,6 +133,7 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderSparkMaxPIDController.setFF(Constants.Arm.Shoulder.kFF);
     shoulderSparkMaxPIDController.setIZone(Constants.Arm.Shoulder.kIz);
     shoulderSparkMaxPIDController.setOutputRange(Constants.Arm.Shoulder.kMinOutput, Constants.Arm.Shoulder.kMaxOutput);
+    shoulderSparkMaxPIDController.setReference(shoulderRelativeEncoder.convertToAbsoluteDegrees(s_targetPosition), ControlType.kPosition);
 
 
 
@@ -133,15 +141,15 @@ public class ArmSubsystem extends SubsystemBase {
     // shoulderPidController.setSetpoint(s_targetPosition);
 
     //README: routing all setpoint updates through modifier functions
-    setElbowSetpoint(Constants.Arm.Elbow.defaultSetpoint);
-    setShoulderSetpoint(Constants.Arm.Shoulder.defaultSetpoint);
+    // setElbowSetpoint(Constants.Arm.Elbow.defaultSetpoint);
+    // setShoulderSetpoint(Constants.Arm.Shoulder.defaultSetpoint);
 
     // FIXME: need to characterize the elbow to find these values
-    elbowFFController = new ArmFeedforward(Constants.Arm.Elbow.kS, Constants.Arm.Elbow.kG, Constants.Arm.Elbow.kV, Constants.Arm.Elbow.kA);
-    shoulderFFController = new ArmFeedforward(Constants.Arm.Shoulder.kS, Constants.Arm.Shoulder.kG, Constants.Arm.Shoulder.kV, Constants.Arm.Shoulder.kA);
+    // elbowFFController = new ArmFeedforward(Constants.Arm.Elbow.kS, Constants.Arm.Elbow.kG, Constants.Arm.Elbow.kV, Constants.Arm.Elbow.kA);
+    // shoulderFFController = new ArmFeedforward(Constants.Arm.Shoulder.kS, Constants.Arm.Shoulder.kG, Constants.Arm.Shoulder.kV, Constants.Arm.Shoulder.kA);
 
-    elbowSGVTuner = new PIDController(Constants.Arm.Elbow.kS, Constants.Arm.Elbow.kG, Constants.Arm.Elbow.kV);
-    shoulderSGVTuner = new PIDController(Constants.Arm.Shoulder.kS, Constants.Arm.Shoulder.kG, Constants.Arm.Shoulder.kV);
+    // elbowSGVTuner = new PIDController(Constants.Arm.Elbow.kS, Constants.Arm.Elbow.kG, Constants.Arm.Elbow.kV);
+    // shoulderSGVTuner = new PIDController(Constants.Arm.Shoulder.kS, Constants.Arm.Shoulder.kG, Constants.Arm.Shoulder.kV);
     // elbowPidController.setP(e_kP);
     // elbowPidController.setI(e_kI);
     // elbowPidController.setD(e_kD);
@@ -161,6 +169,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     shoulderRotationEntry = tab.add("Shoulder relative rotation", shoulderRelativeEncoder.getDegrees()).getEntry();
     elbowRotationEntry = tab.add("Elbow relative rotation", elbowRelativeEncoder.getDegrees()).getEntry();
+
+    shoulderAbsoluteTargetEntry = tab.add("Shoulder absolute target", s_targetPosition).getEntry();
+    elbowAbsoluteTargetEntry = tab.add("Elbow absolute target", e_targetPosition).getEntry();
     // tab.add("Shoulder PID", shoulderPidController).withPosition(0, 0).withSize(2, 2);
     // tab.add("Elbow PID", elbowPidController).withWidget(BuiltInWidgets.kPIDController).withPosition(2, 0).withSize(2, 2);
     
@@ -287,7 +298,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setElbowSetpoint(double value) {
     //TODO: Review method definition
     e_targetPosition = MathUtil.clamp(value, Constants.Arm.Elbow.lowerlimit, Constants.Arm.Elbow.upperlimit);
-    elbowPidController.setSetpoint(e_targetPosition);
+    elbowSparkMaxPIDController.setReference(elbowRelativeEncoder.convertToAbsoluteDegrees(e_targetPosition), ControlType.kPosition);
   }
 
   /**
@@ -307,7 +318,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setShoulderSetpoint(double value) {
     //TODO: Review method definition
     s_targetPosition = MathUtil.clamp(value, Constants.Arm.Shoulder.lowerlimit, Constants.Arm.Shoulder.upperlimit);
-    shoulderPidController.setSetpoint(s_targetPosition);
+    shoulderSparkMaxPIDController.setReference(shoulderRelativeEncoder.convertToAbsoluteDegrees(s_targetPosition), ControlType.kPosition);
   }
 
     /**
@@ -336,21 +347,21 @@ public class ArmSubsystem extends SubsystemBase {
   }
   
 
-  public double getElbowFF() {
-      return elbowFFController.calculate(e_targetPosition * Math.PI / 180.0, Constants.Arm.Elbow.targetSpeed); 
-  }
+  // public double getElbowFF() {
+  //     return elbowFFController.calculate(e_targetPosition * Math.PI / 180.0, Constants.Arm.Elbow.targetSpeed); 
+  // }
 
-  public double getShoulderFF() {
-      return shoulderFFController.calculate(s_targetPosition * Math.PI / 180.0, Constants.Arm.Shoulder.targetSpeed);
-  }
+  // public double getShoulderFF() {
+  //     return shoulderFFController.calculate(s_targetPosition * Math.PI / 180.0, Constants.Arm.Shoulder.targetSpeed);
+  // }
 
-  public double getElbowPID() {
-    return elbowPidController.calculate(elbowRelativeEncoder.getDegrees(), e_targetPosition);
-  }
+  // public double getElbowPID() {
+  //   return elbowPidController.calculate(elbowRelativeEncoder.getDegrees(), e_targetPosition);
+  // }
 
-  public double getShoulderPID() {
-    return shoulderPidController.calculate(shoulderRelativeEncoder.getDegrees(), s_targetPosition);    
-  }
+  // public double getShoulderPID() {
+  //   return shoulderPidController.calculate(shoulderRelativeEncoder.getDegrees(), s_targetPosition);    
+  // }
 
 
   int delayCounter = 0;
@@ -360,8 +371,6 @@ public class ArmSubsystem extends SubsystemBase {
       delayCounter++;
       return;
     }
-    double elbowVoltage = 0;
-    double shoulderVoltage = 0;
 
     if (Robot.isTestMode()){
       SmartDashboard.putBoolean("Elbow Lower Limit", isElbowAtLowerLimit());
@@ -370,27 +379,27 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.putBoolean("Shoulder Upper Limit", isShoulderAtUpperLimit());
       SmartDashboard.putNumber("Elbow Setpoint", e_targetPosition);
       SmartDashboard.putNumber("shoulder Setpoint", s_targetPosition);
-      double e_p = elbowPidController.getP();
-      double e_i = elbowPidController.getI();
-      double e_d = elbowPidController.getD();
+      // double e_p = elbowPidController.getP();
+      // double e_i = elbowPidController.getI();
+      // double e_d = elbowPidController.getD();
       //double e_Iz = elbowPidController.getIZone();
       //double e_FF = elbowPidController.getFF();
       //double e_max = elbowPidController.getOutputMax();
       //double e_min = elbowPidController.getOutputMin();
       //double e_CurrentRotation = elbowEncoder.getAbsolutePosition();
 
-      double s_p = shoulderPidController.getP();
-      double s_i = shoulderPidController.getI();
-      double s_d = shoulderPidController.getD();
+      // double s_p = shoulderPidController.getP();
+      // double s_i = shoulderPidController.getI();
+      // double s_d = shoulderPidController.getD();
       //double s_Iz = shoulderPidController.getIZone();
       //double s_FF = shoulderPidController.getFF();
       //double s_max = shoulderPidController.getOutputMax();
       //double s_min = shoulderPidController.getOutputMin();
       //double s_CurrentRotation = shoulderEncoder.getAbsolutePosition();
 
-      if (e_p != e_kP) {elbowPidController.setP(e_p); e_kP = e_p;}
-      if (e_i != e_kI) {elbowPidController.setI(e_i); e_kI = e_i;}
-      if (e_d != e_kD) {elbowPidController.setD(e_d); e_kD = e_d;}
+      // if (e_p != e_kP) {elbowPidController.setP(e_p); e_kP = e_p;}
+      // if (e_i != e_kI) {elbowPidController.setI(e_i); e_kI = e_i;}
+      // if (e_d != e_kD) {elbowPidController.setD(e_d); e_kD = e_d;}
       //if (e_Iz != e_kIz) {elbowPidController.setP(e_Iz); e_kIz = e_Iz;}
       //if (e_FF != e_kFF) {elbowPidController.setP(e_FF); e_kFF = e_FF;}
       //if (e_max != e_kMaxOutput || e_min != e_kMinOutput) {
@@ -399,9 +408,9 @@ public class ArmSubsystem extends SubsystemBase {
         //e_kMinOutput = e_min;
       //}
       
-      if (s_p != s_kP) {shoulderPidController.setP(s_p); s_kP = s_p;}
-      if (s_i != s_kI) {shoulderPidController.setI(s_i); s_kI = s_i;}
-      if (s_d != s_kD) {shoulderPidController.setD(s_d); s_kD = s_d;}
+      // if (s_p != s_kP) {shoulderPidController.setP(s_p); s_kP = s_p;}
+      // if (s_i != s_kI) {shoulderPidController.setI(s_i); s_kI = s_i;}
+      // if (s_d != s_kD) {shoulderPidController.setD(s_d); s_kD = s_d;}
       //if (s_Iz != s_kIz) {elbowPidController.setP(s_Iz); s_kIz = s_Iz;}
       //if (s_FF != s_kFF) {elbowPidController.setP(s_FF); s_kFF = s_FF;}
       //if (s_max != s_kMaxOutput || s_min != s_kMinOutput) {
@@ -413,45 +422,50 @@ public class ArmSubsystem extends SubsystemBase {
 
     else {
 
-      elbowVoltage = getElbowPID() + getElbowFF();
-      shoulderVoltage = getShoulderPID() + getShoulderFF();
-      elbowVoltage = MathUtil.clamp(elbowVoltage, Constants.Arm.Elbow.minVoltage, Constants.Arm.Elbow.maxVoltage);
-      shoulderVoltage = MathUtil.clamp(shoulderVoltage, Constants.Arm.Shoulder.minVoltage, Constants.Arm.Shoulder.maxVoltage);
+      e_targetPosition = MathUtil.clamp(e_targetPosition, 
+                                        elbowRelativeEncoder.convertToAbsoluteDegrees(Constants.Arm.Elbow.lowerlimit), 
+                                        elbowRelativeEncoder.convertToAbsoluteDegrees(Constants.Arm.Elbow.upperlimit));
+      s_targetPosition = MathUtil.clamp(s_targetPosition, 
+                                        shoulderRelativeEncoder.convertToAbsoluteDegrees(Constants.Arm.Shoulder.lowerlimit), 
+                                        shoulderRelativeEncoder.convertToAbsoluteDegrees(Constants.Arm.Shoulder.upperlimit));                                 
+      elbowSparkMaxPIDController.setReference(e_targetPosition, ControlType.kPosition);
+      shoulderSparkMaxPIDController.setReference(s_targetPosition, ControlType.kPosition);
+    }
+
+    shoulderRotationEntry.setDouble(shoulderRelativeEncoder.getDegrees());
+    elbowRotationEntry.setDouble(elbowRelativeEncoder.getDegrees());
+      // elbowVoltage = getElbowPID() + getElbowFF();
+      // shoulderVoltage = getShoulderPID() + getShoulderFF();
+      // elbowVoltage = MathUtil.clamp(elbowVoltage, Constants.Arm.Elbow.minVoltage, Constants.Arm.Elbow.maxVoltage);
+      // shoulderVoltage = MathUtil.clamp(shoulderVoltage, Constants.Arm.Shoulder.minVoltage, Constants.Arm.Shoulder.maxVoltage);
 
       //slowdown assembly during startup if not within limits
-      if(initialized == false) {
-        if(isElbowWithinLimits() && isShoulderWithinLimits()) {
-          initialized = true;
-        } else {
-          elbowVoltage *= Constants.Arm.softStartRatio;
-          shoulderVoltage *= Constants.Arm.softStartRatio;          
-        }
-      }
+    //   if(initialized == false) {
+    //     if(isElbowWithinLimits() && isShoulderWithinLimits()) {
+    //       initialized = true;
+    //     } else {
+    //       elbowVoltage *= Constants.Arm.softStartRatio;
+    //       shoulderVoltage *= Constants.Arm.softStartRatio;          
+    //     }
+    //   }
 
-      if(isElbowAtUpperLimit() && elbowVoltage > 0) {
-        elbowVoltage = 0;
-      }
-      if(isShoulderAtUpperLimit(Constants.Arm.boundaryExtension) && shoulderVoltage > 0) {
-        shoulderVoltage = 0;
-      }
+    //   if(isElbowAtUpperLimit() && elbowVoltage > 0) {
+    //     elbowVoltage = 0;
+    //   }
+    //   if(isShoulderAtUpperLimit(Constants.Arm.boundaryExtension) && shoulderVoltage > 0) {
+    //     shoulderVoltage = 0;
+    //   }
       
-      if(isElbowAtLowerLimit() && elbowVoltage < 0) {
-        elbowVoltage = 0;
-      }
-      if(isShoulderAtLowerLimit(Constants.Arm.boundaryExtension) && shoulderVoltage < 0) {
-        shoulderVoltage = 0;
-      }
-    }
+    //   if(isElbowAtLowerLimit() && elbowVoltage < 0) {
+    //     elbowVoltage = 0;
+    //   }
+    //   if(isShoulderAtLowerLimit(Constants.Arm.boundaryExtension) && shoulderVoltage < 0) {
+    //     shoulderVoltage = 0;
+    //   }
+    // }
 
-    elbowMotor.setVoltage(elbowVoltage);
-    shoulderMotor.setVoltage(shoulderVoltage);
-
-    if(elbowRotationEntry.getDouble(0) != elbowRelativeEncoder.getDegrees()) {
-      elbowRotationEntry.setDouble(elbowRelativeEncoder.getDegrees());      
-    }
-    if(shoulderRotationEntry.getDouble(0) != shoulderRelativeEncoder.getDegrees()) {
-      shoulderRotationEntry.setDouble(shoulderRelativeEncoder.getDegrees());      
-    }
+    // elbowMotor.setVoltage(elbowVoltage);
+    // shoulderMotor.setVoltage(shoulderVoltage);
 
 
   //     if(isShoulderAtUpperLimit()){
@@ -492,8 +506,6 @@ public class ArmSubsystem extends SubsystemBase {
   //   } 
 
       // This method will be called once per scheduler run
-
-  
   }
 
   @Override

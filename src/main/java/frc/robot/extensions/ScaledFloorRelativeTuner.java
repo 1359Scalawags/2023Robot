@@ -39,7 +39,7 @@ public class ScaledFloorRelativeTuner {
 
         actualEntry.setDouble(actualValue);
         errorEntry.setDouble(errorValue);
-        System.out.println("Actual: " + actualValue + " Error: " + errorValue);
+        //System.out.println("Actual: " + actualValue + " Error: " + errorValue);
     }
 
     private void layoutTabs(ShuffleboardTab shuffleTab) {
@@ -103,7 +103,7 @@ public class ScaledFloorRelativeTuner {
         errorValue = targetValue - actualValue;
         SmartDashboard.putNumber("Actual", actualValue);
         SmartDashboard.putNumber("Error", errorValue);
-        System.out.println("Target: " + targetValue + "  Actual: " + actualValue + "  Error: " + errorValue);
+        //System.out.println("Target: " + targetValue + "  Actual: " + actualValue + "  Error: " + errorValue);
     }
 
 

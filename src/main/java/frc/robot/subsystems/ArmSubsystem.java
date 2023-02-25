@@ -21,6 +21,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.Constants.Arm;
 import frc.robot.commands.Tuning.ApplyShoulderTuningCommand;
 import frc.robot.commands.Tuning.ApplyElbowSGVTuningCommand;
 import frc.robot.commands.Tuning.ApplyShoulderSGVTuningCommand;
@@ -37,11 +38,14 @@ public class ArmSubsystem extends SubsystemBase {
   private FloorRelativeEncoder elbowRelativeEncoder;
   private FloorRelativeEncoder shoulderRelativeEncoder;
 
-  private PIDController elbowPidController;
-  private PIDController shoulderPidController;
+  // private PIDController elbowPidController;
+  // private PIDController shoulderPidController;
 
-  private PIDController elbowTuner;
-  private PIDController shoulderTuner;
+  // private PIDController elbowTuner;
+  // private PIDController shoulderTuner;
+
+  private SparkMaxPIDController elbowSparkMaxPIDController;
+  private SparkMaxPIDController shoulderSparkMaxPIDController;
 
   private ArmFeedforward elbowFFController;
   private ArmFeedforward shoulderFFController;
@@ -100,11 +104,30 @@ public class ArmSubsystem extends SubsystemBase {
     // elbowEncoder.setAverageBits(4); 
     // shoulderEncoder.setAverageBits(4);
 
-    elbowPidController = new PIDController(e_kP, e_kI, e_kD);
-    shoulderPidController = new PIDController(s_kP, s_kI, s_kD);
+    // elbowPidController = new PIDController(e_kP, e_kI, e_kD);
+    // shoulderPidController = new PIDController(s_kP, s_kI, s_kD);
 
-    elbowTuner = new PIDController(e_kP, e_kI, e_kD);
-    shoulderTuner = new PIDController(s_kP, s_kI, s_kD);
+    // elbowTuner = new PIDController(e_kP, e_kI, e_kD);
+    // shoulderTuner = new PIDController(s_kP, s_kI, s_kD);
+
+    elbowSparkMaxPIDController = elbowMotor.getPIDController();
+    shoulderSparkMaxPIDController = shoulderMotor.getPIDController();
+
+    elbowSparkMaxPIDController.setP(Constants.Arm.Elbow.kP);
+    elbowSparkMaxPIDController.setI(Constants.Arm.Elbow.kI);
+    elbowSparkMaxPIDController.setD(Constants.Arm.Elbow.kD);
+    elbowSparkMaxPIDController.setFF(Constants.Arm.Elbow.kFF);
+    elbowSparkMaxPIDController.setIZone(Constants.Arm.Elbow.kIz);
+    elbowSparkMaxPIDController.setOutputRange(Constants.Arm.Elbow.kMinOutput, Constants.Arm.Elbow.kMaxOutput);
+
+    shoulderSparkMaxPIDController.setP(Constants.Arm.Shoulder.kP);
+    shoulderSparkMaxPIDController.setI(Constants.Arm.Shoulder.kI);
+    shoulderSparkMaxPIDController.setD(Constants.Arm.Shoulder.kD);
+    shoulderSparkMaxPIDController.setFF(Constants.Arm.Shoulder.kFF);
+    shoulderSparkMaxPIDController.setIZone(Constants.Arm.Shoulder.kIz);
+    shoulderSparkMaxPIDController.setOutputRange(Constants.Arm.Shoulder.kMinOutput, Constants.Arm.Shoulder.kMaxOutput);
+
+
 
     // elbowPidController.setSetpoint(e_targetPosition);
     // shoulderPidController.setSetpoint(s_targetPosition);
@@ -138,20 +161,20 @@ public class ArmSubsystem extends SubsystemBase {
 
     shoulderRotationEntry = tab.add("Shoulder relative rotation", shoulderRelativeEncoder.getDegrees()).getEntry();
     elbowRotationEntry = tab.add("Elbow relative rotation", elbowRelativeEncoder.getDegrees()).getEntry();
-    tab.add("Shoulder PID", shoulderPidController).withPosition(0, 0).withSize(2, 2);
-    tab.add("Elbow PID", elbowPidController).withWidget(BuiltInWidgets.kPIDController).withPosition(2, 0).withSize(2, 2);
+    // tab.add("Shoulder PID", shoulderPidController).withPosition(0, 0).withSize(2, 2);
+    // tab.add("Elbow PID", elbowPidController).withWidget(BuiltInWidgets.kPIDController).withPosition(2, 0).withSize(2, 2);
     
-    tab.add("Shoulder Tuner", shoulderTuner).withPosition(0, 2).withSize(2, 2);
-    tab.add("Apply Shoulder Tuning Values", new ApplyShoulderTuningCommand(this)).withPosition(10, 0).withSize(2, 1);
+    // tab.add("Shoulder Tuner", shoulderTuner).withPosition(0, 2).withSize(2, 2);
+    // tab.add("Apply Shoulder Tuning Values", new ApplyShoulderTuningCommand(this)).withPosition(10, 0).withSize(2, 1);
     
-    tab.add("Shoulder SGV Tuner", shoulderSGVTuner).withPosition(0, 4).withSize(2, 2);
-    tab.add("Apply Shoulder SGV Values", new ApplyShoulderSGVTuningCommand(this)).withPosition(10, 2).withSize(2, 1);
+    // tab.add("Shoulder SGV Tuner", shoulderSGVTuner).withPosition(0, 4).withSize(2, 2);
+    // tab.add("Apply Shoulder SGV Values", new ApplyShoulderSGVTuningCommand(this)).withPosition(10, 2).withSize(2, 1);
 
-    tab.add("Elbow PID Tuner", elbowTuner).withPosition(2, 2).withSize(2, 2);
-    tab.add("Apply Elbow PID Tuning Values", new ApplyElbowPIDTuningCommand(this)).withPosition(10, 0).withSize(2, 1);
+    // tab.add("Elbow PID Tuner", elbowTuner).withPosition(2, 2).withSize(2, 2);
+    // tab.add("Apply Elbow PID Tuning Values", new ApplyElbowPIDTuningCommand(this)).withPosition(10, 0).withSize(2, 1);
 
-    tab.add("Elbow SGV Tuner", elbowSGVTuner).withPosition(4, 0).withSize(2,2);
-    tab.add("Apply Elbow SGV Values", new ApplyElbowSGVTuningCommand(this)).withPosition(10, 4).withSize(2, 1);
+    // tab.add("Elbow SGV Tuner", elbowSGVTuner).withPosition(4, 0).withSize(2,2);
+    // tab.add("Apply Elbow SGV Values", new ApplyElbowSGVTuningCommand(this)).withPosition(10, 4).withSize(2, 1);
     // tab.add("Shoulder Feedforward", shoulderFFController);
     // tab.add("Elbow Feedforward", elbowFFController);
     //tab.add("Shoulder encoder", shoulderRelativeEncoder);
@@ -197,37 +220,37 @@ public class ArmSubsystem extends SubsystemBase {
    * Update PID values from the Tuner.
    */
 
-  public void applyElbowTuningValues() {
-    elbowPidController.setP(elbowTuner.getP());
-    elbowPidController.setI(elbowTuner.getI());
-    elbowPidController.setD(elbowTuner.getD());
-    System.out.println("==========================");
-    System.out.println("Elbow PID Controller Updated");
-    System.out.println("==========================");
-  }
+  // public void applyElbowTuningValues() {
+  //   elbowPidController.setP(elbowTuner.getP());
+  //   elbowPidController.setI(elbowTuner.getI());
+  //   elbowPidController.setD(elbowTuner.getD());
+  //   System.out.println("==========================");
+  //   System.out.println("Elbow PID Controller Updated");
+  //   System.out.println("==========================");
+  // }
 
-  public void applyElbowSGVTuningValues() {
-    elbowFFController = new ArmFeedforward(elbowSGVTuner.getP(), elbowSGVTuner.getI(), elbowSGVTuner.getD(), Constants.Arm.Elbow.kA);
-    System.out.println("==========================");
-    System.out.println("Elbow FF Controller Updated");
-    System.out.println("==========================");
-  }
+  // public void applyElbowSGVTuningValues() {
+  //   elbowFFController = new ArmFeedforward(elbowSGVTuner.getP(), elbowSGVTuner.getI(), elbowSGVTuner.getD(), Constants.Arm.Elbow.kA);
+  //   System.out.println("==========================");
+  //   System.out.println("Elbow FF Controller Updated");
+  //   System.out.println("==========================");
+  // }
 
-  public void applyShoulderTuningValues() {
-    shoulderPidController.setP(shoulderTuner.getP());
-    shoulderPidController.setI(shoulderTuner.getI());
-    shoulderPidController.setD(shoulderTuner.getD());
-    System.out.println("==========================");
-    System.out.println("Shoulder PID Controller Updated");
-    System.out.println("==========================");
-  }
+  // public void applyShoulderTuningValues() {
+  //   shoulderPidController.setP(shoulderTuner.getP());
+  //   shoulderPidController.setI(shoulderTuner.getI());
+  //   shoulderPidController.setD(shoulderTuner.getD());
+  //   System.out.println("==========================");
+  //   System.out.println("Shoulder PID Controller Updated");
+  //   System.out.println("==========================");
+  // }
 
-  public void applyShoulderSGVTuningValues() {
-    elbowFFController = new ArmFeedforward(shoulderSGVTuner.getP(), shoulderSGVTuner.getI(), shoulderSGVTuner.getD(), Constants.Arm.Shoulder.kA);
-    System.out.println("==========================");
-    System.out.println("Shoulder FF Controller Updated");
-    System.out.println("==========================");
-  }
+  // public void applyShoulderSGVTuningValues() {
+  //   elbowFFController = new ArmFeedforward(shoulderSGVTuner.getP(), shoulderSGVTuner.getI(), shoulderSGVTuner.getD(), Constants.Arm.Shoulder.kA);
+  //   System.out.println("==========================");
+  //   System.out.println("Shoulder FF Controller Updated");
+  //   System.out.println("==========================");
+  // }
 
 
   public boolean isElbowAtUpperLimit() {

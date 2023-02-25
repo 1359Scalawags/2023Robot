@@ -17,10 +17,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import org.ejml.simple.ops.SimpleOperations_ZDRM;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -38,8 +41,11 @@ public class ArmSubsystem extends SubsystemBase {
   private SendableCANSparkMax shoulderMotor;
   //private DutyCycleEncoder elbowEncoder;
   //private DutyCycleEncoder shoulderEncoder;
+
   private FloorRelativeEncoder elbowRelativeEncoder;
   private FloorRelativeEncoder shoulderRelativeEncoder;
+  private SparkMaxAbsoluteEncoder elbowSparkMaxEncoder;
+  private SparkMaxAbsoluteEncoder shoulderSparkMaxEncoder;
 
   // private PIDController elbowPidController;
   // private PIDController shoulderPidController;
@@ -105,10 +111,15 @@ public class ArmSubsystem extends SubsystemBase {
     // shoulderEncoder.setDistancePerRotation(360.0);
     
 
-    shoulderRelativeEncoder = new FloorRelativeEncoder(Constants.Arm.Shoulder.channel, Constants.Arm.Shoulder.angleAtFloor, true);
-    elbowRelativeEncoder = new FloorRelativeEncoder(Constants.Arm.Elbow.channel, Constants.Arm.Elbow.angleAtFloor, false, shoulderRelativeEncoder);
+    // shoulderRelativeEncoder = new FloorRelativeEncoder(Constants.Arm.Shoulder.channel, Constants.Arm.Shoulder.angleAtFloor, true);
+    // elbowRelativeEncoder = new FloorRelativeEncoder(Constants.Arm.Elbow.channel, Constants.Arm.Elbow.angleAtFloor, false, shoulderRelativeEncoder);
     // elbowEncoder.setAverageBits(4); 
     // shoulderEncoder.setAverageBits(4);
+    elbowSparkMaxEncoder = elbowMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    shoulderSparkMaxEncoder = shoulderMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    shoulderSparkMaxEncoder.setInverted(true);
+    elbowSparkMaxEncoder.setZeroOffset(Constants.Arm.Elbow.angleAtFloor);
+    shoulderSparkMaxEncoder.setZeroOffset(Constants.Arm.Shoulder.angleAtFloor);
 
     // elbowPidController = new PIDController(e_kP, e_kI, e_kD);
     // shoulderPidController = new PIDController(s_kP, s_kI, s_kD);

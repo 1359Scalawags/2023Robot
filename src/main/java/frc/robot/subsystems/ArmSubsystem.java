@@ -205,6 +205,7 @@ public class ArmSubsystem extends SubsystemBase {
     //tab.add("Shoulder encoder", shoulderRelativeEncoder);
     //tab.add("Elbow encoder",elbowRelativeEncoder);
 
+
             
   }
 
@@ -312,7 +313,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setElbowSetpoint(double value) {
     //TODO: Review method definition
     e_targetPosition = MathUtil.clamp(value, Constants.Arm.Elbow.lowerlimit, Constants.Arm.Elbow.upperlimit);
-    elbowSparkMaxPIDController.setReference(elbowRelativeEncoder.convertToAbsoluteDegrees(e_targetPosition), ControlType.kPosition);
+    //elbowSparkMaxPIDController.setReference(elbowRelativeEncoder.convertToAbsoluteDegrees(e_targetPosition), ControlType.kPosition);
   }
 
   /**
@@ -332,7 +333,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setShoulderSetpoint(double value) {
     //TODO: Review method definition
     s_targetPosition = MathUtil.clamp(value, Constants.Arm.Shoulder.lowerlimit, Constants.Arm.Shoulder.upperlimit);
-    shoulderSparkMaxPIDController.setReference(shoulderRelativeEncoder.convertToAbsoluteDegrees(s_targetPosition), ControlType.kPosition);
+    //shoulderSparkMaxPIDController.setReference(shoulderRelativeEncoder.convertToAbsoluteDegrees(s_targetPosition), ControlType.kPosition);
   }
 
     /**
@@ -352,18 +353,23 @@ public class ArmSubsystem extends SubsystemBase {
   //   return elbowRelativeEncoder.getDegrees();
   // }
 
-  // /**
-  //  * Get shoulder's position relative to the floor.
-  //  * @return Angle in degrees
-  //  */
+
   // public double getShoulderPosition() {
   //   return shoulderRelativeEncoder.getDegrees();
   // }
 
+  /**
+   * Get shoulder's position relative to the floor.
+   * @return Angle in degrees
+   */
   public double getShoulderDegree() {
     return shoulderSparkMaxEncoder.getPosition();
   }
   
+  /**
+   * The floor relative angle of the elbow.
+   * @return Angle in degrees.
+   */
   public double getElbowDegree() {
     return elbowSparkMaxEncoder.getPosition() + shoulderSparkMaxEncoder.getPosition();
   }

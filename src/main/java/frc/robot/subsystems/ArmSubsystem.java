@@ -371,7 +371,7 @@ public class ArmSubsystem extends SubsystemBase {
    * @return Angle in degrees.
    */
   public double getElbowDegree() {
-    return elbowSparkMaxEncoder.getPosition() + shoulderSparkMaxEncoder.getPosition();
+    return elbowSparkMaxEncoder.getPosition();
   }
   
 
@@ -399,6 +399,8 @@ public class ArmSubsystem extends SubsystemBase {
       delayCounter++;
       return;
     }
+
+    elbowSparkMaxEncoder.setZeroOffset(Constants.Arm.Elbow.angleAtFloor - getShoulderDegree());
 
     if (Robot.isTestMode()){
       SmartDashboard.putBoolean("Elbow Lower Limit", isElbowAtLowerLimit());
@@ -449,7 +451,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     else {
-                                
+
       elbowSparkMaxPIDController.setReference(e_targetPosition, ControlType.kPosition);
       shoulderSparkMaxPIDController.setReference(s_targetPosition, ControlType.kPosition);
     }

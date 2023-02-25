@@ -312,7 +312,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setElbowSetpoint(double value) {
     //TODO: Review method definition
     e_targetPosition = MathUtil.clamp(value, Constants.Arm.Elbow.lowerlimit, Constants.Arm.Elbow.upperlimit);
-    elbowSparkMaxPIDController.setReference(elbowRelativeEncoder.convertToAbsoluteDegrees(e_targetPosition), ControlType.kPosition);
+    //elbowSparkMaxPIDController.setReference(elbowRelativeEncoder.convertToAbsoluteDegrees(e_targetPosition), ControlType.kPosition);
   }
 
   /**
@@ -332,7 +332,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setShoulderSetpoint(double value) {
     //TODO: Review method definition
     s_targetPosition = MathUtil.clamp(value, Constants.Arm.Shoulder.lowerlimit, Constants.Arm.Shoulder.upperlimit);
-    shoulderSparkMaxPIDController.setReference(shoulderRelativeEncoder.convertToAbsoluteDegrees(s_targetPosition), ControlType.kPosition);
+    //shoulderSparkMaxPIDController.setReference(shoulderRelativeEncoder.convertToAbsoluteDegrees(s_targetPosition), ControlType.kPosition);
   }
 
     /**
@@ -395,7 +395,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     elbowSparkMaxEncoder.setZeroOffset(Constants.Arm.Elbow.angleAtFloor - getShoulderDegree());
-    
+
     if (Robot.isTestMode()){
       SmartDashboard.putBoolean("Elbow Lower Limit", isElbowAtLowerLimit());
       SmartDashboard.putBoolean("Elbow Upper Limit", isElbowAtUpperLimit());

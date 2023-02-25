@@ -69,6 +69,10 @@ public class FloorRelativeEncoder implements Sendable {
         return this.lastRetrievedValue;
     }
 
+    public double convertToAbsoluteDegrees(double floorRelativeAngle) {
+        return (floorRelativeAngle + this.offset) / (360.0*this.direction);
+    }
+
     /**
      * Get position when it was last requested.
      * @return A position in degrees relative to the floor.

@@ -45,8 +45,8 @@ public class VisionSystem extends SubsystemBase {
     NetworkTableEntry tx = getLimelightEntry("tx");
     NetworkTableEntry ty = getLimelightEntry("ty");
     NetworkTableEntry ta = getLimelightEntry("ta");
-    NetworkTableEntry ledMode = getLimelightEntry("1");
-    NetworkTableEntry camMode = getLimelightEntry("1");
+    NetworkTableEntry ledMode = getLimelightEntry("ledMode");
+    NetworkTableEntry camMode = getLimelightEntry("camMode");
     public VisionSystem() {
         // limelight initialization
         setCamMode(LimelightModes.vision);

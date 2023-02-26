@@ -101,8 +101,8 @@ public final class Constants {
             public static final double kD = 0.0;
             public static final double kFF = 0.00026;
             public static final double kIz = 0;
-            public static final double kMinOutput = 0;
-            public static final double kMaxOutput = 0;
+            public static final double kMinOutput = -0.25;
+            public static final double kMaxOutput = 0.25;
 
             public static final double kS = 0.075;
             public static final double kG = 0.3525;

@@ -205,6 +205,7 @@ public class ArmSubsystem extends SubsystemBase {
     //tab.add("Shoulder encoder", shoulderRelativeEncoder);
     //tab.add("Elbow encoder",elbowRelativeEncoder);
 
+
             
   }
 
@@ -352,18 +353,23 @@ public class ArmSubsystem extends SubsystemBase {
   //   return elbowRelativeEncoder.getDegrees();
   // }
 
-  // /**
-  //  * Get shoulder's position relative to the floor.
-  //  * @return Angle in degrees
-  //  */
+
   // public double getShoulderPosition() {
   //   return shoulderRelativeEncoder.getDegrees();
   // }
 
+  /**
+   * Get shoulder's position relative to the floor.
+   * @return Angle in degrees
+   */
   public double getShoulderDegree() {
     return shoulderSparkMaxEncoder.getPosition();
   }
   
+  /**
+   * The floor relative angle of the elbow.
+   * @return Angle in degrees.
+   */
   public double getElbowDegree() {
     return elbowSparkMaxEncoder.getPosition();
   }

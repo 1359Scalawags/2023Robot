@@ -109,7 +109,7 @@ public final class Constants {
             public static final double kV = 0.020769;
             public static final double kA = 0.000916;
 
-            public static final double angleAtFloor = 145;
+            public static final double angleAtFloor = 213.0;
             public static final double targetSpeed = 0.05;
             public static final double maxVoltage = 3;
             public static final double minVoltage = -maxVoltage;
@@ -150,7 +150,7 @@ public final class Constants {
             public static final double kV = 0.020420352;
             public static final double kA = 0.000279253;
 
-            public static final double angleAtFloor = 272;
+            public static final double angleAtFloor = 27.0;
             public static final double targetSpeed = 0.05;
             public static final double maxVoltage = 3; // based on 12V
             public static final double minVoltage = -maxVoltage; // FIXME: this isn't necessary to store in memory

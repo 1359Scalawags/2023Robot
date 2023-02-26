@@ -137,13 +137,13 @@ public final class Constants {
             // public static final double kV = 1.17 * radtoDegreeDivisor;
             // public static final double kA = 0.02 * radtoDegreeDivisor * ffTestRatio ;
             
-            public static final double kP = 0.108; //0.18;  // After tuning, 0.05/2
-            public static final double kI = 0.36;  //10e-4
-            public static final double kD = 0.008;  //1 
-            public static final double kFF = 0;
+            public static final double kP = 0.01; //0.18;  // After tuning, 0.05/2
+            public static final double kI = 0;  //10e-4
+            public static final double kD = 0;  //1 
+            public static final double kFF = 0.0001;
             public static final double kIz = 0;
-            public static final double kMinOutput = 0;
-            public static final double kMaxOutput = 0;
+            public static final double kMinOutput = -0.2;
+            public static final double kMaxOutput = 0.2;
 
             public static final double kS = 0.11; // cut by 20% for initial testing
             public static final double kG = 0.15;

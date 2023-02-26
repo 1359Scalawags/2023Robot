@@ -90,7 +90,7 @@ public class ArmSubsystem extends SubsystemBase {
                 //  s_kMaxOutput = Constants.Arm.Shoulder.kMaxOutput * Constants.Arm.Shoulder.CoefficientMultiplier, 
                 //  s_kMinOutput = Constants.Arm.Shoulder.kMinOutput * Constants.Arm.Shoulder.CoefficientMultiplier, 
                  
-  private boolean initialized = false;
+  private boolean isInitialized = false;
 
   
   /** Creates a new ExampleSubsystem. */
@@ -211,26 +211,14 @@ public class ArmSubsystem extends SubsystemBase {
 
   /**
    * Initialize setpoints at current arm joint positions.
-   * @param elbow Set elbow setpoint.
-   * @param shoulder Set shoulder setpoint.
-   */
-  public void initializeSetpoints(boolean elbow, boolean shoulder) {
-    initialized = false;
-    if(elbow) {
-      setElbowSetpoint(getElbowDegree());
-    }
-    if(shoulder) {
-      setShoulderSetpoint(getShoulderDegree());
-    }
-    System.out.println("Initial Setpoints: E:" + e_targetPosition + " S:" + s_targetPosition);
-  }
-
-  /**
-   * Initialize both elbow and shoulder setpoints at current joint positions.
    */
   public void initializeSetpoints() {
-    initializeSetpoints(true, true);
-  }
+    setElbowSetpoint(getElbowDegree());
+    setShoulderSetpoint(getShoulderDegree());
+    System.out.println("Initial Setpoints: E:" + e_targetPosition + " S:" + s_targetPosition);
+    isInitialized = true;
+}
+
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
@@ -451,9 +439,10 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     else {
-
-      elbowSparkMaxPIDController.setReference(e_targetPosition, ControlType.kPosition);
-      shoulderSparkMaxPIDController.setReference(s_targetPosition, ControlType.kPosition);
+        if(isInitialized) {
+            elbowSparkMaxPIDController.setReference(e_targetPosition, ControlType.kPosition);
+            shoulderSparkMaxPIDController.setReference(s_targetPosition, ControlType.kPosition);
+        }
     }
 
     shoulderRotationEntry.setDouble(shoulderSparkMaxEncoder.getPosition());

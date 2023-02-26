@@ -22,6 +22,7 @@ import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
@@ -99,7 +100,10 @@ public class ArmSubsystem extends SubsystemBase {
     elbowMotor.restoreFactoryDefaults();
     elbowMotor.setInverted(false);
     elbowMotor.setIdleMode(IdleMode.kBrake);
-
+    
+    // TODO: can/should we use setSoftLimit() to limit arm movement?
+    // elbowMotor.setSoftLimit(SoftLimitDirection.kForward, limitValue);
+    
     shoulderMotor = new SendableCANSparkMax(Constants.Arm.Shoulder.motor, MotorType.kBrushless);
     shoulderMotor.restoreFactoryDefaults();
     shoulderMotor.setInverted(true);
@@ -123,6 +127,7 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderSparkMaxEncoder.setPositionConversionFactor(360.0);
     elbowSparkMaxEncoder.setZeroOffset(Constants.Arm.Elbow.angleAtFloor);
     shoulderSparkMaxEncoder.setZeroOffset(Constants.Arm.Shoulder.angleAtFloor);
+
 
     
 

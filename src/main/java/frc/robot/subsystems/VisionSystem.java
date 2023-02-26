@@ -14,6 +14,7 @@ import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableType;
 //positive x value, right negative, left
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -44,12 +45,14 @@ public class VisionSystem extends SubsystemBase {
     NetworkTableEntry tx = getLimelightEntry("tx");
     NetworkTableEntry ty = getLimelightEntry("ty");
     NetworkTableEntry ta = getLimelightEntry("ta");
-
-
+    NetworkTableEntry ledMode = getLimelightEntry("1");
+    NetworkTableEntry camMode = getLimelightEntry("1");
     public VisionSystem() {
         // limelight initialization
         setCamMode(LimelightModes.vision);
-
+        ledMode.setInteger(1);
+        //TODO remember camMode makes the limelight a driver camera
+        camMode.setInteger(1);
         try {
             // USB Camera initialization
             if(Robot.isSimulation()) {
@@ -79,12 +82,13 @@ public class VisionSystem extends SubsystemBase {
         server = CameraServer.getServer();
 
         server.setSource(camera1);
+
         // if (camera1 != null) {
         //     server.setSource(camera1);
         // } else if (camera2 != null) {
         //     server.setSource(camera2);
         // }
-
+        
     }
 
     public static void setCamMode(LimelightModes mode) {

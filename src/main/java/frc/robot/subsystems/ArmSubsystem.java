@@ -445,8 +445,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     else {
         if(isInitialized) {
-            elbowSparkMaxPIDController.setReference(e_targetPosition, ControlType.kPosition);
-            shoulderSparkMaxPIDController.setReference(s_targetPosition, ControlType.kPosition);
+            //TODO: uncomment these when ready for live testing
+            // elbowSparkMaxPIDController.setReference(e_targetPosition, ControlType.kPosition);
+            // shoulderSparkMaxPIDController.setReference(s_targetPosition, ControlType.kPosition);
         }
     }
 

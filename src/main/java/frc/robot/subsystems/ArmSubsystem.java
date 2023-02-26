@@ -32,7 +32,7 @@ import frc.robot.commands.Tuning.ApplyShoulderTuningCommand;
 import frc.robot.commands.Tuning.ApplyElbowSGVTuningCommand;
 import frc.robot.commands.Tuning.ApplyShoulderSGVTuningCommand;
 import frc.robot.commands.Tuning.ApplyElbowPIDTuningCommand;
-import frc.robot.extensions.FloorRelativeEncoder;
+// import frc.robot.extensions.FloorRelativeEncoder;
 import frc.robot.extensions.SendableCANSparkMax;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -42,8 +42,8 @@ public class ArmSubsystem extends SubsystemBase {
   //private DutyCycleEncoder elbowEncoder;
   //private DutyCycleEncoder shoulderEncoder;
 
-  private FloorRelativeEncoder elbowRelativeEncoder;
-  private FloorRelativeEncoder shoulderRelativeEncoder;
+  // private FloorRelativeEncoder elbowRelativeEncoder;
+  // private FloorRelativeEncoder shoulderRelativeEncoder;
   private SparkMaxAbsoluteEncoder elbowSparkMaxEncoder;
   private SparkMaxAbsoluteEncoder shoulderSparkMaxEncoder;
 
@@ -459,8 +459,8 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderRotationEntry.setDouble(shoulderSparkMaxEncoder.getPosition());
     elbowRotationEntry.setDouble(elbowSparkMaxEncoder.getPosition());
 
-    shoulderAbsoluteTargetEntry.setDouble(shoulderRelativeEncoder.convertToAbsoluteDegrees(s_targetPosition));
-    elbowAbsoluteTargetEntry.setDouble(elbowRelativeEncoder.convertToAbsoluteDegrees(e_targetPosition));
+    shoulderAbsoluteTargetEntry.setDouble(s_targetPosition);
+    elbowAbsoluteTargetEntry.setDouble(e_targetPosition);
       // elbowVoltage = getElbowPID() + getElbowFF();
       // shoulderVoltage = getShoulderPID() + getShoulderFF();
       // elbowVoltage = MathUtil.clamp(elbowVoltage, Constants.Arm.Elbow.minVoltage, Constants.Arm.Elbow.maxVoltage);

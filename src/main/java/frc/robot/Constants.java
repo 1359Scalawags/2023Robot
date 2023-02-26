@@ -96,10 +96,10 @@ public final class Constants {
             // public static final double kV = 1.19 * radtoDegreeDivisor;
             // public static final double kA = 0.07 * radtoDegreeDivisor * ffTestRatio;            
             
-            public static final double kP = 0.166667; 
-            public static final double kI = 0.07;
-            public static final double kD = 0.01;
-            public static final double kFF = 0;
+            public static final double kP = 0.0087; 
+            public static final double kI = 0.0;
+            public static final double kD = 0.0;
+            public static final double kFF = 0.00026;
             public static final double kIz = 0;
             public static final double kMinOutput = 0;
             public static final double kMaxOutput = 0;

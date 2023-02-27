@@ -78,7 +78,8 @@ public class ArmSubsystem extends SubsystemBase {
   private double e_kP = Constants.Arm.Elbow.kP,
                  e_kI = Constants.Arm.Elbow.kI, 
                  e_kD = Constants.Arm.Elbow.kD,
-                 e_targetPosition = MathUtil.clamp(Constants.Arm.Elbow.defaultSetpoint, Constants.Arm.Elbow.lowerlimit, Constants.Arm.Elbow.upperlimit);
+                 e_targetPosition = MathUtil.clamp(Constants.Arm.Elbow.defaultSetpoint, Constants.Arm.Elbow.lowerlimit, Constants.Arm.Elbow.upperlimit),
+                 e_limit = Constants.Arm.Elbow.lowerlimit;
                 //  e_kIz = Constants.Arm.Elbow.kIz * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kFF = Constants.Arm.Elbow.kFF * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kMaxOutput = Constants.Arm.Elbow.kMaxOutput * Constants.Arm.Elbow.CoefficientMultiplier, 
@@ -311,7 +312,7 @@ public class ArmSubsystem extends SubsystemBase {
    */
   public void setElbowSetpoint(double value) {
     //TODO: Review method definition
-    e_targetPosition = MathUtil.clamp(value, Constants.Arm.Elbow.lowerlimit, Constants.Arm.Elbow.upperlimit);
+    e_targetPosition = MathUtil.clamp(value, e_limit, Constants.Arm.Elbow.upperlimit);
     //elbowSparkMaxPIDController.setReference(elbowRelativeEncoder.convertToAbsoluteDegrees(e_targetPosition), ControlType.kPosition);
   }
 
@@ -376,6 +377,17 @@ public class ArmSubsystem extends SubsystemBase {
       System.out.println("Unable to use " + offset + " degrees as an offset.");
     }
     return elbowSparkMaxEncoder.getPosition() ;
+  }
+
+  public void adjustElbowLimit(double limit) {
+    double y = 0;
+    double x = getShoulderDegree();
+    if (getShoulderDegree() >= 220 && getShoulderDegree() <= 270) {
+      e_limit = (0.0011 * Math.pow(x, 3)) - (0.7963 * Math.pow(x, 2)) + (193.73 * x) - 15596;
+    }
+    else {
+      e_limit = Constants.Arm.Elbow.lowerlimit;
+    }
   }
 
   // public double normalizeElbowAngle(double offset) {

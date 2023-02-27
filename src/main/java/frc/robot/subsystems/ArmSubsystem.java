@@ -103,12 +103,16 @@ public class ArmSubsystem extends SubsystemBase {
     elbowMotor.setIdleMode(IdleMode.kBrake);
     
     // TODO: can/should we use setSoftLimit() to limit arm movement?
-    // elbowMotor.setSoftLimit(SoftLimitDirection.kForward, limitValue);
+    elbowMotor.setSoftLimit(SoftLimitDirection.kForward, (float)Constants.Arm.Elbow.upperlimit);
+    elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)Constants.Arm.Elbow.lowerlimit);
     
     shoulderMotor = new SendableCANSparkMax(Constants.Arm.Shoulder.motor, MotorType.kBrushless);
     shoulderMotor.restoreFactoryDefaults();
     shoulderMotor.setInverted(true);
     shoulderMotor.setIdleMode(IdleMode.kBrake);
+
+    shoulderMotor.setSoftLimit(SoftLimitDirection.kForward, (float)Constants.Arm.Shoulder.upperlimit);
+    shoulderMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)Constants.Arm.Shoulder.lowerlimit);
 
     // elbowEncoder = new DutyCycleEncoder(Constants.Arm.Elbow.channel);
     // shoulderEncoder = new DutyCycleEncoder(Constants.Arm.Shoulder.channel);

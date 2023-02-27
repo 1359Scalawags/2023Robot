@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 
 /** An example command that uses an example subsystem. */
-public class ApplyShoulderTuningCommand extends CommandBase {
+public class ApplyShoulderPIDTuningCommand extends CommandBase {
 
   private final ArmSubsystem m_subsystem;
 
@@ -13,7 +13,7 @@ public class ApplyShoulderTuningCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ApplyShoulderTuningCommand(ArmSubsystem subsystem) {
+  public ApplyShoulderPIDTuningCommand(ArmSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);

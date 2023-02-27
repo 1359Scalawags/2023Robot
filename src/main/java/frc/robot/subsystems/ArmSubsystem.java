@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.ejml.simple.ops.SimpleOperations_ZDRM;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
@@ -218,6 +219,7 @@ public class ArmSubsystem extends SubsystemBase {
    * Initialize setpoints at current arm joint positions.
    */
   public void initializeSetpoints() {
+
     setElbowSetpoint(getElbowDegree());
     setShoulderSetpoint(getShoulderDegree());
     System.out.println("Initial Setpoints: E:" + e_targetPosition + " S:" + s_targetPosition);
@@ -364,9 +366,24 @@ public class ArmSubsystem extends SubsystemBase {
    * @return Angle in degrees.
    */
   public double getElbowDegree() {
-    return elbowSparkMaxEncoder.getPosition();
+    double offset = Constants.Arm.Elbow.angleAtFloor - getShoulderDegree() + 360.0;
+    REVLibError error = elbowSparkMaxEncoder.setZeroOffset(offset);
+    if(error != REVLibError.kOk) {
+      System.out.println("Unable to use " + offset + " degrees as an offset.");
+    }
+    return elbowSparkMaxEncoder.getPosition() ;
   }
-  
+
+  // public double normalizeElbowAngle(double offset) {
+  //   double newOffSet = 0;
+  //   if (offset < 0.0) {
+  //     newOffSet = 360.0 + offset;
+  //   }
+  //   else if (offset > 360.0) {
+  //     newOffSet = offset - 360;
+  //   }
+  //   return newOffSet + 360.0;
+  // }
 
   // public double getElbowFF() {
   //     return elbowFFController.calculate(e_targetPosition * Math.PI / 180.0, Constants.Arm.Elbow.targetSpeed); 
@@ -392,8 +409,6 @@ public class ArmSubsystem extends SubsystemBase {
       delayCounter++;
       return;
     }
-
-    elbowSparkMaxEncoder.setZeroOffset(Constants.Arm.Elbow.angleAtFloor - getShoulderDegree());
 
     if (Robot.isTestMode()){
       SmartDashboard.putBoolean("Elbow Lower Limit", isElbowAtLowerLimit());
@@ -446,13 +461,13 @@ public class ArmSubsystem extends SubsystemBase {
     else {
         if(isInitialized) {
             //TODO: uncomment these when ready for live testing
-            // elbowSparkMaxPIDController.setReference(e_targetPosition, ControlType.kPosition);
-            // shoulderSparkMaxPIDController.setReference(s_targetPosition, ControlType.kPosition);
+            elbowSparkMaxPIDController.setReference(e_targetPosition, ControlType.kPosition);
+            shoulderSparkMaxPIDController.setReference(s_targetPosition, ControlType.kPosition);
         }
     }
 
-    shoulderRotationEntry.setDouble(shoulderSparkMaxEncoder.getPosition());
-    elbowRotationEntry.setDouble(elbowSparkMaxEncoder.getPosition());
+    shoulderRotationEntry.setDouble(getShoulderDegree());
+    elbowRotationEntry.setDouble(getElbowDegree());
 
     shoulderAbsoluteTargetEntry.setDouble(s_targetPosition);
     elbowAbsoluteTargetEntry.setDouble(e_targetPosition);

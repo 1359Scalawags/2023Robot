@@ -83,9 +83,9 @@ public final class Constants {
             //public static final double pidTestRatio = 1; //30 // 14.25 sec for oscilation       
             public static final int channel = 1;                      
             public static final int motor = 30;  
-            public static final double upperlimit = 70;
-            public static final double lowerlimit = 25;
-            public static final double defaultSetpoint = 45;
+            public static final double upperlimit = 265.0;
+            public static final double lowerlimit = 200.0;
+            public static final double defaultSetpoint = 225.0;
             public static final double CoefficientMultiplier = 1/360.0;
             public static final double shoulderSpeedMultiplier = 0.85;
             // public static final double kP = 60 * pidTestRatio;  // Aft
@@ -109,7 +109,7 @@ public final class Constants {
             public static final double kV = 0.020769;
             public static final double kA = 0.000916;
 
-            public static final double angleAtFloor = 213.0;
+            public static final double angleAtFloor = 213.0 - 180.0;
             public static final double targetSpeed = 0.05;
             public static final double maxVoltage = 3;
             public static final double minVoltage = -maxVoltage;
@@ -123,9 +123,9 @@ public final class Constants {
             //public static final double pidTestRatio = 0.2;  
             public static final int channel = 2;        
             public static final int motor = 23;
-            public static final double upperlimit = 0;
-            public static final double lowerlimit = -85;
-            public static final double defaultSetpoint = -45;
+            public static final double upperlimit = 215.0;
+            public static final double lowerlimit = 85.0;
+            public static final double defaultSetpoint = 104.0;
             public static final double CoefficientMultiplier = 1/360.0;
             public static final double elbowSpeedMultiplier = 0.85; //TODO: Tune This... I don't know how much to increase it by
             //(1/360.0);

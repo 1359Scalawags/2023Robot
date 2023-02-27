@@ -30,7 +30,7 @@ import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.Constants.Arm;
-import frc.robot.commands.Tuning.ApplyShoulderTuningCommand;
+import frc.robot.commands.Tuning.ApplyShoulderPIDTuningCommand;
 import frc.robot.commands.Tuning.ApplyElbowSGVTuningCommand;
 import frc.robot.commands.Tuning.ApplyShoulderSGVTuningCommand;
 import frc.robot.commands.Tuning.ApplyElbowPIDTuningCommand;
@@ -78,8 +78,8 @@ public class ArmSubsystem extends SubsystemBase {
   private double e_kP = Constants.Arm.Elbow.kP,
                  e_kI = Constants.Arm.Elbow.kI, 
                  e_kD = Constants.Arm.Elbow.kD,
-                 e_targetPosition = MathUtil.clamp(Constants.Arm.Elbow.defaultSetpoint, Constants.Arm.Elbow.lowerlimit, Constants.Arm.Elbow.upperlimit),
-                 e_limit = Constants.Arm.Elbow.lowerlimit;
+                 e_targetPosition = MathUtil.clamp(Constants.Arm.Elbow.defaultSetpoint, Constants.Arm.Elbow.lowerLimitMax, Constants.Arm.Elbow.upperlimit),
+                 e_lowerLimit = Constants.Arm.Elbow.lowerLimitMax;
                 //  e_kIz = Constants.Arm.Elbow.kIz * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kFF = Constants.Arm.Elbow.kFF * Constants.Arm.Elbow.CoefficientMultiplier, 
                 //  e_kMaxOutput = Constants.Arm.Elbow.kMaxOutput * Constants.Arm.Elbow.CoefficientMultiplier, 
@@ -105,7 +105,7 @@ public class ArmSubsystem extends SubsystemBase {
     
     // TODO: can/should we use setSoftLimit() to limit arm movement?
     elbowMotor.setSoftLimit(SoftLimitDirection.kForward, (float)Constants.Arm.Elbow.upperlimit);
-    elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)Constants.Arm.Elbow.lowerlimit);
+    elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)Constants.Arm.Elbow.lowerLimitMin);
     
     shoulderMotor = new SendableCANSparkMax(Constants.Arm.Shoulder.motor, MotorType.kBrushless);
     shoulderMotor.restoreFactoryDefaults();
@@ -283,7 +283,7 @@ public class ArmSubsystem extends SubsystemBase {
     return getElbowDegree() >= Constants.Arm.Elbow.upperlimit;
   }
   public boolean isElbowAtLowerLimit() {
-    return getElbowDegree() <= Constants.Arm.Elbow.lowerlimit;
+    return getElbowDegree() <= e_lowerLimit;
   }
   public boolean isElbowWithinLimits() {
     return !isElbowAtLowerLimit() && !isElbowAtUpperLimit();
@@ -312,7 +312,7 @@ public class ArmSubsystem extends SubsystemBase {
    */
   public void setElbowSetpoint(double value) {
     //TODO: Review method definition
-    e_targetPosition = MathUtil.clamp(value, e_limit, Constants.Arm.Elbow.upperlimit);
+    e_targetPosition = MathUtil.clamp(value, e_lowerLimit, Constants.Arm.Elbow.upperlimit);
     //elbowSparkMaxPIDController.setReference(elbowRelativeEncoder.convertToAbsoluteDegrees(e_targetPosition), ControlType.kPosition);
   }
 
@@ -379,15 +379,17 @@ public class ArmSubsystem extends SubsystemBase {
     return elbowSparkMaxEncoder.getPosition() ;
   }
 
-  public void adjustElbowLimit(double limit) {
-    double y = 0;
-    double x = getShoulderDegree();
-    if (getShoulderDegree() >= 220 && getShoulderDegree() <= 270) {
-      e_limit = (0.0011 * Math.pow(x, 3)) - (0.7963 * Math.pow(x, 2)) + (193.73 * x) - 15596;
+  public void adjustElbowLimit() {
+    double shoulder = getShoulderDegree();
+    if(shoulder < Constants.Arm.Elbow.shoulderRestrictionPositionLower) {
+      e_lowerLimit = 90.0;
+    } else if(shoulder > Constants.Arm.Elbow.shoulderRestrictionPositionUpper) {
+      e_lowerLimit = 115;
+    } else {
+      e_lowerLimit = 0.000626961 * Math.pow(shoulder, 3) - 0.457477 * Math.pow(shoulder, 2) + 111.372 * shoulder - 8945.89;      
     }
-    else {
-      e_limit = Constants.Arm.Elbow.lowerlimit;
-    }
+    e_targetPosition = MathUtil.clamp(e_targetPosition, e_lowerLimit, Constants.Arm.Elbow.upperlimit);
+    elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)e_lowerLimit);
   }
 
   // public double normalizeElbowAngle(double offset) {

@@ -124,7 +124,10 @@ public final class Constants {
             public static final int channel = 2;        
             public static final int motor = 23;
             public static final double upperlimit = 215.0;
-            public static final double lowerlimit = 85.0;
+            public static final double lowerLimitMax = 115;
+            public static final double lowerLimitMin = 85.0;
+            public static final double shoulderRestrictionPositionLower = 220;
+            public static final double shoulderRestrictionPositionUpper = 270;
             public static final double defaultSetpoint = 104.0;
             public static final double CoefficientMultiplier = 1/360.0;
             public static final double elbowSpeedMultiplier = 0.85; //TODO: Tune This... I don't know how much to increase it by

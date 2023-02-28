@@ -41,13 +41,13 @@ public final class Constants {
     public static final double kPDriveVel = 0.17182;
     
 
-    public static final double kp_XController = 0.0;
+    public static final double kp_XController = 0.2;
     public static final double ki_XController = 0.0;
     public static final double kd_XController = 0.0;
-    public static final double kp_YController = 0.0;
+    public static final double kp_YController = 0.2;
     public static final double ki_YController = 0.0;
     public static final double kd_YController = 0.0;
-    public static final double kp_RotationController = 0.0;
+    public static final double kp_RotationController = 0.2;
     public static final double ki_RotationController = 0.0;
     public static final double kd_RotationController = 0.0;
     

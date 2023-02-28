@@ -42,15 +42,16 @@ public class VisionSystem extends SubsystemBase {
     double x, y, area, pose;
 
     static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    NetworkTableEntry tx = getValue("tx");
-    NetworkTableEntry ty = getValue("ty");
-    NetworkTableEntry ta = getValue("ta");
-    // NetworkTableEntry ledMode = getLimelightEntry("ledMode");
-    // NetworkTableEntry camMode = getLimelightEntry("camMode");
+    NetworkTableEntry tx = table.getEntry("tx");
+    NetworkTableEntry ty = table.getEntry("ty");
+    NetworkTableEntry ta = table.getEntry("ta");
+    NetworkTableEntry ledMode = getLimelightEntry("ledMode");
+    NetworkTableEntry camMode = getLimelightEntry("camMode");
     NetworkTableEntry botPose = table.getEntry("botpose");
 
     public VisionSystem() {
-        botPose = table.getEntry("botpose").getDoubleArray(new double[6]);
+        //TODO: Line below needs to be checked
+        // botPose = table.getEntry("botpose").getDoubleArray(new double[6]); 
         // limelight initialization
         setCamMode(LimelightModes.vision);
         ledMode.setInteger(1);
@@ -110,9 +111,7 @@ public class VisionSystem extends SubsystemBase {
     //     }
     }
 
-    public double[] getBotPose() {
-        return botPose;
-    }
+    
 
     @Override
     public void periodic() {

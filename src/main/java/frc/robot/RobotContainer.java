@@ -88,7 +88,6 @@ public class RobotContainer {
   private final PlatformBalance m_PlatformBalance = new PlatformBalance(m_drivetrainSubsystem);
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
-  private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
   private final TurnCompressorOff m_compressorOff = new TurnCompressorOff(m_grabberSubsystem);
   private final TurnCompressorOn m_compressorOn = new TurnCompressorOn(m_grabberSubsystem);
   private final GrabCommandOpen m_opengrabber = new GrabCommandOpen(m_grabberSubsystem);

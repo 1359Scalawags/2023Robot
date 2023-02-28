@@ -13,9 +13,9 @@ public class MoveLeft extends CommandBase {
 
   
   private DrivetrainSubsystem m_drivetrainSubsystem;
-  private double startDistance;
+  private double endDistance;
   public MoveLeft(DrivetrainSubsystem driveSystem, double distance){
-    startDistance = m_drivetrainSubsystem.getDistanceX() + distance;
+    endDistance = distance;
     m_drivetrainSubsystem = driveSystem;
     addRequirements(driveSystem);
   }
@@ -25,6 +25,8 @@ public class MoveLeft extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() { 
+    endDistance = m_drivetrainSubsystem.getDistanceX() + endDistance;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,7 +44,7 @@ public class MoveLeft extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_drivetrainSubsystem.getDistanceX() < startDistance){
+    if (m_drivetrainSubsystem.getDistanceX() < endDistance){
       return false;
     }else{
       m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));

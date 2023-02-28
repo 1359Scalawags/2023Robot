@@ -38,7 +38,7 @@ import frc.robot.commands.Tuning.ApplyShoulderSGVTuningCommand;
 import frc.robot.commands.Tuning.ApplyElbowPIDTuningCommand;
 // import frc.robot.extensions.FloorRelativeEncoder;
 import frc.robot.extensions.SendableCANSparkMax;
-import frc.robot.extensions.SparkMaxShufflboardPIDTuner;
+import frc.robot.extensions.SparkMaxTuner;
 
 public class ArmSubsystem extends SubsystemBase {
   
@@ -58,8 +58,8 @@ public class ArmSubsystem extends SubsystemBase {
   // private PIDController elbowTuner;
   // private PIDController shoulderTuner;
 
-  private SparkMaxShufflboardPIDTuner elbowTuner;
-  private SparkMaxShufflboardPIDTuner shoulderTuner;
+  private SparkMaxTuner elbowTuner;
+  private SparkMaxTuner shoulderTuner;
 
   private SparkMaxPIDController elbowSparkMaxPIDController;
   private SparkMaxPIDController shoulderSparkMaxPIDController;
@@ -228,8 +228,8 @@ public class ArmSubsystem extends SubsystemBase {
     //tab.add("Shoulder encoder", shoulderRelativeEncoder);
     //tab.add("Elbow encoder",elbowRelativeEncoder);
 
-    elbowTuner = new SparkMaxShufflboardPIDTuner("SparkMax Tuner", "Elbow Tuner", 0, elbowSparkMaxPIDController);
-    shoulderTuner = new SparkMaxShufflboardPIDTuner("SparkMax Tuner", "Shoulder Tuner", 2, shoulderSparkMaxPIDController);
+    elbowTuner = new SparkMaxTuner("SparkMax Tuner", "Elbow Tuner", 0, elbowSparkMaxPIDController);
+    shoulderTuner = new SparkMaxTuner("SparkMax Tuner", "Shoulder Tuner", 2, shoulderSparkMaxPIDController);
             
   }
 
@@ -387,15 +387,15 @@ public class ArmSubsystem extends SubsystemBase {
   public double getElbowDegree() {
     double offset = Constants.Arm.Elbow.angleAtFloor - getShoulderDegree() + 360;
     double normalized = MathUtil.inputModulus(offset, 0, 360);
-    // //avoid spam messages
-    // if(displayTimer.hasElapsed(0.25)) {
-    //   displayTimer.reset();
+    //avoid spam messages
+    if(displayTimer.hasElapsed(0.5)) {
+       displayTimer.reset();
     //   System.out.println("Offset: " + offset + "    Normalized: " + normalized);      
       REVLibError error = elbowSparkMaxEncoder.setZeroOffset(normalized);
       if(error != REVLibError.kOk) {
           System.out.println("Unable to use " + normalized + " degrees as an offset.");   
       }      
-    //}
+    }
     return elbowSparkMaxEncoder.getPosition() ;
   }
 

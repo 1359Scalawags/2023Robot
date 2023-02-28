@@ -16,11 +16,13 @@ import frc.robot.commands.GrabCommandClose;
 import frc.robot.commands.GrabCommandOpen;
 import frc.robot.commands.InitializeTargetRotationCommand;
 import frc.robot.commands.PlatformBalance;
+import frc.robot.commands.SetDriveMode;
 import frc.robot.commands.TurnCompressorOn;
 import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
 import frc.robot.commands.TurnCompressorOff;
 
 /**
@@ -92,7 +94,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
     //new JoystickButton(m_logitech, 3).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
-    new JoystickButton(driverJoystick, 3).whileTrue(m_ZeroGyroCommand);
+    new JoystickButton(driverJoystick, 2).whileTrue(m_ZeroGyroCommand);
+    new JoystickButton(driverJoystick, 3).whileTrue(new SetDriveMode(m_drivetrainSubsystem, DriveModes.FieldCentric));
+    new JoystickButton(driverJoystick,4).whileTrue(new SetDriveMode(m_drivetrainSubsystem, DriveModes.RobotCentric)); 
     new JoystickButton(assistantJoystick, 10).whileTrue(m_compressorOff);
     new JoystickButton(assistantJoystick, 11).whileTrue(m_compressorOn);
     new JoystickButton(assistantJoystick, 1).whileTrue(m_closegrabber);

@@ -37,6 +37,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public static final double MAX_VOLTAGE = 12.0;
+    public enum DriveModes {
+        RobotCentric,
+        FieldCentric
+      }
+    private DriveModes driveMode;
     // FIXME Measure the drivetrain's maximum velocity or calculate the theoretical.
     // The formula for calculating the theoretical maximum velocity is:
     // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
@@ -237,10 +242,20 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return m_chassisSpeeds;
     }
 
+    public void setDriveMode(DriveModes mode) {
+        driveMode = mode;
+    }
+    
     @Override
     public void periodic() {
+        
         if (!Robot.isTestMode()) {
-            SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
+            ChassisSpeeds tempSpeeds = m_chassisSpeeds;
+            if (driveMode == DriveModes.FieldCentric){
+                tempSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_chassisSpeeds, getGyroscopeRotation()); 
+            }
+
+            SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(tempSpeeds);
             SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_MPS);
 
             m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,

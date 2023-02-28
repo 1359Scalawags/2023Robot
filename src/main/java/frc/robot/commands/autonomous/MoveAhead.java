@@ -12,8 +12,9 @@ public class MoveAhead extends CommandBase {
 
 
   private DrivetrainSubsystem m_drivetrainSubsystem;
-
-  public MoveAhead(DrivetrainSubsystem driveSystem){
+  private double startDistance;
+  public MoveAhead(DrivetrainSubsystem driveSystem, double distance){
+    startDistance = m_drivetrainSubsystem.getDistanceX() + distance;
     m_drivetrainSubsystem = driveSystem;
     addRequirements(driveSystem);
   }
@@ -29,7 +30,7 @@ public class MoveAhead extends CommandBase {
   @Override
   public void execute() {
     m_drivetrainSubsystem.drive(
-    new ChassisSpeeds(1,0,0)
+    new ChassisSpeeds(0,1,0)
     );
   }
 
@@ -40,6 +41,11 @@ public class MoveAhead extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (m_drivetrainSubsystem.getDistanceX() < startDistance){
+      return false;
+    }else{
+      m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
+      return true;
+    }
   }
 }

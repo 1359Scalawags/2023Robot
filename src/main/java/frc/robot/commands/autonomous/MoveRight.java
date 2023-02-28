@@ -10,10 +10,10 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 /** An example command that uses an example subsystem. */
 public class MoveRight extends CommandBase {
 
-
   private DrivetrainSubsystem m_drivetrainSubsystem;
-
-  public MoveRight(DrivetrainSubsystem driveSystem){
+  private double endDistance;
+  public MoveRight(DrivetrainSubsystem driveSystem, double distance){
+    endDistance = distance;
     m_drivetrainSubsystem = driveSystem;
     addRequirements(driveSystem);
   }
@@ -23,13 +23,14 @@ public class MoveRight extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() { 
+   endDistance = m_drivetrainSubsystem.getDistanceX() + endDistance;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_drivetrainSubsystem.drive(
-    new ChassisSpeeds(0,1,0)
+    new ChassisSpeeds(-1,0,0)
     );
   }
 
@@ -40,6 +41,11 @@ public class MoveRight extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (m_drivetrainSubsystem.getDistanceX() < endDistance){
+      return false;
+    }else{
+      m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
+      return true;
+    }
   }
 }

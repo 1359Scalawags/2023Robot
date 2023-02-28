@@ -225,6 +225,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
         //return getGyroscopeRotation().getDegrees();
     }
 
+    public double getDistanceX() {
+        return m_navx.getDisplacementX();
+    }
+
+    public double getDistanceY() {
+        return m_navx.getDisplacementY();
+    }
 
     /**
      * Set translation and rotation speeds of the drive.

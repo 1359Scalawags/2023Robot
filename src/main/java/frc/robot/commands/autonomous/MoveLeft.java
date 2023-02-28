@@ -11,9 +11,11 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class MoveLeft extends CommandBase {
 
 
+  
   private DrivetrainSubsystem m_drivetrainSubsystem;
-
-  public MoveLeft(DrivetrainSubsystem driveSystem){
+  private double endDistance;
+  public MoveLeft(DrivetrainSubsystem driveSystem, double distance){
+    endDistance = distance;
     m_drivetrainSubsystem = driveSystem;
     addRequirements(driveSystem);
   }
@@ -23,13 +25,15 @@ public class MoveLeft extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() { 
+    endDistance = m_drivetrainSubsystem.getDistanceX() + endDistance;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_drivetrainSubsystem.drive(
-    new ChassisSpeeds(0,-1,0)
+    new ChassisSpeeds(1,0,0)
     );
   }
 
@@ -40,6 +44,11 @@ public class MoveLeft extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (m_drivetrainSubsystem.getDistanceX() < endDistance){
+      return false;
+    }else{
+      m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
+      return true;
+    }
   }
 }

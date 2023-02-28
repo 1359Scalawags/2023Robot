@@ -119,6 +119,9 @@ public final class Constants {
             // public static final double kMinOutput = -1; 
 
             public static final double parkingDegree = 270.0;
+            //TODO: Initialize these following values
+            public static final double onGroundLevel = 0;
+            public static final double onHighDegree = 0;
         }
         public static final class Elbow {
             //public static final double ffTestRatio = 0.8;

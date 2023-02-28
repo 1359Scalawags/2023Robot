@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.DisplaySystem;
-import frc.robot.commands.ArmParkingCommand;
+import frc.robot.commands.ArmOnGroundCommand;
 import frc.robot.commands.DefaultArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GrabCommandClose;
@@ -47,7 +47,7 @@ public class RobotContainer {
   private final TurnCompressorOn m_compressorOn = new TurnCompressorOn(m_grabberSubsystem);
   private final GrabCommandOpen m_opengrabber = new GrabCommandOpen(m_grabberSubsystem);
   private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
-  private final ArmParkingCommand m_ArmParkingCommand = new ArmParkingCommand(m_armSubsystem);
+  private final ArmOnGroundCommand m_ArmParkingCommand = new ArmOnGroundCommand(m_armSubsystem);
   private final VisionSystem m_VisionSystem = new VisionSystem();
   private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(m_VisionSystem, m_drivetrainSubsystem);
 

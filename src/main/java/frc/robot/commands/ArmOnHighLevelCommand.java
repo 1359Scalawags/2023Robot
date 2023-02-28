@@ -9,7 +9,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class ArmParkingCommand extends CommandBase {
+public class ArmOnHighLevelCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final ArmSubsystem m_subsystem;
@@ -19,7 +19,7 @@ public class ArmParkingCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ArmParkingCommand(ArmSubsystem subsystem) {
+  public ArmOnHighLevelCommand(ArmSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -33,8 +33,9 @@ public class ArmParkingCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.parkingDegree);
-    m_subsystem.setShoulderSetpoint(Constants.Arm.Shoulder.parkingDegree);
+    //TODO: What is optimal angles for parking?
+    m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.onHighLevel);
+    m_subsystem.setShoulderSetpoint(Constants.Arm.Shoulder.onHighLevel);
   }
 
   // Called once the command ends sor is interrupted.

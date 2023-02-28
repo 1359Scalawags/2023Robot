@@ -59,17 +59,17 @@ public class DisplaySubSystem extends SubsystemBase {
                 .getEntry();
 
         // if(vision.getCamera1() != null) {
-        this.mainTab
-                .add("Camera", vision.getCamera1())
-                .withWidget(BuiltInWidgets.kCameraStream)
-                .withSize(4, 4)
-                .withPosition(3, 0);
+        // this.mainTab
+        //         .add("Camera", vision.getCamera1())
+        //         .withWidget(BuiltInWidgets.kCameraStream)
+        //         .withSize(4, 4)
+        //         .withPosition(3, 0);
 
         this.mainTab.add(camera)
                     .withSize(4, 4);
 
         driveModeEntry = mainTab
-                .add("Field Centric", driveSystem.getDriveMode())
+                .add("Drive Mode", driveSystem.getDriveMode())
                 .withSize(2, 1)
                 .getEntry();
         // }

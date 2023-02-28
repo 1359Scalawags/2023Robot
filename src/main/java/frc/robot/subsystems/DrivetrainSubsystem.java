@@ -97,6 +97,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public DrivetrainSubsystem() {
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+        this.driveMode = DriveModes.RobotCentric;
 
         // TODO: Setup motor configuration
         m_frontLeftModule = Mk4iSwerveModuleHelper.createFalcon500(

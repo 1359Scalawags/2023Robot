@@ -174,4 +174,8 @@ public class RobotContainer {
   public void initializeArmSetpoints() {
     m_armSubsystem.initializeSetpoints();
   }
+
+  public Command zeroGyro() {
+    return new ZeroGyroCommand(m_drivetrainSubsystem);
+  }
 }

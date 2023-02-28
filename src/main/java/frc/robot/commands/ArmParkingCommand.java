@@ -34,8 +34,8 @@ public class ArmParkingCommand extends CommandBase {
   @Override
   public void execute() {
     //TODO: What is optimal angles for parking?
-    m_subsystem.setElbowSetpoint(115.0);
-    m_subsystem.setShoulderSetpoint(270.0);
+    m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.parkingDegree);
+    m_subsystem.setShoulderSetpoint(Constants.Arm.Shoulder.parkingDegree);
   }
 
   // Called once the command ends sor is interrupted.

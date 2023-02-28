@@ -40,6 +40,8 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     m_robotContainer.initializeArmSetpoints();    
     Command enableCompressor = m_robotContainer.getCompressorStartCommand();
+    Command zeroGyroCommand = m_robotContainer.zeroGyro();
+    zeroGyroCommand.schedule();
     enableCompressor.schedule();
   }
 

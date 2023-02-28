@@ -10,7 +10,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.DisplaySystem;
-import frc.robot.commands.ArmOnGroundCommand;
+import frc.robot.commands.ArmOnGroundLevelCommand;
+import frc.robot.commands.ArmOnHighLevelCommand;
+import frc.robot.commands.ArmOnMidLevelCommand;
+import frc.robot.commands.ArmParkingCommand;
 import frc.robot.commands.DefaultArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GrabCommandClose;
@@ -47,7 +50,10 @@ public class RobotContainer {
   private final TurnCompressorOn m_compressorOn = new TurnCompressorOn(m_grabberSubsystem);
   private final GrabCommandOpen m_opengrabber = new GrabCommandOpen(m_grabberSubsystem);
   private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
-  private final ArmOnGroundCommand m_ArmParkingCommand = new ArmOnGroundCommand(m_armSubsystem);
+  private final ArmParkingCommand m_ArmParkingCommand = new ArmParkingCommand(m_armSubsystem);
+  private final ArmOnGroundLevelCommand m_ArmOnGroundLevelCommand = new ArmOnGroundLevelCommand(m_armSubsystem);
+  private final ArmOnMidLevelCommand m_ArmOnMidLevelCommand = new ArmOnMidLevelCommand(m_armSubsystem);
+  private final ArmOnHighLevelCommand m_ArmOnHighLevelCommand = new ArmOnHighLevelCommand(m_armSubsystem);
   private final VisionSystem m_VisionSystem = new VisionSystem();
   private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(m_VisionSystem, m_drivetrainSubsystem);
 
@@ -109,6 +115,10 @@ public class RobotContainer {
     
     new JoystickButton(assistantJoystick, 3).whileTrue(m_PlatformBalance);
     new JoystickButton(assistantJoystick, 5).whileTrue(m_ArmParkingCommand);
+    new JoystickButton(assistantJoystick, 6).whileTrue(m_ArmOnGroundLevelCommand);
+    new JoystickButton(assistantJoystick, 7).whileTrue(m_ArmOnMidLevelCommand);
+    new JoystickButton(assistantJoystick, 8).whileTrue(m_ArmOnHighLevelCommand);
+    
 
             // No requirements because we don't need to interrupt anything         
   }

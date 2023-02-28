@@ -7,7 +7,9 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -36,6 +38,7 @@ import frc.robot.commands.Tuning.ApplyShoulderSGVTuningCommand;
 import frc.robot.commands.Tuning.ApplyElbowPIDTuningCommand;
 // import frc.robot.extensions.FloorRelativeEncoder;
 import frc.robot.extensions.SendableCANSparkMax;
+import frc.robot.extensions.SparkMaxShufflboardPIDTuner;
 
 public class ArmSubsystem extends SubsystemBase {
   
@@ -55,6 +58,9 @@ public class ArmSubsystem extends SubsystemBase {
   // private PIDController elbowTuner;
   // private PIDController shoulderTuner;
 
+  private SparkMaxShufflboardPIDTuner elbowTuner;
+  private SparkMaxShufflboardPIDTuner shoulderTuner;
+
   private SparkMaxPIDController elbowSparkMaxPIDController;
   private SparkMaxPIDController shoulderSparkMaxPIDController;
 
@@ -71,6 +77,9 @@ public class ArmSubsystem extends SubsystemBase {
   private GenericEntry elbowAbsoluteTargetEntry;
 
   ShuffleboardTab tab = Shuffleboard.getTab("Arm");
+
+  Timer displayTimer = new Timer();
+  double lastDisplayTime = 0;
 
   // private double elbowTargetSpeed = 0;
   // private double shoulderTargetSpeed = 0;
@@ -98,6 +107,9 @@ public class ArmSubsystem extends SubsystemBase {
   
   /** Creates a new ExampleSubsystem. */
   public ArmSubsystem() {
+    displayTimer.start();
+    lastDisplayTime = displayTimer.get();
+
     elbowMotor = new SendableCANSparkMax(Constants.Arm.Elbow.motor, MotorType.kBrushless);
     elbowMotor.restoreFactoryDefaults();
     elbowMotor.setInverted(false);
@@ -216,7 +228,8 @@ public class ArmSubsystem extends SubsystemBase {
     //tab.add("Shoulder encoder", shoulderRelativeEncoder);
     //tab.add("Elbow encoder",elbowRelativeEncoder);
 
-
+    elbowTuner = new SparkMaxShufflboardPIDTuner("SparkMax Tuner", "Elbow Tuner", 0, elbowSparkMaxPIDController);
+    shoulderTuner = new SparkMaxShufflboardPIDTuner("SparkMax Tuner", "Shoulder Tuner", 2, shoulderSparkMaxPIDController);
             
   }
 
@@ -370,12 +383,19 @@ public class ArmSubsystem extends SubsystemBase {
    * The floor relative angle of the elbow.
    * @return Angle in degrees.
    */
+
   public double getElbowDegree() {
-    double offset = Constants.Arm.Elbow.angleAtFloor - getShoulderDegree() + 360.0;
-    REVLibError error = elbowSparkMaxEncoder.setZeroOffset(offset);
-    if(error != REVLibError.kOk) {
-      System.out.println("Unable to use " + offset + " degrees as an offset.");
-    }
+    double offset = Constants.Arm.Elbow.angleAtFloor - getShoulderDegree() + 360;
+    double normalized = MathUtil.inputModulus(offset, 0, 360);
+    // //avoid spam messages
+    // if(displayTimer.hasElapsed(0.25)) {
+    //   displayTimer.reset();
+    //   System.out.println("Offset: " + offset + "    Normalized: " + normalized);      
+      REVLibError error = elbowSparkMaxEncoder.setZeroOffset(normalized);
+      if(error != REVLibError.kOk) {
+          System.out.println("Unable to use " + normalized + " degrees as an offset.");   
+      }      
+    //}
     return elbowSparkMaxEncoder.getPosition() ;
   }
 

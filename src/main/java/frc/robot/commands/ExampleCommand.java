@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /** An example command that uses an example subsystem. */
 public class ExampleCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  //TODO: Just a test
+
   private final ExampleSubsystem m_subsystem;
 
   /**
@@ -26,7 +26,9 @@ public class ExampleCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_subsystem.getName();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

@@ -234,7 +234,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
             return m_frontLeftModule;
         else if (position == WheelPositions.FrontRight)
             return m_frontRightModule;
-        // TODO: need the other cases
+        else if (position == WheelPositions.BackLeft)
+            return m_backLeftModule;
+        else if (position == WheelPositions.BackRight)
+            return m_backRightModule;
         else
             return null;
 
@@ -289,9 +292,22 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return m_navx.getYaw();
         //return getGyroscopeRotation().getDegrees();
     }
-
+    
     public double getYawAsRadians() {
         return Rotation2d.fromDegrees(m_navx.getYaw()).getRadians();
+    }
+
+    public double getPitch() {
+        return m_navx.getPitch();
+        //return getGyroscopeRotation().getDegrees();
+    }
+
+    public double getDistanceX() {
+        return m_navx.getDisplacementX();
+    }
+
+    public double getDistanceY() {
+        return m_navx.getDisplacementY();
     }
 
     /**

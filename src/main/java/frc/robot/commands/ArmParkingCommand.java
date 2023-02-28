@@ -4,21 +4,22 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.Constants;
+import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class ZeroGyroCommand extends CommandBase {
+public class ArmParkingCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-  private final DrivetrainSubsystem m_subsystem;
+  private final ArmSubsystem m_subsystem;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ZeroGyroCommand(DrivetrainSubsystem subsystem) {
+  public ArmParkingCommand(ArmSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -27,16 +28,17 @@ public class ZeroGyroCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.zeroGyroscope();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    //TODO: What is optimal angles for parking?
+    m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.defaultSetpoint);
+    m_subsystem.setShoulderSetpoint(Constants.Arm.Shoulder.defaultSetpoint);
   }
 
-  // Called once the command ends or is interrupted.
+  // Called once the command ends sor is interrupted.
   @Override
   public void end(boolean interrupted) {}
 

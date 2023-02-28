@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -35,13 +34,11 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants.WheelPositions;
-import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DrivetrainNoAction;
 import frc.robot.commands.SetDriveMode;
 import frc.robot.commands.TurnWheelToAngleCommand;
@@ -50,7 +47,18 @@ import frc.robot.subsystems.DisplaySubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
-import frc.robot.commands.ZeroGyroCommand;
+import frc.robot.commands.ArmParkingCommand;
+import frc.robot.commands.DefaultArmCommand;
+import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.GrabCommandClose;
+import frc.robot.commands.GrabCommandOpen;
+import frc.robot.commands.InitializeTargetRotationCommand;
+import frc.robot.commands.PlatformBalance;
+import frc.robot.commands.TurnCompressorOn;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.commands.TurnCompressorOff;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -66,7 +74,6 @@ public class RobotContainer {
   private final DisplaySubsystem m_DisplaySubsystem = new DisplaySubsystem(m_VisionSystem);
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
   //private final XboxController m_controller = new XboxController(0);
-  private final Joystick m_logitech = new Joystick(0);  
   SendableChooser<Command> chooser = new SendableChooser<>();
   PathConstraints constraints = new PathConstraints(4, 3);
   PathPlannerTrajectory straightPath = PathPlanner.loadPath("Straight.path", constraints);
@@ -78,6 +85,19 @@ public class RobotContainer {
   PathPlannerTrajectory RedCSOnePath = PathPlanner.loadPath("RedCS1", constraints);
   PathPlannerTrajectory RedCSTwoPath = PathPlanner.loadPath("RedCS2", constraints);
   PathPlannerTrajectory RedCSThreePath = PathPlanner.loadPath("RedCS3", constraints);
+  private final PlatformBalance m_PlatformBalance = new PlatformBalance(m_drivetrainSubsystem);
+  private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
+  private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
+  private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
+  private final TurnCompressorOff m_compressorOff = new TurnCompressorOff(m_grabberSubsystem);
+  private final TurnCompressorOn m_compressorOn = new TurnCompressorOn(m_grabberSubsystem);
+  private final GrabCommandOpen m_opengrabber = new GrabCommandOpen(m_grabberSubsystem);
+  private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
+  private final ArmParkingCommand m_ArmParkingCommand = new ArmParkingCommand(m_armSubsystem);
+
+  //private final XboxController m_controller = new XboxController(0);
+  private final Joystick driverJoystick = new Joystick(0);
+  private final Joystick assistantJoystick = new Joystick(1);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -96,6 +116,10 @@ public class RobotContainer {
     Shuffleboard.getTab("Autonomous").add(chooser);
 
     // Set up the default command for the drivetrain.s
+    m_grabberSubsystem.TurnOn(); 
+
+    //m_grabberSubsystem.TurnOff();
+    // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:
     // Left stick Y axis -> forward and backwards movement
     // Left stick X axis -> left and right movement
@@ -105,12 +129,17 @@ public class RobotContainer {
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
       
             m_drivetrainSubsystem,
-            () -> -modifyAxis(m_logitech.getY(), m_logitech.getThrottle()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
-            () -> -modifyAxis(m_logitech.getX(), m_logitech.getThrottle()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
-            () -> -modifyAxis(m_logitech.getZ(), m_logitech.getThrottle()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+            () -> -modifyAxis(driverJoystick.getY(), driverJoystick.getThrottle()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
+            () -> -modifyAxis(driverJoystick.getX(), driverJoystick.getThrottle()) * DrivetrainSubsystem.MAX_VELOCITY_MPS,
+            () -> -modifyAxis(driverJoystick.getZ(), driverJoystick.getThrottle()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.SwerveDrive.rotateMultiplier
     )
     );
-
+    m_armSubsystem.setDefaultCommand(new DefaultArmCommand(
+            m_armSubsystem,
+            () -> deadband(assistantJoystick.getY(), Constants.UI.deadband) * Constants.Arm.Shoulder.shoulderSpeedMultiplier,
+            () -> deadband(assistantJoystick.getZ(), Constants.UI.deadband) * Constants.Arm.Elbow.elbowSpeedMultiplier
+    )
+    );
 // This line For test purposes  only
        // m_drivetrainSubsystem.setDefaultCommand(new DrivetrainNoAction(m_drivetrainSubsystem));
 
@@ -131,10 +160,19 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
     //new JoystickButton(m_logitech, 3).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
-    new JoystickButton(m_logitech, 3).whileTrue(m_ZeroGyroCommand);
             // No requirements because we don't need to interrupt anything 
-    new JoystickButton(m_logitech, 4).whileTrue(new SetDriveMode(m_drivetrainSubsystem, DriveModes.FieldCentric));
-    new JoystickButton(m_logitech, 5).whileTrue(new SetDriveMode(m_drivetrainSubsystem, DriveModes.RobotCentric));  
+    new JoystickButton(driverJoystick, 3).whileTrue(new SetDriveMode(m_drivetrainSubsystem, DriveModes.FieldCentric));
+    new JoystickButton(driverJoystick, 4).whileTrue(new SetDriveMode(m_drivetrainSubsystem, DriveModes.RobotCentric));  
+    new JoystickButton(driverJoystick, 2).whileTrue(m_ZeroGyroCommand);
+    new JoystickButton(assistantJoystick, 10).whileTrue(m_compressorOff);
+    new JoystickButton(assistantJoystick, 11).whileTrue(m_compressorOn);
+    new JoystickButton(assistantJoystick, 1).whileTrue(m_closegrabber);
+    new JoystickButton(assistantJoystick, 2).whileTrue(m_opengrabber);
+    
+    new JoystickButton(assistantJoystick, 3).whileTrue(m_PlatformBalance);
+    new JoystickButton(assistantJoystick, 5).whileTrue(m_ArmParkingCommand);
+
+            // No requirements because we don't need to interrupt anything         
   }
 
   
@@ -155,11 +193,11 @@ public class RobotContainer {
   }
 
   public Command getTestCommand() {
-    double angle = 30;//Rotation2d.fromDegrees(30).getDegrees();
-    double speed = 1;
+    // double angle = 30;//Rotation2d.fromDegrees(30).getDegrees();
+    // double speed = 1;
     
-    return new TurnWheelToAngleCommand(m_drivetrainSubsystem, WheelPositions.FrontLeft, speed, angle);
-
+    //return new TurnWheelToAngleCommand(m_drivetrainSubsystem, WheelPositions.FrontLeft, speed, angle);
+    return null;
   }
 
   private static double deadband(double value, double deadband) {
@@ -183,11 +221,25 @@ public class RobotContainer {
     // Deadband 
     double throttle  = 1 -( 0.5 * throttleValue);
     
-    value = deadband(value, 0.05);
+    value = deadband(value, Constants.UI.deadband);
 
     // Square the axis
     value = Math.copySign(value * value, value);
 
     return Constants.SwerveDrive.motorSpeed * value * throttle;
+  }
+
+
+  public Command getCompressorStartCommand() {
+    return new TurnCompressorOn(m_grabberSubsystem);
+  }
+
+//   @Deprecated
+//   public Command getInitializeArmTargetRotation() {
+//     return new InitializeTargetRotationCommand(m_armSubsystem);
+//   }
+  
+  public void initializeArmSetpoints() {
+    m_armSubsystem.initializeSetpoints();
   }
 }

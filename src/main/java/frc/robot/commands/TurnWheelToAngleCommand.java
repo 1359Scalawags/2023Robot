@@ -1,10 +1,6 @@
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import com.swervedrivespecialties.swervelib.SwerveModule;
-
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.WheelPositions;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -36,7 +32,8 @@ public class TurnWheelToAngleCommand extends CommandBase  {
 
     @Override 
     public void initialize() {
-        m_drivetrainSubsystem.setModule(m_wheelPosition, m_speed, m_angle);      
+        m_drivetrainSubsystem.setModule(m_wheelPosition, m_speed, m_angle);     
+        m_module.getDriveVelocity(); 
     }
 
     @Override

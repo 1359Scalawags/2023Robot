@@ -4,22 +4,16 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.GrabberSubsystem;
 
 /** An example command that uses an example subsystem. */
-public class ZeroGyroCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+public class TurnCompressorOff extends CommandBase{
+ private GrabberSubsystem m_Grabber;
 
-  private final DrivetrainSubsystem m_subsystem;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public ZeroGyroCommand(DrivetrainSubsystem subsystem) {
-    m_subsystem = subsystem;
+  public TurnCompressorOff(GrabberSubsystem subsystem) {
+    m_Grabber = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -27,14 +21,12 @@ public class ZeroGyroCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.zeroGyroscope();
+    m_Grabber.TurnOff();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

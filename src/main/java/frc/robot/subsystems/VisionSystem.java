@@ -14,6 +14,7 @@ import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableType;
 //positive x value, right negative, left
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -44,12 +45,17 @@ public class VisionSystem extends SubsystemBase {
     NetworkTableEntry tx = getValue("tx");
     NetworkTableEntry ty = getValue("ty");
     NetworkTableEntry ta = getValue("ta");
+    // NetworkTableEntry ledMode = getLimelightEntry("ledMode");
+    // NetworkTableEntry camMode = getLimelightEntry("camMode");
     NetworkTableEntry botPose = table.getEntry("botpose");
 
     public VisionSystem() {
+        botPose = table.getEntry("botpose").getDoubleArray(new double[6]);
         // limelight initialization
         setCamMode(LimelightModes.vision);
-
+        ledMode.setInteger(1);
+        //TODO remember camMode makes the limelight a driver camera
+        camMode.setInteger(1);
         try {
             // USB Camera initialization
             if(Robot.isSimulation()) {
@@ -79,6 +85,7 @@ public class VisionSystem extends SubsystemBase {
         server = CameraServer.getServer();
 
         server.setSource(camera1);
+
         // if (camera1 != null) {
         //     server.setSource(camera1);
         // } else if (camera2 != null) {
@@ -90,7 +97,7 @@ public class VisionSystem extends SubsystemBase {
     }
 
     public static void setCamMode(LimelightModes mode) {
-        getValue("camMode").setNumber(mode.ordinal());
+        getLimelightEntry("camMode").setNumber(mode.ordinal());
     }
 
     public void setUSBCamera(USBCameras camera) {
@@ -101,6 +108,10 @@ public class VisionSystem extends SubsystemBase {
     //     } else {
     //         server.setSource(null);
     //     }
+    }
+
+    public double[] getBotPose() {
+        return botPose;
     }
 
     @Override
@@ -118,7 +129,7 @@ public class VisionSystem extends SubsystemBase {
         SmartDashboard.putNumberArray("Limelight", pose);
     }
 
-    private static NetworkTableEntry getValue(String key) {
+    private static NetworkTableEntry getLimelightEntry(String key) {
         if (table == null) {
             table = NetworkTableInstance.getDefault().getTable("limelight");
         }

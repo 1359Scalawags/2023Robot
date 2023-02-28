@@ -17,18 +17,20 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class DisplaySystem extends SubsystemBase {
+public class DisplaySubSystem extends SubsystemBase {
     PowerDistribution m_pdh = new PowerDistribution(Constants.DisplaySystem.PDHCANID, ModuleType.kRev);
-
     private ShuffleboardTab mainTab = Shuffleboard.getTab("Match Tab");
     private GenericEntry timeEntry; 
     private GenericEntry batteryVoltage; 
-    private HttpCamera camera = new HttpCamera("Camera view", "http://frcvision.local:1181/stream.mjpg") ;
+    private GenericEntry driveModeEntry;
+    private HttpCamera camera = new HttpCamera("Camera view", "http://frcvision.local:1181/stream.mjpg");
+    private DrivetrainSubsystem driveSystem;
     // private NetworkTableEntry climbLockEntry;
     // private ComplexWidget cameraView;
     // private ClimbSystem climbSystem;
 
-    public DisplaySystem(VisionSystem vision) {
+    public DisplaySubSystem(VisionSystem vision, DrivetrainSubsystem driveSystem) {
+        this.driveSystem = driveSystem;
         // climbSystem = climber;
         Shuffleboard.selectTab("Match Tab");
         timeEntry = mainTab
@@ -62,9 +64,14 @@ public class DisplaySystem extends SubsystemBase {
                 .withWidget(BuiltInWidgets.kCameraStream)
                 .withSize(4, 4)
                 .withPosition(3, 0);
+
         this.mainTab.add(camera)
-                    .withSize(4, 4)
-                    .withPosition(0, 2);
+                    .withSize(4, 4);
+
+        driveModeEntry = mainTab
+                .add("Field Centric", driveSystem.getDriveMode())
+                .withSize(2, 1)
+                .getEntry();
         // }
 
     }
@@ -82,6 +89,9 @@ public class DisplaySystem extends SubsystemBase {
             // }
             if (batteryVoltage != null) {
                 batteryVoltage.setDouble(m_pdh.getVoltage());
+            }
+            if (!driveSystem.getDriveMode().equals(driveModeEntry.getString("None"))) {
+                driveModeEntry.setString(driveSystem.getDriveMode());
             }
             counter = 0;
         }

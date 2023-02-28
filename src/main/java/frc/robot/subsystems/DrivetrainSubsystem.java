@@ -252,6 +252,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void setDriveMode(DriveModes mode) {
         driveMode = mode;
     }
+
+    public String getDriveMode() {
+        return driveMode.name();
+    }
     
     @Override
     public void periodic() {

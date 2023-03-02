@@ -12,18 +12,15 @@ public class MoveAhead extends CommandBase {
 
 
   private DrivetrainSubsystem m_drivetrainSubsystem;
-  private double goalDistance;
+  private double targetDistance;
   private double startDistance;
   private double speed;
   public MoveAhead(DrivetrainSubsystem driveSystem, double distance, double speed){
-    this.goalDistance = distance;
+    this.targetDistance = distance;
     this.speed = speed;
     this.m_drivetrainSubsystem = driveSystem;
     addRequirements(driveSystem);
   }
-
-
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() { 
@@ -49,7 +46,7 @@ public class MoveAhead extends CommandBase {
   @Override
   public boolean isFinished() {
     double distance = Math.abs(m_drivetrainSubsystem.getDistanceY() - startDistance);
-    if (distance < goalDistance){
+    if (distance < targetDistance){
       return false;
     }else{
       m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));

@@ -15,8 +15,11 @@ public class MoveLeft extends CommandBase {
   private DrivetrainSubsystem m_drivetrainSubsystem;
   private double startDistance;
   private double targetDistance;
-  public MoveLeft(DrivetrainSubsystem driveSystem, double distance){
-    startDistance = distance;
+  private double speed;
+
+  public MoveLeft(DrivetrainSubsystem driveSystem, double distance, double speed){
+    this.startDistance = distance;
+    this.speed = speed;
     m_drivetrainSubsystem = driveSystem;
     addRequirements(driveSystem);
   }
@@ -33,7 +36,7 @@ public class MoveLeft extends CommandBase {
   @Override
   public void execute() {
     m_drivetrainSubsystem.drive(
-    new ChassisSpeeds(-1,0,0)
+    new ChassisSpeeds(speed,0,0)
     );
   }
 
@@ -46,7 +49,8 @@ public class MoveLeft extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_drivetrainSubsystem.getDistanceX() + startDistance < targetDistance){
+    double distance = Math.abs(m_drivetrainSubsystem.getDistanceX() - startDistance);
+    if (distance < targetDistance){
       return false;
     }else{
       m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));

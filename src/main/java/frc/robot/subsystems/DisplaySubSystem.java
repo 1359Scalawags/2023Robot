@@ -23,6 +23,9 @@ import frc.robot.commands.autonomous.BlueStationONE;
 import frc.robot.commands.autonomous.BlueStationTHREE;
 import frc.robot.commands.autonomous.BlueStationTWO;
 import frc.robot.commands.autonomous.LoadGamepiece;
+import frc.robot.commands.autonomous.RedStationONE;
+import frc.robot.commands.autonomous.RedStationTHREE;
+import frc.robot.commands.autonomous.RedStationTWO;
 import frc.robot.commands.autonomous.TestAutoMovment;
 
 public class DisplaySubSystem extends SubsystemBase {
@@ -88,12 +91,18 @@ public class DisplaySubSystem extends SubsystemBase {
         
         //chooser.addOption("Test Movment", new TestAutoMovment(driveSystem, true));
         //chooser.addOption("Test Movment", new TestAutoMovment(driveSystem, false));
-        chooser.addOption("BlueStationONE ChargeStation", new BlueStationONE(driveSystem, true));
-        chooser.addOption("BlueStationONE", new BlueStationONE(driveSystem, false));
+        chooser.addOption("BlueStation1 ChargeStation", new BlueStationONE(driveSystem, true));
+        chooser.addOption("BlueStation1", new BlueStationONE(driveSystem, false));
         chooser.addOption("BlueStation2 ChargeStation", new BlueStationTWO(driveSystem, true));
         chooser.addOption("BlueStation2", new BlueStationTWO(driveSystem, false));
-        chooser.addOption("BlueStationTHREE ChargeStation", new BlueStationTHREE(driveSystem, true));
-        chooser.addOption("BlueStationTHREE", new BlueStationTHREE(driveSystem, false));
+        chooser.addOption("BlueStation3 ChargeStation", new BlueStationTHREE(driveSystem, true));
+        chooser.addOption("BlueStation3", new BlueStationTHREE(driveSystem, false));
+        chooser.addOption("RedStation1 ChargeStation", new RedStationONE(driveSystem, true));
+        chooser.addOption("RedStation1", new RedStationONE(driveSystem, false));
+        chooser.addOption("RedStation2 ChargeStation", new RedStationTWO(driveSystem, true));
+        chooser.addOption("RedStation2", new RedStationTWO(driveSystem, false));
+        chooser.addOption("RedStation3 ChargeStation", new RedStationTHREE(driveSystem, true));
+        chooser.addOption("RedStation3", new RedStationTHREE(driveSystem, false));
         //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
         mainTab.add(chooser);
     }

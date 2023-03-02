@@ -12,9 +12,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.DisplaySystem;
+import frc.robot.commands.ArmOnSpecificLevelCommand;
 import frc.robot.commands.ArmOnGroundLevelCommand;
 import frc.robot.commands.ArmOnHighLevelCommand;
 import frc.robot.commands.ArmOnMidLevelCommand;
+import frc.robot.commands.ArmOnSubStationCommand;
 import frc.robot.commands.ArmParkingCommand;
 import frc.robot.commands.DefaultArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
@@ -25,6 +27,7 @@ import frc.robot.commands.PlatformBalance;
 import frc.robot.commands.SetDriveMode;
 import frc.robot.commands.TurnCompressorOn;
 import frc.robot.commands.ZeroGyroCommand;
+import frc.robot.commands.autonomous.LoadGamepiece;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DisplaySubSystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -56,8 +59,9 @@ public class RobotContainer {
   private final ArmOnGroundLevelCommand m_ArmOnGroundLevelCommand = new ArmOnGroundLevelCommand(m_armSubsystem);
   private final ArmOnMidLevelCommand m_ArmOnMidLevelCommand = new ArmOnMidLevelCommand(m_armSubsystem);
   private final ArmOnHighLevelCommand m_ArmOnHighLevelCommand = new ArmOnHighLevelCommand(m_armSubsystem);
-  private final VisionSystem m_VisionSystem = new VisionSystem();
-  private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(m_VisionSystem, m_drivetrainSubsystem);
+  private final ArmOnSubStationCommand m_ArmOnSubStationCommand = new ArmOnSubStationCommand(m_armSubsystem);
+  // private final VisionSystem m_VisionSystem = new VisionSystem();
+  private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(null, m_drivetrainSubsystem);
 
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick driverJoystick = new Joystick(0);
@@ -126,6 +130,7 @@ public class RobotContainer {
     new JoystickButton(assistantJoystick, 6).whileTrue(m_ArmOnGroundLevelCommand);
     new JoystickButton(assistantJoystick, 7).whileTrue(m_ArmOnMidLevelCommand);
     new JoystickButton(assistantJoystick, 8).whileTrue(m_ArmOnHighLevelCommand);
+    //new JoystickButton(assistantJoystick, 9).whileTrue(m_ArmOnSubStationCommand);
     
 
             // No requirements because we don't need to interrupt anything         
@@ -143,7 +148,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new InstantCommand();
+    return new LoadGamepiece(m_armSubsystem, m_grabberSubsystem);
     
   }
 
@@ -201,4 +206,8 @@ public class RobotContainer {
   public Command zeroGyro() {
     return new ZeroGyroCommand(m_drivetrainSubsystem);
   }
+
+  // public void openGrabber() {
+  //   m_grabberSubsystem.open();
+  // }
 }

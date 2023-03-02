@@ -65,7 +65,7 @@ public final class Constants {
         }
         public static final double motorSpeed = 0.3;
         public static final double gearRatio = 8.14;
-        public static final double rotateMultiplier = 0.3;
+        public static final double rotateMultiplier = 0.6;
 
         //FIXME: Are these being used?
         public static final double P = 0.00004;
@@ -119,10 +119,10 @@ public final class Constants {
             // public static final double kMinOutput = -1; 
 
             public static final double parkingDegree = 270.0;
-            //TODO: Initialize these following values
-            public static final double onGroundLevel = 0;
-            public static final double onHighLevel = 0;
-            public static final double onMidLevel = 0;
+            public static final double onGroundLevel = 226;
+            public static final double onHighLevel = 211;
+            public static final double onMidLevel = 240;
+            public static final double onSubStation = 255;
         }
         public static final class Elbow {
             //public static final double ffTestRatio = 0.8;
@@ -169,11 +169,10 @@ public final class Constants {
             // public static final double kMinOutput = -1; 
 
             public static final double parkingDegree = 115.0;
-            //TODO: Initialize these following values
-            public static final double onGroundLevel = 0;
-            public static final double onHighLevel = 0;
-            public static final double onMidLevel = 0;
-            
+            public static final double onGroundLevel = 115;
+            public static final double onHighLevel = 211;
+            public static final double onMidLevel = 184;
+            public static final double onSubStation = 200;
         }
     }
 

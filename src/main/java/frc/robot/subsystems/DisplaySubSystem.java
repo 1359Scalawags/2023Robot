@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import java.util.Map;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
 //TODO: Figure out the correct way to do this system
 import edu.wpi.first.networktables.GenericEntry;
@@ -30,9 +31,10 @@ public class DisplaySubSystem extends SubsystemBase {
     // private ClimbSystem climbSystem;
 
     public DisplaySubSystem(VisionSystem vision, DrivetrainSubsystem driveSystem) {
+        CameraServer.startAutomaticCapture(camera);
         this.driveSystem = driveSystem;
         // climbSystem = climber;
-        Shuffleboard.selectTab("Match Tab");
+        // Shuffleboard.selectTab("Match Tab");
         timeEntry = mainTab
                 .add("Match Time", 0)
                 .withWidget(BuiltInWidgets.kDial)

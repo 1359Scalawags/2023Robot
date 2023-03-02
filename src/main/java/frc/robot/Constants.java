@@ -199,6 +199,8 @@ public final class Constants {
         public static final double kV = 0;
         public static final double kA = 0;
 
+        public static final double autoSpeed = 1;
+
     }
 
     public static final class UI {

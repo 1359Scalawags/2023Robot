@@ -24,7 +24,7 @@ public class DisplaySubSystem extends SubsystemBase {
     private GenericEntry timeEntry; 
     private GenericEntry batteryVoltage; 
     private GenericEntry driveModeEntry;
-    private HttpCamera camera = new HttpCamera("Camera view", "http://frcvision.local:1181/stream.mjpg");
+    private HttpCamera camera = new HttpCamera("Camera view", "http://10.13.59.11:5800");
     private DrivetrainSubsystem driveSystem;
     // private NetworkTableEntry climbLockEntry;
     // private ComplexWidget cameraView;

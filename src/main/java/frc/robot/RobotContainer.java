@@ -61,7 +61,7 @@ public class RobotContainer {
   private final ArmOnHighLevelCommand m_ArmOnHighLevelCommand = new ArmOnHighLevelCommand(m_armSubsystem);
   private final ArmOnSubStationCommand m_ArmOnSubStationCommand = new ArmOnSubStationCommand(m_armSubsystem);
   // private final VisionSystem m_VisionSystem = new VisionSystem();
-  private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(null, m_drivetrainSubsystem);
+  private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(null, m_drivetrainSubsystem, m_armSubsystem, m_grabberSubsystem);
 
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick driverJoystick = new Joystick(0);
@@ -96,8 +96,8 @@ public class RobotContainer {
     )
     );
 
-    SendableChooser<Command> chooser = new SendableChooser<>();
-    Shuffleboard.getTab("Autonomous").add(chooser);
+    // SendableChooser<Command> chooser = new SendableChooser<>();
+    // Shuffleboard.getTab("Autonomous").add(chooser);
     //chooser.addOption(null, new SequentialCommand(m_SequentialCommand, true));
 
 
@@ -148,7 +148,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new LoadGamepiece(m_armSubsystem, m_grabberSubsystem);
+    return m_DisplaySystem.getAutonomoChooser().getSelected();
     
   }
 

@@ -15,6 +15,7 @@ public class MoveAhead extends CommandBase {
   private double targetDistance;
   private double startDistance;
   private double speed;
+  
   public MoveAhead(DrivetrainSubsystem driveSystem, double distance, double speed){
     this.targetDistance = distance;
     this.speed = speed;

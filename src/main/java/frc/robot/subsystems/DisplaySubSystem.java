@@ -15,22 +15,29 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 //import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.autonomous.LoadGamepiece;
+import frc.robot.commands.autonomous.TestAutoMovment;
 
 public class DisplaySubSystem extends SubsystemBase {
     PowerDistribution m_pdh = new PowerDistribution(Constants.DisplaySystem.PDHCANID, ModuleType.kRev);
     private ShuffleboardTab mainTab = Shuffleboard.getTab("Match Tab");
+
     private GenericEntry timeEntry; 
     private GenericEntry batteryVoltage; 
     private GenericEntry driveModeEntry;
     private HttpCamera camera = new HttpCamera("Camera view", "http://10.13.59.11:5800");
     private DrivetrainSubsystem driveSystem;
+    SendableChooser<Command> chooser = new SendableChooser<>();
+    
     // private NetworkTableEntry climbLockEntry;
     // private ComplexWidget cameraView;
     // private ClimbSystem climbSystem;
 
-    public DisplaySubSystem(VisionSystem vision, DrivetrainSubsystem driveSystem) {
+    public DisplaySubSystem(VisionSystem vision, DrivetrainSubsystem driveSystem, ArmSubsystem armSystem, GrabberSubsystem grabberSystem) {
         CameraServer.startAutomaticCapture(camera);
         this.driveSystem = driveSystem;
         // climbSystem = climber;
@@ -75,9 +82,15 @@ public class DisplaySubSystem extends SubsystemBase {
                 .withSize(2, 1)
                 .getEntry();
         // }
-
+        
+        chooser.addOption("Test Movment", new TestAutoMovment(driveSystem));
+        chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
+        mainTab.add(chooser);
     }
 
+    public SendableChooser<Command> getAutonomoChooser() {
+        return chooser;
+    }
     private int counter = 0;
 
     @Override

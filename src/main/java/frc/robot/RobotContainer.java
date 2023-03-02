@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.DisplaySystem;
@@ -59,7 +61,7 @@ public class RobotContainer {
   private final ArmOnHighLevelCommand m_ArmOnHighLevelCommand = new ArmOnHighLevelCommand(m_armSubsystem);
   private final ArmOnSubStationCommand m_ArmOnSubStationCommand = new ArmOnSubStationCommand(m_armSubsystem);
   // private final VisionSystem m_VisionSystem = new VisionSystem();
-  private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(null, m_drivetrainSubsystem);
+  private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(null, m_drivetrainSubsystem, m_armSubsystem, m_grabberSubsystem);
 
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick driverJoystick = new Joystick(0);
@@ -93,6 +95,12 @@ public class RobotContainer {
             () -> deadband(assistantJoystick.getZ(), Constants.UI.deadband) * Constants.Arm.Elbow.elbowSpeedMultiplier
     )
     );
+
+    // SendableChooser<Command> chooser = new SendableChooser<>();
+    // Shuffleboard.getTab("Autonomous").add(chooser);
+    //chooser.addOption(null, new SequentialCommand(m_SequentialCommand, true));
+
+
 // This line For test purposes  only
        // m_drivetrainSubsystem.setDefaultCommand(new DrivetrainNoAction(m_drivetrainSubsystem));
 
@@ -140,7 +148,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new LoadGamepiece(m_armSubsystem, m_grabberSubsystem);
+    return m_DisplaySystem.getAutonomoChooser().getSelected();
     
   }
 

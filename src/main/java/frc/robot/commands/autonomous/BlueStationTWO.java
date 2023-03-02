@@ -2,19 +2,36 @@ package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.commands.ArmOnHighLevelCommand;
+import frc.robot.commands.ArmOnSpecificLevelCommand;
+import frc.robot.commands.ArmParkingCommand;
+import frc.robot.commands.GrabCommandClose;
+import frc.robot.commands.GrabCommandOpen;
 import frc.robot.commands.PlatformBalance;
 import frc.robot.commands.SetDriveMode;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
 
 //TODO: figure out what to do for the middle starting position.
 
 public class BlueStationTWO extends SequentialCommandGroup
 {
-    public BlueStationTWO(DrivetrainSubsystem m_DrivetrainSubsystem, boolean includeChargeStation)
+    public BlueStationTWO(DrivetrainSubsystem m_DrivetrainSubsystem, ArmSubsystem m_ArmSubsystem, GrabberSubsystem m_GrabberSubsystem, boolean includeChargeStation)
     {
+
         addCommands(
+            // Load cube to the 3rd level grid
+            // new GrabCommandOpen(m_GrabberSubsystem),
+            new GrabCommandClose(m_GrabberSubsystem),
+            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 270.0),
+            new ArmOnHighLevelCommand(m_ArmSubsystem),
+            new GrabCommandOpen(m_GrabberSubsystem),
+            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 270.0),
+            new ArmParkingCommand(m_ArmSubsystem),
             new SetDriveMode(m_DrivetrainSubsystem, DriveModes.RobotCentric),
+            
 // We are moving backwards because the robot will be facing the drivers, not the other side.
             new MoveBackwards(m_DrivetrainSubsystem,1, Constants.Autonomous.autoSpeed));
 

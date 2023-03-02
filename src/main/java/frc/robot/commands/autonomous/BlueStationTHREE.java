@@ -5,6 +5,8 @@ import frc.robot.commands.SetDriveMode;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
 
+//TODO: messure feild and put in distances.
+
 public class BlueStationTHREE extends SequentialCommandGroup
 {
     public BlueStationTHREE(DrivetrainSubsystem m_DrivetrainSubsystem, boolean includeChargeStation)

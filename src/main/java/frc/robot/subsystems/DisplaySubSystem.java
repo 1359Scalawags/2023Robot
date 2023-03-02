@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.autonomous.BlueStation1;
 import frc.robot.commands.autonomous.LoadGamepiece;
 import frc.robot.commands.autonomous.TestAutoMovment;
 
@@ -83,7 +84,10 @@ public class DisplaySubSystem extends SubsystemBase {
                 .getEntry();
         // }
         
-        chooser.addOption("Test Movment", new TestAutoMovment(driveSystem));
+        chooser.addOption("Test Movment", new TestAutoMovment(driveSystem, true));
+        chooser.addOption("Test Movment", new TestAutoMovment(driveSystem, false));
+        chooser.addOption("BlueStation1 ChargeStation", new BlueStation1(driveSystem, true));
+        chooser.addOption("BlueStation1", new BlueStation1(driveSystem, false));
         chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
         mainTab.add(chooser);
     }

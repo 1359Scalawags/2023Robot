@@ -8,7 +8,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 /** An example command that uses an example subsystem. */
-public class MoveAhead extends CommandBase {
+public class MoveForward extends CommandBase {
 
 
   private DrivetrainSubsystem m_drivetrainSubsystem;
@@ -16,7 +16,7 @@ public class MoveAhead extends CommandBase {
   private double startDistance;
   private double speed;
   
-  public MoveAhead(DrivetrainSubsystem driveSystem, double distance, double speed){
+  public MoveForward(DrivetrainSubsystem driveSystem, double distance, double speed){
     this.targetDistance = distance;
     this.speed = speed;
     this.m_drivetrainSubsystem = driveSystem;

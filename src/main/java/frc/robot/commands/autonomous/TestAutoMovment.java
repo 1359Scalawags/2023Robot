@@ -12,7 +12,7 @@ public class TestAutoMovment extends SequentialCommandGroup
         addCommands(
             new SetDriveMode(m_DrivetrainSubsystem, DriveModes.RobotCentric),
 
-            new MoveAhead(m_DrivetrainSubsystem,1,0.5),
+            new MoveForward(m_DrivetrainSubsystem,1,0.5),
 
             new MoveBackwards(m_DrivetrainSubsystem,1,0.5),
 

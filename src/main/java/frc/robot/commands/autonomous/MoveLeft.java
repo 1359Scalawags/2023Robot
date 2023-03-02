@@ -36,7 +36,7 @@ public class MoveLeft extends CommandBase {
   @Override
   public void execute() {
     m_drivetrainSubsystem.drive(
-    new ChassisSpeeds(speed,0,0)
+    new ChassisSpeeds(-speed,0,0)
     );
   }
 

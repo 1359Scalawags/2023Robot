@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.DisplaySystem;
+import frc.robot.commands.ArmOnSpecificLevelCommand;
 import frc.robot.commands.ArmOnGroundLevelCommand;
 import frc.robot.commands.ArmOnHighLevelCommand;
 import frc.robot.commands.ArmOnMidLevelCommand;
@@ -24,6 +25,7 @@ import frc.robot.commands.PlatformBalance;
 import frc.robot.commands.SetDriveMode;
 import frc.robot.commands.TurnCompressorOn;
 import frc.robot.commands.ZeroGyroCommand;
+import frc.robot.commands.autonomous.LoadGamepiece;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DisplaySubSystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -138,7 +140,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new InstantCommand();
+    return new LoadGamepiece(m_armSubsystem, m_grabberSubsystem);
     
   }
 
@@ -196,4 +198,8 @@ public class RobotContainer {
   public Command zeroGyro() {
     return new ZeroGyroCommand(m_drivetrainSubsystem);
   }
+
+  // public void openGrabber() {
+  //   m_grabberSubsystem.open();
+  // }
 }

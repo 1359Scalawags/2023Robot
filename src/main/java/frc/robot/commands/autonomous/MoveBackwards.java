@@ -21,24 +21,26 @@ public class MoveBackwards extends CommandBase {
    */
   private DrivetrainSubsystem m_drivetrainSubsystem;
   private double targetDistance;
-  private double endDistance;
+  private double startDistance;
+  //private double speed;
 
   public MoveBackwards(DrivetrainSubsystem driveSystem, double distance){
     m_drivetrainSubsystem = driveSystem;
-    endDistance = distance;
+  startDistance = distance;
+  //targetDistance = target;
     addRequirements(driveSystem);
   }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    endDistance =  m_drivetrainSubsystem.getDistanceY() - endDistance;
+    startDistance = m_drivetrainSubsystem.getDistanceY(); //- targetDistance;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {   
     m_drivetrainSubsystem.drive(
-        new ChassisSpeeds(0,1,0)
+        new ChassisSpeeds(0,-1,0)
         );
   }
 
@@ -51,7 +53,7 @@ public class MoveBackwards extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_drivetrainSubsystem.getDistanceY() > endDistance){
+    if (m_drivetrainSubsystem.getDistanceY() + startDistance < targetDistance){
       return false;
     }else{
       m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));

@@ -8,14 +8,15 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 /** An example command that uses an example subsystem. */
+
+
 public class MoveLeft extends CommandBase {
 
-
-  
   private DrivetrainSubsystem m_drivetrainSubsystem;
-  private double endDistance;
+  private double startDistance;
+  private double targetDistance;
   public MoveLeft(DrivetrainSubsystem driveSystem, double distance){
-    endDistance = distance;
+    startDistance = distance;
     m_drivetrainSubsystem = driveSystem;
     addRequirements(driveSystem);
   }
@@ -25,26 +26,27 @@ public class MoveLeft extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() { 
-    endDistance = m_drivetrainSubsystem.getDistanceX() + endDistance;
-
+    startDistance = m_drivetrainSubsystem.getDistanceX(); //+ endDistance;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_drivetrainSubsystem.drive(
-    new ChassisSpeeds(1,0,0)
+    new ChassisSpeeds(-1,0,0)
     );
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_drivetrainSubsystem.getDistanceX() < endDistance){
+    if (m_drivetrainSubsystem.getDistanceX() + startDistance < targetDistance){
       return false;
     }else{
       m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));

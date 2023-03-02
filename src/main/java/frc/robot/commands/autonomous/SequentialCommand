@@ -1,0 +1,14 @@
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
+public class SequentialCommand extends SequentialCommandGroup
+{
+    public SequentialCommand()
+    {
+        addCommands(
+            //Drive Forward
+            new DriveForward(),
+
+            //Drive Reverse
+            new DriveReverse());
+    }
+}

@@ -406,6 +406,13 @@ public class ArmSubsystem extends SubsystemBase {
     return false;
   }
 
+  public boolean isShoulderAtTarget(double tolerance) {
+    if(Math.abs(e_targetPosition - getShoulderDegree()) < tolerance) {
+        return true;
+    }
+    return false;
+  }
+
   public void adjustElbowLimit() {
     double shoulder = getShoulderDegree();
     if(shoulder < Constants.Arm.Elbow.shoulderRestrictionPositionLower) {

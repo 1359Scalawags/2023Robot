@@ -123,6 +123,8 @@ public final class Constants {
             public static final double onHighLevel = 211;
             public static final double onMidLevel = 240;
             public static final double onSubStation = 255;
+
+            public static final double tolerance = 3.0;
         }
         public static final class Elbow {
             //public static final double ffTestRatio = 0.8;
@@ -173,6 +175,8 @@ public final class Constants {
             public static final double onHighLevel = 211;
             public static final double onMidLevel = 184;
             public static final double onSubStation = 200;
+
+            public static final double tolerance = 3.0;
         }
     }
 

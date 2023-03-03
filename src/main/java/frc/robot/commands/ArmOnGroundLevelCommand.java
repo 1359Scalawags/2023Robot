@@ -32,8 +32,8 @@ public class ArmOnGroundLevelCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    e_Limiter.calculate(m_subsystem.getElbowDegree());
-    s_Limiter.calculate(m_subsystem.getShoulderDegree());
+    e_Limiter.reset(m_subsystem.getElbowDegree());
+    s_Limiter.reset(m_subsystem.getShoulderDegree());
   }
 
   // Called every time the scheduler runs while the command is scheduled.

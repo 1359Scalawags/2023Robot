@@ -25,7 +25,7 @@ public class MoveForward extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() { 
-    startDistance = m_drivetrainSubsystem.getDistanceY(); //- targetDistance;
+    startDistance = m_drivetrainSubsystem.getDistanceFwdBwd(); //- targetDistance;
 
   }
 
@@ -33,7 +33,7 @@ public class MoveForward extends CommandBase {
   @Override
   public void execute() {
     m_drivetrainSubsystem.drive(
-    new ChassisSpeeds(0,speed,0)
+    new ChassisSpeeds(speed,0,0)
     );
   }
 
@@ -46,7 +46,7 @@ public class MoveForward extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double distance = Math.abs(m_drivetrainSubsystem.getDistanceY() - startDistance);
+    double distance = Math.abs(m_drivetrainSubsystem.getDistanceFwdBwd() - startDistance);
     if (distance < targetDistance){
       return false;
     }else{

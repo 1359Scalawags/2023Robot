@@ -207,6 +207,11 @@ public class RobotContainer {
     return new ZeroGyroCommand(m_drivetrainSubsystem);
   }
 
+
+  public Command grabPiece() {
+    System.out.println("Close Grabber");
+    return new GrabCommandClose(m_grabberSubsystem);
+  }
   // public void openGrabber() {
   //   m_grabberSubsystem.open();
   // }

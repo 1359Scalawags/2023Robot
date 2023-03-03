@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
+
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,10 +41,14 @@ public class Robot extends TimedRobot {
     instance = this;
     m_robotContainer = new RobotContainer();
     m_robotContainer.initializeArmSetpoints();    
+    // m_robotContainer.grabPiece();
+    System.out.println("Robot Init");
     Command enableCompressor = m_robotContainer.getCompressorStartCommand();
     Command zeroGyroCommand = m_robotContainer.zeroGyro();
+    Command grabPiece = m_robotContainer.grabPiece();
     zeroGyroCommand.schedule();
     enableCompressor.schedule();
+    grabPiece.schedule();
   }
 
   /**

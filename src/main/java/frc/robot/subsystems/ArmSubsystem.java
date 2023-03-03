@@ -407,7 +407,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isShoulderAtTarget(double tolerance) {
-    if(Math.abs(e_targetPosition - getShoulderDegree()) < tolerance) {
+    if(Math.abs(s_targetPosition - getShoulderDegree()) < tolerance) {
         return true;
     }
     return false;

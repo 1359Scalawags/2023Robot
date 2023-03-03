@@ -49,6 +49,6 @@ public class ArmOnSpecificLevelCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_subsystem.isElbowAtTarget(3.0) && m_subsystem.isShoulderAtTarget(3.0);
+    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.tolerance) && m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.tolerance);
   }
 }

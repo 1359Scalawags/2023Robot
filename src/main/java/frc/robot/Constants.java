@@ -63,7 +63,7 @@ public final class Constants {
             public static final int STEER_ENCODER = 13; 
             public static final double STEER_OFFSET = -Math.toRadians(333.0+70); // FIXME Measure and set offset                 
         }
-        public static final double motorSpeed = 0.3;
+        public static final double motorSpeed = 0.5;
         public static final double gearRatio = 8.14;
         public static final double rotateMultiplier = 0.6;
 

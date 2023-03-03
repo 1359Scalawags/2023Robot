@@ -318,6 +318,16 @@ public class ArmSubsystem extends SubsystemBase {
     return !isShoulderAtLowerLimit() && !isShoulderAtUpperLimit();
   }
 
+  public void setPinAutonomous() {
+    elbowSparkMaxPIDController.setP(Constants.Arm.Elbow.kPAuto);
+    shoulderSparkMaxPIDController.setP(Constants.Arm.Shoulder.kPAuto);
+  }
+
+  public void setPinTeleop() {
+    elbowSparkMaxPIDController.setP(Constants.Arm.Elbow.kP);
+    shoulderSparkMaxPIDController.setP(Constants.Arm.Shoulder.kP);
+  }
+
   /**
    * Set target position for elbow and its controllers.
    * The value will be restricted within the elbow's physical limits.

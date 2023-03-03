@@ -22,8 +22,8 @@ public class ArmOnSubStationCommand extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public ArmOnSubStationCommand(ArmSubsystem subsystem) {
-    e_Limiter = new SlewRateLimiter(1);
-    s_Limiter = new SlewRateLimiter(1);
+    e_Limiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter);
+    s_Limiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter);
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);

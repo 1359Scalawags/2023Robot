@@ -24,8 +24,8 @@ public class ArmParkingCommand extends CommandBase {
    */
   public ArmParkingCommand(ArmSubsystem subsystem) {
     m_subsystem = subsystem;
-    e_Limiter = new SlewRateLimiter(1);
-    s_Limiter = new SlewRateLimiter(1);
+    e_Limiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter);
+    s_Limiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter);
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }

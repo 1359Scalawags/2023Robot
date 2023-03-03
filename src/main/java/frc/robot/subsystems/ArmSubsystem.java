@@ -399,6 +399,13 @@ public class ArmSubsystem extends SubsystemBase {
     return elbowSparkMaxEncoder.getPosition() ;
   }
 
+  public boolean isElbowAtTarget(double tolerance) {
+    if(Math.abs(e_targetPosition - getElbowDegree()) < tolerance) {
+        return true;
+    }
+    return false;
+  }
+
   public void adjustElbowLimit() {
     double shoulder = getShoulderDegree();
     if(shoulder < Constants.Arm.Elbow.shoulderRestrictionPositionLower) {

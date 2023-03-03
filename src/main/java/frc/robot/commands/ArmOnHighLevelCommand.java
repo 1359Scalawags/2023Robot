@@ -45,6 +45,6 @@ public class ArmOnHighLevelCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.tolerance) && m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.tolerance);
   }
 }

@@ -63,7 +63,7 @@ public final class Constants {
             public static final int STEER_ENCODER = 13; 
             public static final double STEER_OFFSET = -Math.toRadians(333.0+70-3); // FIXME Measure and set offset                 
         }
-        public static final double motorSpeed = 0.3;
+        public static final double motorSpeed = 0.5;
         public static final double gearRatio = 8.14;
         public static final double rotateMultiplier = 0.6;
 
@@ -123,6 +123,8 @@ public final class Constants {
             public static final double onHighLevel = 211;
             public static final double onMidLevel = 240;
             public static final double onSubStation = 255;
+
+            public static final double tolerance = 3.0;
         }
         public static final class Elbow {
             //public static final double ffTestRatio = 0.8;
@@ -173,6 +175,8 @@ public final class Constants {
             public static final double onHighLevel = 211;
             public static final double onMidLevel = 184;
             public static final double onSubStation = 200;
+
+            public static final double tolerance = 3.0;
         }
     }
 

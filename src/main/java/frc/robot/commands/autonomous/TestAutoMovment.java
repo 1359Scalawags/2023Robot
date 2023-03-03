@@ -7,21 +7,17 @@ import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
 
 public class TestAutoMovment extends SequentialCommandGroup
 {
-    public TestAutoMovment(DrivetrainSubsystem m_DrivetrainSubsystem, boolean includeChargeStation)
+    public TestAutoMovment(DrivetrainSubsystem m_DrivetrainSubsystem)
     {
         addCommands(
             new SetDriveMode(m_DrivetrainSubsystem, DriveModes.RobotCentric),
 
-            new MoveForward(m_DrivetrainSubsystem,1,0.5),
+            new MoveForward(m_DrivetrainSubsystem,0.5,0.5),
 
-            new MoveBackwards(m_DrivetrainSubsystem,1,0.5),
+            new MoveBackwards(m_DrivetrainSubsystem,0.5,0.5),
 
-            new MoveLeft(m_DrivetrainSubsystem, 1, 0.5),
+            new MoveLeft(m_DrivetrainSubsystem, 0.5, 0.5),
 
-            new MoveRight(m_DrivetrainSubsystem, 1, 0.5));
-
-        if(includeChargeStation) {
-            addCommands(null);
-        }
+            new MoveRight(m_DrivetrainSubsystem, 0.5, 0.5));
     }
 }

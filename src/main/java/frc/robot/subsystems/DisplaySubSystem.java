@@ -104,7 +104,9 @@ public class DisplaySubSystem extends SubsystemBase {
         chooser.addOption("RedStation2", new RedStationTWO(driveSystem, armSystem, grabberSystem, false));
         chooser.addOption("RedStation3 ChargeStation", new RedStationTHREE(driveSystem, armSystem, grabberSystem, true));
         chooser.addOption("RedStation3", new RedStationTHREE(driveSystem, armSystem, grabberSystem, false));
-        chooser.addOption("Null", new InstantCommand());
+        chooser.addOption("Load game piece", new LoadGamepiece(armSystem, grabberSystem));
+        chooser.addOption("Test Auto movement", new TestAutoMovment(driveSystem));
+        chooser.addOption("Not moving", new InstantCommand());
         //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
         mainTab.add(chooser);
     }

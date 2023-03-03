@@ -18,24 +18,6 @@ public class RedStationONE extends SequentialCommandGroup
 {
     public RedStationONE(DrivetrainSubsystem m_DrivetrainSubsystem, ArmSubsystem m_ArmSubsystem, GrabberSubsystem m_GrabberSubsystem, boolean includeChargeStation)
     {
-        addCommands(
-            // Load cube to the 3rd level grid
-            // new GrabCommandOpen(m_GrabberSubsystem),
-            new SetDriveMode(m_DrivetrainSubsystem, DriveModes.RobotCentric),
-
-            new GrabCommandClose(m_GrabberSubsystem),
-
-            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 270.0),
-
-            new ArmOnHighLevelCommand(m_ArmSubsystem),
-
-            new GrabCommandOpen(m_GrabberSubsystem),
-
-            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 270.0),
-
-            new ArmParkingCommand(m_ArmSubsystem),
-// We are moving backwards because the robot will be facing the drivers, not the other side.
-            new MoveBackwards(m_DrivetrainSubsystem,1,Constants.Autonomous.autoSpeed));
 
         if(includeChargeStation) {
             addCommands(
@@ -61,6 +43,26 @@ public class RedStationONE extends SequentialCommandGroup
 
                 new PlatformBalance(m_DrivetrainSubsystem)
             );
+        } else {
+            addCommands(
+            // Load cube to the 3rd level grid
+            // new GrabCommandOpen(m_GrabberSubsystem),
+            new SetDriveMode(m_DrivetrainSubsystem, DriveModes.RobotCentric),
+
+            new GrabCommandClose(m_GrabberSubsystem),
+
+            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 270.0),
+
+            new ArmOnHighLevelCommand(m_ArmSubsystem),
+
+            new GrabCommandOpen(m_GrabberSubsystem),
+
+            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 270.0),
+
+            new ArmParkingCommand(m_ArmSubsystem),
+// We are moving backwards because the robot will be facing the drivers, not the other side.
+            new MoveBackwards(m_DrivetrainSubsystem,1,Constants.Autonomous.autoSpeed));
+
         }
     }
 }

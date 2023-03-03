@@ -43,7 +43,7 @@ public class MoveBackwards extends CommandBase {
   @Override
   public void execute() {   
     m_drivetrainSubsystem.drive(
-        new ChassisSpeeds(0,-speed,0)
+        new ChassisSpeeds(-speed,0,0)
         );
   }
 

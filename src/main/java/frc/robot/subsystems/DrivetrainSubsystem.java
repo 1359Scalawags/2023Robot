@@ -226,11 +226,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
         //return getGyroscopeRotation().getDegrees();
     }
 
-    public double getDistanceX() {
+    public double getDistanceLeftRight() {
         return m_navx.getDisplacementX();
     }
 
-    public double getDistanceY() {
+    public double getDistanceFwdBwd() {
         return m_navx.getDisplacementY();
     }
 

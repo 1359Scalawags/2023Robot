@@ -27,14 +27,14 @@ public class MoveRight extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() { 
-   startDistance = m_drivetrainSubsystem.getDistanceX(); //+ endDistance;
+   startDistance = m_drivetrainSubsystem.getDistanceLeftRight(); //+ endDistance;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_drivetrainSubsystem.drive(
-    new ChassisSpeeds(speed,0,0)
+    new ChassisSpeeds(0,-speed,0)
     );
   }
 
@@ -47,7 +47,7 @@ public class MoveRight extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double distance = Math.abs(m_drivetrainSubsystem.getDistanceX() - startDistance);
+    double distance = Math.abs(m_drivetrainSubsystem.getDistanceLeftRight() - startDistance);
     if (distance < targetDistance){
       return false;
     }else{

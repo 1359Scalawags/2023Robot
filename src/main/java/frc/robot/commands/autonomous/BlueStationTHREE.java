@@ -58,7 +58,7 @@ public class BlueStationTHREE extends SequentialCommandGroup
 
                 new MoveRight(m_DrivetrainSubsystem, 1.65, Constants.Autonomous.autoSpeed),
     
-                new MoveBackwards(m_DrivetrainSubsystem, 1.55, Constants.Autonomous.autoSpeed),
+                new MoveForward(m_DrivetrainSubsystem, 1.55, Constants.Autonomous.autoSpeed),
 
                 new PlatformBalance(m_DrivetrainSubsystem)
             );

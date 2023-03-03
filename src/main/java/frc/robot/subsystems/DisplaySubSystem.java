@@ -24,8 +24,8 @@ import frc.robot.commands.autonomous.BlueStationONE;
 import frc.robot.commands.autonomous.BlueStationTHREE;
 import frc.robot.commands.autonomous.BlueStationTWO;
 import frc.robot.commands.autonomous.LoadGamepiece;
-import frc.robot.commands.autonomous.RedStationONE;
 import frc.robot.commands.autonomous.RedStationTHREE;
+import frc.robot.commands.autonomous.RedStationONE;
 import frc.robot.commands.autonomous.RedStationTWO;
 import frc.robot.commands.autonomous.TestAutoMovment;
 
@@ -98,12 +98,12 @@ public class DisplaySubSystem extends SubsystemBase {
         chooser.addOption("BlueStation2", new BlueStationTWO(driveSystem, armSystem, grabberSystem, false));
         chooser.addOption("BlueStation3 ChargeStation", new BlueStationTHREE(driveSystem, armSystem, grabberSystem, true));
         chooser.addOption("BlueStation3", new BlueStationTHREE(driveSystem, armSystem, grabberSystem, false));
-        chooser.addOption("RedStation1 ChargeStation", new RedStationONE(driveSystem, armSystem, grabberSystem, true));
-        chooser.addOption("RedStation1", new RedStationONE(driveSystem, armSystem, grabberSystem, false));
-        chooser.addOption("RedStation2 ChargeStation", new RedStationTWO(driveSystem, armSystem, grabberSystem, true));
-        chooser.addOption("RedStation2", new RedStationTWO(driveSystem, armSystem, grabberSystem, false));
         chooser.addOption("RedStation3 ChargeStation", new RedStationTHREE(driveSystem, armSystem, grabberSystem, true));
         chooser.addOption("RedStation3", new RedStationTHREE(driveSystem, armSystem, grabberSystem, false));
+        chooser.addOption("RedStation2 ChargeStation", new RedStationTWO(driveSystem, armSystem, grabberSystem, true));
+        chooser.addOption("RedStation2", new RedStationTWO(driveSystem, armSystem, grabberSystem, false));
+        chooser.addOption("RedStation1 ChargeStation", new RedStationONE(driveSystem, armSystem, grabberSystem, true));
+        chooser.addOption("RedStation1", new RedStationONE(driveSystem, armSystem, grabberSystem, false));
         chooser.addOption("Load game piece", new LoadGamepiece(armSystem, grabberSystem));
         chooser.addOption("Test Auto movement", new TestAutoMovment(driveSystem));
         chooser.addOption("Not moving", new InstantCommand());

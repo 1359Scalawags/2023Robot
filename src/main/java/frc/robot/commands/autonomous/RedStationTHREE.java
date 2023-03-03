@@ -41,8 +41,6 @@ public class RedStationTHREE extends SequentialCommandGroup
             addCommands(
                 new SetDriveMode(m_DrivetrainSubsystem, DriveModes.RobotCentric),
 
-                new SetDriveMode(m_DrivetrainSubsystem, DriveModes.RobotCentric),
-
                 new GrabCommandClose(m_GrabberSubsystem),
     
                 new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 270.0),
@@ -57,7 +55,7 @@ public class RedStationTHREE extends SequentialCommandGroup
             
                 new MoveBackwards(m_DrivetrainSubsystem,3.5,Constants.Autonomous.autoSpeed),
 
-                new MoveLeft(m_DrivetrainSubsystem, 1.65, Constants.Autonomous.autoSpeed),
+                new MoveRight(m_DrivetrainSubsystem, 1.65, Constants.Autonomous.autoSpeed),
     
                 new MoveForward(m_DrivetrainSubsystem, 1.55, Constants.Autonomous.autoSpeed),
 

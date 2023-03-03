@@ -26,8 +26,8 @@ public class ArmOnSpecificLevelCommand extends CommandBase {
    */
   public ArmOnSpecificLevelCommand(ArmSubsystem subsystem, double elbowTargetDegree, double shoulderTargetDegree) {
     m_subsystem = subsystem;
-    e_Limiter = new SlewRateLimiter(1);
-    s_Limiter = new SlewRateLimiter(1);
+    e_Limiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter);
+    s_Limiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter);
     this.elbowTargetDegree = elbowTargetDegree;
     this.shoulderTargetDegree = shoulderTargetDegree;
     // Use addRequirements() here to declare subsystem dependencies.

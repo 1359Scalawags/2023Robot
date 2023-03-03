@@ -212,6 +212,14 @@ public class RobotContainer {
     System.out.println("Close Grabber");
     return new GrabCommandClose(m_grabberSubsystem);
   }
+
+  public void setPinAutonomous(){
+    m_armSubsystem.setPinAutonomous();
+  }
+
+  public void setPinTeleop(){
+    
+  }
   // public void openGrabber() {
   //   m_grabberSubsystem.open();
   // }

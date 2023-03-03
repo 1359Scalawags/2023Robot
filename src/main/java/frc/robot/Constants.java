@@ -96,7 +96,8 @@ public final class Constants {
             // public static final double kV = 1.19 * radtoDegreeDivisor;
             // public static final double kA = 0.07 * radtoDegreeDivisor * ffTestRatio;            
             
-            public static final double kP = 0.0087; 
+            public static final double kP = 0.0087;
+            public static final double kPAuto = 0.0083; 
             public static final double kI = 0.0;
             public static final double kD = 0.0;
             public static final double kFF = 0.00026;
@@ -125,6 +126,7 @@ public final class Constants {
             public static final double onSubStation = 255;
 
             public static final double tolerance = 10.0;
+            public static final double slewRateLimiter = 1;
         }
         public static final class Elbow {
             //public static final double ffTestRatio = 0.8;
@@ -149,6 +151,7 @@ public final class Constants {
             // public static final double kA = 0.02 * radtoDegreeDivisor * ffTestRatio ;
             
             public static final double kP = 0.01; //0.18;  // After tuning, 0.05/2
+            public static final double kPAuto = 0.009;
             public static final double kI = 0;  //10e-4
             public static final double kD = 0;  //1 
             public static final double kFF = 0.0001;
@@ -177,6 +180,7 @@ public final class Constants {
             public static final double onSubStation = 200;
 
             public static final double tolerance = 5.0;
+            public static final double slewRateLimiter = 1;
         }
     }
 
@@ -203,7 +207,7 @@ public final class Constants {
         public static final double kV = 0;
         public static final double kA = 0;
 
-        public static final double autoSpeed = 1;
+        public static final double autoSpeed = 2;
 
     }
 

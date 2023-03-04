@@ -37,8 +37,6 @@ public class RedStationTWO extends SequentialCommandGroup
     
                 new ArmParkingCommand(m_ArmSubsystem)
     
-            //     new MoveBackwards(m_DrivetrainSubsystem,1,Constants.Autonomous.autoSpeed),
-            
             //     new MoveBackwards(m_DrivetrainSubsystem,3.5,Constants.Autonomous.autoSpeed),
 
             //     new MoveLeft(m_DrivetrainSubsystem, 1.65, Constants.Autonomous.autoSpeed),
@@ -66,9 +64,10 @@ public class RedStationTWO extends SequentialCommandGroup
 
             new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 270.0),
 
-            new ArmParkingCommand(m_ArmSubsystem),
+            new ArmParkingCommand(m_ArmSubsystem)//,
 
-            new MoveBackwards(m_DrivetrainSubsystem,1,Constants.Autonomous.autoSpeed));
+            //new MoveBackwards(m_DrivetrainSubsystem,3.5,Constants.Autonomous.autoSpeed)
+            );
         }
     }
 }

@@ -37,7 +37,7 @@ public class RedStationTHREE extends SequentialCommandGroup
             
                 new MoveBackwards(m_DrivetrainSubsystem,3.5,Constants.Autonomous.autoSpeed),
 
-                new MoveRight(m_DrivetrainSubsystem, 1.65, Constants.Autonomous.autoSpeed),
+                new MoveRight(m_DrivetrainSubsystem, 1.8, Constants.Autonomous.autoSpeed),
     
                 new MoveForward(m_DrivetrainSubsystem, 1.55, Constants.Autonomous.autoSpeed),
 
@@ -63,7 +63,7 @@ public class RedStationTHREE extends SequentialCommandGroup
 
             new ArmParkingCommand(m_ArmSubsystem),
 // We are moving backwards because the robot will be facing the drivers, not the other side.
-            new MoveBackwards(m_DrivetrainSubsystem,1,Constants.Autonomous.autoSpeed));
+            new MoveBackwards(m_DrivetrainSubsystem,3.5,Constants.Autonomous.autoSpeed));
 
         }
     }

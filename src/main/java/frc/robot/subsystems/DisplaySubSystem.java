@@ -28,6 +28,7 @@ import frc.robot.commands.autonomous.RedStationTHREE;
 import frc.robot.commands.autonomous.RedStationONE;
 import frc.robot.commands.autonomous.RedStationTWO;
 import frc.robot.commands.autonomous.TestAutoMovment;
+import frc.robot.commands.autonomous.TestMovement;
 
 public class DisplaySubSystem extends SubsystemBase {
     PowerDistribution m_pdh = new PowerDistribution(Constants.DisplaySystem.PDHCANID, ModuleType.kRev);
@@ -105,8 +106,10 @@ public class DisplaySubSystem extends SubsystemBase {
         chooser.addOption("RedStation1 ChargeStation", new RedStationONE(driveSystem, armSystem, grabberSystem, true));
         chooser.addOption("RedStation1", new RedStationONE(driveSystem, armSystem, grabberSystem, false));
         chooser.addOption("Load game piece", new LoadGamepiece(armSystem, grabberSystem));
-        chooser.addOption("Test Auto movement", new TestAutoMovment(driveSystem));
+        chooser.addOption("Test Movement", new TestMovement(driveSystem, false));
+        // chooser.addOption("Test Auto movement", new TestAutoMovment(driveSystem));
         chooser.addOption("Not moving", new InstantCommand());
+        
         //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
         mainTab.add(chooser);
     }

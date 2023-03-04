@@ -125,12 +125,12 @@ public class RobotContainer {
     new JoystickButton(assistantJoystick, 1).whileTrue(m_closegrabber);
     new JoystickButton(assistantJoystick, 2).whileTrue(m_opengrabber);
     
-    new JoystickButton(assistantJoystick, 3).whileTrue(m_PlatformBalance);
-    new JoystickButton(assistantJoystick, 5).whileTrue(m_ArmParkingCommand);
-    new JoystickButton(assistantJoystick, 6).whileTrue(m_ArmOnGroundLevelCommand);
-    new JoystickButton(assistantJoystick, 7).whileTrue(m_ArmOnMidLevelCommand);
-    new JoystickButton(assistantJoystick, 8).whileTrue(m_ArmOnHighLevelCommand);
-    //new JoystickButton(assistantJoystick, 9).whileTrue(m_ArmOnSubStationCommand);
+    new JoystickButton(assistantJoystick, 3).onTrue(m_PlatformBalance);
+    new JoystickButton(assistantJoystick, 5).onTrue(m_ArmParkingCommand);
+    new JoystickButton(assistantJoystick, 6).onTrue(m_ArmOnGroundLevelCommand);
+    new JoystickButton(assistantJoystick, 7).onTrue(m_ArmOnMidLevelCommand);
+    new JoystickButton(assistantJoystick, 8).onTrue(m_ArmOnHighLevelCommand);
+    new JoystickButton(assistantJoystick, 9).onTrue(m_ArmOnSubStationCommand);
     
 
             // No requirements because we don't need to interrupt anything         

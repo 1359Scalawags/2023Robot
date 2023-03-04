@@ -4,8 +4,10 @@
 
 package frc.robot.commands.autonomous;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -23,6 +25,7 @@ public class MoveBackwards extends CommandBase {
   private double targetDistance;
   private double startDistance;
   private double speed;
+  private Timer timer;
   //private double speed;
 
   public MoveBackwards(DrivetrainSubsystem driveSystem, double distance, double speed){
@@ -30,12 +33,15 @@ public class MoveBackwards extends CommandBase {
   this.targetDistance = distance;
   this.speed = speed;
   this.m_drivetrainSubsystem = driveSystem;
+  this.timer = new Timer();
   //targetDistance = target;
     addRequirements(driveSystem);
   }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    this.timer.reset();
+    this.timer.start();
     startDistance = m_drivetrainSubsystem.getDistanceFwdBwd(); //- targetDistance;
   }
 
@@ -63,11 +69,16 @@ public class MoveBackwards extends CommandBase {
     //   return true;
     // }
 
-    double distance = Math.abs(m_drivetrainSubsystem.getDistanceFwdBwd() - startDistance);
-    if (distance < targetDistance){
-      return false;
-    }else{
-      m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
-      return true;}
+    // double distance = Math.abs(m_drivetrainSubsystem.getDistanceFwdBwd() - startDistance);
+    // if (distance < targetDistance){
+    //   return false;
+    // }else{
+    //   m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
+    //   return true;}
+
+    if (this.timer.get() > 4) {
+      return true;
+    }
+    return false;
   }
 }

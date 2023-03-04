@@ -123,7 +123,7 @@ public final class Constants {
             public static final double onGroundLevel = 226;
             public static final double onHighLevel = 211;
             public static final double onMidLevel = 240;
-            public static final double onSubStation = 255;
+            public static final double onSubStation = 253;
 
             public static final double tolerance = 10.0;
             public static final double slewRateLimiter = 35;
@@ -177,7 +177,7 @@ public final class Constants {
             public static final double onGroundLevel = 115;
             public static final double onHighLevel = 211;
             public static final double onMidLevel = 184;
-            public static final double onSubStation = 200;
+            public static final double onSubStation = 188;
 
             public static final double tolerance = 5.0;
             public static final double slewRateLimiter = 35;
@@ -207,7 +207,8 @@ public final class Constants {
         public static final double kV = 0;
         public static final double kA = 0;
 
-        public static final double autoSpeed = 2;
+        public static final double autoSpeed = 1;
+        public static final double stopTime = 4;
 
     }
 

@@ -5,6 +5,7 @@
 package frc.robot.commands.autonomous;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 /** An example command that uses an example subsystem. */
@@ -14,10 +15,12 @@ public class MoveRight extends CommandBase {
   private double startDistance;
   private double targetDistance;
   private double speed;
+  private Timer timer;
 
   public MoveRight(DrivetrainSubsystem driveSystem, double distance, double speed){
     this.targetDistance = distance;
     this.speed = speed;
+    this.timer = new Timer();
     m_drivetrainSubsystem = driveSystem;
     addRequirements(driveSystem);
   }
@@ -27,6 +30,8 @@ public class MoveRight extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() { 
+    this.timer.reset();
+    this.timer.start();
    startDistance = m_drivetrainSubsystem.getDistanceLeftRight(); //+ endDistance;
   }
 
@@ -47,12 +52,16 @@ public class MoveRight extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double distance = Math.abs(m_drivetrainSubsystem.getDistanceLeftRight() - startDistance);
-    if (distance < targetDistance){
-      return false;
-    }else{
-      m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
+    // double distance = Math.abs(m_drivetrainSubsystem.getDistanceLeftRight() - startDistance);
+    // if (distance < targetDistance){
+    //   return false;
+    // }else{
+    //   m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
+    //   return true;
+    // }
+    if (this.timer.get() > targetDistance / speed) {
       return true;
     }
+    return false;
   }
 }

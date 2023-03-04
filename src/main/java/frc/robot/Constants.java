@@ -207,7 +207,7 @@ public final class Constants {
         public static final double kV = 0;
         public static final double kA = 0;
 
-        public static final double autoSpeed = 1;
+        public static final double autoSpeed = 1.25;
         public static final double stopTime = 4;
 
     }

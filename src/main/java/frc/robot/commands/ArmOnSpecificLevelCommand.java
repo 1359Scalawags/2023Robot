@@ -26,8 +26,8 @@ public class ArmOnSpecificLevelCommand extends CommandBase {
    */
   public ArmOnSpecificLevelCommand(ArmSubsystem subsystem, double elbowTargetDegree, double shoulderTargetDegree) {
     m_subsystem = subsystem;
-    e_Limiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter);
-    s_Limiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter);
+    e_Limiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter * 1.8);
+    s_Limiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter * 1.2);
     this.elbowTargetDegree = elbowTargetDegree;
     this.shoulderTargetDegree = shoulderTargetDegree;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -44,11 +44,11 @@ public class ArmOnSpecificLevelCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // m_subsystem.setElbowSetpoint(e_Limiter.calculate(Constants.Arm.Elbow.parkingDegree));
-    // m_subsystem.setShoulderSetpoint(s_Limiter.calculate(Constants.Arm.Shoulder.parkingDegree));
+    m_subsystem.setElbowSetpoint(e_Limiter.calculate(elbowTargetDegree));
+    m_subsystem.setShoulderSetpoint(s_Limiter.calculate(shoulderTargetDegree));
     //TODO: What is optimal angles for parking?
-    m_subsystem.setElbowSetpoint(elbowTargetDegree);
-    m_subsystem.setShoulderSetpoint(shoulderTargetDegree);
+    // m_subsystem.setElbowSetpoint(elbowTargetDegree);
+    // m_subsystem.setShoulderSetpoint(shoulderTargetDegree);
   }
 
   // Called once the command ends sor is interrupted.

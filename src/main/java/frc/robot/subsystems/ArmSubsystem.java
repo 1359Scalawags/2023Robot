@@ -409,15 +409,15 @@ public class ArmSubsystem extends SubsystemBase {
     return elbowSparkMaxEncoder.getPosition() ;
   }
 
-  public boolean isElbowAtTarget(double tolerance) {
-    if(Math.abs(e_targetPosition - getElbowDegree()) < tolerance) {
+  public boolean isElbowAtTarget(double target, double tolerance) {
+    if(Math.abs(target - getElbowDegree()) < tolerance) {
         return true;
     }
     return false;
   }
 
-  public boolean isShoulderAtTarget(double tolerance) {
-    if(Math.abs(s_targetPosition - getShoulderDegree()) < tolerance) {
+  public boolean isShoulderAtTarget(double target, double tolerance) {
+    if(Math.abs(target - getShoulderDegree()) < tolerance) {
         return true;
     }
     return false;

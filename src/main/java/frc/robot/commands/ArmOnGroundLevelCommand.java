@@ -51,6 +51,6 @@ public class ArmOnGroundLevelCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.tolerance) && m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.tolerance);
+    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.onGroundLevel, Constants.Arm.Elbow.tolerance) && m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.onGroundLevel, Constants.Arm.Shoulder.tolerance);
   }
 }

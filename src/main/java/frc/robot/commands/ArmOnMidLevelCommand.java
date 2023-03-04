@@ -23,8 +23,8 @@ public class ArmOnMidLevelCommand extends CommandBase {
    */
   public ArmOnMidLevelCommand(ArmSubsystem subsystem) {
     m_subsystem = subsystem;
-    e_Limiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter);
-    s_Limiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter);
+    e_Limiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter * 2, -Constants.Arm.Elbow.slewRateLimiter, m_subsystem.getElbowDegree());
+    s_Limiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter  * 2, -Constants.Arm.Shoulder.slewRateLimiter, m_subsystem.getShoulderDegree());
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -40,8 +40,8 @@ public class ArmOnMidLevelCommand extends CommandBase {
   @Override
   public void execute() {
     //TODO: What is optimal angles for parking?
-    m_subsystem.setElbowSetpoint(e_Limiter.calculate(Constants.Arm.Elbow.onHighLevel));
-    m_subsystem.setShoulderSetpoint(s_Limiter.calculate(Constants.Arm.Shoulder.onHighLevel));
+    m_subsystem.setElbowSetpoint(e_Limiter.calculate(Constants.Arm.Elbow.onMidLevel));
+    m_subsystem.setShoulderSetpoint(s_Limiter.calculate(Constants.Arm.Shoulder.onMidLevel));
   }
 
   // Called once the command ends sor is interrupted.
@@ -51,6 +51,6 @@ public class ArmOnMidLevelCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.tolerance) && m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.tolerance);
+    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.onMidLevel, Constants.Arm.Elbow.tolerance) && m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.onMidLevel, Constants.Arm.Shoulder.tolerance);
   }
 }

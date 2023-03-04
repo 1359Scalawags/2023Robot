@@ -44,8 +44,8 @@ public class ArmOnSpecificLevelCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setElbowSetpoint(e_Limiter.calculate(Constants.Arm.Elbow.parkingDegree));
-    m_subsystem.setShoulderSetpoint(s_Limiter.calculate(Constants.Arm.Shoulder.parkingDegree));
+    // m_subsystem.setElbowSetpoint(e_Limiter.calculate(Constants.Arm.Elbow.parkingDegree));
+    // m_subsystem.setShoulderSetpoint(s_Limiter.calculate(Constants.Arm.Shoulder.parkingDegree));
     //TODO: What is optimal angles for parking?
     m_subsystem.setElbowSetpoint(elbowTargetDegree);
     m_subsystem.setShoulderSetpoint(shoulderTargetDegree);
@@ -58,6 +58,6 @@ public class ArmOnSpecificLevelCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.tolerance) && m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.tolerance);
+    return m_subsystem.isElbowAtTarget(elbowTargetDegree, Constants.Arm.Elbow.tolerance) && m_subsystem.isShoulderAtTarget(shoulderTargetDegree, Constants.Arm.Shoulder.tolerance);
   }
 }

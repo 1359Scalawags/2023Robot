@@ -126,7 +126,7 @@ public final class Constants {
             public static final double onSubStation = 255;
 
             public static final double tolerance = 10.0;
-            public static final double slewRateLimiter = 1;
+            public static final double slewRateLimiter = 35;
         }
         public static final class Elbow {
             //public static final double ffTestRatio = 0.8;
@@ -180,7 +180,7 @@ public final class Constants {
             public static final double onSubStation = 200;
 
             public static final double tolerance = 5.0;
-            public static final double slewRateLimiter = 1;
+            public static final double slewRateLimiter = 35;
         }
     }
 

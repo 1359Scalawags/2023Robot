@@ -39,10 +39,10 @@ public class ArmOnSubStationCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setElbowSetpoint(e_Limiter.calculate(Constants.Arm.Elbow.parkingDegree));
-    m_subsystem.setShoulderSetpoint(s_Limiter.calculate(Constants.Arm.Shoulder.parkingDegree));
-    m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.onSubStation);
-    m_subsystem.setShoulderSetpoint(Constants.Arm.Shoulder.onSubStation);
+    m_subsystem.setElbowSetpoint(e_Limiter.calculate(Constants.Arm.Elbow.onSubStation));
+    m_subsystem.setShoulderSetpoint(s_Limiter.calculate(Constants.Arm.Shoulder.onSubStation));
+    // m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.onSubStation);
+    // m_subsystem.setShoulderSetpoint(Constants.Arm.Shoulder.onSubStation);
   }
 
   // Called once the command ends sor is interrupted.
@@ -52,6 +52,6 @@ public class ArmOnSubStationCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.tolerance) && m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.tolerance);
+    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.onSubStation, Constants.Arm.Elbow.tolerance) && m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.onSubStation, Constants.Arm.Shoulder.tolerance);
   }
 }

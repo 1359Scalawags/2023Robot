@@ -43,7 +43,10 @@ public class ArmOnHighLevelCommand extends CommandBase {
     //TODO: What is optimal angles for parking?
     m_subsystem.setElbowSetpoint(e_Limiter.calculate(Constants.Arm.Elbow.onHighLevel));
     m_subsystem.setShoulderSetpoint(s_Limiter.calculate(Constants.Arm.Shoulder.onHighLevel));
+    // m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.onHighLevel);
+    // m_subsystem.setShoulderSetpoint(Constants.Arm.Shoulder.onHighLevel);
   }
+  
 
   // Called once the command ends sor is interrupted.
   @Override
@@ -52,6 +55,6 @@ public class ArmOnHighLevelCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.tolerance) && m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.tolerance);
+    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.onHighLevel, Constants.Arm.Elbow.tolerance) && m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.onHighLevel, Constants.Arm.Shoulder.tolerance);
   }
 }

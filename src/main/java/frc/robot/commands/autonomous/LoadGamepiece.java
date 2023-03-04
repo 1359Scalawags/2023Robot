@@ -14,12 +14,12 @@ public class LoadGamepiece extends SequentialCommandGroup{
         addCommands(
             // new GrabCommandOpen(m_GrabberSubsystem),
             new GrabCommandClose(m_GrabberSubsystem),
-            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 270.0),
-            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 240.0),
+            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 260.0),
+            // new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 240.0),
             new ArmOnHighLevelCommand(m_ArmSubsystem),
             new GrabCommandOpen(m_GrabberSubsystem),
-            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 240.0),
-            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 270.0),
+            // new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 240.0),
+            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 260.0),
             new ArmParkingCommand(m_ArmSubsystem)
         );
     }

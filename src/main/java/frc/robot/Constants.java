@@ -70,13 +70,13 @@ public final class Constants {
             public static final int DRIVE_MOTOR = 7; 
             public static final int STEER_MOTOR = 8; 
             public static final int STEER_ENCODER = 17; 
-            public static final double STEER_OFFSET = -Math.toRadians(282); // FIXME Measure and set offset             
+            public static final double STEER_OFFSET = -Math.toRadians(282 - 20); // FIXME Measure and set offset             
         }
         public static final class FrontRight {
             public static final int DRIVE_MOTOR = 5; 
             public static final int STEER_MOTOR = 6; 
             public static final int STEER_ENCODER = 15; 
-            public static final double STEER_OFFSET = -Math.toRadians(354.0); // FIXME Measure and set offset       
+            public static final double STEER_OFFSET = -Math.toRadians(354.0 + 180); // FIXME Measure and set offset       
         }
         public static final class BackLeft {
             public static final int DRIVE_MOTOR = 1; 

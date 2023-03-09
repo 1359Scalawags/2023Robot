@@ -12,9 +12,9 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import com.revrobotics.RelativeEncoder;
-import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
-import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
-import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
+// import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
+// import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
+// import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import com.swervedrivespecialties.swervelib.MotorType;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
@@ -114,7 +114,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
     private SwerveDriveOdometry m_Odometry;
     private Pose2d m_pose;
-    private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
+    // private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
     private final PIDController xController = new PIDController(Constants.kp_XController, Constants.ki_XController, Constants.kd_XController);
     private final PIDController yController = new PIDController(Constants.kp_YController, Constants.ki_YController, Constants.kd_YController);
     private final PIDController rotationController = new PIDController(Constants.kp_RotationController, Constants.ki_RotationController, Constants.kd_RotationController);

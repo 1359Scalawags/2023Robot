@@ -152,8 +152,8 @@ public final class Constants {
             
             public static final double kP = 0.01; //0.18;  // After tuning, 0.05/2
             public static final double kPAuto = 0.009;
-            public static final double kI = 0;  //10e-4
-            public static final double kD = 0;  //1 
+            public static final double kI = 0.00001;  //10e-4
+            public static final double kD = 0.000004;  //1 
             public static final double kFF = 0.0001;
             public static final double kIz = 0;
             public static final double kMinOutput = -0.2;

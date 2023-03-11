@@ -38,8 +38,10 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     instance = this;
     m_robotContainer = new RobotContainer();
+    Command zeroGyro = m_robotContainer.getZeroGyroCommand();
     m_robotContainer.initializeArmSetpoints();    
     Command enableCompressor = m_robotContainer.getCompressorStartCommand();
+    zeroGyro.schedule();
     enableCompressor.schedule();
   }
 

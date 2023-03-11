@@ -70,25 +70,25 @@ public final class Constants {
             public static final int DRIVE_MOTOR = 7; 
             public static final int STEER_MOTOR = 8; 
             public static final int STEER_ENCODER = 17; 
-            public static final double STEER_OFFSET = -Math.toRadians(282 - 20); // FIXME Measure and set offset             
+            public static final double STEER_OFFSET = -Math.toRadians(179.561); // FIXME Measure and set offset             
         }
         public static final class FrontRight {
             public static final int DRIVE_MOTOR = 5; 
             public static final int STEER_MOTOR = 6; 
             public static final int STEER_ENCODER = 15; 
-            public static final double STEER_OFFSET = -Math.toRadians(354.0 + 180); // FIXME Measure and set offset       
+            public static final double STEER_OFFSET = -Math.toRadians(4.746); // FIXME Measure and set offset       
         }
         public static final class BackLeft {
             public static final int DRIVE_MOTOR = 1; 
             public static final int STEER_MOTOR = 2; 
             public static final int STEER_ENCODER = 11; 
-            public static final double STEER_OFFSET = -Math.toRadians(127.0); // // FIXME Measure and set offset   
+            public static final double STEER_OFFSET = -Math.toRadians(180.439); // // FIXME Measure and set offset   
         }
         public static final class BackRight {
             public static final int DRIVE_MOTOR = 3; // FIXME Set front left module drive motor ID
             public static final int STEER_MOTOR = 4; // FIXME Set front left module steer motor ID
             public static final int STEER_ENCODER = 13; // FIXME Set front left steer encoder ID
-            public static final double STEER_OFFSET = -Math.toRadians(333.0+70); // FIXME Measure and set front left steer offset                 
+            public static final double STEER_OFFSET = -Math.toRadians(0.615); // FIXME Measure and set front left steer offset                 
         }
         public static final double motorSpeed = 0.3;
         public static final double gearRatio = 8.14;

@@ -46,6 +46,7 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.SetDriveMode;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import static frc.robot.Constants.SwerveDrive.*;
@@ -215,6 +216,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         // set the current instance as the public instance
         instance = this;
+        Timer.delay(1.0);
+        m_frontLeftModule.resetToAbsolute();
+        m_frontRightModule.resetToAbsolute();
+        m_backLeftModule.resetToAbsolute();
+        m_backRightModule.resetToAbsolute();
 
         m_Odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation(), new SwerveModulePosition[]
         {
@@ -381,6 +387,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
             if (driveMode == DriveModes.FieldCentric){
                 tempSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_chassisSpeeds, getGyroscopeRotation()); 
             }
+
+            
 
             SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(tempSpeeds);
             SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_MPS);

@@ -47,14 +47,14 @@ public class VisionSystem extends SubsystemBase {
     NetworkTableEntry ta = getLimelightEntry("ta");
     NetworkTableEntry ledMode = getLimelightEntry("ledMode");
     NetworkTableEntry camMode = getLimelightEntry("camMode");
+    NetworkTableEntry pipeline = getLimelightEntry("getpipe");
     private double[] botPose;
     public VisionSystem() {
         botPose = table.getEntry("botpose").getDoubleArray(new double[6]);
         // limelight initialization
-        setCamMode(LimelightModes.vision);
-        ledMode.setInteger(1);
-        //TODO remember camMode makes the limelight a driver camera
-        camMode.setInteger(1);
+        // setCamMode(LimelightModes.vision);
+        // ledMode.setInteger(1);
+        // camMode.setInteger(1);
         try {
             // USB Camera initialization
             if(Robot.isSimulation()) {

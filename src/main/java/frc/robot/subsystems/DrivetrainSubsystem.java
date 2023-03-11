@@ -251,7 +251,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void setDriveMode(DriveModes mode) {
-        driveMode = DriveModes.RobotCentric;
+        driveMode = mode;
     }
 
     public String getDriveMode() {

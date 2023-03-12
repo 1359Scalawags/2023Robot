@@ -216,7 +216,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         // set the current instance as the public instance
         instance = this;
-        Timer.delay(1.0);
+        Timer.delay(2.0);
         m_frontLeftModule.resetToAbsolute();
         m_frontRightModule.resetToAbsolute();
         m_backLeftModule.resetToAbsolute();

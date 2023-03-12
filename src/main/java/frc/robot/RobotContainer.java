@@ -75,8 +75,8 @@ public class RobotContainer {
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
   //private final XboxController m_controller = new XboxController(0);
   SendableChooser<Command> chooser = new SendableChooser<>();
-  PathConstraints constraints = new PathConstraints(4, 3);
-  PathPlannerTrajectory straightPath = PathPlanner.loadPath("Straight", constraints);
+  PathConstraints constraints = new PathConstraints(1.3, 0.5);
+  PathPlannerTrajectory straightPath = PathPlanner.loadPath("Test Forward", constraints);
   // PathPlannerTrajectory curvyPath = PathPlanner.loadPath("Curvy", constraints);
   // PathPlannerTrajectory TestPath = PathPlanner.loadPath("Test Forward", constraints);
   // PathPlannerTrajectory BlueCSOnePath = PathPlanner.loadPath("BlueCS1", constraints);
@@ -241,5 +241,8 @@ public class RobotContainer {
   
   public void initializeArmSetpoints() {
     // m_armSubsystem.initializeSetpoints();
+  }
+  public Command getZeroGyroCommand() {
+    return new ZeroGyroCommand(m_drivetrainSubsystem);
   }
 }

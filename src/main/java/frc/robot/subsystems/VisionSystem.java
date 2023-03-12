@@ -113,6 +113,7 @@ public class VisionSystem extends SubsystemBase {
        
     }
 
+    int counter = 0;
     @Override
     public void periodic() {
         // read values periodically
@@ -121,9 +122,13 @@ public class VisionSystem extends SubsystemBase {
         double area = ta.getDouble(0.0);
 
         // post to smart dashboard periodically
-        SmartDashboard.putNumber("LimelightX", x);
-        SmartDashboard.putNumber("LimelightY", y);
-        SmartDashboard.putNumber("LimelightArea", area);
+        if (counter > Constants.UI.delayCounter) {
+            SmartDashboard.putNumber("LimelightX", x);
+            SmartDashboard.putNumber("LimelightY", y);
+            SmartDashboard.putNumber("LimelightArea", area);
+            counter = 0;
+        }
+        counter++;
     }
 
     private static NetworkTableEntry getLimelightEntry(String key) {
@@ -132,7 +137,7 @@ public class VisionSystem extends SubsystemBase {
         }
         return table.getEntry(key);
     }
-    
+
     public void pipelineDetectCube(){
         pipeline.setInteger(1);
     }
@@ -158,6 +163,12 @@ public class VisionSystem extends SubsystemBase {
     public Double getTargetArea() {
         return ta.getDouble(0.0);
     }
+
+    public double getDistanceFromTarget() {
+        double angleToGoalRadian = (Constants.Vision.limelightMountAngleDegree + getTargetY()) * (Math.PI / 180.0);
+        return (Constants.Vision.goalHeightInches - Constants.Vision.limelightLensHeightInches) / Math.tan(angleToGoalRadian);
+    }
+
 
     public UsbCamera getCamera1() {
         if(camera1.isValid()) {

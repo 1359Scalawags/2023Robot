@@ -73,6 +73,12 @@ public final class Constants {
         public static final double D = 0.00004;
     }
 
+    public static final class Vision {
+        public static final double limelightMountAngleDegree = 0;
+        public static final double limelightLensHeightInches = 0;
+        public static final double goalHeightInches = 0;
+    }
+
     public static final class Arm {
         //public static final double radtoDegreeDivisor = Math.PI / 180.0; // name did not match conversion
         public static final double boundaryExtension = 5;
@@ -214,5 +220,6 @@ public final class Constants {
 
     public static final class UI {
         public static final double deadband = 0.05;
+        public static final double delayCounter = 5.0;
     }
 }

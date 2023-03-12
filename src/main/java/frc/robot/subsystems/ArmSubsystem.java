@@ -465,6 +465,7 @@ public class ArmSubsystem extends SubsystemBase {
 
 
   int delayCounter = 0;
+  int counter = 0;
   @Override
   public void periodic() {
     if(delayCounter < 100) {
@@ -528,11 +529,15 @@ public class ArmSubsystem extends SubsystemBase {
       }
     }
 
-    shoulderRotationEntry.setDouble(getShoulderDegree());
-    elbowRotationEntry.setDouble(getElbowDegree());
+    if (counter > Constants.UI.delayCounter) {
+      shoulderRotationEntry.setDouble(getShoulderDegree());
+      elbowRotationEntry.setDouble(getElbowDegree());
 
-    shoulderAbsoluteTargetEntry.setDouble(s_targetPosition);
-    elbowAbsoluteTargetEntry.setDouble(e_targetPosition);
+      shoulderAbsoluteTargetEntry.setDouble(s_targetPosition);
+      elbowAbsoluteTargetEntry.setDouble(e_targetPosition);
+      counter = 0;
+    }
+    counter++;
       // elbowVoltage = getElbowPID() + getElbowFF();
       // shoulderVoltage = getShoulderPID() + getShoulderFF();
       // elbowVoltage = MathUtil.clamp(elbowVoltage, Constants.Arm.Elbow.minVoltage, Constants.Arm.Elbow.maxVoltage);

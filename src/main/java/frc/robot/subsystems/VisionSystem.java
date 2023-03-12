@@ -55,6 +55,7 @@ public class VisionSystem extends SubsystemBase {
         // setCamMode(LimelightModes.vision);
         // ledMode.setInteger(1);
         // camMode.setInteger(1);
+
         try {
             // USB Camera initialization
             if(Robot.isSimulation()) {
@@ -109,6 +110,7 @@ public class VisionSystem extends SubsystemBase {
 
     public double[] getBotPose() {
         return botPose;
+       
     }
 
     @Override
@@ -130,7 +132,16 @@ public class VisionSystem extends SubsystemBase {
         }
         return table.getEntry(key);
     }
-
+    
+    public void pipelineDetectCube(){
+        pipeline.setInteger(1);
+    }
+    public void pipelineDetectCone(){
+        pipeline.setInteger(2);
+    }
+    public void manualySetPipeline(int pipe){
+        pipeline.setInteger(pipe);
+    }
     @Override
     public void simulationPeriodic() {
 

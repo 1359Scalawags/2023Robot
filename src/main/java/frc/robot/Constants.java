@@ -187,15 +187,15 @@ public final class Constants {
     public static final class Grabber {
         public static final int compressorModule =  21;        
         public static final int closedSolenoidModuleA = 0;
-       // public static final int closedSolenoidModuleB = 1;
-        public static final int openSolenoidModuleA = 1;
-       // public static final int openSolenoidModuleB = 1;
+        public static final int closedSolenoidModuleB = 1;
+        public static final int openSolenoidModuleA = 2;
+        public static final int openSolenoidModuleB = 3;
         public static class Pneumatic {
             public static final int PneumaticHub = 21;
             public static final int pistionOne = 1;                
             public static final int pistionTwo = 2;
-            public static int forwardChannel =0;
-            public static int reverseChannel =1;
+            public static int forwardChannel = 0;
+            public static int reverseChannel = 1;
         }
     }
 

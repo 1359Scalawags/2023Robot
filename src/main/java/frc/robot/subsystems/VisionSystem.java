@@ -47,7 +47,7 @@ public class VisionSystem extends SubsystemBase {
     NetworkTableEntry ta = getLimelightEntry("ta");
     NetworkTableEntry ledMode = getLimelightEntry("ledMode");
     NetworkTableEntry camMode = getLimelightEntry("camMode");
-    NetworkTableEntry pipeline = getLimelightEntry("getpipe");
+    NetworkTableEntry pipeline = getLimelightEntry("pipeline");
     private double[] botPose;
     public VisionSystem() {
         botPose = table.getEntry("botpose").getDoubleArray(new double[6]);
@@ -147,6 +147,10 @@ public class VisionSystem extends SubsystemBase {
     public void manualySetPipeline(int pipe){
         pipeline.setInteger(pipe);
     }
+    public double getPipeline(){
+       return pipeline.getInteger(0);
+    }
+
     @Override
     public void simulationPeriodic() {
 

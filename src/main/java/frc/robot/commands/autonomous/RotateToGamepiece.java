@@ -49,7 +49,9 @@ public class RotateToGamepiece extends CommandBase  {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+   
     if (m_Vision.doesTargetExist() == 0){
+       m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
        return true;
     }else{
        return false;

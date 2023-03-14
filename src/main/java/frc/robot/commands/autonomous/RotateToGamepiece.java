@@ -49,6 +49,11 @@ public class RotateToGamepiece extends CommandBase  {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (m_Vision.doesTargetExist() == 0){
+       return true;
+    }else{
+       return false;
+    }
+   
   }
 }

@@ -34,7 +34,7 @@ public class VisionSystem extends SubsystemBase {
     }
 
     // variables for USB Cams
-    private UsbCamera camera1;
+    // private UsbCamera camera1;
     //private UsbCamera camera2;
     private VideoSink server;
 
@@ -45,6 +45,7 @@ public class VisionSystem extends SubsystemBase {
     NetworkTableEntry tx = getLimelightEntry("tx");
     NetworkTableEntry ty = getLimelightEntry("ty");
     NetworkTableEntry ta = getLimelightEntry("ta");
+    NetworkTableEntry tv = getLimelightEntry("tv");
     NetworkTableEntry ledMode = getLimelightEntry("ledMode");
     NetworkTableEntry camMode = getLimelightEntry("camMode");
     NetworkTableEntry pipeline = getLimelightEntry("pipeline");
@@ -56,21 +57,21 @@ public class VisionSystem extends SubsystemBase {
         // ledMode.setInteger(1);
         // camMode.setInteger(1);
 
-        try {
-            // USB Camera initialization
-            if(Robot.isSimulation()) {
-                camera1 = CameraServer.startAutomaticCapture(4);
-            } else {
-                camera1 = CameraServer.startAutomaticCapture(0);
-            }
+        // try {
+        //     // USB Camera initialization
+        //     if(Robot.isSimulation()) {
+        //         camera1 = CameraServer.startAutomaticCapture(4);
+        //     } else {
+        //         camera1 = CameraServer.startAutomaticCapture(0);
+        //     }
 
-            camera1.setResolution(Constants.DisplaySystem.CAM_WIDTH, Constants.DisplaySystem.CAM_HEIGHT);
-            camera1.setFPS(Constants.DisplaySystem.CAM_FPS);
-            camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-            //System.out.println(camera1.getConfigJson());
-        } catch (Exception e) {
-            System.out.println("Vision system could not capture camera!" + e.getMessage());
-        }
+        //     camera1.setResolution(Constants.DisplaySystem.CAM_WIDTH, Constants.DisplaySystem.CAM_HEIGHT);
+        //     camera1.setFPS(Constants.DisplaySystem.CAM_FPS);
+        //     camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+        //     //System.out.println(camera1.getConfigJson());
+        // } catch (Exception e) {
+        //     System.out.println("Vision system could not capture camera!" + e.getMessage());
+        // }
 
         // try {
         //     camera2 = CameraServer.startAutomaticCapture(1);
@@ -84,7 +85,7 @@ public class VisionSystem extends SubsystemBase {
         //NOTE: this should probably use the "addServer()" function for multiple cameras
         server = CameraServer.getServer();
 
-        server.setSource(camera1);
+        // server.setSource(camera1);
 
         // if (camera1 != null) {
         //     server.setSource(camera1);
@@ -98,15 +99,15 @@ public class VisionSystem extends SubsystemBase {
         getLimelightEntry("camMode").setNumber(mode.ordinal());
     }
 
-    public void setUSBCamera(USBCameras camera) {
-    //     if (camera == USBCameras.BottomCamera) {
-    //         server.setSource(camera2);
-    //     } else if (camera == USBCameras.TopCamera) {
-    //         server.setSource(camera1);
-    //     } else {
-    //         server.setSource(null);
-    //     }
-    }
+    // public void setUSBCamera(USBCameras camera) {
+    // //     if (camera == USBCameras.BottomCamera) {
+    // //         server.setSource(camera2);
+    // //     } else if (camera == USBCameras.TopCamera) {
+    // //         server.setSource(camera1);
+    // //     } else {
+    // //         server.setSource(null);
+    // //     }
+    // }
 
     public double[] getBotPose() {
         return botPose;
@@ -167,6 +168,10 @@ public class VisionSystem extends SubsystemBase {
     public Double getTargetArea() {
         return ta.getDouble(0.0);
     }
+    
+    public Double doesTargetExist() {
+        return tv.getDouble(0.0);
+    }
 
     public double getDistanceFromTarget() {
         double angleToGoalRadian = (Constants.Vision.limelightMountAngleDegree + getTargetY()) * (Math.PI / 180.0);
@@ -174,13 +179,13 @@ public class VisionSystem extends SubsystemBase {
     }
 
 
-    public UsbCamera getCamera1() {
-        if(camera1.isValid()) {
-            return camera1;            
-        } else {
-            return null;
-        }
+    // public UsbCamera getCamera1() {
+    //     if(camera1.isValid()) {
+    //         return camera1;            
+    //     } else {
+    //         return null;
+    //     }
 
-    }
+    // }
 
 }

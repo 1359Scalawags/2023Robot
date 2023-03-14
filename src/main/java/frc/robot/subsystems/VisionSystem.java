@@ -136,8 +136,14 @@ public class VisionSystem extends SubsystemBase {
         }
         return table.getEntry(key);
     }
-
+    /**
+    *0	use the LED Mode set in the current pipeline:  
+    *1	force off, 
+    *2	force blink, 
+    *3	force on
+    */
     public void setLedMode(int mode){
+          
         ledMode.setInteger(mode);
     }
             // setCamMode(LimelightModes.vision);

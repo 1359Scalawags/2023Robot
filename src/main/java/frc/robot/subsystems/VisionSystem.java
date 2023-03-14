@@ -53,9 +53,7 @@ public class VisionSystem extends SubsystemBase {
     public VisionSystem() {
         botPose = table.getEntry("botpose").getDoubleArray(new double[6]);
         // limelight initialization
-        // setCamMode(LimelightModes.vision);
-        // ledMode.setInteger(1);
-        // camMode.setInteger(1);
+
 
         // try {
         //     // USB Camera initialization
@@ -138,6 +136,13 @@ public class VisionSystem extends SubsystemBase {
         }
         return table.getEntry(key);
     }
+
+    public void setLedMode(int mode){
+        ledMode.setInteger(mode);
+    }
+            // setCamMode(LimelightModes.vision);
+        // ledMode.setInteger(1);
+        // camMode.setInteger(1);
 
     public void pipelineDetectCube(){
         pipeline.setInteger(1);

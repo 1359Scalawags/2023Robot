@@ -216,6 +216,8 @@ public final class Constants {
 
         public static final double autoSpeed = 1.25;
         public static final double stopTime = 4;
+        public static final double degreeOffset = 4;
+        public static final double offsetFromCenter = 0;
 
     }
 

@@ -2,6 +2,7 @@ package frc.robot.commands.autonomous;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.VisionSystem;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -49,6 +50,16 @@ public class RotateToGamepiece extends CommandBase  {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+   
+    if (m_Vision.doesTargetExist() == 0){
+      m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
+      return true;
+   }else{
+    if (( (Constants.Autonomous.degreeOffset + Constants.Autonomous.offsetFromCenter) < m_Vision.getTargetX()) && (m_Vision.getTargetX() <  (-Constants.Autonomous.degreeOffset + Constants.Autonomous.offsetFromCenter) )){
+      return true;
+    }
     return false;
+   }
+   
   }
 }

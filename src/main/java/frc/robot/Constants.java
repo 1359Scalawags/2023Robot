@@ -140,8 +140,9 @@ public final class Constants {
             public static final int channel = 2;        
             public static final int motor = 23;
             public static final double upperlimit = 215.0;
-            public static final double lowerLimitMax = 115;
-            public static final double lowerLimitMin = 85.0;
+            public static final double lowerLimitWhenSafePos = 115;
+            public static final double lowerLimitUnsafePosMax = 115;
+            public static final double lowerLimitUnsafePosMin = 85.0;
             public static final double shoulderRestrictionPositionLower = 220;
             public static final double shoulderRestrictionPositionUpper = 270;
             public static final double defaultSetpoint = 104.0;
@@ -170,7 +171,7 @@ public final class Constants {
             public static final double kV = 0.020420352;
             public static final double kA = 0.000279253;
 
-            public static final double angleAtFloor = 27.0;
+            public static final double angleAtFloor = 27.0 - 60;
             public static final double targetSpeed = 0.05;
             public static final double maxVoltage = 3; // based on 12V
             public static final double minVoltage = -maxVoltage; // FIXME: this isn't necessary to store in memory
@@ -194,7 +195,7 @@ public final class Constants {
         public static final int compressorModule =  21;        
         public static final int closedSolenoidModuleA = 0;
         public static final int closedSolenoidModuleB = 1;
-        public static final int openSolenoidModuleA = 2;
+        public static final int openSolenoidModuleA = 1;
         public static final int openSolenoidModuleB = 3;
         public static class Pneumatic {
             public static final int PneumaticHub = 21;

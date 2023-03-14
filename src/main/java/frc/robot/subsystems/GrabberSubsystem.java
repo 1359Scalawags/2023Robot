@@ -18,7 +18,7 @@ public class GrabberSubsystem extends SubsystemBase {
   boolean grabberOpen;
   Compressor phCompressor;
   DoubleSolenoid m_doubleSolenoid1;
-  DoubleSolenoid m_doubleSolenoid2;
+  // DoubleSolenoid m_doubleSolenoid2;
   PneumaticHub m_pH;
   // public GrabberSubsystem() {
   //   phCompressor = new Compressor(Constants.Grabber.compressorModule, PneumaticsModuleType.REVPH);
@@ -30,7 +30,7 @@ public class GrabberSubsystem extends SubsystemBase {
     phCompressor = new Compressor(Constants.Grabber.compressorModule, PneumaticsModuleType.REVPH);
     m_pH = new PneumaticHub(Constants.Grabber.Pneumatic.PneumaticHub);
     m_doubleSolenoid1 = m_pH.makeDoubleSolenoid(Constants.Grabber.closedSolenoidModuleA,Constants.Grabber.openSolenoidModuleA);
-    m_doubleSolenoid2 = m_pH.makeDoubleSolenoid(Constants.Grabber.closedSolenoidModuleB,Constants.Grabber.openSolenoidModuleB);
+    // m_doubleSolenoid2 = m_pH.makeDoubleSolenoid(Constants.Grabber.closedSolenoidModuleB,Constants.Grabber.openSolenoidModuleB);
     close();
   
   }
@@ -61,12 +61,12 @@ public class GrabberSubsystem extends SubsystemBase {
   }
   public void close(){
     m_doubleSolenoid1.set(DoubleSolenoid.Value.kForward);
-    m_doubleSolenoid2.set(DoubleSolenoid.Value.kForward);
+    // m_doubleSolenoid2.set(DoubleSolenoid.Value.kForward);
     grabberOpen = false;
   }
   public void open(){
     m_doubleSolenoid1.set(DoubleSolenoid.Value.kReverse);
-    m_doubleSolenoid2.set(DoubleSolenoid.Value.kReverse);
+    // m_doubleSolenoid2.set(DoubleSolenoid.Value.kReverse);
     grabberOpen = true;
   }
   public boolean isCompressorOn(){

@@ -55,8 +55,8 @@ public class ArmSubsystem extends SubsystemBase {
   private double e_kP = Constants.Arm.Elbow.kP,
                  e_kI = Constants.Arm.Elbow.kI, 
                  e_kD = Constants.Arm.Elbow.kD,
-                 e_targetPosition = MathUtil.clamp(Constants.Arm.Elbow.defaultSetpoint, Constants.Arm.Elbow.lowerLimitMax, Constants.Arm.Elbow.upperlimit),
-                 e_lowerLimit = Constants.Arm.Elbow.lowerLimitMax;
+                 e_targetPosition = MathUtil.clamp(Constants.Arm.Elbow.defaultSetpoint, Constants.Arm.Elbow.lowerLimitUnsafePosMax, Constants.Arm.Elbow.upperlimit),
+                 e_lowerLimit = Constants.Arm.Elbow.lowerLimitUnsafePosMax;
   private double s_kP = Constants.Arm.Shoulder.kP, 
                  s_kI = Constants.Arm.Shoulder.kI, 
                  s_kD = Constants.Arm.Shoulder.kD,
@@ -77,7 +77,7 @@ public class ArmSubsystem extends SubsystemBase {
     
     // TODO: can/should we use setSoftLimit() to limit arm movement?
     elbowMotor.setSoftLimit(SoftLimitDirection.kForward, (float)Constants.Arm.Elbow.upperlimit);
-    elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)Constants.Arm.Elbow.lowerLimitMin);
+    elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)Constants.Arm.Elbow.lowerLimitUnsafePosMin);
     
     shoulderMotor = new SendableCANSparkMax(Constants.Arm.Shoulder.motor, MotorType.kBrushless);
     shoulderMotor.restoreFactoryDefaults();
@@ -157,6 +157,9 @@ public class ArmSubsystem extends SubsystemBase {
   public boolean isElbowWithinLimits() {
     return !isElbowAtLowerLimit() && !isElbowAtUpperLimit();
   }
+  public boolean isElbowAtUnsafe() {
+    return getElbowDegree() >= Constants.Arm.Elbow.lowerLimitUnsafePosMin && getElbowDegree() <= Constants.Arm.Elbow.lowerLimitUnsafePosMax;
+  }
 
   public boolean isShoulderAtUpperLimit() {
     return getShoulderDegree() >= Constants.Arm.Shoulder.upperlimit;
@@ -224,6 +227,8 @@ public class ArmSubsystem extends SubsystemBase {
     setShoulderSetpoint(s_targetPosition + delta);
   }
 
+  
+
   // /**
   //  * Get elbow's position relative to the floor.
   //  * @return Angle in degrees
@@ -281,17 +286,27 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void adjustElbowLimit() {
     double shoulder = getShoulderDegree();
-    if(shoulder < Constants.Arm.Elbow.shoulderRestrictionPositionLower) {
-      e_lowerLimit = 90.0;
-    } else if(shoulder > Constants.Arm.Elbow.shoulderRestrictionPositionUpper) {
-      e_lowerLimit = 115;
-    } else {
-      e_lowerLimit = 0.000626961 * Math.pow(shoulder, 3) - 0.457477 * Math.pow(shoulder, 2) + 111.372 * shoulder - 8945.89;      
+    if (shoulder >= Constants.Arm.Shoulder.upperlimit) {
+      e_lowerLimit = Constants.Arm.Elbow.lowerLimitUnsafePosMin;
+      if (isElbowAtUnsafe()) {
+        s_targetPosition = Constants.Arm.Shoulder.upperlimit;
+      }
+    else if (shoulder < Constants.Arm.Shoulder.upperlimit) {
+      e_lowerLimit = Constants.Arm.Elbow.lowerLimitWhenSafePos;
     }
-    e_targetPosition = MathUtil.clamp(e_targetPosition, e_lowerLimit, Constants.Arm.Elbow.upperlimit);
-    elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)e_lowerLimit);
+    }
+  
+  //   if(shoulder < Constants.Arm.Elbow.shoulderRestrictionPositionLower) {
+  //     e_lowerLimit = 90.0;
+  //   } else if(shoulder > Constants.Arm.Elbow.shoulderRestrictionPositionUpper) {
+  //     e_lowerLimit = 115;
+  //   } else {
+  //     e_lowerLimit = 0.000626961 * Math.pow(shoulder, 3) - 0.457477 * Math.pow(shoulder, 2) + 111.372 * shoulder - 8945.89;      
+  //   }
+  //   e_targetPosition = MathUtil.clamp(e_targetPosition, e_lowerLimit, Constants.Arm.Elbow.upperlimit);
+  //   elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)e_lowerLimit);
+  // }
   }
-
   int delayCounter = 0;
   int counter = 0;
   @Override
@@ -311,7 +326,9 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     else {
+      
       adjustElbowLimit();
+      
       if(isInitialized) {
           elbowSparkMaxPIDController.setReference(e_targetPosition, ControlType.kPosition);
           shoulderSparkMaxPIDController.setReference(s_targetPosition, ControlType.kPosition);

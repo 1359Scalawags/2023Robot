@@ -55,10 +55,10 @@ public class RotateToGamepiece extends CommandBase  {
       m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
       return true;
    }else{
-      if ( Constants.Autonomous.degreeOffset < m_Vision.getTargetX() && m_Vision.getTargetX() < -Constants.Autonomous.degreeOffset){
-        return true;
-      }
-      return false;
+    if (( (Constants.Autonomous.degreeOffset + Constants.Autonomous.offsetFromCenter) < m_Vision.getTargetX()) && (m_Vision.getTargetX() <  (-Constants.Autonomous.degreeOffset + Constants.Autonomous.offsetFromCenter) )){
+      return true;
+    }
+    return false;
    }
    
   }

@@ -37,7 +37,7 @@ public class SideShuffleToGamepiece extends CommandBase  {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrainSubsystem.drive(new ChassisSpeeds(0, limit.calculate((m_Vision.getTargetX()+Constants.Autonomous.offsetFromCenter) *0.01), 0));
+    m_drivetrainSubsystem.drive(new ChassisSpeeds(0, limit.calculate((m_Vision.getTargetX()+Constants.Autonomous.offsetFromCenter) * Constants.Autonomous.speedMultiplier), 0));
 }
 
   // Called once the command ends or is interrupted.

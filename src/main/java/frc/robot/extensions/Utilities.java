@@ -8,6 +8,7 @@ public class Utilities {
         return false;
     }
 
+    // Not necessary. Joysticks already squared in modifyAxis()
     public static double getSignedSquare(double value) {
         return Math.signum(value) * Math.pow(value, 2);
     }

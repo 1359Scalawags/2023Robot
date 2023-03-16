@@ -13,4 +13,18 @@ public class Utilities {
         return Math.signum(value) * Math.pow(value, 2);
     }
 
+    public static boolean isLessThan(double a, double b, double tolerance) {
+        if (a - tolerance < b) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isGreaterThan(double a, double b, double tolerance) {
+        if (a - tolerance > b) {
+            return true;
+        }
+        return false;
+    }
+
 }

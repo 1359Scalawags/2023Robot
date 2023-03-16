@@ -43,13 +43,13 @@ public final class Constants {
             public static final int DRIVE_MOTOR = 7; 
             public static final int STEER_MOTOR = 8; 
             public static final int STEER_ENCODER = 17; 
-            public static final double STEER_OFFSET = -Math.toRadians(282 - 23); // FIXME Measure and set offset             
+            public static final double STEER_OFFSET = -Math.toRadians(282 - 23 - 4.5); // FIXME Measure and set offset             
         }
         public static final class FrontRight {
             public static final int DRIVE_MOTOR = 5; 
             public static final int STEER_MOTOR = 6; 
             public static final int STEER_ENCODER = 15; 
-            public static final double STEER_OFFSET = -Math.toRadians(354.0-1); // FIXME Measure and set offset       
+            public static final double STEER_OFFSET = -Math.toRadians(354.0-1 + 4.5); // FIXME Measure and set offset       
         }
         public static final class BackLeft {
             public static final int DRIVE_MOTOR = 1; 
@@ -89,8 +89,9 @@ public final class Constants {
             //public static final double pidTestRatio = 1; //30 // 14.25 sec for oscilation       
             public static final int channel = 1;                      
             public static final int motor = 30;  
-            public static final double upperlimit = 265.0;
+            public static final double upperlimit = 268.0;
             public static final double lowerlimit = 200.0;
+            public static final double safelimit = 260.0;
             public static final double defaultSetpoint = 225.0;
             public static final double CoefficientMultiplier = 1/360.0;
             public static final double shoulderSpeedMultiplier = 0.85;
@@ -125,8 +126,8 @@ public final class Constants {
             // public static final double kMaxOutput = 1;
             // public static final double kMinOutput = -1; 
 
-            public static final double parkingDegree = 270.0;
-            public static final double onGroundLevel = 226;
+            public static final double parkingDegree = upperlimit;
+            public static final double onGroundLevel = 260;
             public static final double onHighLevel = 211;
             public static final double onMidLevel = 240;
             public static final double onSubStation = 253;
@@ -139,10 +140,10 @@ public final class Constants {
             //public static final double pidTestRatio = 0.2;  
             public static final int channel = 2;        
             public static final int motor = 23;
-            public static final double upperlimit = 215.0;
-            public static final double lowerLimitWhenSafePos = 115;
-            public static final double lowerLimitUnsafePosMax = 115;
-            public static final double lowerLimitUnsafePosMin = 85.0;
+            public static final double upperlimit = 207.0;
+            public static final double lowerLimitWhenShoulderSafe = 117;
+            public static final double lowerLimitWhenSafePos = 125;
+            public static final double lowerLimitUnsafePosMin = 120;
             public static final double shoulderRestrictionPositionLower = 220;
             public static final double shoulderRestrictionPositionUpper = 270;
             public static final double defaultSetpoint = 104.0;
@@ -180,8 +181,8 @@ public final class Constants {
             // public static final double kMaxOutput = 1;
             // public static final double kMinOutput = -1; 
 
-            public static final double parkingDegree = 115.0;
-            public static final double onGroundLevel = 115;
+            public static final double parkingDegree = lowerLimitUnsafePosMin;
+            public static final double onGroundLevel = 120;
             public static final double onHighLevel = 211;
             public static final double onMidLevel = 184;
             public static final double onSubStation = 188;
@@ -218,7 +219,7 @@ public final class Constants {
         public static final double stopTime = 4;
         public static final double degreeOffset = 4;
         public static final double offsetFromCenter = 0;
-        public static final double speedMultiplier = 0.01;
+        public static final double speedMultiplier = 0;
 
     }
 

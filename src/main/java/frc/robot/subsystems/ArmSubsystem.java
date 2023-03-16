@@ -26,6 +26,7 @@ import frc.robot.Robot;
 // import frc.robot.extensions.FloorRelativeEncoder;
 import frc.robot.extensions.SendableCANSparkMax;
 import frc.robot.extensions.SparkMaxTuner;
+import frc.robot.extensions.Utilities;
 
 public class ArmSubsystem extends SubsystemBase {
   
@@ -55,8 +56,8 @@ public class ArmSubsystem extends SubsystemBase {
   private double e_kP = Constants.Arm.Elbow.kP,
                  e_kI = Constants.Arm.Elbow.kI, 
                  e_kD = Constants.Arm.Elbow.kD,
-                 e_targetPosition = MathUtil.clamp(Constants.Arm.Elbow.defaultSetpoint, Constants.Arm.Elbow.lowerLimitUnsafePosMax, Constants.Arm.Elbow.upperlimit),
-                 e_lowerLimit = Constants.Arm.Elbow.lowerLimitUnsafePosMax;
+                 e_targetPosition = MathUtil.clamp(Constants.Arm.Elbow.defaultSetpoint, Constants.Arm.Elbow.lowerLimitWhenSafePos, Constants.Arm.Elbow.upperlimit),
+                 e_lowerLimit = Constants.Arm.Elbow.lowerLimitWhenSafePos;
   private double s_kP = Constants.Arm.Shoulder.kP, 
                  s_kI = Constants.Arm.Shoulder.kI, 
                  s_kD = Constants.Arm.Shoulder.kD,
@@ -158,7 +159,8 @@ public class ArmSubsystem extends SubsystemBase {
     return !isElbowAtLowerLimit() && !isElbowAtUpperLimit();
   }
   public boolean isElbowAtUnsafe() {
-    return getElbowDegree() >= Constants.Arm.Elbow.lowerLimitUnsafePosMin && getElbowDegree() <= Constants.Arm.Elbow.lowerLimitUnsafePosMax;
+    double elbowDegree = getElbowDegree();
+    return elbowDegree <= Constants.Arm.Elbow.lowerLimitWhenSafePos;
   }
 
   public boolean isShoulderAtUpperLimit() {
@@ -286,14 +288,17 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void adjustElbowLimit() {
     double shoulder = getShoulderDegree();
-    if (shoulder >= Constants.Arm.Shoulder.upperlimit) {
+    if (Utilities.IsCloseTo(shoulder, Constants.Arm.Shoulder.upperlimit, 3.0)) {
       e_lowerLimit = Constants.Arm.Elbow.lowerLimitUnsafePosMin;
       if (isElbowAtUnsafe()) {
         s_targetPosition = Constants.Arm.Shoulder.upperlimit;
       }
-    else if (shoulder < Constants.Arm.Shoulder.upperlimit) {
+    }
+    else if (Utilities.isGreaterThan(shoulder, Constants.Arm.Shoulder.safelimit, 3.0)){
       e_lowerLimit = Constants.Arm.Elbow.lowerLimitWhenSafePos;
     }
+    else {
+      e_lowerLimit = Constants.Arm.Elbow.lowerLimitWhenShoulderSafe;
     }
   
   //   if(shoulder < Constants.Arm.Elbow.shoulderRestrictionPositionLower) {
@@ -326,10 +331,8 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     else {
-      
-      adjustElbowLimit();
-      
       if(isInitialized) {
+          adjustElbowLimit();
           elbowSparkMaxPIDController.setReference(e_targetPosition, ControlType.kPosition);
           shoulderSparkMaxPIDController.setReference(s_targetPosition, ControlType.kPosition);
       }

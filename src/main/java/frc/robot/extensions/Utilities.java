@@ -8,4 +8,8 @@ public class Utilities {
         return false;
     }
 
+    public static double getSignedSquare(double value) {
+        return Math.signum(value) * Math.pow(value, 2);
+    }
+
 }

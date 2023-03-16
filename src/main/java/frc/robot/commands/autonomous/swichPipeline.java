@@ -8,28 +8,36 @@ import frc.robot.subsystems.VisionSystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class swapPipeline extends CommandBase {
+public class swichPipeline extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final VisionSystem m_subsystem;
+  pipeIndex m_index;
+  enum pipeIndex{
+    Default,
+    CubeWhiteLight,
+    ConeWhiteLihtb,
+    three,
+    four,
+    five,
+    six,
+    seven
+  };
 
   /** 
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public swapPipeline(VisionSystem subsystem) {
+  public swichPipeline(VisionSystem subsystem, pipeIndex index ) {
     m_subsystem = subsystem;
+    m_index = index;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(m_subsystem.getPipeline() < 2){
-      m_subsystem.pipelineDetectCone();
-    } else {
-      m_subsystem.pipelineDetectCube();
-    }
+    m_subsystem.manualySetPipeline(m_index.ordinal());
   }
 
   // Called every time the scheduler runs while the command is scheduled.

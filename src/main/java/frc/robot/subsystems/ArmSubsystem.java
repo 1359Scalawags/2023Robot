@@ -260,11 +260,14 @@ public class ArmSubsystem extends SubsystemBase {
   public double getElbowDegree() {
     double offset = Constants.Arm.Elbow.angleAtFloor - getShoulderDegree() + 360;
     double normalized = MathUtil.inputModulus(offset, 0, 360);
-    //avoid spam messages
+
+    //This needs to be updated all of the time
+    REVLibError error = elbowSparkMaxEncoder.setZeroOffset(normalized);
+
+    //avoid spam messages    
     if(displayTimer.hasElapsed(0.5)) {
        displayTimer.reset();
     //   System.out.println("Offset: " + offset + "    Normalized: " + normalized);      
-      REVLibError error = elbowSparkMaxEncoder.setZeroOffset(normalized);
       if(error != REVLibError.kOk) {
           System.out.println("Unable to use " + normalized + " degrees as an offset.");   
       }      

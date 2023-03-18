@@ -80,6 +80,7 @@ public final class Constants {
     }
 
     public static final class Arm {
+        public static final double parkingTolerance = 2.0;
         //public static final double radtoDegreeDivisor = Math.PI / 180.0; // name did not match conversion
         public static final double boundaryExtension = 5;
         //public static final double ffTestRatio = 0.1; //split to each joint

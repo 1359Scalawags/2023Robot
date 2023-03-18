@@ -54,6 +54,6 @@ public class ElbowUnParkingCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.unParkingDegree, Constants.Arm.Elbow.tolerance);
+    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.unParkingDegree, Constants.Arm.parkingTolerance);
   }
 }

@@ -54,6 +54,6 @@ public class ShoulderUnParkingCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.unParkingDegree, Constants.Arm.Shoulder.tolerance);
+    return m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.unParkingDegree, Constants.Arm.parkingTolerance);
   }
 }

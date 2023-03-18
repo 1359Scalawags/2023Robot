@@ -54,6 +54,6 @@ public class ElbowParkingCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.parkingDegree, 2.0);
+    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.parkingDegree, Constants.Arm.parkingTolerance);
   }
 }

@@ -13,7 +13,7 @@ public class swichPipeline extends CommandBase {
 
   private final VisionSystem m_subsystem;
   pipeIndex m_index;
-  enum pipeIndex{
+  public enum pipeIndex{
     Default,
     CubeWhiteLight,
     ConeWhiteLight,
@@ -30,7 +30,13 @@ public class swichPipeline extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public swichPipeline(VisionSystem subsystem, pipeIndex index ) {
+    if (index == null){
+      index = pipeIndex.Default;
+    }
     m_subsystem = subsystem;
+    m_index = index;
+  }
+  public void set(pipeIndex index){
     m_index = index;
   }
 

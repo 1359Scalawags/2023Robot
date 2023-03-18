@@ -28,6 +28,7 @@ import frc.robot.commands.SetDriveMode;
 import frc.robot.commands.TurnCompressorOn;
 import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.commands.autonomous.LoadGamepiece;
+import frc.robot.commands.autonomous.swichPipeline;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DisplaySubSystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -66,6 +67,7 @@ public class RobotContainer {
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick driverJoystick = new Joystick(0);
   private final Joystick assistantJoystick = new Joystick(1);
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -224,3 +226,4 @@ public class RobotContainer {
   //   m_grabberSubsystem.open();
   // }
 }
+

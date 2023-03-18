@@ -208,17 +208,21 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
     }
 
+
     /**
      * Returns the yaw of the robot.
      * @return The yaw angle from -180 to 180 degrees.
      */
+    //TODO: Verify this is consistent with NavX
     public double getYawAsDegrees() {
-        return m_navx.getYaw();
-        //return getGyroscopeRotation().getDegrees();
+        //return m_navx.getYaw();
+        return getGyroscopeRotation().getDegrees();
     }
     
+    // TODO: Verify this is consistent with NavX
     public double getYawAsRadians() {
-        return Rotation2d.fromDegrees(m_navx.getYaw()).getRadians();
+        //return Rotation2d.fromDegrees(m_navx.getYaw()).getRadians();
+        return getGyroscopeRotation().getRadians();
     }
 
     public double getPitch() {

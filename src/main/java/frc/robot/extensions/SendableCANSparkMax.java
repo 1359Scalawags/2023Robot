@@ -29,6 +29,7 @@ public class SendableCANSparkMax extends CANSparkMax implements Sendable {
 
     @Override
     public void initSendable(SendableBuilder builder) {
+        //TODO Check if the Smartdashboard addon is important
         builder.setSmartDashboardType("Motor Controller");
         builder.setActuator(true);
         builder.setSafeState(this::stopMotor);

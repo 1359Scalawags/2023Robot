@@ -42,22 +42,9 @@ public class DisplaySubSystem extends SubsystemBase {
     private HttpCamera camera = new HttpCamera("Camera view", "http://10.13.59.11:5800");
     private DrivetrainSubsystem driveSystem;
     SendableChooser<Command> chooser = new SendableChooser<>();
-    
     //Chooser
-    private static final String kDefault = "Default";
-    private static final pipeIndex kCubeWhiteLight = pipeIndex.CubeWhiteLight;
-    private String m_PipeLine;
     private final SendableChooser<Command> pipeLine =  new SendableChooser<>();
-    enum pipeIndex{
-        Default,
-        CubeWhiteLight,
-        ConeWhiteLight,
-        CubeYellowLight,
-        ConeYellowLight,
-        five,
-        six,
-        seven
-      };
+    
 
     // private NetworkTableEntry climbLockEntry;
     // private ComplexWidget cameraView;
@@ -68,6 +55,7 @@ public class DisplaySubSystem extends SubsystemBase {
         this.driveSystem = driveSystem;
         // climbSystem = climber;
         // Shuffleboard.selectTab("Match Tab");
+        
         timeEntry = mainTab
                 .add("Match Time", 0)
                 .withWidget(BuiltInWidgets.kDial)

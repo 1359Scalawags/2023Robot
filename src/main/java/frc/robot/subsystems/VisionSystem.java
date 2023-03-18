@@ -121,6 +121,7 @@ public class VisionSystem extends SubsystemBase {
         double area = ta.getDouble(0.0);
 
         // post to smart dashboard periodically
+        //TODO Check if the Smartdashboard addon is important
         if (counter > Constants.UI.delayCounter) {
             SmartDashboard.putNumber("LimelightX", x);
             SmartDashboard.putNumber("LimelightY", y);

@@ -52,10 +52,10 @@ public class Robot extends TimedRobot {
  
     Command enableCompressor = m_robotContainer.getCompressorStartCommand();
     Command zeroGyroCommand = m_robotContainer.zeroGyro();
-    Command grabPiece = m_robotContainer.grabPiece();
+    // Command grabPiece = m_robotContainer.grabPiece();
     zeroGyroCommand.schedule();
     enableCompressor.schedule();
-    grabPiece.schedule();
+    // grabPiece.schedule();
 
   }
 

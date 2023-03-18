@@ -23,7 +23,7 @@ import frc.robot.Constants;
 import frc.robot.commands.autonomous.BlueStationONE;
 import frc.robot.commands.autonomous.BlueStationTHREE;
 import frc.robot.commands.autonomous.BlueStationTWO;
-import frc.robot.commands.autonomous.LoadGamepiece;
+import frc.robot.commands.autonomous.LoadGamepieceOnHighLevel;
 import frc.robot.commands.autonomous.RedStationTHREE;
 import frc.robot.commands.autonomous.RedStationONE;
 import frc.robot.commands.autonomous.RedStationTWO;
@@ -107,7 +107,7 @@ public class DisplaySubSystem extends SubsystemBase {
         chooser.addOption("RedStation1 ChargeStation", new RedStationONE(driveSystem, armSystem, grabberSystem, true));
         //chooser.addOption("RedStation1", new RedStationONE(driveSystem, armSystem, grabberSystem, false));
         chooser.addOption("StandardAuto", new StandardAuto(driveSystem, armSystem, grabberSystem, false));
-        chooser.addOption("StandardLoadPiece", new LoadGamepiece(armSystem, grabberSystem));
+        chooser.addOption("StandardLoadPiece", new LoadGamepieceOnHighLevel(armSystem, grabberSystem));
         // chooser.addOption("Test Auto movement", new TestAutoMovment(driveSystem));
         chooser.addOption("Not moving", new InstantCommand());
         

@@ -84,13 +84,14 @@ public final class Constants {
         public static final double boundaryExtension = 5;
         //public static final double ffTestRatio = 0.1; //split to each joint
         public static final double softStartRatio = 0.5;
+        public static final double rateLimiterMultiplier = 1.25;
         public static final class Shoulder {
             //public static final double ffTestRatio = 0.75;   
             //public static final double pidTestRatio = 1; //30 // 14.25 sec for oscilation       
             public static final int channel = 1;                      
             public static final int motor = 30;  
             public static final double upperlimit = 268.0;
-            public static final double lowerlimit = 200.0;
+            public static final double lowerlimit = 210.0;
             public static final double safelimit = 260.0;
             public static final double defaultSetpoint = 225.0;
             public static final double CoefficientMultiplier = 1/360.0;
@@ -104,7 +105,7 @@ public final class Constants {
             // public static final double kA = 0.07 * radtoDegreeDivisor * ffTestRatio;            
             
             public static final double kP = 0.0087;
-            public static final double kPAuto = 0.0083; 
+            // public static final double kPAuto = 0.0083; 
             public static final double kI = 0.0;
             public static final double kD = 0.0;
             public static final double kFF = 0.00026;
@@ -141,9 +142,9 @@ public final class Constants {
             public static final int channel = 2;        
             public static final int motor = 23;
             public static final double upperlimit = 207.0;
-            public static final double lowerLimitWhenShoulderSafe = 117;
-            public static final double lowerLimitWhenSafePos = 125;
-            public static final double lowerLimitUnsafePosMin = 120;
+            public static final double lowerLimitWhenShoulderSafe = 120;
+            public static final double lowerLimitWhenSafePos = 127;
+            public static final double lowerLimitUnsafePosMin = 122;
             public static final double shoulderRestrictionPositionLower = 220;
             public static final double shoulderRestrictionPositionUpper = 270;
             public static final double defaultSetpoint = 104.0;

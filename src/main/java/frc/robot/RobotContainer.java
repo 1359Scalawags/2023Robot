@@ -28,7 +28,7 @@ import frc.robot.commands.PlatformBalance;
 import frc.robot.commands.SetDriveMode;
 import frc.robot.commands.TurnCompressorOn;
 import frc.robot.commands.ZeroGyroCommand;
-import frc.robot.commands.autonomous.LoadGamepiece;
+import frc.robot.commands.autonomous.LoadGamepieceOnHighLevel;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DisplaySubSystem;
 import frc.robot.subsystems.DrivetrainSubsystem;

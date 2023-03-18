@@ -22,6 +22,7 @@ import frc.robot.commands.DefaultArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GrabCommandClose;
 import frc.robot.commands.GrabCommandOpen;
+import frc.robot.commands.InitializeArm;
 import frc.robot.commands.InitializeTargetRotationCommand;
 import frc.robot.commands.PlatformBalance;
 import frc.robot.commands.SetDriveMode;
@@ -199,8 +200,12 @@ public class RobotContainer {
 //     return new InitializeTargetRotationCommand(m_armSubsystem);
 //   }
   
-  public void initializeArmSetpoints() {
-    m_armSubsystem.initializeSetpoints();
+  // public void initializeArmSetpoints() {
+  //   m_armSubsystem.initializeSetpoints();
+  // }
+
+  public Command getInitializeArmCommand() {
+    return new InitializeArm(m_armSubsystem);
   }
 
   public Command zeroGyro() {

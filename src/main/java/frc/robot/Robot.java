@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Command m_initializeArmCommand;
 
   private static RobotBase instance;
   public static boolean isTestMode() {
@@ -40,15 +41,22 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     instance = this;
     m_robotContainer = new RobotContainer();
-    m_robotContainer.initializeArmSetpoints();    
+
+    // initialize the arm
+    m_initializeArmCommand = m_robotContainer.getInitializeArmCommand();
+    m_initializeArmCommand.schedule();  
+    // m_robotContainer.initializeArmSetpoints();    
     // m_robotContainer.grabPiece();
     System.out.println("Robot Init");
+    
+ 
     Command enableCompressor = m_robotContainer.getCompressorStartCommand();
     Command zeroGyroCommand = m_robotContainer.zeroGyro();
     Command grabPiece = m_robotContainer.grabPiece();
     zeroGyroCommand.schedule();
     enableCompressor.schedule();
     grabPiece.schedule();
+
   }
 
   /**
@@ -80,7 +88,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     //update setpoints before scheduling autonomous
-    m_robotContainer.initializeArmSetpoints();
+    //m_robotContainer.initializeArmSetpoints();
+
+    // initialize the arm
+    m_initializeArmCommand = m_robotContainer.getInitializeArmCommand();
+    m_initializeArmCommand.schedule();  
+
     // m_robotContainer.setPinAutonomous();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -97,7 +110,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     //update setpoints before scheduling teleop
-    m_robotContainer.initializeArmSetpoints();
+    //m_robotContainer.initializeArmSetpoints();
+    // initialize the arm
+    m_initializeArmCommand = m_robotContainer.getInitializeArmCommand();
+    m_initializeArmCommand.schedule();  
     // m_robotContainer.setPinTeleop();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -116,7 +132,11 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     //update setpoints before scheduling in test mode
-    m_robotContainer.initializeArmSetpoints();
+    // m_robotContainer.initializeArmSetpoints();
+    // initialize the arm
+    m_initializeArmCommand = m_robotContainer.getInitializeArmCommand();
+    m_initializeArmCommand.schedule();  
+
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     //m_robotContainer.getInitializeArmTargetRotation().schedule();

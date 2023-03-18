@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -47,6 +48,9 @@ public class ArmSubsystem extends SubsystemBase {
 
   private GenericEntry shoulderAbsoluteTargetEntry;
   private GenericEntry elbowAbsoluteTargetEntry;
+
+  private SlewRateLimiter shouldRateLimiter;
+  private SlewRateLimiter elbowRateLimiter;
 
   ShuffleboardTab tab = Shuffleboard.getTab("Arm");
 
@@ -124,13 +128,16 @@ public class ArmSubsystem extends SubsystemBase {
     elbowTuner = new SparkMaxTuner("SparkMax Tuner", "Elbow Tuner", 0, elbowSparkMaxPIDController);
     shoulderTuner = new SparkMaxTuner("SparkMax Tuner", "Shoulder Tuner", 2, shoulderSparkMaxPIDController);
             
+    elbowRateLimiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter * 0.1);
+    shouldRateLimiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter * 0.1);
   }
 
   /**
    * Initialize setpoints at current arm joint positions.
    */
   public void initializeSetpoints() {
-
+    elbowRateLimiter.reset(getElbowDegree());
+    shouldRateLimiter.reset(getElbowDegree());    
     setElbowSetpoint(getElbowDegree());
     setShoulderSetpoint(getShoulderDegree());
     System.out.println("Initial Setpoints: E:" + e_targetPosition + " S:" + s_targetPosition);
@@ -333,8 +340,8 @@ public class ArmSubsystem extends SubsystemBase {
     else {
       if(isInitialized) {
           adjustElbowLimit();
-          elbowSparkMaxPIDController.setReference(e_targetPosition, ControlType.kPosition);
-          shoulderSparkMaxPIDController.setReference(s_targetPosition, ControlType.kPosition);
+          elbowSparkMaxPIDController.setReference(elbowRateLimiter.calculate(e_targetPosition), ControlType.kPosition);
+          shoulderSparkMaxPIDController.setReference(shouldRateLimiter.calculate(s_targetPosition), ControlType.kPosition);
       }
     }
 

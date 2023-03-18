@@ -16,9 +16,9 @@ public class swichPipeline extends CommandBase {
   enum pipeIndex{
     Default,
     CubeWhiteLight,
-    ConeWhiteLihtb,
-    three,
-    four,
+    ConeWhiteLight,
+    CubeYellowLight,
+    ConeYellowLight,
     five,
     six,
     seven

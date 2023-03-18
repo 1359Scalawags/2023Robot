@@ -133,7 +133,8 @@ public class DisplaySubSystem extends SubsystemBase {
         //pipeLine.addOption(vision, kCubeWhiteLight);
 
         swichPipeline pipeLineCommand = new swichPipeline(vision, null);
-        pipeLine.addOption("Default", pipeLineCommand);
+        //pipeLine.addOption("Default", pipeLineCommand);
+        pipeLine.setDefaultOption("Default", pipeLineCommand);
 
         pipeLineCommand.set(swichPipeline.pipeIndex.CubeWhiteLight);
         pipeLine.addOption("CubeWhiteLight", pipeLineCommand);
@@ -146,6 +147,10 @@ public class DisplaySubSystem extends SubsystemBase {
 
         pipeLineCommand.set(swichPipeline.pipeIndex.ConeYellowLight);
         pipeLine.addOption("ConeYellowLight", pipeLineCommand);
+
+
+        mainTab.add(pipeLine);
+
     }
 
     public SendableChooser<Command> getAutonomoChooser() {

@@ -132,13 +132,16 @@ public class ArmSubsystem extends SubsystemBase {
     shouldRateLimiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter * 0.5);
   }
 
+
+  public void initializeEncoders() {
+    getShoulderDegree();
+    getElbowDegree();
+  }
   /**
    * Initialize setpoints at current arm joint positions.
    */
   public void initializeSetpoints() {
-    getElbowDegree();
-    getShoulderDegree();
-    elbowRateLimiter.reset(getElbowDegree());
+    elbowRateLimiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter * 0.5, -Constants.Arm.Elbow.slewRateLimiter * 0.5, getElbowDegree());
     shouldRateLimiter.reset(getElbowDegree());    
     setElbowSetpoint(getElbowDegree());
     setShoulderSetpoint(getShoulderDegree());

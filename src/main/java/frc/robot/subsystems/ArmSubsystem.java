@@ -150,11 +150,13 @@ public class ArmSubsystem extends SubsystemBase {
     
     //shouldRateLimiter.reset(getElbowDegree());  <<<<<-----This was a problem
     shouldRateLimiter.reset(getShoulderDegree());
+    isMovable = true;    
+    
     setElbowSetpoint(getElbowDegree());
     setShoulderSetpoint(getShoulderDegree());
     System.out.println("Initial Setpoints: E:" + e_targetPosition + " S:" + s_targetPosition);
     isInitialized = true;
-    isMovable = true;
+
   }
 
   // TODO: Figure out how to change encoders without breaking things?
@@ -318,32 +320,33 @@ public class ArmSubsystem extends SubsystemBase {
     return false;
   }
 
-  public void adjustElbowLimit() {
-    double shoulder = getShoulderDegree();
-    if (Utilities.IsCloseTo(shoulder, Constants.Arm.Shoulder.upperlimit, 3.0)) {
-      e_lowerLimit = Constants.Arm.Elbow.lowerLimitUnsafePosMin;
-      if (isElbowAtUnsafe()) {
-        setShoulderSetpoint(Constants.Arm.Shoulder.upperlimit);;
-      }
-    }
-    else if (Utilities.isGreaterThan(shoulder, Constants.Arm.Shoulder.safelimit, 3.0)){
-      e_lowerLimit = Constants.Arm.Elbow.lowerLimitWhenSafePos;
-    }
-    else {
-      e_lowerLimit = Constants.Arm.Elbow.lowerLimitWhenShoulderSafe;
-    }
+//   public void adjustElbowLimit() {
+//     return Constants.Arm.Elbow.lowerLimitWhenSafePos;
+//     double shoulder = getShoulderDegree();
+//     if (Utilities.IsCloseTo(shoulder, Constants.Arm.Shoulder.upperlimit, 3.0)) {
+//       e_lowerLimit = Constants.Arm.Elbow.lowerLimitUnsafePosMin;
+//       if (isElbowAtUnsafe()) {
+//         setShoulderSetpoint(Constants.Arm.Shoulder.upperlimit);;
+//       }
+//     }
+//     else if (Utilities.isGreaterThan(shoulder, Constants.Arm.Shoulder.safelimit, 3.0)){
+//       e_lowerLimit = Constants.Arm.Elbow.lowerLimitWhenSafePos;
+//     }
+//     else {
+//       e_lowerLimit = Constants.Arm.Elbow.lowerLimitWhenShoulderSafe;
+//     }
   
-  //   if(shoulder < Constants.Arm.Elbow.shoulderRestrictionPositionLower) {
-  //     e_lowerLimit = 90.0;
-  //   } else if(shoulder > Constants.Arm.Elbow.shoulderRestrictionPositionUpper) {
-  //     e_lowerLimit = 115;
-  //   } else {
-  //     e_lowerLimit = 0.000626961 * Math.pow(shoulder, 3) - 0.457477 * Math.pow(shoulder, 2) + 111.372 * shoulder - 8945.89;      
-  //   }
-  //   e_targetPosition = MathUtil.clamp(e_targetPosition, e_lowerLimit, Constants.Arm.Elbow.upperlimit);
-  //   elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)e_lowerLimit);
-  // }
-  }
+//   //   if(shoulder < Constants.Arm.Elbow.shoulderRestrictionPositionLower) {
+//   //     e_lowerLimit = 90.0;
+//   //   } else if(shoulder > Constants.Arm.Elbow.shoulderRestrictionPositionUpper) {
+//   //     e_lowerLimit = 115;
+//   //   } else {
+//   //     e_lowerLimit = 0.000626961 * Math.pow(shoulder, 3) - 0.457477 * Math.pow(shoulder, 2) + 111.372 * shoulder - 8945.89;      
+//   //   }
+//   //   e_targetPosition = MathUtil.clamp(e_targetPosition, e_lowerLimit, Constants.Arm.Elbow.upperlimit);
+//   //   elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)e_lowerLimit);
+//   // }
+//   }
 
   public void setFlagForMovingArm(boolean choice) {
     isMovable = choice;
@@ -369,7 +372,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     else {
       if(isInitialized) {
-          adjustElbowLimit();
+          //adjustElbowLimit();
           elbowSparkMaxPIDController.setReference(elbowRateLimiter.calculate(e_targetPosition), ControlType.kPosition);
           shoulderSparkMaxPIDController.setReference(shouldRateLimiter.calculate(s_targetPosition), ControlType.kPosition);
       

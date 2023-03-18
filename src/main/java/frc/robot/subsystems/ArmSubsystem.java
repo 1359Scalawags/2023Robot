@@ -325,6 +325,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     if (Robot.isTestMode()){
+      //TODO Check if the Smartdashboard addon is important
       SmartDashboard.putBoolean("Elbow Lower Limit", isElbowAtLowerLimit());
       SmartDashboard.putBoolean("Elbow Upper Limit", isElbowAtUpperLimit());
       SmartDashboard.putBoolean("Shoulder Lower Limit", isShoulderAtLowerLimit());

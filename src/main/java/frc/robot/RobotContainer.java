@@ -68,6 +68,8 @@ public class RobotContainer {
   private final Joystick driverJoystick = new Joystick(0);
   private final Joystick assistantJoystick = new Joystick(1);
 
+  public boolean displayAdvancedDashboard = false;
+  private final SendableChooser<Boolean> displayAdvanced =  new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -75,6 +77,10 @@ public class RobotContainer {
   public RobotContainer() {
     m_grabberSubsystem.TurnOn(); 
 
+
+
+    displayAdvanced.setDefaultOption("See somethings", false);
+    displayAdvanced.addOption("See everything", true);
     //m_grabberSubsystem.TurnOff();
     // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:

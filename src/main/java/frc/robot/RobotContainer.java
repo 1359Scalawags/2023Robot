@@ -213,9 +213,9 @@ public class RobotContainer {
     return new GrabCommandClose(m_grabberSubsystem);
   }
 
-  public void setPinAutonomous(){
-    m_armSubsystem.setPinAutonomous();
-  }
+  // public void setPinAutonomous(){
+  //   m_armSubsystem.setPinAutonomous();
+  // }
 
   public void setPinTeleop(){
     

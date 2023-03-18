@@ -219,7 +219,7 @@ public final class Constants {
         public static final double stopTime = 4;
         public static final double degreeOffset = 4;
         public static final double offsetFromCenter = 0;
-        public static final double speedMultiplier = 0;
+        public static final double speedMultiplier = 0.01;
 
     }
 

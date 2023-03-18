@@ -10,7 +10,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class ArmParkingCommand extends CommandBase {
+public class ElbowUnParkingCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final ArmSubsystem m_subsystem;
@@ -22,7 +22,7 @@ public class ArmParkingCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ArmParkingCommand(ArmSubsystem subsystem) {
+  public ElbowUnParkingCommand(ArmSubsystem subsystem) {
     m_subsystem = subsystem;
     // e_Limiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter);
     // s_Limiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter);
@@ -42,8 +42,7 @@ public class ArmParkingCommand extends CommandBase {
   public void execute() {
     // m_subsystem.setElbowSetpoint(e_Limiter.calculate(Constants.Arm.Elbow.parkingDegree));
     // m_subsystem.setShoulderSetpoint(s_Limiter.calculate(Constants.Arm.Shoulder.parkingDegree));
-    m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.parkingDegree);
-    m_subsystem.setShoulderSetpoint(Constants.Arm.Shoulder.parkingDegree);
+    m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.unParkingDegree);
     // m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.parkingDegree);
     // m_subsystem.setShoulderSetpoint(Constants.Arm.Shoulder.parkingDegree);
   }
@@ -55,6 +54,6 @@ public class ArmParkingCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.parkingDegree, Constants.Arm.Elbow.tolerance) && m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.parkingDegree, Constants.Arm.Shoulder.tolerance);
+    return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.unParkingDegree, Constants.Arm.Elbow.tolerance);
   }
 }

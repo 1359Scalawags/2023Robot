@@ -17,7 +17,7 @@ import frc.robot.commands.ArmOnGroundLevelCommand;
 import frc.robot.commands.ArmOnHighLevelCommand;
 import frc.robot.commands.ArmOnMidLevelCommand;
 import frc.robot.commands.ArmOnSubStationCommand;
-import frc.robot.commands.ArmParkingCommand;
+import frc.robot.commands.ElbowParkingCommand;
 import frc.robot.commands.DefaultArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GrabCommandClose;
@@ -56,7 +56,7 @@ public class RobotContainer {
   private final TurnCompressorOn m_compressorOn = new TurnCompressorOn(m_grabberSubsystem);
   private final GrabCommandOpen m_opengrabber = new GrabCommandOpen(m_grabberSubsystem);
   private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
-  private final ArmParkingCommand m_ArmParkingCommand = new ArmParkingCommand(m_armSubsystem);
+  private final ElbowParkingCommand m_ArmParkingCommand = new ElbowParkingCommand(m_armSubsystem);
   private final ArmOnGroundLevelCommand m_ArmOnGroundLevelCommand = new ArmOnGroundLevelCommand(m_armSubsystem);
   private final ArmOnMidLevelCommand m_ArmOnMidLevelCommand = new ArmOnMidLevelCommand(m_armSubsystem);
   private final ArmOnHighLevelCommand m_ArmOnHighLevelCommand = new ArmOnHighLevelCommand(m_armSubsystem);
@@ -214,7 +214,7 @@ public class RobotContainer {
 
 
   public Command grabPiece() {
-    System.out.println("Close Grabber");
+    // System.out.println("Close Grabber");
     return new GrabCommandClose(m_grabberSubsystem);
   }
 

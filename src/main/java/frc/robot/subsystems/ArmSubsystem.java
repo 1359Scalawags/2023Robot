@@ -55,6 +55,8 @@ public class ArmSubsystem extends SubsystemBase {
   ShuffleboardTab tab = Shuffleboard.getTab("Arm");
 
   Timer displayTimer = new Timer();
+
+  private boolean flag = false;
   double lastDisplayTime = 0;
 
   private double e_kP = Constants.Arm.Elbow.kP,
@@ -298,7 +300,7 @@ public class ArmSubsystem extends SubsystemBase {
     if (Utilities.IsCloseTo(shoulder, Constants.Arm.Shoulder.upperlimit, 3.0)) {
       e_lowerLimit = Constants.Arm.Elbow.lowerLimitUnsafePosMin;
       if (isElbowAtUnsafe()) {
-        s_targetPosition = Constants.Arm.Shoulder.upperlimit;
+        setShoulderSetpoint(Constants.Arm.Shoulder.upperlimit);;
       }
     }
     else if (Utilities.isGreaterThan(shoulder, Constants.Arm.Shoulder.safelimit, 3.0)){
@@ -319,6 +321,11 @@ public class ArmSubsystem extends SubsystemBase {
   //   elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)e_lowerLimit);
   // }
   }
+
+  public void setFlagForMovingArm(boolean choice) {
+    flag = choice;
+  } 
+
   int delayCounter = 0;
   int counter = 0;
   @Override
@@ -338,7 +345,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     else {
-      if(isInitialized) {
+      if(isInitialized && flag == true) {
           adjustElbowLimit();
           elbowSparkMaxPIDController.setReference(elbowRateLimiter.calculate(e_targetPosition), ControlType.kPosition);
           shoulderSparkMaxPIDController.setReference(shouldRateLimiter.calculate(s_targetPosition), ControlType.kPosition);

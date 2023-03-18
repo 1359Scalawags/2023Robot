@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.ArmOnHighLevelCommand;
 import frc.robot.commands.ArmOnSpecificLevelCommand;
-import frc.robot.commands.ArmParkingCommand;
+import frc.robot.commands.ElbowParkingCommand;
 import frc.robot.commands.DelayCommand;
 import frc.robot.commands.GrabCommandClose;
 import frc.robot.commands.GrabCommandOpen;
@@ -24,21 +24,7 @@ public class RedStationTHREE extends SequentialCommandGroup
             addCommands(
                 new SetDriveMode(m_DrivetrainSubsystem, DriveModes.RobotCentric),
 
-                new GrabCommandClose(m_GrabberSubsystem),
-    
-                new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 270.0),
-    
-                new ArmOnHighLevelCommand(m_ArmSubsystem),
-    
-                new DelayCommand(m_ArmSubsystem, 0.5),
-    
-                new GrabCommandOpen(m_GrabberSubsystem),
-
-                new DelayCommand(m_ArmSubsystem, 0.5),
-    
-                new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 270.0),
-    
-                new ArmParkingCommand(m_ArmSubsystem),
+                new LoadGamepieceOnHighLevel(m_ArmSubsystem, m_GrabberSubsystem),
             
                 new MoveBackwards(m_DrivetrainSubsystem,3.5,Constants.Autonomous.autoSpeed),
 
@@ -56,21 +42,7 @@ public class RedStationTHREE extends SequentialCommandGroup
             // new GrabCommandOpen(m_GrabberSubsystem),
             new SetDriveMode(m_DrivetrainSubsystem, DriveModes.RobotCentric),
 
-            new GrabCommandClose(m_GrabberSubsystem),
-
-            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 270.0),
-
-            new ArmOnHighLevelCommand(m_ArmSubsystem),
-
-            new DelayCommand(m_ArmSubsystem, 0.5),
-    
-            new GrabCommandOpen(m_GrabberSubsystem),
-
-            new DelayCommand(m_ArmSubsystem, 0.5),
-
-            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 270.0),
-
-            new ArmParkingCommand(m_ArmSubsystem),
+            new LoadGamepieceOnHighLevel(m_ArmSubsystem, m_GrabberSubsystem),
 // We are moving backwards because the robot will be facing the drivers, not the other side.
             new MoveBackwards(m_DrivetrainSubsystem,3.5,Constants.Autonomous.autoSpeed));
 

@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.ArmOnHighLevelCommand;
 import frc.robot.commands.ArmOnSpecificLevelCommand;
-import frc.robot.commands.ArmParkingCommand;
+import frc.robot.commands.ElbowParkingCommand;
 import frc.robot.commands.GrabCommandClose;
 import frc.robot.commands.GrabCommandOpen;
 import frc.robot.commands.PlatformBalance;

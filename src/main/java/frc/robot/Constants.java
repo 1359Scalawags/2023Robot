@@ -127,6 +127,7 @@ public final class Constants {
             // public static final double kMaxOutput = 1;
             // public static final double kMinOutput = -1; 
 
+            public static final double unParkingDegree = 265;
             public static final double parkingDegree = upperlimit;
             public static final double onGroundLevel = 260;
             public static final double onHighLevel = 211;
@@ -182,6 +183,7 @@ public final class Constants {
             // public static final double kMaxOutput = 1;
             // public static final double kMinOutput = -1; 
 
+            public static final double unParkingDegree = lowerLimitWhenSafePos;
             public static final double parkingDegree = lowerLimitUnsafePosMin;
             public static final double onGroundLevel = 120;
             public static final double onHighLevel = 211;

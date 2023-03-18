@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
     m_initializeArmCommand.schedule();  
     // m_robotContainer.initializeArmSetpoints();    
     // m_robotContainer.grabPiece();
-    System.out.println("Robot Init");
+    // System.out.println("Robot Init");
     
  
     Command enableCompressor = m_robotContainer.getCompressorStartCommand();

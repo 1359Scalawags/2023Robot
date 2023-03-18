@@ -29,6 +29,8 @@ import frc.robot.commands.SetDriveMode;
 import frc.robot.commands.TurnCompressorOn;
 import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.commands.autonomous.LoadGamepieceOnHighLevel;
+import frc.robot.commands.autonomous.ParkingArm;
+import frc.robot.commands.autonomous.UnParkingArm;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DisplaySubSystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -56,11 +58,12 @@ public class RobotContainer {
   private final TurnCompressorOn m_compressorOn = new TurnCompressorOn(m_grabberSubsystem);
   private final GrabCommandOpen m_opengrabber = new GrabCommandOpen(m_grabberSubsystem);
   private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
-  private final ElbowParkingCommand m_ArmParkingCommand = new ElbowParkingCommand(m_armSubsystem);
-  private final ArmOnGroundLevelCommand m_ArmOnGroundLevelCommand = new ArmOnGroundLevelCommand(m_armSubsystem);
-  private final ArmOnMidLevelCommand m_ArmOnMidLevelCommand = new ArmOnMidLevelCommand(m_armSubsystem);
-  private final ArmOnHighLevelCommand m_ArmOnHighLevelCommand = new ArmOnHighLevelCommand(m_armSubsystem);
-  private final ArmOnSubStationCommand m_ArmOnSubStationCommand = new ArmOnSubStationCommand(m_armSubsystem);
+  private final ParkingArm m_ArmParkingCommand = new ParkingArm(m_armSubsystem);
+  private final UnParkingArm m_ArmUnParkingCommand = new UnParkingArm(m_armSubsystem);
+  // private final ArmOnGroundLevelCommand m_ArmOnGroundLevelCommand = new ArmOnGroundLevelCommand(m_armSubsystem);
+  // private final ArmOnMidLevelCommand m_ArmOnMidLevelCommand = new ArmOnMidLevelCommand(m_armSubsystem);
+  // private final ArmOnHighLevelCommand m_ArmOnHighLevelCommand = new ArmOnHighLevelCommand(m_armSubsystem);
+  // private final ArmOnSubStationCommand m_ArmOnSubStationCommand = new ArmOnSubStationCommand(m_armSubsystem);
   // private final VisionSystem m_VisionSystem = new VisionSystem();
   private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(null, m_drivetrainSubsystem, m_armSubsystem, m_grabberSubsystem);
 
@@ -128,10 +131,11 @@ public class RobotContainer {
     
     new JoystickButton(assistantJoystick, 3).onTrue(m_PlatformBalance);
     new JoystickButton(assistantJoystick, 5).onTrue(m_ArmParkingCommand);
-    new JoystickButton(assistantJoystick, 6).onTrue(m_ArmOnGroundLevelCommand);
-    new JoystickButton(assistantJoystick, 7).onTrue(m_ArmOnMidLevelCommand);
-    new JoystickButton(assistantJoystick, 8).onTrue(m_ArmOnHighLevelCommand);
-    new JoystickButton(assistantJoystick, 9).onTrue(m_ArmOnSubStationCommand);
+    new JoystickButton(assistantJoystick, 6).onTrue(m_ArmUnParkingCommand);
+    // new JoystickButton(assistantJoystick, 6).onTrue(m_ArmOnGroundLevelCommand);
+    // new JoystickButton(assistantJoystick, 7).onTrue(m_ArmOnMidLevelCommand);
+    // new JoystickButton(assistantJoystick, 8).onTrue(m_ArmOnHighLevelCommand);
+    // new JoystickButton(assistantJoystick, 9).onTrue(m_ArmOnSubStationCommand);
     
 
             // No requirements because we don't need to interrupt anything         

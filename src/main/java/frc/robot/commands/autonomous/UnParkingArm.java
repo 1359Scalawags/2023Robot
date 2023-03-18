@@ -9,9 +9,9 @@ import frc.robot.subsystems.ArmSubsystem;
 public class UnParkingArm extends SequentialCommandGroup{
     public UnParkingArm(ArmSubsystem m_arArmSubsystem) {
         new SequentialCommandGroup(
-            new SetFlagForMovingCommand(m_arArmSubsystem, true),
             new ShoulderUnParkingCommand(m_arArmSubsystem),
-            new ElbowUnParkingCommand(m_arArmSubsystem)
+            new ElbowUnParkingCommand(m_arArmSubsystem),
+            new SetFlagForMovingCommand(m_arArmSubsystem, true)
         );
     }
     

@@ -56,7 +56,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   Timer displayTimer = new Timer();
 
-  private boolean flag = false;
+  private boolean isMovable = false;
   double lastDisplayTime = 0;
 
   private double e_kP = Constants.Arm.Elbow.kP,
@@ -154,6 +154,7 @@ public class ArmSubsystem extends SubsystemBase {
     setShoulderSetpoint(getShoulderDegree());
     System.out.println("Initial Setpoints: E:" + e_targetPosition + " S:" + s_targetPosition);
     isInitialized = true;
+    isMovable = true;
   }
 
   // TODO: Figure out how to change encoders without breaking things?
@@ -204,7 +205,10 @@ public class ArmSubsystem extends SubsystemBase {
    */
   public void setElbowSetpoint(double value) {
     //TODO: Review method definition
-    e_targetPosition = MathUtil.clamp(value, e_lowerLimit, Constants.Arm.Elbow.upperlimit);
+    if (isMovable) {
+      e_targetPosition = MathUtil.clamp(value, e_lowerLimit, Constants.Arm.Elbow.upperlimit);
+    }
+   
     //elbowSparkMaxPIDController.setReference(elbowRelativeEncoder.convertToAbsoluteDegrees(e_targetPosition), ControlType.kPosition);
   }
 
@@ -224,7 +228,9 @@ public class ArmSubsystem extends SubsystemBase {
    */
   public void setShoulderSetpoint(double value) {
     //TODO: Review method definition
-    s_targetPosition = MathUtil.clamp(value, Constants.Arm.Shoulder.lowerlimit, Constants.Arm.Shoulder.upperlimit);
+    if (isMovable) {
+      s_targetPosition = MathUtil.clamp(value, Constants.Arm.Shoulder.lowerlimit, Constants.Arm.Shoulder.upperlimit);
+    }
     //shoulderSparkMaxPIDController.setReference(shoulderRelativeEncoder.convertToAbsoluteDegrees(s_targetPosition), ControlType.kPosition);
   }
 
@@ -237,8 +243,25 @@ public class ArmSubsystem extends SubsystemBase {
     setShoulderSetpoint(s_targetPosition + delta);
   }
 
-  
+  public void parkShoulder() {
+    isMovable = false;
+    s_targetPosition = Constants.Arm.Shoulder.parkingDegree;
+  }
 
+  public void parkElbow() {
+    isMovable = false;
+    e_targetPosition = Constants.Arm.Elbow.parkingDegree;
+  }
+
+  public void unParkShoulder() {
+    isMovable = false;
+    s_targetPosition = Constants.Arm.Shoulder.unParkingDegree;
+  }
+
+  public void unParkElbow() {
+    isMovable = false;
+    e_targetPosition = Constants.Arm.Elbow.unParkingDegree;
+  }
   // /**
   //  * Get elbow's position relative to the floor.
   //  * @return Angle in degrees
@@ -323,7 +346,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setFlagForMovingArm(boolean choice) {
-    flag = choice;
+    isMovable = choice;
   } 
 
   int delayCounter = 0;
@@ -345,7 +368,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     else {
-      if(isInitialized && flag == true) {
+      if(isInitialized) {
           adjustElbowLimit();
           elbowSparkMaxPIDController.setReference(elbowRateLimiter.calculate(e_targetPosition), ControlType.kPosition);
           shoulderSparkMaxPIDController.setReference(shouldRateLimiter.calculate(s_targetPosition), ControlType.kPosition);

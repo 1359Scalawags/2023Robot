@@ -42,7 +42,7 @@ public class ElbowParkingCommand extends CommandBase {
   public void execute() {
     // m_subsystem.setElbowSetpoint(e_Limiter.calculate(Constants.Arm.Elbow.parkingDegree));
     // m_subsystem.setShoulderSetpoint(s_Limiter.calculate(Constants.Arm.Shoulder.parkingDegree));
-    m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.parkingDegree);
+    m_subsystem.parkElbow();
     // m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.parkingDegree);
     // m_subsystem.setShoulderSetpoint(Constants.Arm.Shoulder.parkingDegree);
   }

@@ -14,16 +14,16 @@ public class ArmOnSubStationCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final ArmSubsystem m_subsystem;
-  private final SlewRateLimiter e_Limiter;
-  private final SlewRateLimiter s_Limiter;
+  // private final SlewRateLimiter e_Limiter;
+  // private final SlewRateLimiter s_Limiter;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
   public ArmOnSubStationCommand(ArmSubsystem subsystem) {
-    e_Limiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter);
-    s_Limiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter);
+    // e_Limiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter);
+    // s_Limiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter);
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -32,15 +32,17 @@ public class ArmOnSubStationCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    e_Limiter.reset(m_subsystem.getElbowDegree());
-    s_Limiter.reset(m_subsystem.getShoulderDegree());
+    // e_Limiter.reset(m_subsystem.getElbowDegree());
+    // s_Limiter.reset(m_subsystem.getShoulderDegree());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setElbowSetpoint(e_Limiter.calculate(Constants.Arm.Elbow.onSubStation));
-    m_subsystem.setShoulderSetpoint(s_Limiter.calculate(Constants.Arm.Shoulder.onSubStation));
+    // m_subsystem.setElbowSetpoint(e_Limiter.calculate(Constants.Arm.Elbow.onSubStation));
+    // m_subsystem.setShoulderSetpoint(s_Limiter.calculate(Constants.Arm.Shoulder.onSubStation));
+    m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.onSubStation);
+    m_subsystem.setShoulderSetpoint(Constants.Arm.Shoulder.onSubStation);
     // m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.onSubStation);
     // m_subsystem.setShoulderSetpoint(Constants.Arm.Shoulder.onSubStation);
   }

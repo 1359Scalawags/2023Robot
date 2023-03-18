@@ -128,8 +128,8 @@ public class ArmSubsystem extends SubsystemBase {
     elbowTuner = new SparkMaxTuner("SparkMax Tuner", "Elbow Tuner", 0, elbowSparkMaxPIDController);
     shoulderTuner = new SparkMaxTuner("SparkMax Tuner", "Shoulder Tuner", 2, shoulderSparkMaxPIDController);
             
-    elbowRateLimiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter * 0.5);
-    shouldRateLimiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter * 0.5);
+    elbowRateLimiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter * 0.1);
+    shouldRateLimiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter * 0.1);
   }
 
 
@@ -141,7 +141,7 @@ public class ArmSubsystem extends SubsystemBase {
    * Initialize setpoints at current arm joint positions.
    */
   public void initializeSetpoints() {
-    elbowRateLimiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter * 0.5, -Constants.Arm.Elbow.slewRateLimiter * 0.5, getElbowDegree());
+    elbowRateLimiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter * 0.1, -Constants.Arm.Elbow.slewRateLimiter * 0.1, getElbowDegree());
     shouldRateLimiter.reset(getElbowDegree());    
     setElbowSetpoint(getElbowDegree());
     setShoulderSetpoint(getShoulderDegree());

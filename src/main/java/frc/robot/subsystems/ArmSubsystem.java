@@ -142,22 +142,12 @@ public class ArmSubsystem extends SubsystemBase {
    */
   public void initializeSetpoints() {
     elbowRateLimiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter * 0.1, -Constants.Arm.Elbow.slewRateLimiter * 0.1, getElbowDegree());
-    shouldRateLimiter.reset(getElbowDegree());    
+    //shouldRateLimiter.reset(getElbowDegree());  <<<<<-----This was a problem
+    shouldRateLimiter.reset(getShoulderDegree());
     setElbowSetpoint(getElbowDegree());
     setShoulderSetpoint(getShoulderDegree());
     System.out.println("Initial Setpoints: E:" + e_targetPosition + " S:" + s_targetPosition);
     isInitialized = true;
-}
-
-
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
   }
 
   // TODO: Figure out how to change encoders without breaking things?

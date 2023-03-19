@@ -14,7 +14,7 @@ public class SideShuffleToGamepiece extends CommandBase  {
   private final DrivetrainSubsystem m_drivetrainSubsystem; 
 
   private  ChassisSpeeds m_ChassisSpeeds;
-  SlewRateLimiter limit = new SlewRateLimiter(0);
+  SlewRateLimiter limit = new SlewRateLimiter(Math.toRadians(12));
   /**
    * Creates a new ExampleCommand.
    *

@@ -22,7 +22,7 @@ public class LoadGamepieceOnMidLevel extends SequentialCommandGroup{
             new DelayCommand(m_ArmSubsystem, 0.3),
             // new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 240.0),
             new ArmOnSpecificLevelCommand(m_ArmSubsystem, 203.0, 269.0),
-            new ParkingArm(m_ArmSubsystem)
+            new UnParkingArm(m_ArmSubsystem)
         );
     }
 }

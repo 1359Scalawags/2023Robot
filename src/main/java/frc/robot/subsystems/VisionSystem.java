@@ -81,7 +81,7 @@ public class VisionSystem extends SubsystemBase {
         // }
 
         //NOTE: this should probably use the "addServer()" function for multiple cameras
-        server = CameraServer.getServer();
+        // server = CameraServer.getServer();
 
         // server.setSource(camera1);
 

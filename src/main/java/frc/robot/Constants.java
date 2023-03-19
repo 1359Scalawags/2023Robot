@@ -43,7 +43,7 @@ public final class Constants {
             public static final int DRIVE_MOTOR = 7; 
             public static final int STEER_MOTOR = 8; 
             public static final int STEER_ENCODER = 17; 
-            public static final double STEER_OFFSET = -Math.toRadians(282 - 23 - 4.5); // FIXME Measure and set offset             
+            public static final double STEER_OFFSET = -Math.toRadians(282 - 23 - 4.5 + 3); // FIXME Measure and set offset             
         }
         public static final class FrontRight {
             public static final int DRIVE_MOTOR = 5; 
@@ -132,10 +132,10 @@ public final class Constants {
             public static final double parkingDegree = upperlimit;
             public static final double onGroundLevel = 258;
             public static final double onHighLevel = 220;
-            public static final double onMidLevel = 256;
+            public static final double onMidLevel = 253;
             public static final double onSubStation = 256;
 
-            public static final double tolerance = 10.0;
+            public static final double tolerance = 5.0;
             public static final double slewRateLimiter = 20;
         }
         public static final class Elbow {
@@ -185,7 +185,7 @@ public final class Constants {
             // public static final double kMinOutput = -1; 
 
             public static final double unParkingDegree = 135;
-            public static final double parkingDegree = 122;
+            public static final double parkingDegree = 125;
             public static final double onGroundLevel = 136;
             public static final double onHighLevel = 220;
             public static final double onMidLevel = 176;

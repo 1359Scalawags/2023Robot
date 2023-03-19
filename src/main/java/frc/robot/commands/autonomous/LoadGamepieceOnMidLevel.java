@@ -14,14 +14,14 @@ public class LoadGamepieceOnMidLevel extends SequentialCommandGroup{
         addCommands(
             // new GrabCommandOpen(m_GrabberSubsystem),
             new GrabCommandClose(m_GrabberSubsystem),
-            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 260.0),
+            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 203.0, 269.0),
             // new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 240.0),
             new ArmOnMidLevelCommand(m_ArmSubsystem),
             new DelayCommand(m_ArmSubsystem, 0.3),
             new GrabCommandOpen(m_GrabberSubsystem),
             new DelayCommand(m_ArmSubsystem, 0.3),
             // new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 240.0),
-            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 260.0),
+            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 203.0, 269.0),
             new ParkingArm(m_ArmSubsystem)
         );
     }

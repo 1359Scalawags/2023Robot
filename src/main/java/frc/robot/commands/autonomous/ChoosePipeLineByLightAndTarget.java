@@ -26,12 +26,15 @@ public class ChoosePipeLineByLightAndTarget extends CommandBase {
   }
 
 
+
+
+
   /** 
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ChoosePipeLineByLightAndTarget(VisionSystem subsystem, Lighting light, Target target) {
+  public ChoosePipeLineByLightAndTarget(VisionSystem subsystem, Lighting light, Targets target) {
     m_subsystem = subsystem;
     m_lighting = light;
     m_target = target;
@@ -45,7 +48,29 @@ public class ChoosePipeLineByLightAndTarget extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (m_lighting.ordinal() == 0){
+       
+      if (m_target.ordinal() == 0){
+        m_subsystem.manualySetPipeline(1);
+      }else if (m_target.ordinal() == 1){
+        m_subsystem.manualySetPipeline(2);
+      }else{
+        m_subsystem.manualySetPipeline(5);
+      }
+
+    }else{
+
+      if (m_target.ordinal() == 0){
+        m_subsystem.manualySetPipeline(3);
+      }else if (m_target.ordinal() == 1){ 
+        m_subsystem.manualySetPipeline(4);
+      }else{
+        m_subsystem.manualySetPipeline(5);
+      }
+
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

@@ -288,6 +288,13 @@ public class ArmSubsystem extends SubsystemBase {
     }
     return false;
   }
+  
+  private double CalcElbowLower(double x){
+    double b = 0.0000033922;
+    double c = -1.46987;
+    double d = 427.188;
+    return (b * Math.pow(x, 3) + c * x  + d);
+  }
 
   public void adjustElbowLimit() {
     double shoulder = getShoulderDegree();
@@ -303,7 +310,20 @@ public class ArmSubsystem extends SubsystemBase {
     else {
       e_lowerLimit = Constants.Arm.Elbow.lowerLimitWhenShoulderSafe;
     }
-  
+
+    double ShouldDegree = getShoulderDegree();
+    if (ShouldDegree <= 246 && ShouldDegree >= 196 ){//&& getElbowDegree() > 45) {
+      e_lowerLimit = CalcElbowLower(ShouldDegree);
+    }
+    else if (ShouldDegree > 246) {
+      e_lowerLimit =  118;
+    }
+    else if (ShouldDegree < 196){
+      e_lowerLimit = 164;
+    }
+
+
+
   //   if(shoulder < Constants.Arm.Elbow.shoulderRestrictionPositionLower) {
   //     e_lowerLimit = 90.0;
   //   } else if(shoulder > Constants.Arm.Elbow.shoulderRestrictionPositionUpper) {

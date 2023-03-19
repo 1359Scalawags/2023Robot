@@ -13,12 +13,12 @@ public class swichPipeline extends CommandBase {
 
   private final VisionSystem m_subsystem;
   pipeIndex m_index;
-  enum pipeIndex{
+  public enum pipeIndex{
     Default,
     CubeWhiteLight,
-    ConeWhiteLihtb,
-    three,
-    four,
+    ConeWhiteLight,
+    CubeYellowLight,
+    ConeYellowLight,
     five,
     six,
     seven
@@ -30,6 +30,10 @@ public class swichPipeline extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public swichPipeline(VisionSystem subsystem, pipeIndex index ) {
+    if (index == null){
+      index = pipeIndex.Default;
+    }
+    
     m_subsystem = subsystem;
     m_index = index;
   }
@@ -40,6 +44,9 @@ public class swichPipeline extends CommandBase {
     m_subsystem.manualySetPipeline(m_index.ordinal());
   }
 
+  public void set(pipeIndex index){
+    m_index = index;
+  }
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {}

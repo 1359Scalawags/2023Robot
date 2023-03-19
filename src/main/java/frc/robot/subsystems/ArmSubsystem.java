@@ -396,7 +396,7 @@ public class ArmSubsystem extends SubsystemBase {
       delayCounter++;
       return;
     }
-
+    //TODO: Check if the Smartdashboard addon is important
     if (Robot.isTestMode()){
       SmartDashboard.putBoolean("Elbow Lower Limit", isElbowAtLowerLimit());
       SmartDashboard.putBoolean("Elbow Upper Limit", isElbowAtUpperLimit());

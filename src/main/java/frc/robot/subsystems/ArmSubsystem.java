@@ -322,6 +322,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private double CalcElbowLower(double x){
+    x+=Constants.Arm.triggerZone;//ElbowTriggerZone;
+
     double b = 0.0000033922;
     double c = -1.46987;
     double d = 427.188;

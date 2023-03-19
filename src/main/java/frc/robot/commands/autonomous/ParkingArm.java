@@ -8,7 +8,7 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class ParkingArm extends SequentialCommandGroup{
     public ParkingArm(ArmSubsystem m_arArmSubsystem) {
-        new SequentialCommandGroup(
+        addCommands(
             new SetFlagForMovingCommand(m_arArmSubsystem, false),
             new ShoulderParkingCommand(m_arArmSubsystem),
             new ElbowParkingCommand(m_arArmSubsystem)

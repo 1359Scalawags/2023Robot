@@ -80,7 +80,7 @@ public final class Constants {
     }
 
     public static final class Arm {
-        public static final double parkingTolerance = 2.0;
+        public static final double parkingTolerance = 3.0;
         //public static final double radtoDegreeDivisor = Math.PI / 180.0; // name did not match conversion
         public static final double boundaryExtension = 5;
         //public static final double ffTestRatio = 0.1; //split to each joint
@@ -92,7 +92,7 @@ public final class Constants {
             public static final int channel = 1;                      
             public static final int motor = 30;  
             public static final double upperlimit = 268.0;
-            public static final double lowerlimit = 210.0;
+            public static final double lowerlimit = 215.0;
             public static final double safelimit = 260.0;
             public static final double defaultSetpoint = 225.0;
             public static final double CoefficientMultiplier = 1/360.0;
@@ -105,11 +105,11 @@ public final class Constants {
             // public static final double kV = 1.19 * radtoDegreeDivisor;
             // public static final double kA = 0.07 * radtoDegreeDivisor * ffTestRatio;            
             
-            public static final double kP = 0.0087;
+            public static final double kP = 0.009;
             // public static final double kPAuto = 0.0083; 
-            public static final double kI = 0.0;
-            public static final double kD = 0.0;
-            public static final double kFF = 0.00026;
+            public static final double kI = 0.0000015;
+            public static final double kD = 0.0000004;
+            public static final double kFF = 0.;
             public static final double kIz = 0;
             public static final double kMinOutput = -0.25;
             public static final double kMaxOutput = 0.25;
@@ -128,22 +128,22 @@ public final class Constants {
             // public static final double kMaxOutput = 1;
             // public static final double kMinOutput = -1; 
 
-            public static final double unParkingDegree = 265;
+            public static final double unParkingDegree = 267;
             public static final double parkingDegree = upperlimit;
-            public static final double onGroundLevel = 260;
-            public static final double onHighLevel = 211;
-            public static final double onMidLevel = 240;
-            public static final double onSubStation = 253;
+            public static final double onGroundLevel = 258;
+            public static final double onHighLevel = 220;
+            public static final double onMidLevel = 256;
+            public static final double onSubStation = 256;
 
             public static final double tolerance = 10.0;
-            public static final double slewRateLimiter = 35;
+            public static final double slewRateLimiter = 20;
         }
         public static final class Elbow {
             //public static final double ffTestRatio = 0.8;
             //public static final double pidTestRatio = 0.2;  
             public static final int channel = 2;        
             public static final int motor = 23;
-            public static final double upperlimit = 207.0;
+            public static final double upperlimit = 220.0;
             public static final double lowerLimitWhenShoulderSafe = 120;
             public static final double lowerLimitWhenSafePos = 127;
             public static final double lowerLimitUnsafePosMin = 122;
@@ -151,7 +151,7 @@ public final class Constants {
             public static final double shoulderRestrictionPositionUpper = 270;
             public static final double defaultSetpoint = 104.0;
             public static final double CoefficientMultiplier = 1/360.0;
-            public static final double elbowSpeedMultiplier = 0.85; //TODO: Tune This... I don't know how much to increase it by
+            public static final double elbowSpeedMultiplier = 1; //TODO: Tune This... I don't know how much to increase it by
             //(1/360.0);
             // public static final double kP = 0.03 * pidTestRatio;  // After tuning, 0.05/2
             // public static final double kI = 0.06 * pidTestRatio;  //10e-4
@@ -184,15 +184,15 @@ public final class Constants {
             // public static final double kMaxOutput = 1;
             // public static final double kMinOutput = -1; 
 
-            public static final double unParkingDegree = lowerLimitWhenSafePos;
-            public static final double parkingDegree = lowerLimitUnsafePosMin;
-            public static final double onGroundLevel = 120;
-            public static final double onHighLevel = 211;
-            public static final double onMidLevel = 184;
-            public static final double onSubStation = 188;
+            public static final double unParkingDegree = 135;
+            public static final double parkingDegree = 122;
+            public static final double onGroundLevel = 136;
+            public static final double onHighLevel = 220;
+            public static final double onMidLevel = 176;
+            public static final double onSubStation = 179;
 
             public static final double tolerance = 5.0;
-            public static final double slewRateLimiter = 35;
+            public static final double slewRateLimiter = 60;
         }
     }
 

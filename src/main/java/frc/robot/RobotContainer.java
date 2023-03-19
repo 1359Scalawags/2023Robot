@@ -29,6 +29,7 @@ import frc.robot.commands.SetDriveMode;
 import frc.robot.commands.TurnCompressorOn;
 import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.commands.autonomous.LoadGamepieceOnHighLevel;
+import frc.robot.commands.autonomous.LoadGamepieceOnMidLevel;
 import frc.robot.commands.autonomous.ParkingArm;
 import frc.robot.commands.autonomous.UnParkingArm;
 import frc.robot.subsystems.ArmSubsystem;
@@ -60,6 +61,8 @@ public class RobotContainer {
   private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
   private final ParkingArm m_ArmParkingCommand = new ParkingArm(m_armSubsystem);
   private final UnParkingArm m_ArmUnParkingCommand = new UnParkingArm(m_armSubsystem);
+  private final LoadGamepieceOnHighLevel m_GamepieceOnHighLevel = new LoadGamepieceOnHighLevel(m_armSubsystem, m_grabberSubsystem);
+  private final LoadGamepieceOnMidLevel m_GamepieceOnMidLevel = new LoadGamepieceOnMidLevel(m_armSubsystem, m_grabberSubsystem);
   // private final ArmOnGroundLevelCommand m_ArmOnGroundLevelCommand = new ArmOnGroundLevelCommand(m_armSubsystem);
   // private final ArmOnMidLevelCommand m_ArmOnMidLevelCommand = new ArmOnMidLevelCommand(m_armSubsystem);
   // private final ArmOnHighLevelCommand m_ArmOnHighLevelCommand = new ArmOnHighLevelCommand(m_armSubsystem);
@@ -132,6 +135,8 @@ public class RobotContainer {
     new JoystickButton(assistantJoystick, 3).onTrue(m_PlatformBalance);
     new JoystickButton(assistantJoystick, 5).onTrue(m_ArmParkingCommand);
     new JoystickButton(assistantJoystick, 6).onTrue(m_ArmUnParkingCommand);
+    new JoystickButton(assistantJoystick, 7).onTrue(m_GamepieceOnHighLevel);
+    new JoystickButton(assistantJoystick, 8).onTrue(m_GamepieceOnMidLevel);
     // new JoystickButton(assistantJoystick, 6).onTrue(m_ArmOnGroundLevelCommand);
     // new JoystickButton(assistantJoystick, 7).onTrue(m_ArmOnMidLevelCommand);
     // new JoystickButton(assistantJoystick, 8).onTrue(m_ArmOnHighLevelCommand);

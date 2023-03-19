@@ -3,6 +3,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.extensions.Utilities;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.VisionSystem;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -55,7 +56,7 @@ public class RotateToGamepiece extends CommandBase  {
       m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
       return true;
    }else{
-    if (( (Constants.Autonomous.degreeOffset + Constants.Autonomous.offsetFromCenter) < m_Vision.getTargetX()) && (m_Vision.getTargetX() <  (-Constants.Autonomous.degreeOffset + Constants.Autonomous.offsetFromCenter) )){
+    if (Utilities.IsCloseTo(m_Vision.getTargetX(), Constants.Autonomous.offsetFromCenter, Constants.Autonomous.degreeOffset)){
       return true;
     }
     return false;

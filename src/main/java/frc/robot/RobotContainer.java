@@ -31,6 +31,7 @@ import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.commands.autonomous.LoadGamepieceOnHighLevel;
 import frc.robot.commands.autonomous.LoadGamepieceOnMidLevel;
 import frc.robot.commands.autonomous.ParkingArm;
+import frc.robot.commands.autonomous.RotateToGamepiece;
 import frc.robot.commands.autonomous.UnParkingArm;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DisplaySubSystem;
@@ -68,8 +69,10 @@ public class RobotContainer {
   // private final ArmOnHighLevelCommand m_ArmOnHighLevelCommand = new ArmOnHighLevelCommand(m_armSubsystem);
   // private final ArmOnSubStationCommand m_ArmOnSubStationCommand = new ArmOnSubStationCommand(m_armSubsystem);
   // private final VisionSystem m_VisionSystem = new VisionSystem();
-  private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(null, m_drivetrainSubsystem, m_armSubsystem, m_grabberSubsystem);
+  private final VisionSystem m_VisionSystem = new VisionSystem();
+  private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(m_VisionSystem, m_drivetrainSubsystem, m_armSubsystem, m_grabberSubsystem);
 
+  
   //private final XboxController m_controller = new XboxController(0);
   private final Joystick driverJoystick = new Joystick(0);
   private final Joystick assistantJoystick = new Joystick(1);
@@ -127,6 +130,7 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 2).whileTrue(m_ZeroGyroCommand);
     new JoystickButton(driverJoystick, 3).whileTrue(new SetDriveMode(m_drivetrainSubsystem, DriveModes.FieldCentric));
     new JoystickButton(driverJoystick,4).whileTrue(new SetDriveMode(m_drivetrainSubsystem, DriveModes.RobotCentric)); 
+    new JoystickButton(driverJoystick, 5).onTrue(new RotateToGamepiece(m_VisionSystem, m_drivetrainSubsystem, null));
     new JoystickButton(assistantJoystick, 10).whileTrue(m_compressorOff);
     new JoystickButton(assistantJoystick, 11).whileTrue(m_compressorOn);
     new JoystickButton(assistantJoystick, 1).whileTrue(m_closegrabber);

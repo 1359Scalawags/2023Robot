@@ -206,6 +206,7 @@ public class ArmSubsystem extends SubsystemBase {
    * @param value Target angle in degrees relative to the floor.
    */
   public void setElbowSetpoint(double value) {
+    adjustElbowLimit();
     //TODO: Review method definition
     if (isMovable) {
       e_targetPosition = MathUtil.clamp(value, e_lowerLimit, Constants.Arm.Elbow.upperlimit);
@@ -319,6 +320,39 @@ public class ArmSubsystem extends SubsystemBase {
     }
     return false;
   }
+
+  private double CalcElbowLower(double x){
+    double b = 0.0000033922;
+    double c = -1.46987;
+    double d = 427.188;
+    return (b * Math.pow(x, 3) + c * x  + d);
+  }
+
+  public void adjustElbowLimit() {
+    // double shoulder = getShoulderDegree();
+    // if (Utilities.IsCloseTo(shoulder, Constants.Arm.Shoulder.upperlimit, 3.0)) {
+    //   e_lowerLimit = Constants.Arm.Elbow.lowerLimitUnsafePosMin;
+    //   if (isElbowAtUnsafe()) {
+    //     s_targetPosition = Constants.Arm.Shoulder.upperlimit;
+    //   }
+    // }
+    // else if (Utilities.isGreaterThan(shoulder, Constants.Arm.Shoulder.safelimit, 3.0)){
+    //   e_lowerLimit = Constants.Arm.Elbow.lowerLimitWhenSafePos;
+    // }
+    // else {
+    //   e_lowerLimit = Constants.Arm.Elbow.lowerLimitWhenShoulderSafe;
+    // }
+
+    double ShouldDegree = getShoulderDegree();
+    if (ShouldDegree <= 246 && ShouldDegree >= 196 ){//&& getElbowDegree() > 45) {
+      e_lowerLimit = CalcElbowLower(ShouldDegree);
+    }
+    else if (ShouldDegree > 246) {
+      e_lowerLimit =  118;
+    }
+    else if (ShouldDegree < 196){
+      e_lowerLimit = 164;}
+    }
 
 //   public void adjustElbowLimit() {
 //     return Constants.Arm.Elbow.lowerLimitWhenSafePos;

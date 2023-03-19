@@ -119,7 +119,7 @@ public class DisplaySubSystem extends SubsystemBase {
         mainTab.add(chooser);
 
                 //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
-                mainTab.add(chooser);
+                // mainTab.add(chooser);
                 //pipeLine.addOption(vision, kCubeWhiteLight);
         
                 swichPipeline pipeLineCommand = new swichPipeline(vision, null);

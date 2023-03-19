@@ -118,28 +118,28 @@ public class DisplaySubSystem extends SubsystemBase {
         //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
         mainTab.add(chooser);
 
-        //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
-
-        //pipeLine.addOption(vision, kCubeWhiteLight);
-
-        swichPipeline pipeLineCommand = new swichPipeline(vision, null);
-        //pipeLine.addOption("Default", pipeLineCommand);
-        pipeLine.setDefaultOption("Default", pipeLineCommand);
-
-        pipeLineCommand.set(swichPipeline.pipeIndex.CubeWhiteLight);
-        pipeLine.addOption("CubeWhiteLight", pipeLineCommand);
-
-        pipeLineCommand.set(swichPipeline.pipeIndex.ConeWhiteLight);
-        pipeLine.addOption("ConeWhiteLight", pipeLineCommand);
-
-        pipeLineCommand.set(swichPipeline.pipeIndex.CubeYellowLight);
-        pipeLine.addOption("CubeYellowLight", pipeLineCommand);
-
-        pipeLineCommand.set(swichPipeline.pipeIndex.ConeYellowLight);
-        pipeLine.addOption("ConeYellowLight", pipeLineCommand);
-
-
-        mainTab.add(pipeLine);
+                //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
+                // mainTab.add(chooser);
+                //pipeLine.addOption(vision, kCubeWhiteLight);
+        
+                swichPipeline pipeLineCommand = new swichPipeline(vision, null);
+                //pipeLine.addOption("Default", pipeLineCommand);
+                pipeLine.setDefaultOption("Default", pipeLineCommand);
+        
+                pipeLineCommand.set(swichPipeline.pipeIndex.CubeWhiteLight);
+                pipeLine.addOption("CubeWhiteLight", pipeLineCommand);
+        
+                pipeLineCommand.set(swichPipeline.pipeIndex.ConeWhiteLight);
+                pipeLine.addOption("ConeWhiteLight", pipeLineCommand);
+        
+                pipeLineCommand.set(swichPipeline.pipeIndex.CubeYellowLight);
+                pipeLine.addOption("CubeYellowLight", pipeLineCommand);
+        
+                pipeLineCommand.set(swichPipeline.pipeIndex.ConeYellowLight);
+                pipeLine.addOption("ConeYellowLight", pipeLineCommand);
+        
+        
+                mainTab.add(pipeLine);
 
         
     }

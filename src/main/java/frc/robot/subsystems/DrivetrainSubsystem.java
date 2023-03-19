@@ -238,6 +238,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return m_navx.getDisplacementY();
     }
 
+    public double getDistanceXY() {
+        double x = m_navx.getDisplacementX();
+        double y = m_navx.getDisplacementY();
+        return Math.sqrt(x*x + y*y);
+    }
+
     /**
      * Set translation and rotation speeds of the drive.
      * @param chassisSpeeds Speeds to use on next update of drive.

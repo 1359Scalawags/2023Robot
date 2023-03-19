@@ -80,6 +80,9 @@ public final class Constants {
     }
 
     public static final class Arm {
+
+        public static final double triggerZone = 10;
+
         public static final double parkingTolerance = 3.0;
         //public static final double radtoDegreeDivisor = Math.PI / 180.0; // name did not match conversion
         public static final double boundaryExtension = 5;

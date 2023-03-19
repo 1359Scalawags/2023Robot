@@ -53,25 +53,25 @@ public class VisionSystem extends SubsystemBase {
         //TODO: Line below needs to be checked
         // botPose = table.getEntry("botpose").getDoubleArray(new double[6]); 
         // limelight initialization
-        setCamMode(LimelightModes.vision);
-        ledMode.setInteger(1);
-        //TODO remember camMode makes the limelight a driver camera
-        camMode.setInteger(1);
-        try {
-            // USB Camera initialization
-            if(Robot.isSimulation()) {
-                camera1 = CameraServer.startAutomaticCapture(4);
-            } else {
-                camera1 = CameraServer.startAutomaticCapture(0);
-            }
+        // setCamMode(LimelightModes.vision);
+        // ledMode.setInteger(1);
+        // //TODO remember camMode makes the limelight a driver camera
+        // camMode.setInteger(1);
+        // try {
+        //     // USB Camera initialization
+        //     if(Robot.isSimulation()) {
+        //         camera1 = CameraServer.startAutomaticCapture(4);
+        //     } else {
+        //         camera1 = CameraServer.startAutomaticCapture(0);
+        //     }
 
-            camera1.setResolution(Constants.DisplaySystem.CAM_WIDTH, Constants.DisplaySystem.CAM_HEIGHT);
-            camera1.setFPS(Constants.DisplaySystem.CAM_FPS);
-            camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-            //System.out.println(camera1.getConfigJson());
-        } catch (Exception e) {
-            System.out.println("Vision system could not capture camera!" + e.getMessage());
-        }
+        //     camera1.setResolution(Constants.DisplaySystem.CAM_WIDTH, Constants.DisplaySystem.CAM_HEIGHT);
+        //     camera1.setFPS(Constants.DisplaySystem.CAM_FPS);
+        //     camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+        //     //System.out.println(camera1.getConfigJson());
+        // } catch (Exception e) {
+        //     System.out.println("Vision system could not capture camera!" + e.getMessage());
+        // }
 
         // try {
         //     camera2 = CameraServer.startAutomaticCapture(1);
@@ -83,9 +83,9 @@ public class VisionSystem extends SubsystemBase {
         // }
 
         //NOTE: this should probably use the "addServer()" function for multiple cameras
-        server = CameraServer.getServer();
-
-        server.setSource(camera1);
+        // server = CameraServer.getServer();
+// 
+        // server.setSource(camera1);
 
         // if (camera1 != null) {
         //     server.setSource(camera1);
@@ -97,9 +97,9 @@ public class VisionSystem extends SubsystemBase {
 
     }
 
-    public static void setCamMode(LimelightModes mode) {
-        getLimelightEntry("camMode").setNumber(mode.ordinal());
-    }
+    // public static void setCamMode(LimelightModes mode) {
+    //     getLimelightEntry("camMode").setNumber(mode.ordinal());
+    // }
 
     public void setUSBCamera(USBCameras camera) {
     //     if (camera == USBCameras.BottomCamera) {
@@ -156,13 +156,13 @@ public class VisionSystem extends SubsystemBase {
         return botPose.getDoubleArray(new double[6]);
     }
 
-    public UsbCamera getCamera1() {
-        if(camera1.isValid()) {
-            return camera1;            
-        } else {
-            return null;
-        }
+    // public UsbCamera getCamera1() {
+    //     if(camera1.isValid()) {
+    //         return camera1;            
+    //     } else {
+    //         return null;
+    //     }
 
-    }
+    // }
 
 }

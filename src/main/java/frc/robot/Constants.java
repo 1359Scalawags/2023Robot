@@ -41,13 +41,13 @@ public final class Constants {
     public static final double kPDriveVel = 0.17182;
     
 
-    public static final double kp_XController = 0.005;
+    public static final double kp_XController = 0.831985;
     public static final double ki_XController = 0.0;
     public static final double kd_XController = 0.0;
-    public static final double kp_YController = 0.005;
+    public static final double kp_YController = 0.831985;
     public static final double ki_YController = 0.0;
     public static final double kd_YController = 0.0;
-    public static final double kp_RotationController = 0.005;
+    public static final double kp_RotationController = 0.831985;
     public static final double ki_RotationController = 0.0;
     public static final double kd_RotationController = 0.0;
     
@@ -70,25 +70,25 @@ public final class Constants {
             public static final int DRIVE_MOTOR = 7; 
             public static final int STEER_MOTOR = 8; 
             public static final int STEER_ENCODER = 17; 
-            public static final double STEER_OFFSET = -Math.toRadians(257.344); // FIXME Measure and set offset             
+            public static final double STEER_OFFSET = -Math.toRadians(282 - 23 - 4.5); // FIXME Measure and set offset             
         }
         public static final class FrontRight {
             public static final int DRIVE_MOTOR = 5; 
             public static final int STEER_MOTOR = 6; 
             public static final int STEER_ENCODER = 15; 
-            public static final double STEER_OFFSET = -Math.toRadians(353.672 + 4.5); // FIXME Measure and set offset       
+            public static final double STEER_OFFSET = -Math.toRadians(354 - 1 + 4.5); // FIXME Measure and set offset       
         }
         public static final class BackLeft {
             public static final int DRIVE_MOTOR = 1; 
             public static final int STEER_MOTOR = 2; 
             public static final int STEER_ENCODER = 11; 
-            public static final double STEER_OFFSET = -Math.toRadians(122.871 + 7); // // FIXME Measure and set offset   
+            public static final double STEER_OFFSET = -Math.toRadians(127); // // FIXME Measure and set offset   
         }
         public static final class BackRight {
             public static final int DRIVE_MOTOR = 3; // FIXME Set front left module drive motor ID
             public static final int STEER_MOTOR = 4; // FIXME Set front left module steer motor ID
             public static final int STEER_ENCODER = 13; // FIXME Set front left steer encoder ID
-            public static final double STEER_OFFSET = -Math.toRadians(45.703 - 5); // FIXME Measure and set front left steer offset                 
+            public static final double STEER_OFFSET = -Math.toRadians(333 + 70 -3); // FIXME Measure and set front left steer offset                 
         }
         public static final double motorSpeed = 0.3;
         public static final double gearRatio = 8.14;

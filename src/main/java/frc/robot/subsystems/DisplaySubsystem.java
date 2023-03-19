@@ -24,7 +24,7 @@ public class DisplaySubsystem extends SubsystemBase {
   public DisplaySubsystem(VisionSystem vision) {
     // Shuffleboard.selectTab("Main");
     timeEntry = mainTab.add("Match time", 0).getEntry();  
-    mainTab.add("Camera", vision.getCamera1());
+    // mainTab.add("Camera", vision.getCamera1());
   }
 
   public boolean exampleCondition() {

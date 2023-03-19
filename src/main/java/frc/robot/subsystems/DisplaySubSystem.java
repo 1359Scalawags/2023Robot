@@ -30,6 +30,7 @@ import frc.robot.commands.autonomous.RedStationTWO;
 import frc.robot.commands.autonomous.StandardAuto;
 import frc.robot.commands.autonomous.TestAutoMovment;
 import frc.robot.commands.autonomous.TestMovement;
+import frc.robot.commands.autonomous.swichPipeline;
 
 public class DisplaySubSystem extends SubsystemBase {
     PowerDistribution m_pdh = new PowerDistribution(Constants.DisplaySystem.PDHCANID, ModuleType.kRev);
@@ -45,6 +46,9 @@ public class DisplaySubSystem extends SubsystemBase {
     // private NetworkTableEntry climbLockEntry;
     // private ComplexWidget cameraView;
     // private ClimbSystem climbSystem;
+
+    private final SendableChooser<Command> pipeLine =  new SendableChooser<>();
+    
 
     public DisplaySubSystem(VisionSystem vision, DrivetrainSubsystem driveSystem, ArmSubsystem armSystem, GrabberSubsystem grabberSystem) {
         CameraServer.startAutomaticCapture(camera);
@@ -113,6 +117,31 @@ public class DisplaySubSystem extends SubsystemBase {
         
         //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
         mainTab.add(chooser);
+
+                //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
+                mainTab.add(chooser);
+                //pipeLine.addOption(vision, kCubeWhiteLight);
+        
+                swichPipeline pipeLineCommand = new swichPipeline(vision, null);
+                //pipeLine.addOption("Default", pipeLineCommand);
+                pipeLine.setDefaultOption("Default", pipeLineCommand);
+        
+                pipeLineCommand.set(swichPipeline.pipeIndex.CubeWhiteLight);
+                pipeLine.addOption("CubeWhiteLight", pipeLineCommand);
+        
+                pipeLineCommand.set(swichPipeline.pipeIndex.ConeWhiteLight);
+                pipeLine.addOption("ConeWhiteLight", pipeLineCommand);
+        
+                pipeLineCommand.set(swichPipeline.pipeIndex.CubeYellowLight);
+                pipeLine.addOption("CubeYellowLight", pipeLineCommand);
+        
+                pipeLineCommand.set(swichPipeline.pipeIndex.ConeYellowLight);
+                pipeLine.addOption("ConeYellowLight", pipeLineCommand);
+        
+        
+                mainTab.add(pipeLine);
+
+        
     }
 
     public SendableChooser<Command> getAutonomoChooser() {

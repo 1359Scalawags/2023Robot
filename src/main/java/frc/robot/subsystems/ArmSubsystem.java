@@ -322,6 +322,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private double CalcElbowLower(double x){
+    x+=Constants.Arm.triggerZone;//ElbowTriggerZone;
+
     double b = 0.0000033922;
     double c = -1.46987;
     double d = 427.188;
@@ -394,7 +396,7 @@ public class ArmSubsystem extends SubsystemBase {
       delayCounter++;
       return;
     }
-
+    //TODO: Check if the Smartdashboard addon is important
     if (Robot.isTestMode()){
       SmartDashboard.putBoolean("Elbow Lower Limit", isElbowAtLowerLimit());
       SmartDashboard.putBoolean("Elbow Upper Limit", isElbowAtUpperLimit());

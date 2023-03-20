@@ -31,7 +31,7 @@ public class ChoosePipeLineByLightAndTarget extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ChoosePipeLineByLightAndTarget(VisionSystem subsystem, Lighting light, Target target) {
+  public ChoosePipeLineByLightAndTarget(VisionSystem subsystem, Lighting light, Targets target) {
     m_subsystem = subsystem;
     m_lighting = light;
     m_target = target;

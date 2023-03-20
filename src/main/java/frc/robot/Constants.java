@@ -47,9 +47,12 @@ public final class Constants {
     public static final double kp_YController = 2; //0.831985;
     public static final double ki_YController = 0.0;
     public static final double kd_YController = 0.0;
-    public static final double kp_RotationController = 2; //0.831985;
+    // public static final double kp_RotationController = 2; //0.831985;
+    // public static final double ki_RotationController = 0.0;
+    // public static final double kd_RotationController = 0.07;
+    public static final double kp_RotationController = 1.57;
     public static final double ki_RotationController = 0.0;
-    public static final double kd_RotationController = 0.07;
+    public static final double kd_RotationController = 0.02;
     
 
 

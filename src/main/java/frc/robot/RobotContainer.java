@@ -70,7 +70,7 @@ public class RobotContainer {
   // private final ArmOnGroundLevelCommand m_ArmOnGroundLevelCommand = new ArmOnGroundLevelCommand(m_armSubsystem);
   // private final ArmOnMidLevelCommand m_ArmOnMidLevelCommand = new ArmOnMidLevelCommand(m_armSubsystem);
   // private final ArmOnHighLevelCommand m_ArmOnHighLevelCommand = new ArmOnHighLevelCommand(m_armSubsystem);
-  // private final ArmOnSubStationCommand m_ArmOnSubStationCommand = new ArmOnSubStationCommand(m_armSubsystem);
+  private final ArmOnSubStationCommand m_ArmOnSubStationCommand = new ArmOnSubStationCommand(m_armSubsystem);
   // private final VisionSystem m_VisionSystem = new VisionSystem();
   private final VisionSystem m_VisionSystem = new VisionSystem();
   private final SwitchPipeline detectCone = new SwitchPipeline(m_VisionSystem, pipeIndex.ConeWhiteLight);
@@ -152,6 +152,7 @@ public class RobotContainer {
     new JoystickButton(assistantJoystick, 4).whileTrue(detectCone);
     new JoystickButton(assistantJoystick, 5).onTrue(m_ArmParkingCommand);
     new JoystickButton(assistantJoystick, 6).onTrue(m_ArmUnParkingCommand);
+    new JoystickButton(assistantJoystick, 7).onTrue(m_ArmOnSubStationCommand);
     // new JoystickButton(assistantJoystick, 7).onTrue(m_GamepieceOnGroundLevel);
     new JoystickButton(assistantJoystick, 8).onTrue(m_GamepieceOnHighLevel);
     new JoystickButton(assistantJoystick, 9).onTrue(m_GamepieceOnMidLevel);
@@ -177,7 +178,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_DisplaySystem.getAutonomoChooser().getSelected();
+    return m_DisplaySystem.getAutonomousChooser().getSelected();
     
   }
 

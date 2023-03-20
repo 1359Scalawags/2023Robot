@@ -121,11 +121,15 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderSparkMaxPIDController.setIZone(Constants.Arm.Shoulder.kIz);
     shoulderSparkMaxPIDController.setOutputRange(Constants.Arm.Shoulder.kMinOutput, Constants.Arm.Shoulder.kMaxOutput);
 
-    shoulderRotationEntry = tab.add("Shoulder relative rotation", getShoulderDegree()).getEntry();
-    elbowRotationEntry = tab.add("Elbow relative rotation", getElbowDegree()).getEntry();
+    shoulderRotationEntry = tab.add("Shoulder relative rotation", getShoulderDegree())
+                            .withSize(2, 1).withPosition(2, 0).getEntry();
+    elbowRotationEntry = tab.add("Elbow relative rotation", getElbowDegree())
+                         .withSize(2, 1).withPosition(2, 1).getEntry();
 
-    shoulderAbsoluteTargetEntry = tab.add("Shoulder absolute target", s_targetPosition).getEntry();
-    elbowAbsoluteTargetEntry = tab.add("Elbow absolute target", e_targetPosition).getEntry();
+    shoulderAbsoluteTargetEntry = tab.add("Shoulder absolute target", s_targetPosition)
+                                  .withSize(2, 1).withPosition(0, 0).getEntry();
+    elbowAbsoluteTargetEntry = tab.add("Elbow absolute target", e_targetPosition)
+                               .withSize(2, 1).withPosition(0, 1).getEntry();
 
     elbowTuner = new SparkMaxTuner("SparkMax Tuner", "Elbow Tuner", 0, elbowSparkMaxPIDController);
     shoulderTuner = new SparkMaxTuner("SparkMax Tuner", "Shoulder Tuner", 2, shoulderSparkMaxPIDController);

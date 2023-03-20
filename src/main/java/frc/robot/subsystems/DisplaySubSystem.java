@@ -60,7 +60,7 @@ public class DisplaySubSystem extends SubsystemBase {
                 .add("Match Time", 0)
                 .withWidget(BuiltInWidgets.kDial)
                 .withProperties(Map.of("min", 0, "max", 135))
-                .withSize(3, 3)
+                .withSize(3, 2)
                 .withPosition(7, 0) 
                 .getEntry();
 
@@ -78,7 +78,7 @@ public class DisplaySubSystem extends SubsystemBase {
                 .withWidget(BuiltInWidgets.kNumberBar)
                 .withProperties(Map.of("min", 0, "max", 16))
                 .withSize(3, 1)
-                .withPosition(0, 1)
+                .withPosition(7, 2)
                 .getEntry();
 
         // if(vision.getCamera1() != null) {
@@ -88,12 +88,14 @@ public class DisplaySubSystem extends SubsystemBase {
         //         .withSize(4, 4)
         //         .withPosition(3, 0);
 
-        this.mainTab.add(camera)
-                    .withSize(4, 4);
+        mainTab.add(camera)
+                    .withSize(5, 4)
+                    .withPosition(2, 0);
 
         driveModeEntry = mainTab
                 .add("Drive Mode", driveSystem.getDriveMode())
                 .withSize(2, 1)
+                .withPosition(0, 0)
                 .getEntry();
         // }
         
@@ -117,7 +119,9 @@ public class DisplaySubSystem extends SubsystemBase {
         chooser.addOption("Not moving", new InstantCommand());
         
         //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
-        mainTab.add(chooser);
+        mainTab.add(chooser)
+               .withSize(2, 1)
+               .withPosition(0, 1);
 
         //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
         // mainTab.add(chooser);
@@ -140,12 +144,14 @@ public class DisplaySubSystem extends SubsystemBase {
         pipeLine.addOption("ConeYellowLight", pipeLineCommand);
         
         
-        mainTab.add(pipeLine);
+        mainTab.add(pipeLine)
+               .withSize(2, 1)
+               .withPosition(0, 2);
 
         
     }
 
-    public SendableChooser<Command> getAutonomoChooser() {
+    public SendableChooser<Command> getAutonomousChooser() {
         return chooser;
     }
     private int counter = 0;

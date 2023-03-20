@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.led.FireAnimation;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
@@ -75,6 +77,9 @@ public class RobotContainer {
   private final VisionSystem m_VisionSystem = new VisionSystem();
   private final SwitchPipeline detectCone = new SwitchPipeline(m_VisionSystem, pipeIndex.ConeWhiteLight);
   private final SwitchPipeline detectCube = new SwitchPipeline(m_VisionSystem, pipeIndex.CubeWhiteLight);
+  private final SetDriveMode fieldCentric = new SetDriveMode(m_drivetrainSubsystem, DriveModes.FieldCentric);
+  private final SetDriveMode robotCentric = new SetDriveMode(m_drivetrainSubsystem, DriveModes.RobotCentric);
+  private final RotateToGamepiece rotateToGamepiece = new RotateToGamepiece(m_VisionSystem, m_drivetrainSubsystem, null);
 
   private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(m_VisionSystem, m_drivetrainSubsystem, m_armSubsystem, m_grabberSubsystem);
 
@@ -141,9 +146,9 @@ public class RobotContainer {
     // Back button zeros the gyroscope
     //new JoystickButton(m_logitech, 3).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
     new JoystickButton(driverJoystick, 2).whileTrue(m_ZeroGyroCommand);
-    new JoystickButton(driverJoystick, 3).whileTrue(new SetDriveMode(m_drivetrainSubsystem, DriveModes.FieldCentric));
-    new JoystickButton(driverJoystick,4).whileTrue(new SetDriveMode(m_drivetrainSubsystem, DriveModes.RobotCentric)); 
-    new JoystickButton(driverJoystick, 5).onTrue(new RotateToGamepiece(m_VisionSystem, m_drivetrainSubsystem, null));
+    new JoystickButton(driverJoystick, 3).whileTrue(fieldCentric);
+    new JoystickButton(driverJoystick,4).whileTrue(robotCentric); 
+    new JoystickButton(driverJoystick, 5).onTrue(rotateToGamepiece);
     new JoystickButton(driverJoystick, 6).whileTrue(detectCube);
     new JoystickButton(driverJoystick, 7).whileTrue(detectCone);
     // new JoystickButton(assistantJoystick, 10).whileTrue(m_compressorOff);

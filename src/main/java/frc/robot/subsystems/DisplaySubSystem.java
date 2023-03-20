@@ -4,6 +4,7 @@ import java.util.Map;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
+import edu.wpi.first.cscore.HttpCamera.HttpCameraKind;
 //TODO: Figure out the correct way to do this system
 import edu.wpi.first.networktables.GenericEntry;
 //import edu.wpi.first.networktables.NetworkTableEntry;
@@ -20,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.SwitchPipeline;
 import frc.robot.commands.autonomous.BlueStationONE;
 import frc.robot.commands.autonomous.BlueStationTHREE;
 import frc.robot.commands.autonomous.BlueStationTWO;
@@ -30,7 +32,6 @@ import frc.robot.commands.autonomous.RedStationTWO;
 import frc.robot.commands.autonomous.StandardAuto;
 import frc.robot.commands.autonomous.TestAutoMovment;
 import frc.robot.commands.autonomous.TestMovement;
-import frc.robot.commands.autonomous.swichPipeline;
 
 public class DisplaySubSystem extends SubsystemBase {
     PowerDistribution m_pdh = new PowerDistribution(Constants.DisplaySystem.PDHCANID, ModuleType.kRev);
@@ -39,7 +40,7 @@ public class DisplaySubSystem extends SubsystemBase {
     private GenericEntry timeEntry; 
     private GenericEntry batteryVoltage; 
     private GenericEntry driveModeEntry;
-    private HttpCamera camera = new HttpCamera("Camera view", "http://10.13.59.11:5800");
+    private HttpCamera camera = new HttpCamera("limelight", "http://10.13.59.11:5800/stream.mjpeg", HttpCameraKind.kMJPGStreamer);
     private DrivetrainSubsystem driveSystem;
     SendableChooser<Command> chooser = new SendableChooser<>();
     
@@ -118,28 +119,28 @@ public class DisplaySubSystem extends SubsystemBase {
         //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
         mainTab.add(chooser);
 
-                //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
-                // mainTab.add(chooser);
-                //pipeLine.addOption(vision, kCubeWhiteLight);
+        //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
+        // mainTab.add(chooser);
+        //pipeLine.addOption(vision, kCubeWhiteLight);
         
-                swichPipeline pipeLineCommand = new swichPipeline(vision, null);
-                //pipeLine.addOption("Default", pipeLineCommand);
-                pipeLine.setDefaultOption("Default", pipeLineCommand);
+        SwitchPipeline pipeLineCommand = new SwitchPipeline(vision, null);
+        //pipeLine.addOption("Default", pipeLineCommand);
+        pipeLine.setDefaultOption("Default", pipeLineCommand);
         
-                pipeLineCommand.set(swichPipeline.pipeIndex.CubeWhiteLight);
-                pipeLine.addOption("CubeWhiteLight", pipeLineCommand);
+        pipeLineCommand.set(SwitchPipeline.pipeIndex.CubeWhiteLight);
+        pipeLine.addOption("CubeWhiteLight", pipeLineCommand);
         
-                pipeLineCommand.set(swichPipeline.pipeIndex.ConeWhiteLight);
-                pipeLine.addOption("ConeWhiteLight", pipeLineCommand);
+        pipeLineCommand.set(SwitchPipeline.pipeIndex.ConeWhiteLight);
+        pipeLine.addOption("ConeWhiteLight", pipeLineCommand);
         
-                pipeLineCommand.set(swichPipeline.pipeIndex.CubeYellowLight);
-                pipeLine.addOption("CubeYellowLight", pipeLineCommand);
+        pipeLineCommand.set(SwitchPipeline.pipeIndex.CubeYellowLight);
+        pipeLine.addOption("CubeYellowLight", pipeLineCommand);
         
-                pipeLineCommand.set(swichPipeline.pipeIndex.ConeYellowLight);
-                pipeLine.addOption("ConeYellowLight", pipeLineCommand);
+        pipeLineCommand.set(SwitchPipeline.pipeIndex.ConeYellowLight);
+        pipeLine.addOption("ConeYellowLight", pipeLineCommand);
         
         
-                mainTab.add(pipeLine);
+        mainTab.add(pipeLine);
 
         
     }

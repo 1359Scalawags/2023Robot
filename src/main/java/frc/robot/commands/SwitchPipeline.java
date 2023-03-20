@@ -2,13 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.autonomous;
+package frc.robot.commands;
 
 import frc.robot.subsystems.VisionSystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class swichPipeline extends CommandBase {
+public class SwitchPipeline extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final VisionSystem m_subsystem;
@@ -29,7 +29,7 @@ public class swichPipeline extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public swichPipeline(VisionSystem subsystem, pipeIndex index ) {
+  public SwitchPipeline(VisionSystem subsystem, pipeIndex index) {
     if (index == null){
       index = pipeIndex.Default;
     }

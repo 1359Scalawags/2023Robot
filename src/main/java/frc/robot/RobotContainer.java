@@ -28,11 +28,14 @@ import frc.robot.commands.PlatformBalance;
 import frc.robot.commands.SetDriveMode;
 import frc.robot.commands.TurnCompressorOn;
 import frc.robot.commands.ZeroGyroCommand;
+import frc.robot.commands.SwitchPipeline;
+import frc.robot.commands.autonomous.LoadGamepieceOnGroundLevel;
 import frc.robot.commands.autonomous.LoadGamepieceOnHighLevel;
 import frc.robot.commands.autonomous.LoadGamepieceOnMidLevel;
 import frc.robot.commands.autonomous.ParkingArm;
 import frc.robot.commands.autonomous.RotateToGamepiece;
 import frc.robot.commands.autonomous.UnParkingArm;
+import frc.robot.commands.SwitchPipeline.pipeIndex;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DisplaySubSystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -49,27 +52,30 @@ import frc.robot.commands.TurnCompressorOff;
  */
 public class RobotContainer {
 
-
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final PlatformBalance m_PlatformBalance = new PlatformBalance(m_drivetrainSubsystem);
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
-  private final TurnCompressorOff m_compressorOff = new TurnCompressorOff(m_grabberSubsystem);
-  private final TurnCompressorOn m_compressorOn = new TurnCompressorOn(m_grabberSubsystem);
+  // private final TurnCompressorOff m_compressorOff = new TurnCompressorOff(m_grabberSubsystem);
+  // private final TurnCompressorOn m_compressorOn = new TurnCompressorOn(m_grabberSubsystem);
   private final GrabCommandOpen m_opengrabber = new GrabCommandOpen(m_grabberSubsystem);
   private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
   private final ParkingArm m_ArmParkingCommand = new ParkingArm(m_armSubsystem);
   private final UnParkingArm m_ArmUnParkingCommand = new UnParkingArm(m_armSubsystem);
   private final LoadGamepieceOnHighLevel m_GamepieceOnHighLevel = new LoadGamepieceOnHighLevel(m_armSubsystem, m_grabberSubsystem);
   private final LoadGamepieceOnMidLevel m_GamepieceOnMidLevel = new LoadGamepieceOnMidLevel(m_armSubsystem, m_grabberSubsystem);
+  private final LoadGamepieceOnGroundLevel m_GamepieceOnGroundLevel = new LoadGamepieceOnGroundLevel(m_armSubsystem, m_grabberSubsystem);
   // private final ArmOnGroundLevelCommand m_ArmOnGroundLevelCommand = new ArmOnGroundLevelCommand(m_armSubsystem);
   // private final ArmOnMidLevelCommand m_ArmOnMidLevelCommand = new ArmOnMidLevelCommand(m_armSubsystem);
   // private final ArmOnHighLevelCommand m_ArmOnHighLevelCommand = new ArmOnHighLevelCommand(m_armSubsystem);
   // private final ArmOnSubStationCommand m_ArmOnSubStationCommand = new ArmOnSubStationCommand(m_armSubsystem);
   // private final VisionSystem m_VisionSystem = new VisionSystem();
   private final VisionSystem m_VisionSystem = new VisionSystem();
+  private final SwitchPipeline detectCone = new SwitchPipeline(m_VisionSystem, pipeIndex.ConeWhiteLight);
+  private final SwitchPipeline detectCube = new SwitchPipeline(m_VisionSystem, pipeIndex.CubeWhiteLight);
+
   private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(m_VisionSystem, m_drivetrainSubsystem, m_armSubsystem, m_grabberSubsystem);
 
   
@@ -142,12 +148,14 @@ public class RobotContainer {
     // new JoystickButton(assistantJoystick, 11).whileTrue(m_compressorOn);
     new JoystickButton(assistantJoystick, 1).whileTrue(m_closegrabber);
     new JoystickButton(assistantJoystick, 2).whileTrue(m_opengrabber);
-    
-    new JoystickButton(assistantJoystick, 3).onTrue(m_PlatformBalance);
+    new JoystickButton(assistantJoystick, 3).whileTrue(detectCube);
+    new JoystickButton(assistantJoystick, 4).whileTrue(detectCone);
     new JoystickButton(assistantJoystick, 5).onTrue(m_ArmParkingCommand);
     new JoystickButton(assistantJoystick, 6).onTrue(m_ArmUnParkingCommand);
-    new JoystickButton(assistantJoystick, 7).onTrue(m_GamepieceOnHighLevel);
-    new JoystickButton(assistantJoystick, 8).onTrue(m_GamepieceOnMidLevel);
+    // new JoystickButton(assistantJoystick, 7).onTrue(m_GamepieceOnGroundLevel);
+    new JoystickButton(assistantJoystick, 8).onTrue(m_GamepieceOnHighLevel);
+    new JoystickButton(assistantJoystick, 9).onTrue(m_GamepieceOnMidLevel);
+    new JoystickButton(assistantJoystick, 10).onTrue(m_GamepieceOnGroundLevel);
     // new JoystickButton(assistantJoystick, 6).onTrue(m_ArmOnGroundLevelCommand);
     // new JoystickButton(assistantJoystick, 7).onTrue(m_ArmOnMidLevelCommand);
     // new JoystickButton(assistantJoystick, 8).onTrue(m_ArmOnHighLevelCommand);

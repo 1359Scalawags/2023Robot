@@ -143,7 +143,6 @@ public class VisionSystem extends SubsystemBase {
     *3	force on
     */
     public void setLedMode(int mode){
-          
         ledMode.setInteger(mode);
     }
             // setCamMode(LimelightModes.vision);

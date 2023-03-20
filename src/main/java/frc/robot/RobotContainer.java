@@ -144,12 +144,14 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 3).whileTrue(new SetDriveMode(m_drivetrainSubsystem, DriveModes.FieldCentric));
     new JoystickButton(driverJoystick,4).whileTrue(new SetDriveMode(m_drivetrainSubsystem, DriveModes.RobotCentric)); 
     new JoystickButton(driverJoystick, 5).onTrue(new RotateToGamepiece(m_VisionSystem, m_drivetrainSubsystem, null));
+    new JoystickButton(driverJoystick, 6).whileTrue(detectCube);
+    new JoystickButton(driverJoystick, 7).whileTrue(detectCone);
     // new JoystickButton(assistantJoystick, 10).whileTrue(m_compressorOff);
     // new JoystickButton(assistantJoystick, 11).whileTrue(m_compressorOn);
     new JoystickButton(assistantJoystick, 1).whileTrue(m_closegrabber);
     new JoystickButton(assistantJoystick, 2).whileTrue(m_opengrabber);
-    new JoystickButton(assistantJoystick, 3).whileTrue(detectCube);
-    new JoystickButton(assistantJoystick, 4).whileTrue(detectCone);
+    // new JoystickButton(assistantJoystick, 3).whileTrue(detectCube);
+    // new JoystickButton(assistantJoystick, 4).whileTrue(detectCone);
     new JoystickButton(assistantJoystick, 5).onTrue(m_ArmParkingCommand);
     new JoystickButton(assistantJoystick, 6).onTrue(m_ArmUnParkingCommand);
     new JoystickButton(assistantJoystick, 7).onTrue(m_ArmOnSubStationCommand);

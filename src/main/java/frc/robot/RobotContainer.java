@@ -95,7 +95,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final VisionSystem m_VisionSystem = new VisionSystem();
-  private final DisplaySubsystem m_DisplaySubsystem = new DisplaySubsystem(m_VisionSystem);
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();

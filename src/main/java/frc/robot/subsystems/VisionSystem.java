@@ -49,9 +49,10 @@ public class VisionSystem extends SubsystemBase {
     NetworkTableEntry ledMode = getLimelightEntry("ledMode");
     NetworkTableEntry camMode = getLimelightEntry("camMode");
     NetworkTableEntry pipeline = getLimelightEntry("pipeline");
+    NetworkTableEntry botPoseEntry = table.getEntry("botpose");
     private double[] botPose;
     public VisionSystem() {
-        botPose = table.getEntry("botpose").getDoubleArray(new double[6]);
+        botPose = botPoseEntry.getDoubleArray(new double[6]);
         // limelight initialization
 
 
@@ -120,7 +121,7 @@ public class VisionSystem extends SubsystemBase {
         double x = tx.getDouble(0.0);
         double y = ty.getDouble(0.0);
         double area = ta.getDouble(0.0);
-        double[] pose = botPose.getDoubleArray(new double[6]);
+        double[] pose = botPoseEntry.getDoubleArray(new double[6]);
 
         // post to smart dashboard periodically
         if (counter > Constants.UI.delayCounter) {

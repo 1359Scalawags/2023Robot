@@ -2,11 +2,11 @@ package frc.robot.commands.autonomous;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.VisionSystem;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import frc.robot.Constants;
 import frc.robot.extensions.Utilities;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.VisionSystem;
+
 public class SideShuffleToGamepiece extends CommandBase  {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 

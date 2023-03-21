@@ -2,18 +2,12 @@ package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
-import frc.robot.commands.ArmOnHighLevelCommand;
-import frc.robot.commands.ArmOnSpecificLevelCommand;
-import frc.robot.commands.ElbowParkingCommand;
-import frc.robot.commands.DelayCommand;
-import frc.robot.commands.GrabCommandClose;
-import frc.robot.commands.GrabCommandOpen;
 import frc.robot.commands.PlatformBalance;
 import frc.robot.commands.SetDriveMode;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
+import frc.robot.subsystems.GrabberSubsystem;
 
 public class RedStationONE extends SequentialCommandGroup
 {

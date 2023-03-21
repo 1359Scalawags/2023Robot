@@ -4,23 +4,14 @@
 
 package frc.robot.commands.autonomous;
 
-import frc.robot.Constants;
-import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
-/** An example command that uses an example subsystem. */
+
 public class MoveBackwards extends CommandBase {
   
-
-  //private final ExampleSubsystem m_subsystem;
-
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
   private DrivetrainSubsystem m_drivetrainSubsystem;
   private double targetDistance;
   private double startDistance;

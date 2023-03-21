@@ -58,7 +58,6 @@ import frc.robot.subsystems.DisplaySubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
-import frc.robot.commands.ArmParkingCommand;
 import frc.robot.commands.DefaultArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GrabCommandClose;
@@ -98,6 +97,8 @@ public class RobotContainer {
   private final VisionSystem m_VisionSystem = new VisionSystem();
   private final DisplaySubsystem m_DisplaySubsystem = new DisplaySubsystem(m_VisionSystem);
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
+  private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
+  private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
   // private final TurnCompressorOff m_compressorOff = new TurnCompressorOff(m_grabberSubsystem);
   // private final TurnCompressorOn m_compressorOn = new TurnCompressorOn(m_grabberSubsystem);
   private final GrabCommandOpen m_opengrabber = new GrabCommandOpen(m_grabberSubsystem);
@@ -112,7 +113,7 @@ public class RobotContainer {
   // private final ArmOnHighLevelCommand m_ArmOnHighLevelCommand = new ArmOnHighLevelCommand(m_armSubsystem);
   private final ArmOnSubStationCommand m_ArmOnSubStationCommand = new ArmOnSubStationCommand(m_armSubsystem);
   // private final VisionSystem m_VisionSystem = new VisionSystem();
-  private final VisionSystem m_VisionSystem = new VisionSystem();
+  // private final VisionSystem m_VisionSystem = new VisionSystem();
   private final SwitchPipeline detectCone = new SwitchPipeline(m_VisionSystem, pipeIndex.ConeWhiteLight);
   private final SwitchPipeline detectCube = new SwitchPipeline(m_VisionSystem, pipeIndex.CubeWhiteLight);
   private final SetDriveMode fieldCentric = new SetDriveMode(m_drivetrainSubsystem, DriveModes.FieldCentric);

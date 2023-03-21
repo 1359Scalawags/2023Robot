@@ -50,16 +50,16 @@ public final class Constants {
     // public static final double kp_RotationController = 2; //0.831985;
     // public static final double ki_RotationController = 0.0;
     // public static final double kd_RotationController = 0.07;
-    public static final double kp_RotationController = 1.57;
-    public static final double ki_RotationController = 0.0;
-    public static final double kd_RotationController = 0.02;
+    public static final double kp_RotationController = 0.2; //1.57;
+    public static final double ki_RotationController = 0.0;     
+    public static final double kd_RotationController = 0.1; //0.02;
     
 
 
     public enum WheelPositions {
         FrontLeft,
         FrontRight,
-        BackLeft,
+        BackLeft,   
         BackRight
     }
     public static final class DisplaySystem {

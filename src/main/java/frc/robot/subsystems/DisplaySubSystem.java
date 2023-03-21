@@ -30,8 +30,6 @@ import frc.robot.commands.autonomous.RedStationTHREE;
 import frc.robot.commands.autonomous.RedStationONE;
 import frc.robot.commands.autonomous.RedStationTWO;
 import frc.robot.commands.autonomous.StandardAuto;
-import frc.robot.commands.autonomous.TestAutoMovment;
-import frc.robot.commands.autonomous.TestMovement;
 
 public class DisplaySubsystem extends SubsystemBase {
     PowerDistribution m_pdh = new PowerDistribution(Constants.DisplaySystem.PDHCANID, ModuleType.kRev);

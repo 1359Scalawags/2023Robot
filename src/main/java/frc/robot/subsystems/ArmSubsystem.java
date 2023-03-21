@@ -83,7 +83,6 @@ public class ArmSubsystem extends SubsystemBase {
     elbowMotor.setInverted(false);
     elbowMotor.setIdleMode(IdleMode.kBrake);
     
-    // TODO: can/should we use setSoftLimit() to limit arm movement?
     elbowMotor.setSoftLimit(SoftLimitDirection.kForward, (float)Constants.Arm.Elbow.upperlimit);
     elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)Constants.Arm.Elbow.lowerLimitUnsafePosMin);
     
@@ -167,7 +166,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   }
 
-  // TODO: Figure out how to change encoders without breaking things?
   public boolean isElbowAtUpperLimit() {
     return getElbowDegree() >= Constants.Arm.Elbow.upperlimit;
   }

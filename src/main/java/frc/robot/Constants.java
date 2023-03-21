@@ -71,25 +71,25 @@ public final class Constants {
             public static final int DRIVE_MOTOR = 7; 
             public static final int STEER_MOTOR = 8; 
             public static final int STEER_ENCODER = 17; 
-            public static final double STEER_OFFSET = -Math.toRadians(282 - 23 - 4.5 + 3); // FIXME Measure and set offset             
+            public static final double STEER_OFFSET = -Math.toRadians(282 - 23 - 4.5 + 3);           
         }
         public static final class FrontRight {
             public static final int DRIVE_MOTOR = 5; 
             public static final int STEER_MOTOR = 6; 
             public static final int STEER_ENCODER = 15; 
-            public static final double STEER_OFFSET = -Math.toRadians(354.0-1 + 4.5); // FIXME Measure and set offset       
+            public static final double STEER_OFFSET = -Math.toRadians(354.0-1 + 4.5);      
         }
         public static final class BackLeft {
             public static final int DRIVE_MOTOR = 1; 
             public static final int STEER_MOTOR = 2; 
             public static final int STEER_ENCODER = 11; 
-            public static final double STEER_OFFSET = -Math.toRadians(127); // // FIXME Measure and set offset   
+            public static final double STEER_OFFSET = -Math.toRadians(127); 
         }
         public static final class BackRight {
             public static final int DRIVE_MOTOR = 3; 
             public static final int STEER_MOTOR = 4; 
             public static final int STEER_ENCODER = 13; 
-            public static final double STEER_OFFSET = -Math.toRadians(333.0+70-3); // FIXME Measure and set offset                 
+            public static final double STEER_OFFSET = -Math.toRadians(333.0+70-3);                
         }
         public static final double motorSpeed = 0.5;
         public static final double gearRatio = 8.14;
@@ -184,7 +184,7 @@ public final class Constants {
             public static final double shoulderRestrictionPositionUpper = 270;
             public static final double defaultSetpoint = 104.0;
             public static final double CoefficientMultiplier = 1/360.0;
-            public static final double elbowSpeedMultiplier = 1; //TODO: Tune This... I don't know how much to increase it by
+            public static final double elbowSpeedMultiplier = 1; 
             //(1/360.0);
             // public static final double kP = 0.03 * pidTestRatio;  // After tuning, 0.05/2
             // public static final double kI = 0.06 * pidTestRatio;  //10e-4

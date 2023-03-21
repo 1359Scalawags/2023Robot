@@ -47,7 +47,6 @@ public class ArmOnSpecificLevelCommand extends CommandBase {
     //m_subsystem.setShoulderSetpoint(s_Limiter.calculate(shoulderTargetDegree));
     m_subsystem.setElbowSetpoint(elbowTargetDegree);
     m_subsystem.setShoulderSetpoint(shoulderTargetDegree);
-    //TODO: What is optimal angles for parking?
     // m_subsystem.setElbowSetpoint(elbowTargetDegree);
     // m_subsystem.setShoulderSetpoint(shoulderTargetDegree);
   }

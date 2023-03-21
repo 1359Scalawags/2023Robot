@@ -38,7 +38,6 @@ public class ArmOnGroundLevelCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //TODO: What is optimal angles for parking?
     // m_subsystem.setElbowSetpoint(e_Limiter.calculate(Constants.Arm.Elbow.onGroundLevel));
     // m_subsystem.setShoulderSetpoint(s_Limiter.calculate(Constants.Arm.Shoulder.onGroundLevel));
     m_subsystem.setElbowSetpoint(Constants.Arm.Elbow.onGroundLevel);

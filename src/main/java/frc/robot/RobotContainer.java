@@ -4,90 +4,39 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.led.FireAnimation;
-
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.Constants.DisplaySystem;
-import frc.robot.commands.ArmOnSpecificLevelCommand;
-import frc.robot.commands.ArmOnGroundLevelCommand;
-import frc.robot.commands.ArmOnHighLevelCommand;
-import frc.robot.commands.ArmOnMidLevelCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ArmOnSubStationCommand;
-import frc.robot.commands.ElbowParkingCommand;
-
-import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ThreadPoolExecutor;
-
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.auto.PIDConstants;
-import com.pathplanner.lib.auto.SwerveAutoBuilder;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.geometry.Pose2d;
-//import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import edu.wpi.first.wpilibj2.command.button.Button;
-import frc.robot.Constants.WheelPositions;
-import frc.robot.commands.DrivetrainNoAction;
-import frc.robot.commands.SetDriveMode;
-import frc.robot.commands.TurnWheelToAngleCommand;
-import frc.robot.commands.ZeroGyroCommand;
-import frc.robot.subsystems.DisplaySubsystem;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.VisionSystem;
-import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
 import frc.robot.commands.DefaultArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GrabCommandClose;
 import frc.robot.commands.GrabCommandOpen;
 import frc.robot.commands.InitializeArm;
-import frc.robot.commands.InitializeTargetRotationCommand;
-import frc.robot.commands.PlatformBalance;
 import frc.robot.commands.SetDriveMode;
-import frc.robot.commands.TurnCompressorOn;
-import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.commands.SwitchPipeline;
+import frc.robot.commands.SwitchPipeline.pipeIndex;
+import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.commands.autonomous.LoadGamepieceOnGroundLevel;
 import frc.robot.commands.autonomous.LoadGamepieceOnHighLevel;
 import frc.robot.commands.autonomous.LoadGamepieceOnMidLevel;
 import frc.robot.commands.autonomous.ParkingArm;
 import frc.robot.commands.autonomous.RotateToGamepiece;
 import frc.robot.commands.autonomous.UnParkingArm;
-import frc.robot.commands.SwitchPipeline.pipeIndex;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DisplaySubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.VisionSystem;
-import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
-import frc.robot.commands.TurnCompressorOff;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

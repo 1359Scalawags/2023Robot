@@ -4,53 +4,42 @@
 
 package frc.robot.subsystems;
 
-//import com.ctre.phoenix.sensors.PigeonIMU;
+import static frc.robot.Constants.TRACKWIDTH_METERS;
+import static frc.robot.Constants.WHEELBASE_METERS;
+import static frc.robot.Constants.kMaxAccelerationMetersPerSecondSquared;
+
 import com.kauailabs.navx.frc.AHRS;
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
-import com.revrobotics.RelativeEncoder;
-// import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
-// import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
-// import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import com.swervedrivespecialties.swervelib.MotorType;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.SwerveDrive.BackLeft;
+import frc.robot.Constants.SwerveDrive.BackRight;
+import frc.robot.Constants.SwerveDrive.FrontLeft;
+import frc.robot.Constants.SwerveDrive.FrontRight;
+import frc.robot.Constants.WheelPositions;
 import frc.robot.Robot;
-import frc.robot.RobotContainer;
-import frc.robot.commands.SetDriveMode;
-import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-
-import static frc.robot.Constants.SwerveDrive.*;
-import static frc.robot.Constants.*;
 
 public class DrivetrainSubsystem extends SubsystemBase {
 

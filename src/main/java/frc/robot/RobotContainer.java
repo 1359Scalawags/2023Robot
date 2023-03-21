@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.ctre.phoenix.led.FireAnimation;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
@@ -20,6 +22,43 @@ import frc.robot.commands.ArmOnHighLevelCommand;
 import frc.robot.commands.ArmOnMidLevelCommand;
 import frc.robot.commands.ArmOnSubStationCommand;
 import frc.robot.commands.ElbowParkingCommand;
+
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.Path;
+import java.util.concurrent.ThreadPoolExecutor;
+
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+//import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.button.Button;
+import frc.robot.Constants.WheelPositions;
+import frc.robot.commands.DrivetrainNoAction;
+import frc.robot.commands.SetDriveMode;
+import frc.robot.commands.TurnWheelToAngleCommand;
+import frc.robot.commands.ZeroGyroCommand;
+import frc.robot.subsystems.DisplaySubsystem;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.VisionSystem;
+import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
+import frc.robot.commands.ArmParkingCommand;
 import frc.robot.commands.DefaultArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GrabCommandClose;
@@ -56,9 +95,8 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
-  private final PlatformBalance m_PlatformBalance = new PlatformBalance(m_drivetrainSubsystem);
-  private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
-  private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
+  private final VisionSystem m_VisionSystem = new VisionSystem();
+  private final DisplaySubsystem m_DisplaySubsystem = new DisplaySubsystem(m_VisionSystem);
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
   // private final TurnCompressorOff m_compressorOff = new TurnCompressorOff(m_grabberSubsystem);
   // private final TurnCompressorOn m_compressorOn = new TurnCompressorOn(m_grabberSubsystem);
@@ -80,6 +118,26 @@ public class RobotContainer {
   private final SetDriveMode fieldCentric = new SetDriveMode(m_drivetrainSubsystem, DriveModes.FieldCentric);
   private final SetDriveMode robotCentric = new SetDriveMode(m_drivetrainSubsystem, DriveModes.RobotCentric);
   private final RotateToGamepiece rotateToGamepiece = new RotateToGamepiece(m_VisionSystem, m_drivetrainSubsystem, null);
+  //private final XboxController m_controller = new XboxController(0);
+  SendableChooser<Command> chooser = new SendableChooser<>();
+  PathConstraints constraints = new PathConstraints(1.3, 0.5);
+  PathPlannerTrajectory straightPath = PathPlanner.loadPath("Test Forward", constraints);
+  PathPlannerTrajectory curvyPath = PathPlanner.loadPath("Curvy", constraints);
+  // PathPlannerTrajectory TestPath = PathPlanner.loadPath("Test Forward", constraints);
+  PathPlannerTrajectory BlueCSOnePath = PathPlanner.loadPath("BlueCS1", constraints);
+  PathPlannerTrajectory BlueCSTwoPath = PathPlanner.loadPath("BlueCS2", constraints);
+  PathPlannerTrajectory BlueCSThreePath = PathPlanner.loadPath("BlueCS3", constraints);
+  PathPlannerTrajectory RedCSOnePath = PathPlanner.loadPath("RedCS1", constraints);
+  PathPlannerTrajectory RedCSTwoPath = PathPlanner.loadPath("RedCS2", constraints);
+  PathPlannerTrajectory RedCSThreePath = PathPlanner.loadPath("RedCS3", constraints);
+  // private final PlatformBalance m_PlatformBalance = new PlatformBalance(m_drivetrainSubsystem);
+  //  private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
+  // private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
+  // private final TurnCompressorOff m_compressorOff = new TurnCompressorOff(m_grabberSubsystem);
+  // private final TurnCompressorOn m_compressorOn = new TurnCompressorOn(m_grabberSubsystem);
+  // private final GrabCommandOpen m_opengrabber = new GrabCommandOpen(m_grabberSubsystem);
+  // private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
+  // private final ArmParkingCommand m_ArmParkingCommand = new ArmParkingCommand(m_armSubsystem);
 
   private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(m_VisionSystem, m_drivetrainSubsystem, m_armSubsystem, m_grabberSubsystem);
 
@@ -96,7 +154,20 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    m_grabberSubsystem.TurnOn(); 
+    
+    chooser.addOption("Straight path", m_drivetrainSubsystem.followTrajectoryCommand(straightPath, true));
+    chooser.addOption("Curvy path", m_drivetrainSubsystem.followTrajectoryCommand(curvyPath, true));
+    chooser.addOption("BlueCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSOnePath, true));
+    chooser.addOption("BlueCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSTwoPath, true));
+    chooser.addOption("BlueCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSThreePath, true));
+    chooser.addOption("RedCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSOnePath, true));
+    chooser.addOption("RedCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSTwoPath, true));
+    chooser.addOption("RedCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSThreePath, true));
+
+    Shuffleboard.getTab("Autonomous").add(chooser);
+
+    // Set up the default command for the drivetrain.s
+    // m_grabberSubsystem.TurnOn(); 
 
 
     displayAdvanced.setDefaultOption("See somethings", false);
@@ -134,7 +205,11 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+    
+
   }
+
+  // Convert Tracjectory to Ramsete command
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -172,6 +247,7 @@ public class RobotContainer {
 
             // No requirements because we don't need to interrupt anything         
   }
+
   
   
   
@@ -228,7 +304,8 @@ public class RobotContainer {
 
 
   public Command getCompressorStartCommand() {
-    return new TurnCompressorOn(m_grabberSubsystem);
+    // return new TurnCompressorOn(m_grabberSubsystem);
+    return new InstantCommand();
   }
 
 //   @Deprecated

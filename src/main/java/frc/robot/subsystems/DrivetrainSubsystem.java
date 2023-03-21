@@ -6,21 +6,48 @@ package frc.robot.subsystems;
 
 //import com.ctre.phoenix.sensors.PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
-import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
+import com.revrobotics.RelativeEncoder;
+// import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
+// import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
+// import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
+import com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
+import com.swervedrivespecialties.swervelib.MotorType;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
+import frc.robot.commands.SetDriveMode;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import static frc.robot.Constants.SwerveDrive.*;
 import static frc.robot.Constants.*;
@@ -70,7 +97,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_MPS /
         Math.hypot(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0);
 
-    private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+    private static final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
         // Front left
         new Translation2d(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0),
         // Front right
@@ -86,69 +113,123 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // the robot counter-clockwise should
     // cause the angle reading to increase until it wraps back over to zero.
     private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
-
+    private SwerveDriveOdometry m_Odometry;
+    private Pose2d m_pose;
+    private final PIDController xController = new PIDController(Constants.kp_XController, Constants.ki_XController, Constants.kd_XController);
+    private final PIDController yController = new PIDController(Constants.kp_YController, Constants.ki_YController, Constants.kd_YController);
+    private final PIDController rotationController = new PIDController(Constants.kp_RotationController, Constants.ki_RotationController, Constants.kd_RotationController);
     // These are our modules. We initialize them in the constructor.
     private final SwerveModule m_frontLeftModule;
     private final SwerveModule m_frontRightModule;
     private final SwerveModule m_backLeftModule;
     private final SwerveModule m_backRightModule;
+    
 
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
+
     public DrivetrainSubsystem() {
-        // ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
-        this.driveMode = DriveModes.RobotCentric;
+        driveMode = DriveModes.RobotCentric;
+        ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+// TODO: Setup motor configuration
+        // m_frontLeftModule = Mk4iSwerveModuleHelper.createFalcon500(
+        //     // See the current state of the module on the dashboard.
+        //     tab.getLayout("Front Left Module", BuiltInLayouts.kList)
+        //             .withSize(2, 4)
+        //             .withPosition(0, 0),
+        //     // This can either be STANDARD or FAST depending on your gear configuration
+        //     Mk4iSwerveModuleHelper.GearRatio.L1,
+        //     FrontLeft.DRIVE_MOTOR,
+        //     FrontLeft.STEER_MOTOR,
+        //     FrontLeft.STEER_ENCODER,
+        //     FrontLeft.STEER_OFFSET);
 
-        // TODO: Setup motor configuration
-        m_frontLeftModule = Mk4iSwerveModuleHelper.createFalcon500(
-            // See the current state of the module on the dashboard.
-            // tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-            //         .withSize(2, 4)
-            //         .withPosition(0, 0),
-            // This can either be STANDARD or FAST depending on your gear configuration
-            Mk4iSwerveModuleHelper.GearRatio.L1,
-            FrontLeft.DRIVE_MOTOR,
-            FrontLeft.STEER_MOTOR,
-            FrontLeft.STEER_ENCODER,
-            FrontLeft.STEER_OFFSET);
+        m_frontLeftModule = new MkSwerveModuleBuilder()
+            .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)
+                    .withSize(2, 4)
+                    .withPosition(0, 0))
+            .withGearRatio(SdsModuleConfigurations.MK4I_L1)
+            .withDriveMotor(MotorType.FALCON, FrontLeft.DRIVE_MOTOR)
+            .withSteerMotor(MotorType.FALCON, FrontLeft.STEER_MOTOR)
+            .withSteerEncoderPort(FrontLeft.STEER_ENCODER)
+            .withSteerOffset(FrontLeft.STEER_OFFSET)
+            .build();
 
+        // TODO: Change Mk4iSwerveModuleHelper to MkSwerveModuleBuilder
         // We will do the same for the other modules
-        m_frontRightModule = Mk4iSwerveModuleHelper.createFalcon500(
-            // tab.getLayout("Front Right Module", BuiltInLayouts.kList)
-            //         .withSize(2, 4)
-            //         .withPosition(2, 0),
-            Mk4iSwerveModuleHelper.GearRatio.L1,
+        m_frontRightModule = new MkSwerveModuleBuilder()
+            .withLayout(tab.getLayout("Front Right Module", BuiltInLayouts.kList)
+                    .withSize(2, 4)
+                    .withPosition(2, 0))
+                    .withGearRatio(SdsModuleConfigurations.MK4I_L1)
+                    .withDriveMotor(MotorType.FALCON, FrontRight.DRIVE_MOTOR)
+                    .withSteerMotor(MotorType.FALCON, FrontRight.STEER_MOTOR)
+                    .withSteerEncoderPort(FrontRight.STEER_ENCODER)
+                    .withSteerOffset(FrontRight.STEER_OFFSET)
+                    .build();
 
-            FrontRight.DRIVE_MOTOR,
-            FrontRight.STEER_MOTOR,
-            FrontRight.STEER_ENCODER,
-            FrontRight.STEER_OFFSET);
 
-        m_backLeftModule = Mk4iSwerveModuleHelper.createFalcon500(
-            // tab.getLayout("Back Left Module", BuiltInLayouts.kList)
-            //         .withSize(2, 4)
-            //         .withPosition(4, 0),
+        /*m_backLeftModule = Mk4iSwerveModuleHelper.createFalcon500(
+            tab.getLayout("Back Left Module", BuiltInLayouts.kList)
+                    .withSize(2, 4)
+                    .withPosition(4, 0),
 
             // TODO get .PID.Controller(),
             Mk4iSwerveModuleHelper.GearRatio.L1,
             BackLeft.DRIVE_MOTOR,
             BackLeft.STEER_MOTOR,
             BackLeft.STEER_ENCODER,
-            BackLeft.STEER_OFFSET);
+            BackLeft.STEER_OFFSET);*/
+        m_backLeftModule = new MkSwerveModuleBuilder()
+             .withLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList)
+                        .withSize(2, 4)
+                        .withPosition(4, 0))
+                        .withGearRatio(SdsModuleConfigurations.MK4I_L1)
+                        .withDriveMotor(MotorType.FALCON, BackLeft.DRIVE_MOTOR)
+                        .withSteerMotor(MotorType.FALCON, BackLeft.STEER_MOTOR)
+                        .withSteerEncoderPort(BackLeft.STEER_ENCODER)
+                        .withSteerOffset(BackLeft.STEER_OFFSET)
+                        .build();
 
-        m_backRightModule = Mk4iSwerveModuleHelper.createFalcon500(
-            // tab.getLayout("Back Right Module", BuiltInLayouts.kList)
-            //         .withSize(2, 4)
-            //         .withPosition(6, 0),
+
+
+        /*m_backRightModule = Mk4iSwerveModuleHelper.createFalcon500(
+            tab.getLayout("Back Right Module", BuiltInLayouts.kList)
+                    .withSize(2, 4)
+                    .withPosition(6, 0),
             Mk4iSwerveModuleHelper.GearRatio.L1,
             BackRight.DRIVE_MOTOR,
             BackRight.STEER_MOTOR,
             BackRight.STEER_ENCODER,
-            BackRight.STEER_OFFSET);
+            BackRight.STEER_OFFSET);*/
+
+        m_backRightModule = new MkSwerveModuleBuilder()
+            .withLayout(tab.getLayout("Back Right Module", BuiltInLayouts.kList)
+                        .withSize(2, 4)
+                        .withPosition(6, 0))
+                        .withGearRatio(SdsModuleConfigurations.MK4I_L1)
+                        .withDriveMotor(MotorType.FALCON, BackRight.DRIVE_MOTOR)
+                        .withSteerMotor(MotorType.FALCON, BackRight.STEER_MOTOR)
+                        .withSteerEncoderPort(BackRight.STEER_ENCODER)
+                        .withSteerOffset(BackRight.STEER_OFFSET)
+                        .build();
 
         // set the current instance as the public instance
         instance = this;
+        Timer.delay(2.0);
+        m_frontLeftModule.resetToAbsolute();
+        m_frontRightModule.resetToAbsolute();
+        m_backLeftModule.resetToAbsolute();
+        m_backRightModule.resetToAbsolute();
+
+        m_Odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation(), new SwerveModulePosition[]
+        {
+            m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
+            m_backLeftModule.getPosition(), m_backRightModule.getPosition()
+        }, new Pose2d(kMaxAccelerationMetersPerSecondSquared, MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, new Rotation2d()));
+
     }
+
 
     /**
      * Access the modules individually for testing
@@ -252,6 +333,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         m_chassisSpeeds = chassisSpeeds;
     }
 
+    public void setDriveMode(DriveModes mode) {
+        driveMode = mode;
+    }
+
     /**
      * Get the translation and rotation speeds of the drive.
      * @return A ChassisSpeeds object.
@@ -260,22 +345,71 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return m_chassisSpeeds;
     }
 
-    public void setDriveMode(DriveModes mode) {
-        driveMode = mode;
-    }
+    // public void setDriveMode(DriveModes mode) {
+    //     driveMode = mode;
+    // }
 
     public String getDriveMode() {
         return driveMode.name();
     }
     
+    // @Override
+    // public void periodic() {
+        
+    public Pose2d getPose() {
+        return m_pose;
+    }
+
+    public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
+        PPSwerveControllerCommand swerveCommand = new PPSwerveControllerCommand(traj, 
+        this::getPose, 
+        m_kinematics, 
+        xController,
+        yController,
+        rotationController, 
+        this::setModuleStates, 
+        isFirstPath, 
+        this);
+        return new SequentialCommandGroup(  
+             new InstantCommand(() -> {
+               // Reset odometry for the first path you run during auto
+               if(isFirstPath){
+                   m_Odometry.resetPosition(getGyroscopeRotation(), new SwerveModulePosition[] {
+                    m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
+                    m_backLeftModule.getPosition(), m_backRightModule.getPosition()
+                   },traj.getInitialHolonomicPose());
+               }
+             }), swerveCommand
+         );
+     }
+
+     public void setModuleStates(SwerveModuleState[] states){
+        m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
+                    states[0].angle.getRadians());
+        m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
+                    states[1].angle.getRadians());
+        m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
+                    states[2].angle.getRadians());
+        m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
+                    states[3].angle.getRadians());
+     }
+
+
     @Override
     public void periodic() {
-        
+
+        m_pose = m_Odometry.update(getGyroscopeRotation(),  new SwerveModulePosition[] {
+            m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
+            m_backLeftModule.getPosition(), m_backRightModule.getPosition()
+          });
+
         if (!Robot.isTestMode()) {
             ChassisSpeeds tempSpeeds = m_chassisSpeeds;
             if (driveMode == DriveModes.FieldCentric){
                 tempSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_chassisSpeeds, getGyroscopeRotation()); 
             }
+
+            
 
             SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(tempSpeeds);
             SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_MPS);
@@ -293,3 +427,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
 }
+
+        
+

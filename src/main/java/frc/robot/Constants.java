@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -19,6 +23,11 @@ public final class Constants {
      * Should be measured from center to center.
      */
     public static final double TRACKWIDTH_METERS = 0.6; 
+    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(TRACKWIDTH_METERS);
+    public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
+    public static final double kRamseteB = 2;
+    public static final double kRamseteZeta = 0.7;
     /**
      * The front-to-back distance between the drivetrain wheels.
      *
@@ -26,10 +35,31 @@ public final class Constants {
      */
     public static final double WHEELBASE_METERS = 0.6; 
 
+    public static final double ksVolts = 0.12778;
+    public static final double kvVoltSecondsPerMeter = 2.8444; 
+    public static final double kaVoltSecondsSquarePerMeter = 0.20256;
+    public static final double kPDriveVel = 0.17182;
+    
+
+    public static final double kp_XController = 2; //0.831985;
+    public static final double ki_XController = 0.0;
+    public static final double kd_XController = 0.0;
+    public static final double kp_YController = 2; //0.831985;
+    public static final double ki_YController = 0.0;
+    public static final double kd_YController = 0.0;
+    // public static final double kp_RotationController = 2; //0.831985;
+    // public static final double ki_RotationController = 0.0;
+    // public static final double kd_RotationController = 0.07;
+    public static final double kp_RotationController = 0.2; //1.57;
+    public static final double ki_RotationController = 0.0;     
+    public static final double kd_RotationController = 0.1; //0.02;
+    
+
+
     public enum WheelPositions {
         FrontLeft,
         FrontRight,
-        BackLeft,
+        BackLeft,   
         BackRight
     }
     public static final class DisplaySystem {
@@ -55,7 +85,7 @@ public final class Constants {
             public static final int DRIVE_MOTOR = 1; 
             public static final int STEER_MOTOR = 2; 
             public static final int STEER_ENCODER = 11; 
-            public static final double STEER_OFFSET = -Math.toRadians(127.0); // // FIXME Measure and set offset   
+            public static final double STEER_OFFSET = -Math.toRadians(127); // // FIXME Measure and set offset   
         }
         public static final class BackRight {
             public static final int DRIVE_MOTOR = 3; 
@@ -234,4 +264,5 @@ public final class Constants {
         public static final double deadband = 0.05;
         public static final double delayCounter = 5.0;
     }
+
 }

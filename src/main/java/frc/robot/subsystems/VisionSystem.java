@@ -82,7 +82,6 @@ public class VisionSystem extends SubsystemBase {
 
         //NOTE: this should probably use the "addServer()" function for multiple cameras
         // server = CameraServer.getServer();
-
         // server.setSource(camera1);
 
         // if (camera1 != null) {
@@ -90,12 +89,14 @@ public class VisionSystem extends SubsystemBase {
         // } else if (camera2 != null) {
         //     server.setSource(camera2);
         // }
-        
+
+         
+
     }
 
-    public static void setCamMode(LimelightModes mode) {
-        getLimelightEntry("camMode").setNumber(mode.ordinal());
-    }
+    // public static void setCamMode(LimelightModes mode) {
+    //     getLimelightEntry("camMode").setNumber(mode.ordinal());
+    // }
 
     // public void setUSBCamera(USBCameras camera) {
     // //     if (camera == USBCameras.BottomCamera) {
@@ -119,12 +120,14 @@ public class VisionSystem extends SubsystemBase {
         double x = tx.getDouble(0.0);
         double y = ty.getDouble(0.0);
         double area = ta.getDouble(0.0);
+        double[] pose = botPose.getDoubleArray(new double[6]);
 
         // post to smart dashboard periodically
         if (counter > Constants.UI.delayCounter) {
             SmartDashboard.putNumber("LimelightX", x);
             SmartDashboard.putNumber("LimelightY", y);
             SmartDashboard.putNumber("LimelightArea", area);
+            SmartDashboard.putNumberArray("Limelight", pose);
             counter = 0;
         }
         counter++;

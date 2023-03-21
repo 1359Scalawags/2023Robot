@@ -27,7 +27,6 @@ import frc.robot.Robot;
 // import frc.robot.extensions.FloorRelativeEncoder;
 import frc.robot.extensions.SendableCANSparkMax;
 import frc.robot.extensions.SparkMaxTuner;
-import frc.robot.extensions.Utilities;
 
 public class ArmSubsystem extends SubsystemBase {
   

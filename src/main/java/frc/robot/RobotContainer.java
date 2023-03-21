@@ -4,28 +4,17 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.led.FireAnimation;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.Constants.DisplaySystem;
-import frc.robot.commands.ArmOnSpecificLevelCommand;
-import frc.robot.commands.ArmOnGroundLevelCommand;
-import frc.robot.commands.ArmOnHighLevelCommand;
-import frc.robot.commands.ArmOnMidLevelCommand;
 import frc.robot.commands.ArmOnSubStationCommand;
-import frc.robot.commands.ElbowParkingCommand;
 import frc.robot.commands.DefaultArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GrabCommandClose;
 import frc.robot.commands.GrabCommandOpen;
 import frc.robot.commands.InitializeArm;
-import frc.robot.commands.InitializeTargetRotationCommand;
 import frc.robot.commands.PlatformBalance;
 import frc.robot.commands.SetDriveMode;
 import frc.robot.commands.TurnCompressorOn;
@@ -44,7 +33,6 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
-import frc.robot.commands.TurnCompressorOff;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

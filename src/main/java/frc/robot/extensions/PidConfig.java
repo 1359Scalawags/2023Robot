@@ -1,6 +1,5 @@
 package frc.robot.extensions;
 
-import edu.wpi.first.math.Vector;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 

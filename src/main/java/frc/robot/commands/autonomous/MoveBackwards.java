@@ -4,7 +4,6 @@
 
 package frc.robot.commands.autonomous;
 
-import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;

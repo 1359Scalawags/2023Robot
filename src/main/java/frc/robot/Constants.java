@@ -77,6 +77,8 @@ public final class Constants {
         public static final double limelightMountAngleDegree = 0;
         public static final double limelightLensHeightInches = 0;
         public static final double goalHeightInches = 0;
+
+        public static final double rateLimiter = 12;
     }
 
     public static final class Arm {

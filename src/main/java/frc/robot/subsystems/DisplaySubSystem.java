@@ -33,7 +33,7 @@ import frc.robot.commands.autonomous.StandardAuto;
 import frc.robot.commands.autonomous.TestAutoMovment;
 import frc.robot.commands.autonomous.TestMovement;
 
-public class DisplaySubSystem extends SubsystemBase {
+public class DisplaySubsystem extends SubsystemBase {
     PowerDistribution m_pdh = new PowerDistribution(Constants.DisplaySystem.PDHCANID, ModuleType.kRev);
     private ShuffleboardTab mainTab = Shuffleboard.getTab("Match Tab");
 
@@ -51,7 +51,7 @@ public class DisplaySubSystem extends SubsystemBase {
     private final SendableChooser<Command> pipeLine =  new SendableChooser<>();
     
 
-    public DisplaySubSystem(VisionSystem vision, DrivetrainSubsystem driveSystem, ArmSubsystem armSystem, GrabberSubsystem grabberSystem) {
+    public DisplaySubsystem(VisionSystem vision, DrivetrainSubsystem driveSystem, ArmSubsystem armSystem, GrabberSubsystem grabberSystem) {
         CameraServer.startAutomaticCapture(camera);
         this.driveSystem = driveSystem;
         // climbSystem = climber;

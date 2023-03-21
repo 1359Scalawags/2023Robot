@@ -77,7 +77,7 @@ import frc.robot.commands.autonomous.RotateToGamepiece;
 import frc.robot.commands.autonomous.UnParkingArm;
 import frc.robot.commands.SwitchPipeline.pipeIndex;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.DisplaySubSystem;
+import frc.robot.subsystems.DisplaySubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.VisionSystem;
@@ -140,7 +140,7 @@ public class RobotContainer {
   // private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
   // private final ArmParkingCommand m_ArmParkingCommand = new ArmParkingCommand(m_armSubsystem);
 
-  private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(m_VisionSystem, m_drivetrainSubsystem, m_armSubsystem, m_grabberSubsystem);
+  private final DisplaySubsystem m_DisplaySystem = new DisplaySubsystem(m_VisionSystem, m_drivetrainSubsystem, m_armSubsystem, m_grabberSubsystem);
 
   
   //private final XboxController m_controller = new XboxController(0);

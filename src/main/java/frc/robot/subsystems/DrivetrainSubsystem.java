@@ -230,6 +230,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     }
 
+    public SwerveDriveKinematics getKinematics() {
+        return m_kinematics;
+    }
 
     /**
      * Access the modules individually for testing

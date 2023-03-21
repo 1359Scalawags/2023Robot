@@ -14,7 +14,7 @@ public class RotateToGamepiece extends CommandBase  {
   private final DrivetrainSubsystem m_drivetrainSubsystem; 
 
   private  ChassisSpeeds m_ChassisSpeeds;
-  SlewRateLimiter limit = new SlewRateLimiter(Math.toRadians(12));
+  SlewRateLimiter limit = new SlewRateLimiter(Math.toRadians(Constants.Vision.rateLimiter));
   /**
    * Creates a new ExampleCommand.
    *
@@ -38,8 +38,11 @@ public class RotateToGamepiece extends CommandBase  {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0, limit.calculate((m_Vision.getTargetX()+Constants.Autonomous.offsetFromCenter) * Constants.Autonomous.speedMultiplier)));
-}
+    m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0, limit.calculate((m_Vision.getTargetX()+Constants.Autonomous.offsetFromCenter))));
+    if (m_Vision.doesTargetExist() == 0){
+      m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -51,16 +54,10 @@ public class RotateToGamepiece extends CommandBase  {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-   
-    if (m_Vision.doesTargetExist() == 0){
-      m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
-      return true;
-   }else{
-    if (Utilities.IsCloseTo(m_Vision.getTargetX(), Constants.Autonomous.offsetFromCenter, Constants.Autonomous.degreeOffset)){
+   if (Utilities.IsCloseTo(m_Vision.getTargetX(), Constants.Autonomous.offsetFromCenter, Constants.Autonomous.degreeOffset)){
       return true;
     }
     return false;
-   }
    
   }
 }

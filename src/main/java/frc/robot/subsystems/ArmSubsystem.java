@@ -24,10 +24,10 @@ import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.extensions.GravityAssistFeedForward;
 // import frc.robot.extensions.FloorRelativeEncoder;
 import frc.robot.extensions.SendableCANSparkMax;
 import frc.robot.extensions.SparkMaxTuner;
-import frc.robot.extensions.Utilities;
 
 public class ArmSubsystem extends SubsystemBase {
   
@@ -51,6 +51,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private SlewRateLimiter shouldRateLimiter;
   private SlewRateLimiter elbowRateLimiter;
+  private GravityAssistFeedForward shoulderFF;
 
   ShuffleboardTab tab = Shuffleboard.getTab("Arm");
 
@@ -133,7 +134,10 @@ public class ArmSubsystem extends SubsystemBase {
 
     elbowTuner = new SparkMaxTuner("SparkMax Tuner", "Elbow Tuner", 0, elbowSparkMaxPIDController);
     shoulderTuner = new SparkMaxTuner("SparkMax Tuner", "Shoulder Tuner", 2, shoulderSparkMaxPIDController);
-            
+    
+    // angles of the shoulder are incremented by 180 to avoid 0/360 median flip
+    shoulderFF = new GravityAssistFeedForward(Constants.Arm.Shoulder.kGravFF, 180);
+
     //elbowRateLimiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter * Constants.Arm.rateLimiterMultiplier);
     //shouldRateLimiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter * Constants.Arm.rateLimiterMultiplier);
     initializeSetpoints();
@@ -413,6 +417,10 @@ public class ArmSubsystem extends SubsystemBase {
     else {
       if(isInitialized) {
           //adjustElbowLimit();
+          
+          //TODO: Remove this if not working
+          shoulderSparkMaxPIDController.setFF(shoulderFF.calculate(getShoulderDegree()));
+
           elbowSparkMaxPIDController.setReference(elbowRateLimiter.calculate(e_targetPosition), ControlType.kPosition);
           shoulderSparkMaxPIDController.setReference(shouldRateLimiter.calculate(s_targetPosition), ControlType.kPosition);
       

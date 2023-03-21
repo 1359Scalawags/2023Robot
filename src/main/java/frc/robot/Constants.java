@@ -152,6 +152,8 @@ public final class Constants {
             public static final double kV = 0.020769;
             public static final double kA = 0.000916;
 
+            public static final double kGravFF = 0.0001;
+
             public static final double angleAtFloor = 213.0 - 180.0;
             public static final double targetSpeed = 0.05;
             public static final double maxVoltage = 3;

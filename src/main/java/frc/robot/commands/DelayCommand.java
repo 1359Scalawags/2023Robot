@@ -10,17 +10,11 @@ import frc.robot.subsystems.ArmSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class DelayCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final ArmSubsystem m_subsystem;
   private double delay;
   private Timer timer;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
   public DelayCommand(ArmSubsystem subsystem, Double second) {
     this.timer = new Timer();
     delay = second;

@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SparkMaxTuner {
-    private String widgetName;
     private ShuffleboardTab tab;
     private SparkMaxPIDController controller;
     private PIDController tuner;

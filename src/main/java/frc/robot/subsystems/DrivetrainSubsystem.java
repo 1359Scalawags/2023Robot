@@ -58,7 +58,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         FieldCentric
       }
     private DriveModes driveMode;
-    // FIXME Measure the drivetrain's maximum velocity or calculate the theoretical.
     // The formula for calculating the theoretical maximum velocity is:
     // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
     // pi
@@ -120,7 +119,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public DrivetrainSubsystem() {
         driveMode = DriveModes.RobotCentric;
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
-// TODO: Setup motor configuration
         // m_frontLeftModule = Mk4iSwerveModuleHelper.createFalcon500(
         //     // See the current state of the module on the dashboard.
         //     tab.getLayout("Front Left Module", BuiltInLayouts.kList)
@@ -144,7 +142,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
             .withSteerOffset(FrontLeft.STEER_OFFSET)
             .build();
 
-        // TODO: Change Mk4iSwerveModuleHelper to MkSwerveModuleBuilder
         // We will do the same for the other modules
         m_frontRightModule = new MkSwerveModuleBuilder()
             .withLayout(tab.getLayout("Front Right Module", BuiltInLayouts.kList)
@@ -163,7 +160,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
                     .withSize(2, 4)
                     .withPosition(4, 0),
 
-            // TODO get .PID.Controller(),
             Mk4iSwerveModuleHelper.GearRatio.L1,
             BackLeft.DRIVE_MOTOR,
             BackLeft.STEER_MOTOR,

@@ -33,6 +33,7 @@ public final class Constants {
      */
     public static final double WHEELBASE_METERS = 0.6; 
 
+    //TODO: What are these for?
     public static final double ksVolts = 0.12778;
     public static final double kvVoltSecondsPerMeter = 2.8444; 
     public static final double kaVoltSecondsSquarePerMeter = 0.20256;

@@ -32,7 +32,8 @@ import frc.robot.commands.autonomous.ParkingArm;
 import frc.robot.commands.autonomous.RotateToGamepiece;
 import frc.robot.commands.autonomous.UnParkingArm;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.DisplaySubsystem;
+import frc.robot.subsystems.DisplaySubSystem;
+// import frc.robot.subsystems.DisplaySubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
 import frc.robot.subsystems.GrabberSubsystem;
@@ -93,7 +94,7 @@ public class RobotContainer {
   // private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
   // private final ArmParkingCommand m_ArmParkingCommand = new ArmParkingCommand(m_armSubsystem);
 
-  private final DisplaySubsystem m_DisplaySystem = new DisplaySubsystem(m_VisionSystem, m_drivetrainSubsystem, m_armSubsystem, m_grabberSubsystem);
+  private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(m_VisionSystem, m_drivetrainSubsystem, m_armSubsystem, m_grabberSubsystem);
 
   
   //private final XboxController m_controller = new XboxController(0);
@@ -118,7 +119,7 @@ public class RobotContainer {
     chooser.addOption("RedCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSTwoPath, true));
     chooser.addOption("RedCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSThreePath, true));
 
-    Shuffleboard.getTab("Autonomous").add(chooser);
+    // Shuffleboard.getTab("Autonomous").add(chooser);
 
     // Set up the default command for the drivetrain.s
     // m_grabberSubsystem.TurnOn(); 

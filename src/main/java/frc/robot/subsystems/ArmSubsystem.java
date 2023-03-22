@@ -332,7 +332,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     double b = 0.0000033922;
     double c = -1.46987;
-    double d = 427.188;
+    double d = 440.188;
     return (b * Math.pow(x, 3) + c * x  + d);
   }
 

@@ -25,7 +25,6 @@ import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.extensions.GravityAssistFeedForward;
-// import frc.robot.extensions.FloorRelativeEncoder;
 import frc.robot.extensions.SendableCANSparkMax;
 import frc.robot.extensions.SparkMaxTuner;
 

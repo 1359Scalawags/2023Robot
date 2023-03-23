@@ -1,3 +1,4 @@
+package frc.robot.deprecated;
 // /**
 //  * This class probably has no realistic use since we can simply
 //  * update the zeroOffset of the SparkMax controllers as needed.

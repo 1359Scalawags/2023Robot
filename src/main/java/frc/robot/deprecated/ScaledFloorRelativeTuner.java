@@ -1,3 +1,4 @@
+package frc.robot.deprecated;
 // package frc.robot.extensions;
 
 // import edu.wpi.first.math.controller.PIDController;

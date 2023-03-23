@@ -33,7 +33,6 @@ import frc.robot.commands.autonomous.RotateToGamepiece;
 import frc.robot.commands.autonomous.UnParkingArm;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DisplaySubSystem;
-// import frc.robot.subsystems.DisplaySubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
 import frc.robot.subsystems.GrabberSubsystem;
@@ -45,6 +44,7 @@ import frc.robot.subsystems.VisionSystem;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
+@SuppressWarnings("unused")
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...

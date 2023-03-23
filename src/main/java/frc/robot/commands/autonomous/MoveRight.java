@@ -8,7 +8,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
-/** An example command that uses an example subsystem. */
+
+@SuppressWarnings("unused")
 public class MoveRight extends CommandBase {
 
   private DrivetrainSubsystem m_drivetrainSubsystem;

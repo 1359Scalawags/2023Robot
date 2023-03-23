@@ -3,7 +3,7 @@ package frc.robot.commands.Tuning;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 
-/** An example command that uses an example subsystem. */
+@SuppressWarnings("unused")
 public class ApplyShoulderSGVTuningCommand extends CommandBase {
 
   private final ArmSubsystem m_subsystem;

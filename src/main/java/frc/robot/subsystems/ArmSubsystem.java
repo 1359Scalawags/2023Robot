@@ -28,7 +28,9 @@ import frc.robot.extensions.GravityAssistFeedForward;
 import frc.robot.extensions.SendableCANSparkMax;
 import frc.robot.extensions.SparkMaxTuner;
 
+@SuppressWarnings("unused")
 public class ArmSubsystem extends SubsystemBase {
+
   
   private SendableCANSparkMax elbowMotor;
   private SendableCANSparkMax shoulderMotor;

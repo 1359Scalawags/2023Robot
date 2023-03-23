@@ -3,6 +3,7 @@ package frc.robot.extensions;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
+@SuppressWarnings("unused")
 public class PidConfig implements Sendable {
     private double p;
     private double i;

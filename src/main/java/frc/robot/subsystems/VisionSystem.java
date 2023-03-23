@@ -11,6 +11,7 @@ import frc.robot.Constants;
 
 //positive x value, right negative, left
 
+@SuppressWarnings("unused")
 public class VisionSystem extends SubsystemBase {
 
     public enum LimelightModes {

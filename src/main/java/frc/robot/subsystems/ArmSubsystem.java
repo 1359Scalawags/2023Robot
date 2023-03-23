@@ -213,12 +213,9 @@ public class ArmSubsystem extends SubsystemBase {
    */
   public void setElbowSetpoint(double value) {
     adjustElbowLimit();
-    //TODO: Review method definition
     if (isMovable) {
       e_targetPosition = MathUtil.clamp(value, e_lowerLimit, Constants.Arm.Elbow.upperlimit);
     }
-   
-    //elbowSparkMaxPIDController.setReference(elbowRelativeEncoder.convertToAbsoluteDegrees(e_targetPosition), ControlType.kPosition);
   }
 
   /**
@@ -236,11 +233,9 @@ public class ArmSubsystem extends SubsystemBase {
    * @param value Target angle in degrees relative to the floor.
    */
   public void setShoulderSetpoint(double value) {
-    //TODO: Review method definition
     if (isMovable) {
       s_targetPosition = MathUtil.clamp(value, Constants.Arm.Shoulder.lowerlimit, Constants.Arm.Shoulder.upperlimit);
     }
-    //shoulderSparkMaxPIDController.setReference(shoulderRelativeEncoder.convertToAbsoluteDegrees(s_targetPosition), ControlType.kPosition);
   }
 
     /**
@@ -271,18 +266,6 @@ public class ArmSubsystem extends SubsystemBase {
     isMovable = false;
     e_targetPosition = Constants.Arm.Elbow.unParkingDegree;
   }
-  // /**
-  //  * Get elbow's position relative to the floor.
-  //  * @return Angle in degrees
-  //  */
-  // public double getElbowPosition() {
-  //   return elbowRelativeEncoder.getDegrees();
-  // }
-
-
-  // public double getShoulderPosition() {
-  //   return shoulderRelativeEncoder.getDegrees();
-  // }
 
   /**
    * Get shoulder's position relative to the floor.
@@ -402,7 +385,7 @@ public class ArmSubsystem extends SubsystemBase {
       delayCounter++;
       return;
     }
-    //TODO: Check if the Smartdashboard addon is important
+
     if (Robot.isTestMode()){
       SmartDashboard.putBoolean("Elbow Lower Limit", isElbowAtLowerLimit());
       SmartDashboard.putBoolean("Elbow Upper Limit", isElbowAtUpperLimit());
@@ -416,7 +399,7 @@ public class ArmSubsystem extends SubsystemBase {
       if(isInitialized) {
           //adjustElbowLimit();
           
-          //TODO: Remove this if not working
+          //Remove this if not working
           shoulderSparkMaxPIDController.setFF(shoulderFF.calculate(getShoulderDegree()));
 
           elbowSparkMaxPIDController.setReference(elbowRateLimiter.calculate(e_targetPosition), ControlType.kPosition);

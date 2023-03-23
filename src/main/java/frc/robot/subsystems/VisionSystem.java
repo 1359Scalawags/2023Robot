@@ -30,7 +30,7 @@ public class VisionSystem extends SubsystemBase {
 
     // variables for Limelight
     double x, y, area;
-    //TODO Check if the Smartdashboard addon is important
+    
     static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tx = getLimelightEntry("tx");
     NetworkTableEntry ty = getLimelightEntry("ty");

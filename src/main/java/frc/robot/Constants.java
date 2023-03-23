@@ -35,13 +35,12 @@ public final class Constants {
     // Flags for displaying or hiding shuffleboard widgets at deployment
     public static final boolean SHOW_DEBUG_WIDGETS = true;
     
-    //TODO: What are these for?
+    //What are these for?
     public static final double ksVolts = 0.12778;
     public static final double kvVoltSecondsPerMeter = 2.8444; 
     public static final double kaVoltSecondsSquarePerMeter = 0.20256;
     public static final double kPDriveVel = 0.17182;
     
-
     public static final double kp_XController = 2;//0.831985;
     public static final double ki_XController = 0.0;
     public static final double kd_XController = 0;
@@ -55,20 +54,20 @@ public final class Constants {
     public static final double ki_RotationController = 0.0;     
     public static final double kd_RotationController = 0.07; //0.02;
     
-
-
     public enum WheelPositions {
         FrontLeft,
         FrontRight,
         BackLeft,   
         BackRight
     }
+
     public static final class DisplaySystem {
         public static final int PDHCANID = 1;
         public static final int CAM_WIDTH = 320;
         public static final int CAM_HEIGHT = 240;
         public static final int CAM_FPS = 15;
     }
+
     public static final class SwerveDrive {
         public static final class FrontLeft {
             public static final int DRIVE_MOTOR = 7; 
@@ -98,7 +97,7 @@ public final class Constants {
         public static final double gearRatio = 8.14;
         public static final double rotateMultiplier = 0.6;
 
-        //FIXME: Are these being used?
+        //Are these being used?
         public static final double P = 0.00004;
         public static final double I = 0.00004;
         public static final double D = 0.00004;
@@ -115,36 +114,27 @@ public final class Constants {
         public static final double triggerZone = 15;
 
         public static final double parkingTolerance = 3.0;
-        //public static final double radtoDegreeDivisor = Math.PI / 180.0; // name did not match conversion
         public static final double boundaryExtension = 5;
-        //public static final double ffTestRatio = 0.1; //split to each joint
         public static final double softStartRatio = 0.5;
         public static final double rateLimiterMultiplier = 1.25;
+        
         public static final class Shoulder {
-            //public static final double ffTestRatio = 0.75;   
-            //public static final double pidTestRatio = 1; //30 // 14.25 sec for oscilation       
             public static final int channel = 1;                      
             public static final int motor = 30;  
             public static final double upperlimit = 268.0;
             public static final double lowerlimit = 215.0;
             public static final double safelimit = 260.0;
             public static final double defaultSetpoint = 225.0;
-            public static final double CoefficientMultiplier = 1/360.0;
             public static final double shoulderSpeedMultiplier = 0.85;
-            // public static final double kP = 60 * pidTestRatio;  // Aft
-            // public static final double kI = 15 * pidTestRatio;// 0.12 * pidTestRatio;  //10e-4
-            // public static final double kD = 7 * pidTestRatio;//0.001875 * pidTestRatio;  //1
-            // public static final double kS = 0.10 * ffTestRatio;
-            // public static final double kG = 0.47 * ffTestRatio;
-            // public static final double kV = 1.19 * radtoDegreeDivisor;
-            // public static final double kA = 0.07 * radtoDegreeDivisor * ffTestRatio;            
-            
+              
             public static final double kP = 0.009;
             // public static final double kPAuto = 0.0083; 
             public static final double kI = 0.0000015;
             public static final double kD = 0.0000004;
             public static final double kFF = 0.;
             public static final double kIz = 0;
+
+            //FIXME: Is this preventing shoulder from working properly?
             public static final double kMinOutput = -0.25;
             public static final double kMaxOutput = 0.25;
 
@@ -159,10 +149,6 @@ public final class Constants {
             public static final double targetSpeed = 0.05;
             public static final double maxVoltage = 3;
             public static final double minVoltage = -maxVoltage;
-            // public static final double kIz = 0;
-            // public static final double kFF = 0;
-            // public static final double kMaxOutput = 1;
-            // public static final double kMinOutput = -1; 
 
             public static final double unParkingDegree = 267;
             public static final double parkingDegree = upperlimit;
@@ -175,8 +161,6 @@ public final class Constants {
             public static final double slewRateLimiter = 20;
         }
         public static final class Elbow {
-            //public static final double ffTestRatio = 0.8;
-            //public static final double pidTestRatio = 0.2;  
             public static final int channel = 2;        
             public static final int motor = 23;
             public static final double upperlimit = 220.0;
@@ -186,16 +170,7 @@ public final class Constants {
             public static final double shoulderRestrictionPositionLower = 220;
             public static final double shoulderRestrictionPositionUpper = 270;
             public static final double defaultSetpoint = 104.0;
-            public static final double CoefficientMultiplier = 1/360.0;
             public static final double elbowSpeedMultiplier = 1; 
-            //(1/360.0);
-            // public static final double kP = 0.03 * pidTestRatio;  // After tuning, 0.05/2
-            // public static final double kI = 0.06 * pidTestRatio;  //10e-4
-            // public static final double kD = 0.00375 * pidTestRatio;  //1 //1
-            // public static final double kS = 0.15 * ffTestRatio; // cut by 20% for initial testing
-            // public static final double kG = 0.19 * ffTestRatio;
-            // public static final double kV = 1.17 * radtoDegreeDivisor;
-            // public static final double kA = 0.02 * radtoDegreeDivisor * ffTestRatio ;
             
             public static final double kP = 0.01; //0.18;  // After tuning, 0.05/2
             public static final double kPAuto = 0.009;
@@ -203,6 +178,8 @@ public final class Constants {
             public static final double kD = 0.000004;  //1 
             public static final double kFF = 0.0001;
             public static final double kIz = 0;
+
+            //FIXME: Is this preventing the arm from working properly?
             public static final double kMinOutput = -0.2;
             public static final double kMaxOutput = 0.2;
 
@@ -215,10 +192,6 @@ public final class Constants {
             public static final double targetSpeed = 0.05;
             public static final double maxVoltage = 3; // based on 12V
             public static final double minVoltage = -maxVoltage; // FIXME: this isn't necessary to store in memory
-            // public static final double kIz = 0;
-            // public static final double kFF = 0;
-            // public static final double kMaxOutput = 1;
-            // public static final double kMinOutput = -1; 
 
             public static final double unParkingDegree = 135;
             public static final double parkingDegree = 125;

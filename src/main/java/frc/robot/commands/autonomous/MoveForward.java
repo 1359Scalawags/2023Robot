@@ -30,7 +30,7 @@ public class MoveForward extends CommandBase {
   public void initialize() { 
     this.timer.reset();
     this.timer.start();
-    startDistance = m_drivetrainSubsystem.getDistanceFwdBwd(); //- targetDistance;
+    startDistance = m_drivetrainSubsystem.getDistanceXY(); //- targetDistance;
 
   }
 
@@ -51,14 +51,17 @@ public class MoveForward extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // double distance = Math.abs(m_drivetrainSubsystem.getDistanceFwdBwd() - startDistance);
+    double distance = Math.abs(m_drivetrainSubsystem.getDistanceXY() - startDistance);
     // if (distance < targetDistance){
     //   return false;
     // }else{
     //   m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
     //   return true;
     // }
-    if (this.timer.get() > targetDistance / speed) {
+    if (distance > targetDistance) {
+      return true;
+    }
+    else if (this.timer.get() > targetDistance / speed) {
       return true;
     }
     return false;

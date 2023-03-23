@@ -33,7 +33,7 @@ public class MoveBackwards extends CommandBase {
   public void initialize() {
     this.timer.reset();
     this.timer.start();
-    startDistance = m_drivetrainSubsystem.getDistanceFwdBwd(); //- targetDistance;
+    startDistance = m_drivetrainSubsystem.getDistanceXY(); //- targetDistance;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -60,14 +60,17 @@ public class MoveBackwards extends CommandBase {
     //   return true;
     // }
 
-    // double distance = Math.abs(m_drivetrainSubsystem.getDistanceFwdBwd() - startDistance);
+    double distance = Math.abs(m_drivetrainSubsystem.getDistanceXY() - startDistance);
     // if (distance < targetDistance){
     //   return false;
     // }else{
     //   m_drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
     //   return true;}
 
-    if (this.timer.get() > 4) {
+    if (distance > targetDistance) {
+      return true;
+    }
+    else if (this.timer.get() > targetDistance / speed) {
       return true;
     }
     return false;

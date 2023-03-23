@@ -24,6 +24,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -387,17 +388,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void periodic() {
 
         m_pose = m_Odometry.update(getGyroscopeRotation(),  new SwerveModulePosition[] {
-            m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
-            m_backLeftModule.getPosition(), m_backRightModule.getPosition()
-          });
+                                    m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
+                                    m_backLeftModule.getPosition(), m_backRightModule.getPosition()
+                                });
 
-        if (!Robot.isTestMode()) {
+
+        if( Robot.isAutonomousMode() ) {
+            // NOTE: don't drive the motors directly if using Pathfinder
+        }
+        else if( Robot.isTeleopMode() ) {
             ChassisSpeeds tempSpeeds = m_chassisSpeeds;
             if (driveMode == DriveModes.FieldCentric){
                 tempSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_chassisSpeeds, getGyroscopeRotation()); 
             }
-
-            
 
             SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(tempSpeeds);
             SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_MPS);
@@ -410,6 +413,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
                     states[2].angle.getRadians());
             m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
                     states[3].angle.getRadians());
+        } else if( Robot.isTestMode() ){
+
+        } else if( Robot.isSimulationMode() ) {
+
         }
 
     }

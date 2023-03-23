@@ -21,8 +21,21 @@ public class Robot extends TimedRobot {
   private Command m_initializeArmCommand;
 
   private static RobotBase instance;
+
   public static boolean isTestMode() {
     return instance.isTest();
+  }
+
+  public static boolean isAutonomousMode() {
+    return instance.isAutonomous();
+  }
+
+  public static boolean isTeleopMode() {
+    return instance.isTeleop();
+  }
+
+  public static boolean isSimulationMode() {
+    return RobotBase.isSimulation();
   }
 
   private RobotContainer m_robotContainer;

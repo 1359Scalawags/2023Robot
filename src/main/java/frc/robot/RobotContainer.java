@@ -119,7 +119,7 @@ public class RobotContainer {
     chooser.addOption("RedCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSTwoPath, true));
     chooser.addOption("RedCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSThreePath, true));
 
-    // Shuffleboard.getTab("Autonomous").add(chooser);
+    Shuffleboard.getTab("Autonomous").add(chooser);
 
     // Set up the default command for the drivetrain.s
     // m_grabberSubsystem.TurnOn(); 
@@ -216,8 +216,11 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_DisplaySystem.getAutonomousChooser().getSelected();
+    return getChooserPath().getSelected();
     
+  }
+  public SendableChooser<Command> getChooserPath() {
+    return chooser;
   }
 
   public Command getTestCommand() {

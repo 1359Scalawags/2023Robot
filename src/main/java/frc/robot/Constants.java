@@ -40,18 +40,18 @@ public final class Constants {
     public static final double kPDriveVel = 0.17182;
     
 
-    public static final double kp_XController = 2; //0.831985;
+    public static final double kp_XController = 2;//0.831985;
     public static final double ki_XController = 0.0;
-    public static final double kd_XController = 0.0;
+    public static final double kd_XController = 0;
     public static final double kp_YController = 2; //0.831985;
     public static final double ki_YController = 0.0;
-    public static final double kd_YController = 0.0;
+    public static final double kd_YController = 0;
     // public static final double kp_RotationController = 2; //0.831985;
     // public static final double ki_RotationController = 0.0;
     // public static final double kd_RotationController = 0.07;
-    public static final double kp_RotationController = 0.2; //1.57;
+    public static final double kp_RotationController = 2; //1.57;
     public static final double ki_RotationController = 0.0;     
-    public static final double kd_RotationController = 0.1; //0.02;
+    public static final double kd_RotationController = 0.07; //0.02;
     
 
 
@@ -151,7 +151,7 @@ public final class Constants {
             public static final double kV = 0.020769;
             public static final double kA = 0.000916;
 
-            public static final double kGravFF = 0.0001;
+            public static final double kGravFF = 0.0003;
 
             public static final double angleAtFloor = 213.0 - 180.0;
             public static final double targetSpeed = 0.05;

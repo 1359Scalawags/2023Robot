@@ -15,25 +15,26 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    
     /**
-     * The left-to-right distance between the drivetrain wheels
-     *
-     * Should be measured from center to center.
+     * The left-to-right distance between the drivetrain wheels (center to center)
      */
     public static final double TRACKWIDTH_METERS = 0.6; 
+    
+    /**
+     * The front-to-back distance between the drivetrain wheels (center to center).
+     */
+    public static final double WHEELBASE_METERS = 0.6;     
+    
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(TRACKWIDTH_METERS);
     public static final double kMaxSpeedMetersPerSecond = 3;
     public static final double kMaxAccelerationMetersPerSecondSquared = 1;
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
-    public static final boolean SHOW_TUNERS = true;
-    /**
-     * The front-to-back distance between the drivetrain wheels.
-     *
-     * Should be measured from center to center.
-     */
-    public static final double WHEELBASE_METERS = 0.6; 
 
+    // Flags for testing and tuning
+    public static final boolean SHOW_DEBUG_WIDGETS = true;
+    
     //TODO: What are these for?
     public static final double ksVolts = 0.12778;
     public static final double kvVoltSecondsPerMeter = 2.8444; 

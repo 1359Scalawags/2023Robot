@@ -68,23 +68,23 @@ public class RobotContainer {
   private final ArmOnSubStationCommand m_ArmOnSubStationCommand = new ArmOnSubStationCommand(m_armSubsystem);
   // private final VisionSystem m_VisionSystem = new VisionSystem();
   // private final VisionSystem m_VisionSystem = new VisionSystem();
-  private final SwitchPipeline detectCone = new SwitchPipeline(m_VisionSystem, pipeIndex.ConeWhiteLight);
-  private final SwitchPipeline detectCube = new SwitchPipeline(m_VisionSystem, pipeIndex.CubeWhiteLight);
+  // private final SwitchPipeline detectCone = new SwitchPipeline(m_VisionSystem, pipeIndex.ConeWhiteLight);
+  // private final SwitchPipeline detectCube = new SwitchPipeline(m_VisionSystem, pipeIndex.CubeWhiteLight);
   private final SetDriveMode fieldCentric = new SetDriveMode(m_drivetrainSubsystem, DriveModes.FieldCentric);
   private final SetDriveMode robotCentric = new SetDriveMode(m_drivetrainSubsystem, DriveModes.RobotCentric);
-  private final RotateToGamepiece rotateToGamepiece = new RotateToGamepiece(m_VisionSystem, m_drivetrainSubsystem, null);
+  // private final RotateToGamepiece rotateToGamepiece = new RotateToGamepiece(m_VisionSystem, m_drivetrainSubsystem, null);
   //private final XboxController m_controller = new XboxController(0);
-  SendableChooser<Command> chooser = new SendableChooser<>();
-  PathConstraints constraints = new PathConstraints(1.3, 0.5);
-  PathPlannerTrajectory straightPath = PathPlanner.loadPath("Test Forward", constraints);
-  PathPlannerTrajectory curvyPath = PathPlanner.loadPath("Curvy", constraints);
-  // PathPlannerTrajectory TestPath = PathPlanner.loadPath("Test Forward", constraints);
-  PathPlannerTrajectory BlueCSOnePath = PathPlanner.loadPath("BlueCS1", constraints);
-  PathPlannerTrajectory BlueCSTwoPath = PathPlanner.loadPath("BlueCS2", constraints);
-  PathPlannerTrajectory BlueCSThreePath = PathPlanner.loadPath("BlueCS3", constraints);
-  PathPlannerTrajectory RedCSOnePath = PathPlanner.loadPath("RedCS1", constraints);
-  PathPlannerTrajectory RedCSTwoPath = PathPlanner.loadPath("RedCS2", constraints);
-  PathPlannerTrajectory RedCSThreePath = PathPlanner.loadPath("RedCS3", constraints);
+  // SendableChooser<Command> chooser = new SendableChooser<>();
+  // PathConstraints constraints = new PathConstraints(1.3, 0.5);
+  // PathPlannerTrajectory straightPath = PathPlanner.loadPath("Test Forward", constraints);
+  // PathPlannerTrajectory curvyPath = PathPlanner.loadPath("Curvy", constraints);
+  // // PathPlannerTrajectory TestPath = PathPlanner.loadPath("Test Forward", constraints);
+  // PathPlannerTrajectory BlueCSOnePath = PathPlanner.loadPath("BlueCS1", constraints);
+  // PathPlannerTrajectory BlueCSTwoPath = PathPlanner.loadPath("BlueCS2", constraints);
+  // PathPlannerTrajectory BlueCSThreePath = PathPlanner.loadPath("BlueCS3", constraints);
+  // PathPlannerTrajectory RedCSOnePath = PathPlanner.loadPath("RedCS1", constraints);
+  // PathPlannerTrajectory RedCSTwoPath = PathPlanner.loadPath("RedCS2", constraints);
+  // PathPlannerTrajectory RedCSThreePath = PathPlanner.loadPath("RedCS3", constraints);
   // private final PlatformBalance m_PlatformBalance = new PlatformBalance(m_drivetrainSubsystem);
   //  private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   // private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
@@ -110,16 +110,16 @@ public class RobotContainer {
    */
   public RobotContainer() {
     
-    chooser.addOption("Straight path", m_drivetrainSubsystem.followTrajectoryCommand(straightPath, true));
-    chooser.addOption("Curvy path", m_drivetrainSubsystem.followTrajectoryCommand(curvyPath, true));
-    chooser.addOption("BlueCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSOnePath, true));
-    chooser.addOption("BlueCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSTwoPath, true));
-    chooser.addOption("BlueCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSThreePath, true));
-    chooser.addOption("RedCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSOnePath, true));
-    chooser.addOption("RedCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSTwoPath, true));
-    chooser.addOption("RedCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSThreePath, true));
+    // chooser.addOption("Straight path", m_drivetrainSubsystem.followTrajectoryCommand(straightPath, true));
+    // chooser.addOption("Curvy path", m_drivetrainSubsystem.followTrajectoryCommand(curvyPath, true));
+    // chooser.addOption("BlueCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSOnePath, true));
+    // chooser.addOption("BlueCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSTwoPath, true));
+    // chooser.addOption("BlueCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSThreePath, true));
+    // chooser.addOption("RedCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSOnePath, true));
+    // chooser.addOption("RedCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSTwoPath, true));
+    // chooser.addOption("RedCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSThreePath, true));
 
-    Shuffleboard.getTab("Autonomous").add(chooser);
+    // Shuffleboard.getTab("Autonomous").add(chooser);
 
     // Set up the default command for the drivetrain.s
     // m_grabberSubsystem.TurnOn(); 
@@ -178,9 +178,9 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 2).whileTrue(m_ZeroGyroCommand);
     new JoystickButton(driverJoystick, 3).whileTrue(fieldCentric);
     new JoystickButton(driverJoystick,4).whileTrue(robotCentric); 
-    new JoystickButton(driverJoystick, 5).onTrue(rotateToGamepiece);
-    new JoystickButton(driverJoystick, 6).whileTrue(detectCube);
-    new JoystickButton(driverJoystick, 7).whileTrue(detectCone);
+    // new JoystickButton(driverJoystick, 5).onTrue(rotateToGamepiece);
+    // new JoystickButton(driverJoystick, 6).whileTrue(detectCube);
+    // new JoystickButton(driverJoystick, 7).whileTrue(detectCone);
     // new JoystickButton(assistantJoystick, 10).whileTrue(m_compressorOff);
     // new JoystickButton(assistantJoystick, 11).whileTrue(m_compressorOn);
     new JoystickButton(assistantJoystick, 1).whileTrue(m_closegrabber);
@@ -216,12 +216,12 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return getChooserPath().getSelected();
+    return m_DisplaySystem.getAutonomousChooser().getSelected();
     
   }
-  public SendableChooser<Command> getChooserPath() {
-    return chooser;
-  }
+  // public SendableChooser<Command> getChooserPath() {
+  //   return chooser;
+  // }
 
   public Command getTestCommand() {
     // double angle = 30;//Rotation2d.fromDegrees(30).getDegrees();

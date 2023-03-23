@@ -15,9 +15,9 @@ public class GrabGamePieceOnGround extends SequentialCommandGroup{
             // new ArmOnSpecificLevelCommand(m_ArmSubsystem, 180.0, 265.0),
             // new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 240.0),
             new ArmOnSpecificLevelCommand(m_ArmSubsystem, 133, 265),
-            new DelayCommand(m_ArmSubsystem, 0.3),
+            // new DelayCommand(m_ArmSubsystem, 0.3),
             new GrabCommandOpen(m_GrabberSubsystem),
-            new DelayCommand(m_ArmSubsystem, 0.3),
+            // new DelayCommand(m_ArmSubsystem, 0.3),
             // new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 240.0),
             // new ArmOnSpecificLevelCommand(m_ArmSubsystem, 180.0, 265.0),
             new UnParkingArm(m_ArmSubsystem)

@@ -3,6 +3,7 @@ package frc.robot.commands.autonomous;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.SetDriveMode;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
@@ -20,6 +21,17 @@ public class StandardAuto extends SequentialCommandGroup
            
             new LoadGamepieceOnHighLevel(m_ArmSubsystem, m_GrabberSubsystem),
             
-            new MoveBackwards(m_DrivetrainSubsystem,3.5,Constants.Autonomous.autoSpeed));
+            new MoveBackwards(m_DrivetrainSubsystem,3.5,Constants.Autonomous.autoSpeed),
+
+            new TurnToAngle(180),
+
+            new GrabGamePieceOnGround(m_ArmSubsystem, m_GrabberSubsystem),
+
+            new TurnToAngle(180),
+
+            new MoveForward(m_DrivetrainSubsystem, 3.5, Constants.Autonomous.autoSpeed),
+
+            new LoadGamepieceOnMidLevel(m_ArmSubsystem, m_GrabberSubsystem)
+            );
         }
     }

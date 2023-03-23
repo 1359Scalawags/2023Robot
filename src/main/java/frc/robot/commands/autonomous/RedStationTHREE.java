@@ -24,9 +24,9 @@ public class RedStationTHREE extends SequentialCommandGroup
 
                 new MoveRight(m_DrivetrainSubsystem, 1.8, Constants.Autonomous.autoSpeed),
     
-                new MoveForward(m_DrivetrainSubsystem, 1.55, Constants.Autonomous.autoSpeed),
+                new MoveForward(m_DrivetrainSubsystem, 1.55, Constants.Autonomous.autoSpeed)
 
-                new PlatformBalance(m_DrivetrainSubsystem)
+                // new PlatformBalance(m_DrivetrainSubsystem)
             );
         }
         

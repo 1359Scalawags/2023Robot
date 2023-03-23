@@ -1,6 +1,7 @@
 package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.commands.SetDriveMode;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -19,13 +20,13 @@ public class BlueStationTWO extends SequentialCommandGroup
             addCommands(
                 new SetDriveMode(m_DrivetrainSubsystem, DriveModes.RobotCentric),
 
-                new LoadGamepieceOnHighLevel(m_ArmSubsystem, m_GrabberSubsystem)
+                new LoadGamepieceOnHighLevel(m_ArmSubsystem, m_GrabberSubsystem),
             
-                // new MoveBackwards(m_DrivetrainSubsystem,3.5,Constants.Autonomous.autoSpeed),
+                new MoveBackwards(m_DrivetrainSubsystem,3.5,Constants.Autonomous.autoSpeed),
 
-                // new MoveLeft(m_DrivetrainSubsystem, 1.65, Constants.Autonomous.autoSpeed),
+                new MoveLeft(m_DrivetrainSubsystem, 1.65, Constants.Autonomous.autoSpeed),
     
-                // new MoveForward(m_DrivetrainSubsystem, 1.55, Constants.Autonomous.autoSpeed),
+                new MoveForward(m_DrivetrainSubsystem, 1.55, Constants.Autonomous.autoSpeed)
 
                 // new PlatformBalance(m_DrivetrainSubsystem)
             );

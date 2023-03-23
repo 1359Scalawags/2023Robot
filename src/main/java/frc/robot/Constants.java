@@ -32,7 +32,7 @@ public final class Constants {
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
 
-    // Flags for testing and tuning
+    // Flags for displaying or hiding shuffleboard widgets
     public static final boolean SHOW_DEBUG_WIDGETS = true;
     
     //TODO: What are these for?

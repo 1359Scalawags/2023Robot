@@ -33,6 +33,7 @@ public final class Constants {
      */
     public static final double WHEELBASE_METERS = 0.6; 
 
+    //TODO: What are these for?
     public static final double ksVolts = 0.12778;
     public static final double kvVoltSecondsPerMeter = 2.8444; 
     public static final double kaVoltSecondsSquarePerMeter = 0.20256;
@@ -177,9 +178,9 @@ public final class Constants {
             public static final int channel = 2;        
             public static final int motor = 23;
             public static final double upperlimit = 220.0;
-            public static final double lowerLimitWhenShoulderSafe = 120;
-            public static final double lowerLimitWhenSafePos = 127;
-            public static final double lowerLimitUnsafePosMin = 122;
+            public static final double lowerLimitWhenShoulderSafe = 130;
+            public static final double lowerLimitWhenSafePos = 130;
+            public static final double lowerLimitUnsafePosMin = 130;
             public static final double shoulderRestrictionPositionLower = 220;
             public static final double shoulderRestrictionPositionUpper = 270;
             public static final double defaultSetpoint = 104.0;

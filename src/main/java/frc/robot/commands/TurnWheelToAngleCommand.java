@@ -3,6 +3,7 @@ package frc.robot.commands;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.WheelPositions;
+import frc.robot.extensions.Utilities;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class TurnWheelToAngleCommand extends CommandBase  {
@@ -42,12 +43,11 @@ public class TurnWheelToAngleCommand extends CommandBase  {
     }
 
     @Override public boolean isFinished() {
-        // if(Math.abs(m_module.getSteerAngle() - m_angle) < Rotation2d.fromDegrees(3.0).getRadians()) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
-        return true;
+        if(Utilities.IsCloseTo(m_module.getSteerAngle(), Math.toRadians(m_angle), Math.toRadians(3.0))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

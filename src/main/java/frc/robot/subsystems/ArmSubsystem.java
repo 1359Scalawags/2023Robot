@@ -21,7 +21,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
-
+ 
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.extensions.GravityAssistFeedForward;

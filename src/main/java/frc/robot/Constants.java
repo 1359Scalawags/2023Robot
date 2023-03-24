@@ -124,7 +124,7 @@ public final class Constants {
             public static final int channel = 1;                      
             public static final int motor = 30;  
             public static final double upperlimit = 268.0;
-            public static final double lowerlimit = 215.0;
+            public static final double lowerlimit = 220.0;
             public static final double safelimit = 260.0;
             public static final double defaultSetpoint = 225.0;
             public static final double CoefficientMultiplier = 1/360.0;

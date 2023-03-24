@@ -7,8 +7,8 @@ import frc.robot.extensions.Utilities;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.VisionSystem;
 
+@SuppressWarnings("unused")
 public class SideShuffleToGamepiece extends CommandBase  {
-    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final VisionSystem m_Vision;
   private final DrivetrainSubsystem m_drivetrainSubsystem; 

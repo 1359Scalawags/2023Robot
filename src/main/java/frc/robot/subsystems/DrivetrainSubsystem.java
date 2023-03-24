@@ -118,7 +118,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public DrivetrainSubsystem() {
         driveMode = DriveModes.RobotCentric;
-        ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+        // ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         // m_frontLeftModule = Mk4iSwerveModuleHelper.createFalcon500(
         //     // See the current state of the module on the dashboard.
         //     tab.getLayout("Front Left Module", BuiltInLayouts.kList)
@@ -132,9 +132,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
         //     FrontLeft.STEER_OFFSET);
 
         m_frontLeftModule = new MkSwerveModuleBuilder()
-            .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-                    .withSize(2, 4)
-                    .withPosition(0, 0))
+            // .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)
+            //         .withSize(2, 4)
+            //         .withPosition(0, 0))
             .withGearRatio(SdsModuleConfigurations.MK4I_L1)
             .withDriveMotor(MotorType.FALCON, FrontLeft.DRIVE_MOTOR)
             .withSteerMotor(MotorType.FALCON, FrontLeft.STEER_MOTOR)
@@ -144,9 +144,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         // We will do the same for the other modules
         m_frontRightModule = new MkSwerveModuleBuilder()
-            .withLayout(tab.getLayout("Front Right Module", BuiltInLayouts.kList)
-                    .withSize(2, 4)
-                    .withPosition(2, 0))
+            // .withLayout(tab.getLayout("Front Right Module", BuiltInLayouts.kList)
+            //         .withSize(2, 4)
+            //         .withPosition(2, 0))
                     .withGearRatio(SdsModuleConfigurations.MK4I_L1)
                     .withDriveMotor(MotorType.FALCON, FrontRight.DRIVE_MOTOR)
                     .withSteerMotor(MotorType.FALCON, FrontRight.STEER_MOTOR)
@@ -166,9 +166,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
             BackLeft.STEER_ENCODER,
             BackLeft.STEER_OFFSET);*/
         m_backLeftModule = new MkSwerveModuleBuilder()
-             .withLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(4, 0))
+            //  .withLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList)
+            //             .withSize(2, 4)
+            //             .withPosition(4, 0))
                         .withGearRatio(SdsModuleConfigurations.MK4I_L1)
                         .withDriveMotor(MotorType.FALCON, BackLeft.DRIVE_MOTOR)
                         .withSteerMotor(MotorType.FALCON, BackLeft.STEER_MOTOR)
@@ -189,9 +189,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
             BackRight.STEER_OFFSET);*/
 
         m_backRightModule = new MkSwerveModuleBuilder()
-            .withLayout(tab.getLayout("Back Right Module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(6, 0))
+            // .withLayout(tab.getLayout("Back Right Module", BuiltInLayouts.kList)
+            //             .withSize(2, 4)
+            //             .withPosition(6, 0))
                         .withGearRatio(SdsModuleConfigurations.MK4I_L1)
                         .withDriveMotor(MotorType.FALCON, BackRight.DRIVE_MOTOR)
                         .withSteerMotor(MotorType.FALCON, BackRight.STEER_MOTOR)

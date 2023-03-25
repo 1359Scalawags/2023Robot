@@ -8,9 +8,9 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
 import frc.robot.subsystems.GrabberSubsystem;
 
-public class StandardAuto extends SequentialCommandGroup
+public class OnlyMoving extends SequentialCommandGroup
 {
-    public StandardAuto(DrivetrainSubsystem m_DrivetrainSubsystem, ArmSubsystem m_ArmSubsystem, GrabberSubsystem m_GrabberSubsystem, boolean includeChargeStation)
+    public OnlyMoving(DrivetrainSubsystem m_DrivetrainSubsystem)
     {
             addCommands(
             // Load cube to the 3rd level grid
@@ -20,7 +20,7 @@ public class StandardAuto extends SequentialCommandGroup
 
             new SetDriveMode(m_DrivetrainSubsystem, DriveModes.RobotCentric),
            
-            new LoadGamepieceOnHighLevel(m_ArmSubsystem, m_GrabberSubsystem),
+            // new LoadGamepieceOnHighLevel(m_ArmSubsystem, m_GrabberSubsystem),
             
             new MoveBackwards(m_DrivetrainSubsystem,3.5,Constants.Autonomous.autoSpeed)
             );

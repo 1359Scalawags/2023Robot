@@ -74,17 +74,17 @@ public class RobotContainer {
   private final SetDriveMode robotCentric = new SetDriveMode(m_drivetrainSubsystem, DriveModes.RobotCentric);
   private final RotateToGamepiece rotateToGamepiece = new RotateToGamepiece(m_VisionSystem, m_drivetrainSubsystem, null);
   //private final XboxController m_controller = new XboxController(0);
-  SendableChooser<Command> pathChooser = new SendableChooser<>();
+  // SendableChooser<Command> pathChooser = new SendableChooser<>();
   PathConstraints constraints = new PathConstraints(1.3, 0.5);
   PathPlannerTrajectory straightPath = PathPlanner.loadPath("Test Forward", constraints);
   PathPlannerTrajectory curvyPath = PathPlanner.loadPath("Curvy", constraints);
   // PathPlannerTrajectory TestPath = PathPlanner.loadPath("Test Forward", constraints);
-  PathPlannerTrajectory BlueCSOnePath = PathPlanner.loadPath("BlueCS1", constraints);
-  PathPlannerTrajectory BlueCSTwoPath = PathPlanner.loadPath("BlueCS2", constraints);
-  PathPlannerTrajectory BlueCSThreePath = PathPlanner.loadPath("BlueCS3", constraints);
-  PathPlannerTrajectory RedCSOnePath = PathPlanner.loadPath("RedCS1", constraints);
-  PathPlannerTrajectory RedCSTwoPath = PathPlanner.loadPath("RedCS2", constraints);
-  PathPlannerTrajectory RedCSThreePath = PathPlanner.loadPath("RedCS3", constraints);
+  // PathPlannerTrajectory BlueCSOnePath = PathPlanner.loadPath("BlueCS1", constraints);
+  // PathPlannerTrajectory BlueCSTwoPath = PathPlanner.loadPath("BlueCS2", constraints);
+  // PathPlannerTrajectory BlueCSThreePath = PathPlanner.loadPath("BlueCS3", constraints);
+  // PathPlannerTrajectory RedCSOnePath = PathPlanner.loadPath("RedCS1", constraints);
+  // PathPlannerTrajectory RedCSTwoPath = PathPlanner.loadPath("RedCS2", constraints);
+  // PathPlannerTrajectory RedCSThreePath = PathPlanner.loadPath("RedCS3", constraints);
   // private final PlatformBalance m_PlatformBalance = new PlatformBalance(m_drivetrainSubsystem);
   //  private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   // private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
@@ -110,20 +110,18 @@ public class RobotContainer {
    */
   public RobotContainer() {
     
-    pathChooser.addOption("Straight path", m_drivetrainSubsystem.followTrajectoryCommand(straightPath, true));
-    pathChooser.addOption("Curvy path", m_drivetrainSubsystem.followTrajectoryCommand(curvyPath, true));
-    pathChooser.addOption("BlueCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSOnePath, true));
-    pathChooser.addOption("BlueCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSTwoPath, true));
-    pathChooser.addOption("BlueCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSThreePath, true));
-    pathChooser.addOption("RedCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSOnePath, true));
-    pathChooser.addOption("RedCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSTwoPath, true));
-    pathChooser.addOption("RedCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSThreePath, true));
+    // pathChooser.addOption("Straight path (Test)", m_drivetrainSubsystem.followTrajectoryCommand(straightPath, true));
+    // pathChooser.addOption("Curvy path (Test)", m_drivetrainSubsystem.followTrajectoryCommand(curvyPath, true));
+    // pathChooser.addOption("BlueCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSOnePath, true));
+    // pathChooser.addOption("BlueCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSTwoPath, true));
+    // pathChooser.addOption("BlueCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSThreePath, true));
+    // pathChooser.addOption("RedCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSOnePath, true));
+    // pathChooser.addOption("RedCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSTwoPath, true));
+    // pathChooser.addOption("RedCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSThreePath, true));
 
     // Shuffleboard.getTab("Autonomous").add(pathChooser);
-    m_DisplaySystem.getMainTab().add(pathChooser)
-                                .withSize(2, 1)
-                                .withPosition(0, 2);;
-
+    m_DisplaySystem.getAutonomousChooser().addOption("Straight path (Test)", m_drivetrainSubsystem.followTrajectoryCommand(straightPath, true));
+    m_DisplaySystem.getAutonomousChooser().addOption("Curvy path (Test)", m_drivetrainSubsystem.followTrajectoryCommand(curvyPath, true));
     // Set up the default command for the drivetrain.s
     // m_grabberSubsystem.TurnOn(); 
 
@@ -223,9 +221,9 @@ public class RobotContainer {
     // return getChooserPath().getSelected();
     
   }
-  public SendableChooser<Command> getChooserPath() {
-    return pathChooser;
-  }
+  // public SendableChooser<Command> getChooserPath() {
+  //   return pathChooser;
+  // }
 
   public Command getTestCommand() {
     // double angle = 30;//Rotation2d.fromDegrees(30).getDegrees();

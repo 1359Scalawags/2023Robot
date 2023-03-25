@@ -10,10 +10,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 @SuppressWarnings("unused")
-public class DisablePathfining extends CommandBase {
+public class EnablePathfining extends CommandBase {
     private DrivetrainSubsystem m_drivetrainSubsystem;
 
-    public DisablePathfining(DrivetrainSubsystem driveSystem) {
+    private boolean isPathfindingAuto = true;
+
+    public EnablePathfining(DrivetrainSubsystem driveSystem) {
         this.m_drivetrainSubsystem = driveSystem;
         addRequirements(m_drivetrainSubsystem);
     }
@@ -25,7 +27,7 @@ public class DisablePathfining extends CommandBase {
 
   @Override
   public void execute() {   
-    m_drivetrainSubsystem.setPathfindingMode(false);
+    m_drivetrainSubsystem.setPathfindingMode(true);
   }
 
   @Override

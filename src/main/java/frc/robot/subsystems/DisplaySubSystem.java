@@ -22,6 +22,8 @@ import frc.robot.commands.autonomous.BlueStationONE;
 import frc.robot.commands.autonomous.BlueStationTHREE;
 import frc.robot.commands.autonomous.BlueStationTWO;
 import frc.robot.commands.autonomous.LoadGamepieceOnHighLevel;
+import frc.robot.commands.autonomous.MoveBackwards;
+import frc.robot.commands.autonomous.OnlyMoving;
 import frc.robot.commands.autonomous.RedStationONE;
 import frc.robot.commands.autonomous.RedStationTHREE;
 import frc.robot.commands.autonomous.RedStationTWO;
@@ -36,7 +38,7 @@ public class DisplaySubSystem extends SubsystemBase {
     private GenericEntry driveModeEntry;
     private HttpCamera camera = new HttpCamera("limelight", "http://10.13.59.11:5800/stream.mjpeg", HttpCameraKind.kMJPGStreamer);
     private DrivetrainSubsystem driveSystem;
-    private final SendableChooser<Command> chooser = new SendableChooser<>();
+    private final SendableChooser<Command> autonomousChooser = new SendableChooser<>();
     
     // private NetworkTableEntry climbLockEntry;
     // private ComplexWidget cameraView;
@@ -95,25 +97,26 @@ public class DisplaySubSystem extends SubsystemBase {
         
         //chooser.addOption("Test Movment", new TestAutoMovment(driveSystem, true));
         //chooser.addOption("Test Movment", new TestAutoMovment(driveSystem, false));
-        chooser.addOption("BlueStation1 ChargeStation", new BlueStationONE(driveSystem, armSystem, grabberSystem, true));
+        // autonomousChooser.addOption("BlueStation1 ChargeStation", new BlueStationONE(driveSystem, armSystem, grabberSystem, true));
         //chooser.addOption("BlueStation1", new BlueStationONE(driveSystem, armSystem, grabberSystem, false));
-        chooser.addOption("BlueStation2 ChargeStation", new BlueStationTWO(driveSystem, armSystem, grabberSystem, true));
+        // autonomousChooser.addOption("BlueStation2 ChargeStation", new BlueStationTWO(driveSystem, armSystem, grabberSystem, true));
         //chooser.addOption("BlueStation2", new BlueStationTWO(driveSystem, armSystem, grabberSystem, false));
-        chooser.addOption("BlueStation3 ChargeStation", new BlueStationTHREE(driveSystem, armSystem, grabberSystem, true));
+        // autonomousChooser.addOption("BlueStation3 ChargeStation", new BlueStationTHREE(driveSystem, armSystem, grabberSystem, true));
         //chooser.addOption("BlueStation3", new BlueStationTHREE(driveSystem, armSystem, grabberSystem, false));
-        chooser.addOption("RedStation3 ChargeStation", new RedStationTHREE(driveSystem, armSystem, grabberSystem, true));
+        // autonomousChooser.addOption("RedStation3 ChargeStation", new RedStationTHREE(driveSystem, armSystem, grabberSystem, true));
         //chooser.addOption("RedStation3", new RedStationTHREE(driveSystem, armSystem, grabberSystem, false));
-        chooser.addOption("RedStation2 ChargeStation", new RedStationTWO(driveSystem, armSystem, grabberSystem, true));
+        // autonomousChooser.addOption("RedStation2 ChargeStation", new RedStationTWO(driveSystem, armSystem, grabberSystem, true));
         //chooser.addOption("RedStation2", new RedStationTWO(driveSystem, armSystem, grabberSystem, false));
-        chooser.addOption("RedStation1 ChargeStation", new RedStationONE(driveSystem, armSystem, grabberSystem, true));
+        // autonomousChooser.addOption("RedStation1 ChargeStation", new RedStationONE(driveSystem, armSystem, grabberSystem, true));
         //chooser.addOption("RedStation1", new RedStationONE(driveSystem, armSystem, grabberSystem, false));
-        chooser.setDefaultOption("StandardAuto", new StandardAuto(driveSystem, armSystem, grabberSystem, false));
-        chooser.addOption("StandardLoadPiece", new LoadGamepieceOnHighLevel(armSystem, grabberSystem));
+        autonomousChooser.setDefaultOption("Full standard auto", new StandardAuto(driveSystem, armSystem, grabberSystem, false));
+        autonomousChooser.addOption("Only loading", new LoadGamepieceOnHighLevel(armSystem, grabberSystem));
+        autonomousChooser.addOption("Only moving", new OnlyMoving(driveSystem));
         // chooser.addOption("Test Auto movement", new TestAutoMovment(driveSystem));
-        chooser.addOption("Not moving", new InstantCommand());
+        autonomousChooser.addOption("Not moving", new InstantCommand());
         
         //chooser.addOption("Test Loading piece", new LoadGamepiece(armSystem, grabberSystem));
-        mainTab.add(chooser)
+        mainTab.add(autonomousChooser)
                .withSize(2, 1)
                .withPosition(0, 1);
 
@@ -146,7 +149,7 @@ public class DisplaySubSystem extends SubsystemBase {
     }
 
     public SendableChooser<Command> getAutonomousChooser() {
-        return chooser;
+        return autonomousChooser;
     }
     public ShuffleboardTab getMainTab() {
         return mainTab;

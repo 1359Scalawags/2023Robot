@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
@@ -13,6 +14,7 @@ public class ElbowUnParkingCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final ArmSubsystem m_subsystem;
+  private final Timer timer;
   // private final SlewRateLimiter e_Limiter;
   // private final SlewRateLimiter s_Limiter;
 
@@ -23,6 +25,7 @@ public class ElbowUnParkingCommand extends CommandBase {
    */
   public ElbowUnParkingCommand(ArmSubsystem subsystem) {
     m_subsystem = subsystem;
+    this.timer = new Timer();
     // e_Limiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter);
     // s_Limiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,6 +35,9 @@ public class ElbowUnParkingCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("Init : Elbowunpark");
+    this.timer.reset();
+    this.timer.start();
     // e_Limiter.reset(m_subsystem.getElbowDegree());
     // s_Limiter.reset(m_subsystem.getShoulderDegree());
   }
@@ -48,11 +54,16 @@ public class ElbowUnParkingCommand extends CommandBase {
 
   // Called once the command ends sor is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println("End : Elbowunpark");
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (this.timer.get() > 1.5){
+      return true;
+    }
     return m_subsystem.isElbowAtTarget(Constants.Arm.Elbow.unParkingDegree, Constants.Arm.parkingTolerance);
   }
 }

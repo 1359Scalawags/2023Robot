@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
@@ -13,6 +14,7 @@ public class ShoulderUnParkingCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final ArmSubsystem m_subsystem;
+  private final Timer timer;
   // private final SlewRateLimiter e_Limiter;
   // private final SlewRateLimiter s_Limiter;
 
@@ -22,6 +24,7 @@ public class ShoulderUnParkingCommand extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public ShoulderUnParkingCommand(ArmSubsystem subsystem) {
+    this.timer = new Timer();
     m_subsystem = subsystem;
     // e_Limiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter);
     // s_Limiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter);
@@ -32,6 +35,9 @@ public class ShoulderUnParkingCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    this.timer.reset();
+    this.timer.start();
+    System.out.println("Init : Shoulderunpark");
     // e_Limiter.reset(m_subsystem.getElbowDegree());
     // s_Limiter.reset(m_subsystem.getShoulderDegree());
   }
@@ -48,11 +54,16 @@ public class ShoulderUnParkingCommand extends CommandBase {
 
   // Called once the command ends sor is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println("End : Shoulderunpark");
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (this.timer.get() > 1.5) {
+      return true;
+    }
     return m_subsystem.isShoulderAtTarget(Constants.Arm.Shoulder.unParkingDegree, Constants.Arm.parkingTolerance);
   }
 }

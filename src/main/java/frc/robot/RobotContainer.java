@@ -74,7 +74,7 @@ public class RobotContainer {
   private final SetDriveMode robotCentric = new SetDriveMode(m_drivetrainSubsystem, DriveModes.RobotCentric);
   private final RotateToGamepiece rotateToGamepiece = new RotateToGamepiece(m_VisionSystem, m_drivetrainSubsystem, null);
   //private final XboxController m_controller = new XboxController(0);
-  SendableChooser<Command> chooser = new SendableChooser<>();
+  SendableChooser<Command> pathChooser = new SendableChooser<>();
   PathConstraints constraints = new PathConstraints(1.3, 0.5);
   PathPlannerTrajectory straightPath = PathPlanner.loadPath("Test Forward", constraints);
   PathPlannerTrajectory curvyPath = PathPlanner.loadPath("Curvy", constraints);
@@ -103,30 +103,33 @@ public class RobotContainer {
 
 
   public boolean displayAdvancedDashboard = false;
-  private final SendableChooser<Boolean> displayAdvanced =  new SendableChooser<>();
+  // private final SendableChooser<Boolean> displayAdvanced =  new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     
-    chooser.addOption("Straight path", m_drivetrainSubsystem.followTrajectoryCommand(straightPath, true));
-    chooser.addOption("Curvy path", m_drivetrainSubsystem.followTrajectoryCommand(curvyPath, true));
-    chooser.addOption("BlueCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSOnePath, true));
-    chooser.addOption("BlueCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSTwoPath, true));
-    chooser.addOption("BlueCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSThreePath, true));
-    chooser.addOption("RedCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSOnePath, true));
-    chooser.addOption("RedCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSTwoPath, true));
-    chooser.addOption("RedCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSThreePath, true));
+    pathChooser.addOption("Straight path", m_drivetrainSubsystem.followTrajectoryCommand(straightPath, true));
+    pathChooser.addOption("Curvy path", m_drivetrainSubsystem.followTrajectoryCommand(curvyPath, true));
+    pathChooser.addOption("BlueCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSOnePath, true));
+    pathChooser.addOption("BlueCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSTwoPath, true));
+    pathChooser.addOption("BlueCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(BlueCSThreePath, true));
+    pathChooser.addOption("RedCS1 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSOnePath, true));
+    pathChooser.addOption("RedCS2 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSTwoPath, true));
+    pathChooser.addOption("RedCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSThreePath, true));
 
-    Shuffleboard.getTab("Autonomous").add(chooser);
+    // Shuffleboard.getTab("Autonomous").add(pathChooser);
+    m_DisplaySystem.getMainTab().add(pathChooser)
+                                .withSize(2, 1)
+                                .withPosition(0, 2);;
 
     // Set up the default command for the drivetrain.s
     // m_grabberSubsystem.TurnOn(); 
 
 
-    displayAdvanced.setDefaultOption("See somethings", false);
-    displayAdvanced.addOption("See everything", true);
+    // displayAdvanced.setDefaultOption("See somethings", false);
+    // displayAdvanced.addOption("See everything", true);
     //m_grabberSubsystem.TurnOff();
     // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:
@@ -216,11 +219,12 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return getChooserPath().getSelected();
+    return m_DisplaySystem.getAutonomousChooser().getSelected();
+    // return getChooserPath().getSelected();
     
   }
   public SendableChooser<Command> getChooserPath() {
-    return chooser;
+    return pathChooser;
   }
 
   public Command getTestCommand() {
@@ -260,6 +264,18 @@ public class RobotContainer {
     return Constants.SwerveDrive.motorSpeed * value * throttle;
   }
 
+  
+  // private static double modifyAxisCubic(double value, double throttleValue) {
+  //   // Deadband 
+  //   double throttle  = 1 -( 0.5 * throttleValue);
+    
+  //   value = deadband(value, Constants.UI.deadband);
+
+  //   // Square the axis
+  //   value = value * value* value;
+
+  //   return Constants.SwerveDrive.motorSpeed * value * throttle;
+  // }
 
   public Command getCompressorStartCommand() {
     // return new TurnCompressorOn(m_grabberSubsystem);

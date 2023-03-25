@@ -111,17 +111,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule m_frontRightModule;
     private final SwerveModule m_backLeftModule;
     private final SwerveModule m_backRightModule;
+
+    private boolean isPathfindingAuto = true;
     
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
     public DrivetrainSubsystem() {
         driveMode = DriveModes.RobotCentric;
-        ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+        // ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
         m_frontLeftModule = new MkSwerveModuleBuilder()
-            .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-            .withSize(2, 4)
-            .withPosition(0, 0))
+            // .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)
+            // .withSize(2, 4)
+            // .withPosition(0, 0))
             .withGearRatio(SdsModuleConfigurations.MK4I_L1)
             .withDriveMotor(MotorType.FALCON, FrontLeft.DRIVE_MOTOR)
             .withSteerMotor(MotorType.FALCON, FrontLeft.STEER_MOTOR)
@@ -131,9 +133,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         // We will do the same for the other modules
         m_frontRightModule = new MkSwerveModuleBuilder()
-            .withLayout(tab.getLayout("Front Right Module", BuiltInLayouts.kList)
-            .withSize(2, 4)
-            .withPosition(2, 0))
+            // .withLayout(tab.getLayout("Front Right Module", BuiltInLayouts.kList)
+            // .withSize(2, 4)
+            // .withPosition(2, 0))
             .withGearRatio(SdsModuleConfigurations.MK4I_L1)
             .withDriveMotor(MotorType.FALCON, FrontRight.DRIVE_MOTOR)
             .withSteerMotor(MotorType.FALCON, FrontRight.STEER_MOTOR)
@@ -142,9 +144,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
             .build();
 
         m_backLeftModule = new MkSwerveModuleBuilder()
-            .withLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList)
-            .withSize(2, 4)
-            .withPosition(4, 0))
+            // .withLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList)
+            // .withSize(2, 4)
+            // .withPosition(4, 0))
             .withGearRatio(SdsModuleConfigurations.MK4I_L1)
             .withDriveMotor(MotorType.FALCON, BackLeft.DRIVE_MOTOR)
             .withSteerMotor(MotorType.FALCON, BackLeft.STEER_MOTOR)
@@ -153,9 +155,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
             .build();
 
         m_backRightModule = new MkSwerveModuleBuilder()
-            .withLayout(tab.getLayout("Back Right Module", BuiltInLayouts.kList)
-            .withSize(2, 4)
-            .withPosition(6, 0))
+            // .withLayout(tab.getLayout("Back Right Module", BuiltInLayouts.kList)
+            // .withSize(2, 4)
+            // .withPosition(6, 0))
             .withGearRatio(SdsModuleConfigurations.MK4I_L1)
             .withDriveMotor(MotorType.FALCON, BackRight.DRIVE_MOTOR)
             .withSteerMotor(MotorType.FALCON, BackRight.STEER_MOTOR)
@@ -335,6 +337,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
          );
      }
 
+     public void setPathfindingMode(boolean isPathfinding) {
+        this.isPathfindingAuto = isPathfinding;
+     }
+
      public void setModuleStates(SwerveModuleState[] states){
         m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
                     states[0].angle.getRadians());
@@ -346,7 +352,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                     states[3].angle.getRadians());
      }
 
-
+     int counter = 0;
     @Override
     public void periodic() {
 
@@ -355,27 +361,30 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                     m_backLeftModule.getPosition(), m_backRightModule.getPosition()
                                 });
 
+        if (Robot.isAutonomousMode() && isPathfindingAuto) {
 
-        if( Robot.isAutonomousMode() ) {
-            // NOTE: don't drive the motors directly if using Pathfinder
         }
-        else if( Robot.isTeleopMode() ) {
-            ChassisSpeeds tempSpeeds = m_chassisSpeeds;
-            if (driveMode == DriveModes.FieldCentric){
-                tempSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_chassisSpeeds, getGyroscopeRotation()); 
-            }
+        else if( Robot.isAutonomousMode() || Robot.isTeleopMode()) {
+            if (counter > 1) {
+                ChassisSpeeds tempSpeeds = m_chassisSpeeds;
+                if (driveMode == DriveModes.FieldCentric){
+                    tempSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_chassisSpeeds, getGyroscopeRotation()); 
+                }
 
-            SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(tempSpeeds);
-            SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_MPS);
+                SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(tempSpeeds);
+                SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_MPS);
 
-            m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
-                    states[0].angle.getRadians());
-            m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
-                    states[1].angle.getRadians());
-            m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
-                    states[2].angle.getRadians());
-            m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
-                    states[3].angle.getRadians());
+                m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
+                        states[0].angle.getRadians());
+                m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
+                        states[1].angle.getRadians());
+                m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
+                        states[2].angle.getRadians());
+                m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_MPS * MAX_VOLTAGE,
+                        states[3].angle.getRadians());
+                counter = 0;
+        }
+        counter++;
         } else if( Robot.isTestMode() ){
 
         } else if( Robot.isSimulationMode() ) {

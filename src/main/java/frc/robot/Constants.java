@@ -113,15 +113,15 @@ public final class Constants {
 
         public static final double triggerZone = 15;
 
-        public static final double parkingTolerance = 3.0;
+        public static final double parkingTolerance = 5.0;
         public static final double boundaryExtension = 5;
         public static final double softStartRatio = 0.5;
-        public static final double rateLimiterMultiplier = 1.25;
+        public static final double rateLimiterMultiplier = 1.5;
         
         public static final class Shoulder {
             public static final int channel = 1;                      
             public static final int motor = 30;  
-            public static final double upperlimit = 268.0;
+            public static final double upperlimit = 268.5;
             public static final double lowerlimit = 215.0;
             public static final double safelimit = 260.0;
             public static final double defaultSetpoint = 225.0;
@@ -135,15 +135,15 @@ public final class Constants {
             public static final double kIz = 0;
 
             //FIXME: Is this preventing shoulder from working properly?
-            public static final double kMinOutput = -0.25;
-            public static final double kMaxOutput = 0.25;
+            public static final double kMinOutput = -0.3;
+            public static final double kMaxOutput = 0.5;
 
             public static final double kS = 0.075;
             public static final double kG = 0.3525;
             public static final double kV = 0.020769;
             public static final double kA = 0.000916;
 
-            public static final double kGravFF = 0.0003;
+            public static final double kGravFF = 0.0008;
 
             public static final double angleAtFloor = 213.0 - 180.0;
             public static final double targetSpeed = 0.05;
@@ -180,8 +180,8 @@ public final class Constants {
             public static final double kIz = 0;
 
             //FIXME: Is this preventing the arm from working properly?
-            public static final double kMinOutput = -0.2;
-            public static final double kMaxOutput = 0.2;
+            public static final double kMinOutput = -0.3;
+            public static final double kMaxOutput = 0.3;
 
             public static final double kS = 0.11; // cut by 20% for initial testing
             public static final double kG = 0.15;

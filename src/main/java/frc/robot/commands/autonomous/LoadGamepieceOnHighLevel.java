@@ -14,15 +14,16 @@ public class LoadGamepieceOnHighLevel extends SequentialCommandGroup{
         addCommands(
             // new GrabCommandOpen(m_GrabberSubsystem),
             new GrabCommandClose(m_GrabberSubsystem),
-            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 190.0, 268.0),
+            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 170.0, 268.0),
             // new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 240.0),
             new ArmOnHighLevelCommand(m_ArmSubsystem),
             new DelayCommand(m_ArmSubsystem, 0.3),
             new GrabCommandOpen(m_GrabberSubsystem),
             new DelayCommand(m_ArmSubsystem, 0.3),
             // new ArmOnSpecificLevelCommand(m_ArmSubsystem, 200.0, 240.0),
-            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 190.0, 268.0),
-            new UnParkingArm(m_ArmSubsystem)
+            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 180.0, 268.0),
+            new ArmOnSpecificLevelCommand(m_ArmSubsystem, 160.0, 268.0)
+            // new UnParkingArm(m_ArmSubsystem)
         );
         
     }

@@ -65,7 +65,8 @@ public class ArmSubsystem extends SubsystemBase {
                  e_kI = Constants.Arm.Elbow.kI, 
                  e_kD = Constants.Arm.Elbow.kD,
                  e_targetPosition = MathUtil.clamp(Constants.Arm.Elbow.defaultSetpoint, Constants.Arm.Elbow.lowerLimitWhenSafePos, Constants.Arm.Elbow.upperlimit),
-                 e_lowerLimit = Constants.Arm.Elbow.lowerLimitWhenSafePos;
+                 e_lowerLimit = Constants.Arm.Elbow.lowerLimitWhenSafePos,
+                 e_upperLimit = Constants.Arm.Elbow.upperlimit;
   private double s_kP = Constants.Arm.Shoulder.kP, 
                  s_kI = Constants.Arm.Shoulder.kI, 
                  s_kD = Constants.Arm.Shoulder.kD,
@@ -136,7 +137,7 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderTuner = new SparkMaxTuner("SparkMax Tuner", "Shoulder Tuner", 2, shoulderSparkMaxPIDController);
     
     // angles of the shoulder are incremented by 180 to avoid 0/360 median flip
-    shoulderFF = new GravityAssistFeedForward(Constants.Arm.Shoulder.kGravFF, 180);
+    shoulderFF = new GravityAssistFeedForward(Constants.Arm.Shoulder.kGravFF * 0.1, Constants.Arm.Shoulder.kGravFF, 180);
 
     //elbowRateLimiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter * Constants.Arm.rateLimiterMultiplier);
     //shouldRateLimiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter * Constants.Arm.rateLimiterMultiplier);
@@ -311,12 +312,18 @@ public class ArmSubsystem extends SubsystemBase {
     return false;
   }
 
+  private double CalcElbowUpper(double x){
+    double m = -1;
+    double b = 440;
+    return (m * x + b);
+  }
+
   private double CalcElbowLower(double x){
     x+=Constants.Arm.triggerZone;//ElbowTriggerZone;
 
     double b = 0.0000033922;
     double c = -1.46987;
-    double d = 440.188;
+    double d = 444.188;
     return (b * Math.pow(x, 3) + c * x  + d);
   }
 
@@ -343,8 +350,10 @@ public class ArmSubsystem extends SubsystemBase {
       e_lowerLimit =  118;
     }
     else if (ShouldDegree < 196){
-      e_lowerLimit = 164;}
+      e_lowerLimit = 164;
     }
+    e_upperLimit = CalcElbowUpper(ShouldDegree);
+  }
 
 //   public void adjustElbowLimit() {
 //     return Constants.Arm.Elbow.lowerLimitWhenSafePos;
@@ -401,7 +410,10 @@ public class ArmSubsystem extends SubsystemBase {
           //adjustElbowLimit();
           
           //Remove this if not working
-          shoulderSparkMaxPIDController.setFF(shoulderFF.calculate(getShoulderDegree()));
+          if (counter > Constants.UI.delayCounter) {
+            shoulderSparkMaxPIDController.setFF(MathUtil.clamp(shoulderFF.calculate(getShoulderDegree()), 0, 0.01));
+          }
+          
 
           elbowSparkMaxPIDController.setReference(elbowRateLimiter.calculate(e_targetPosition), ControlType.kPosition);
           shoulderSparkMaxPIDController.setReference(shouldRateLimiter.calculate(s_targetPosition), ControlType.kPosition);

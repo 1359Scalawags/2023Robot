@@ -16,10 +16,12 @@ public class StandardAuto extends SequentialCommandGroup
             // Load cube to the 3rd level grid
             // new GrabCommandOpen(m_GrabberSubsystem),
             // We are moving backwards because the robot will be facing the drivers, not the other side.
+            new DisablePathfining(m_DrivetrainSubsystem, false),
             new SetDriveMode(m_DrivetrainSubsystem, DriveModes.RobotCentric),
            
             new LoadGamepieceOnHighLevel(m_ArmSubsystem, m_GrabberSubsystem),
             
-            new MoveBackwards(m_DrivetrainSubsystem,3.5,Constants.Autonomous.autoSpeed));
+            new MoveBackwards(m_DrivetrainSubsystem,3.5,Constants.Autonomous.autoSpeed)
+            );
         }
     }

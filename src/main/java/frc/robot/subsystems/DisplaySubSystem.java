@@ -36,13 +36,13 @@ public class DisplaySubSystem extends SubsystemBase {
     private GenericEntry driveModeEntry;
     private HttpCamera camera = new HttpCamera("limelight", "http://10.13.59.11:5800/stream.mjpeg", HttpCameraKind.kMJPGStreamer);
     private DrivetrainSubsystem driveSystem;
-    SendableChooser<Command> chooser = new SendableChooser<>();
+    private final SendableChooser<Command> chooser = new SendableChooser<>();
     
     // private NetworkTableEntry climbLockEntry;
     // private ComplexWidget cameraView;
     // private ClimbSystem climbSystem;
 
-    private final SendableChooser<Command> pipeLine =  new SendableChooser<>();
+    // private final SendableChooser<Command> pipeLine =  new SendableChooser<>();
     
 
     public DisplaySubSystem(VisionSystem vision, DrivetrainSubsystem driveSystem, ArmSubsystem armSystem, GrabberSubsystem grabberSystem) {
@@ -107,7 +107,7 @@ public class DisplaySubSystem extends SubsystemBase {
         //chooser.addOption("RedStation2", new RedStationTWO(driveSystem, armSystem, grabberSystem, false));
         chooser.addOption("RedStation1 ChargeStation", new RedStationONE(driveSystem, armSystem, grabberSystem, true));
         //chooser.addOption("RedStation1", new RedStationONE(driveSystem, armSystem, grabberSystem, false));
-        chooser.addOption("StandardAuto", new StandardAuto(driveSystem, armSystem, grabberSystem, false));
+        chooser.setDefaultOption("StandardAuto", new StandardAuto(driveSystem, armSystem, grabberSystem, false));
         chooser.addOption("StandardLoadPiece", new LoadGamepieceOnHighLevel(armSystem, grabberSystem));
         // chooser.addOption("Test Auto movement", new TestAutoMovment(driveSystem));
         chooser.addOption("Not moving", new InstantCommand());
@@ -121,26 +121,26 @@ public class DisplaySubSystem extends SubsystemBase {
         // mainTab.add(chooser);
         //pipeLine.addOption(vision, kCubeWhiteLight);
         
-        SwitchPipeline pipeLineCommand = new SwitchPipeline(vision, null);
-        //pipeLine.addOption("Default", pipeLineCommand);
-        pipeLine.setDefaultOption("Default", pipeLineCommand);
+        // SwitchPipeline pipeLineCommand = new SwitchPipeline(vision, null);
+        // //pipeLine.addOption("Default", pipeLineCommand);
+        // pipeLine.setDefaultOption("Default", pipeLineCommand);
         
-        pipeLineCommand.set(SwitchPipeline.pipeIndex.CubeWhiteLight);
-        pipeLine.addOption("CubeWhiteLight", pipeLineCommand);
+        // pipeLineCommand.set(SwitchPipeline.pipeIndex.CubeWhiteLight);
+        // pipeLine.addOption("CubeWhiteLight", pipeLineCommand);
         
-        pipeLineCommand.set(SwitchPipeline.pipeIndex.ConeWhiteLight);
-        pipeLine.addOption("ConeWhiteLight", pipeLineCommand);
+        // pipeLineCommand.set(SwitchPipeline.pipeIndex.ConeWhiteLight);
+        // pipeLine.addOption("ConeWhiteLight", pipeLineCommand);
         
-        pipeLineCommand.set(SwitchPipeline.pipeIndex.CubeYellowLight);
-        pipeLine.addOption("CubeYellowLight", pipeLineCommand);
+        // pipeLineCommand.set(SwitchPipeline.pipeIndex.CubeYellowLight);
+        // pipeLine.addOption("CubeYellowLight", pipeLineCommand);
         
-        pipeLineCommand.set(SwitchPipeline.pipeIndex.ConeYellowLight);
-        pipeLine.addOption("ConeYellowLight", pipeLineCommand);
+        // pipeLineCommand.set(SwitchPipeline.pipeIndex.ConeYellowLight);
+        // pipeLine.addOption("ConeYellowLight", pipeLineCommand);
         
         
-        mainTab.add(pipeLine)
-               .withSize(2, 1)
-               .withPosition(0, 2);
+        // mainTab.add(pipeLine)
+        //        .withSize(2, 1)
+        //        .withPosition(0, 2);
 
         
     }
@@ -148,11 +148,15 @@ public class DisplaySubSystem extends SubsystemBase {
     public SendableChooser<Command> getAutonomousChooser() {
         return chooser;
     }
+    public ShuffleboardTab getMainTab() {
+        return mainTab;
+    }
+    
     private int counter = 0;
 
     @Override
     public void periodic() {
-        if (counter > 5) {
+        if (counter > 10) {
             if (timeEntry != null) {
                 timeEntry.setDouble(DriverStation.getMatchTime());
             }

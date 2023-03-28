@@ -1,0 +1,12 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Match Tab/SendableChooser[0]": "String Chooser",
+      "/Shuffleboard/SparkMax Tuner/Apply Elbow Tuner values": "Command",
+      "/Shuffleboard/SparkMax Tuner/Apply Shoulder Tuner values": "Command",
+      "/Shuffleboard/SparkMax Tuner/Elbow Tuner": "PIDController",
+      "/Shuffleboard/SparkMax Tuner/Shoulder Tuner": "PIDController"
+    }
+  }
+}

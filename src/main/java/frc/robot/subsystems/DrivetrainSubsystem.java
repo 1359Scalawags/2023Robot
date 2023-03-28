@@ -9,6 +9,8 @@ import static frc.robot.Constants.WHEELBASE_METERS;
 import static frc.robot.Constants.kMaxAccelerationMetersPerSecondSquared;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
@@ -112,6 +114,20 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule m_backLeftModule;
     private final SwerveModule m_backRightModule;
 
+    PathConstraints constraints = new PathConstraints(1.3, 0.5);
+    PathPlannerTrajectory straightPath = PathPlanner.loadPath("Test Forward", constraints);
+    PathPlannerTrajectory curvyPath = PathPlanner.loadPath("Curvy", constraints);
+    PathPlannerTrajectory blue1ToCenter = PathPlanner.loadPath("Blue1ToCenter", constraints);
+    PathPlannerTrajectory blue3ToCenter = PathPlanner.loadPath("Blue3ToCenter", constraints);
+    PathPlannerTrajectory red1ToCenter = PathPlanner.loadPath("Red1ToCenter", constraints);
+    PathPlannerTrajectory red3ToCenter = PathPlanner.loadPath("Red3ToCenter", constraints);
+    PathPlannerTrajectory centerToBlue1 = PathPlanner.loadPath("CenterToBlue1", constraints);
+    PathPlannerTrajectory centerToBlue3 = PathPlanner.loadPath("CenterToBlue3", constraints);
+    PathPlannerTrajectory centerToRed1 = PathPlanner.loadPath("CenterToRed1", constraints);
+    PathPlannerTrajectory centerToRed3 = PathPlanner.loadPath("CenterToRed3", constraints);
+    PathPlannerTrajectory forwardAndRotate = PathPlanner.loadPath("ForwardAndRotate", constraints);
+    PathPlannerTrajectory rotateAndForward = PathPlanner.loadPath("RotateAndForward", constraints);
+
     private boolean isPathfindingAuto = true;
     
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
@@ -185,6 +201,43 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return m_kinematics;
     }
 
+    public PathPlannerTrajectory getStraightPath() {
+        return straightPath;
+    }
+    public PathPlannerTrajectory getCurvyPath() {
+        return curvyPath;
+    }
+
+    public PathPlannerTrajectory getBlue1ToCenter() {
+        return blue1ToCenter;
+    }
+    public PathPlannerTrajectory getCenterToBlue1() {
+        return centerToBlue1;
+    }
+    public PathPlannerTrajectory getBlue3ToCenter() {
+        return blue3ToCenter;
+    }
+    public PathPlannerTrajectory getCenterToBlue3() {
+        return centerToBlue3;
+    }
+    public PathPlannerTrajectory getRed1ToCenter() {
+        return red1ToCenter;
+    }
+    public PathPlannerTrajectory getCenterToRed1() {
+        return centerToRed1;
+    }
+    public PathPlannerTrajectory getRed3ToCenter() {
+        return red3ToCenter;
+    }
+    public PathPlannerTrajectory getCenterToRed3() {
+        return centerToRed3;
+    }
+    public PathPlannerTrajectory getForwardAndRotate() {
+        return forwardAndRotate;
+    }
+    public PathPlannerTrajectory getRotateAndForward() {
+        return rotateAndForward;
+    }
     /**
      * Access the modules individually for testing
      */

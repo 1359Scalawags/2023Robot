@@ -235,8 +235,10 @@ public class ArmSubsystem extends SubsystemBase {
    * @param value Target angle in degrees relative to the floor.
    */
   public void setShoulderSetpoint(double value) {
+    
     if (isMovable) {
       s_targetPosition = MathUtil.clamp(value, Constants.Arm.Shoulder.lowerlimit, Constants.Arm.Shoulder.upperlimit);
+      adjustElbowLimit();
     }
   }
 
@@ -347,7 +349,7 @@ public class ArmSubsystem extends SubsystemBase {
       e_lowerLimit = CalcElbowLower(ShouldDegree);
     }
     else if (ShouldDegree > 246) {
-      e_lowerLimit =  118;
+      e_lowerLimit =  127;
     }
     else if (ShouldDegree < 196){
       e_lowerLimit = 164;

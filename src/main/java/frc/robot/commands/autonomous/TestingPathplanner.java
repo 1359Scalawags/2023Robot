@@ -11,9 +11,9 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
 import frc.robot.subsystems.GrabberSubsystem;
 
-public class RedStationTHREE extends SequentialCommandGroup
+public class TestingPathplanner extends SequentialCommandGroup
 {
-    public RedStationTHREE(DrivetrainSubsystem m_DrivetrainSubsystem, ArmSubsystem m_ArmSubsystem, GrabberSubsystem m_GrabberSubsystem)
+    public TestingPathplanner(DrivetrainSubsystem m_DrivetrainSubsystem, ArmSubsystem m_ArmSubsystem, GrabberSubsystem m_GrabberSubsystem)
     {
 
         addCommands(
@@ -22,17 +22,20 @@ public class RedStationTHREE extends SequentialCommandGroup
 
             new EnablePathfining(m_DrivetrainSubsystem),
            
-            new LoadGamepieceOnHighLevel(m_ArmSubsystem, m_GrabberSubsystem),
+            // new LoadGamepieceOnHighLevel(m_ArmSubsystem, m_GrabberSubsystem),
 
-            m_DrivetrainSubsystem.followTrajectoryCommand(m_DrivetrainSubsystem.getRed3ToCenter(), true),
+            m_DrivetrainSubsystem.followTrajectoryCommand(m_DrivetrainSubsystem.getForwardAndRotate(), true),
 
             new GrabGamePieceOnGround(m_ArmSubsystem, m_GrabberSubsystem),
 
-            m_DrivetrainSubsystem.followTrajectoryCommand(m_DrivetrainSubsystem.getCenterToRed3(), true),
+            m_DrivetrainSubsystem.followTrajectoryCommand(m_DrivetrainSubsystem.getRotateAndForward(), true),
 
-            new LoadGamepieceOnMidLevel(m_ArmSubsystem, m_GrabberSubsystem),
+            // new LoadGamepieceOnMidLevel(m_ArmSubsystem, m_GrabberSubsystem),
 
-            m_DrivetrainSubsystem.followTrajectoryCommand(m_DrivetrainSubsystem.getRed3ToCenter(), true)
+            m_DrivetrainSubsystem.followTrajectoryCommand(m_DrivetrainSubsystem.getForwardAndRotate(), true)
+
+
+            // m_DrivetrainSubsystem.followTrajectoryCommand(m_DrivetrainSubsystem.getBlue1ToCenter(), true)
             
                 // new MoveBackwards(m_DrivetrainSubsystem,3.5, Constants.Autonomous.autoSpeed),
 

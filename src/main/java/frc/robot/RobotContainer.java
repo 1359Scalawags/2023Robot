@@ -75,9 +75,17 @@ public class RobotContainer {
   private final RotateToGamepiece rotateToGamepiece = new RotateToGamepiece(m_VisionSystem, m_drivetrainSubsystem, null);
   //private final XboxController m_controller = new XboxController(0);
   // SendableChooser<Command> pathChooser = new SendableChooser<>();
-  PathConstraints constraints = new PathConstraints(1.3, 0.5);
-  PathPlannerTrajectory straightPath = PathPlanner.loadPath("Test Forward", constraints);
-  PathPlannerTrajectory curvyPath = PathPlanner.loadPath("Curvy", constraints);
+  // PathConstraints constraints = new PathConstraints(1.3, 0.5);
+  // PathPlannerTrajectory straightPath = PathPlanner.loadPath("Test Forward", constraints);
+  // PathPlannerTrajectory curvyPath = PathPlanner.loadPath("Curvy", constraints);
+  // PathPlannerTrajectory blue1ToCenter = PathPlanner.loadPath("Blue1ToCenter", constraints);
+  // PathPlannerTrajectory blue3ToCenter = PathPlanner.loadPath("Blue3ToCenter", constraints);
+  // PathPlannerTrajectory red1ToCenter = PathPlanner.loadPath("Red1ToCenter", constraints);
+  // PathPlannerTrajectory red3ToCenter = PathPlanner.loadPath("Red3ToCenter", constraints);
+  // PathPlannerTrajectory centerToBlue1 = PathPlanner.loadPath("CenterToBlue1", constraints);
+  // PathPlannerTrajectory centerToBlue3 = PathPlanner.loadPath("CenterToBlue3", constraints);
+  // PathPlannerTrajectory centerToRed1 = PathPlanner.loadPath("CenterToRed1", constraints);
+  // PathPlannerTrajectory centerToRed3 = PathPlanner.loadPath("CenterToRed3", constraints);
   // PathPlannerTrajectory TestPath = PathPlanner.loadPath("Test Forward", constraints);
   // PathPlannerTrajectory BlueCSOnePath = PathPlanner.loadPath("BlueCS1", constraints);
   // PathPlannerTrajectory BlueCSTwoPath = PathPlanner.loadPath("BlueCS2", constraints);
@@ -120,8 +128,8 @@ public class RobotContainer {
     // pathChooser.addOption("RedCS3 path", m_drivetrainSubsystem.followTrajectoryCommand(RedCSThreePath, true));
 
     // Shuffleboard.getTab("Autonomous").add(pathChooser);
-    m_DisplaySystem.getAutonomousChooser().addOption("Straight path (Test)", m_drivetrainSubsystem.followTrajectoryCommand(straightPath, true));
-    m_DisplaySystem.getAutonomousChooser().addOption("Curvy path (Test)", m_drivetrainSubsystem.followTrajectoryCommand(curvyPath, true));
+    // m_DisplaySystem.getAutonomousChooser().addOption("Straight path (Test)", m_drivetrainSubsystem.followTrajectoryCommand(straightPath, true));
+    // m_DisplaySystem.getAutonomousChooser().addOption("Curvy path (Test)", m_drivetrainSubsystem.followTrajectoryCommand(curvyPath, true));
     // Set up the default command for the drivetrain.s
     // m_grabberSubsystem.TurnOn(); 
 

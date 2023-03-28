@@ -2,6 +2,10 @@ package frc.robot.subsystems;
 
 import java.util.Map;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.cscore.HttpCamera.HttpCameraKind;
@@ -28,6 +32,7 @@ import frc.robot.commands.autonomous.RedStationONE;
 import frc.robot.commands.autonomous.RedStationTHREE;
 import frc.robot.commands.autonomous.RedStationTWO;
 import frc.robot.commands.autonomous.StandardAuto;
+import frc.robot.commands.autonomous.TestingPathplanner;
 
 public class DisplaySubSystem extends SubsystemBase {
     PowerDistribution m_pdh = new PowerDistribution(Constants.DisplaySystem.PDHCANID, ModuleType.kRev);
@@ -45,7 +50,8 @@ public class DisplaySubSystem extends SubsystemBase {
     // private ClimbSystem climbSystem;
 
     // private final SendableChooser<Command> pipeLine =  new SendableChooser<>();
-    
+
+
 
     public DisplaySubSystem(VisionSystem vision, DrivetrainSubsystem driveSystem, ArmSubsystem armSystem, GrabberSubsystem grabberSystem) {
         CameraServer.startAutomaticCapture(camera);
@@ -109,9 +115,17 @@ public class DisplaySubSystem extends SubsystemBase {
         //chooser.addOption("RedStation2", new RedStationTWO(driveSystem, armSystem, grabberSystem, false));
         // autonomousChooser.addOption("RedStation1 ChargeStation", new RedStationONE(driveSystem, armSystem, grabberSystem, true));
         //chooser.addOption("RedStation1", new RedStationONE(driveSystem, armSystem, grabberSystem, false));
-        autonomousChooser.setDefaultOption("Full standard auto", new StandardAuto(driveSystem, armSystem, grabberSystem, false));
-        autonomousChooser.addOption("Only loading", new LoadGamepieceOnHighLevel(armSystem, grabberSystem));
+        autonomousChooser.addOption("Full standard auto", new StandardAuto(driveSystem, armSystem, grabberSystem, false));
+        autonomousChooser.setDefaultOption("Only loading", new LoadGamepieceOnHighLevel(armSystem, grabberSystem));
         autonomousChooser.addOption("Only moving", new OnlyMoving(driveSystem));
+        autonomousChooser.addOption("Straight path (Test)", driveSystem.followTrajectoryCommand(driveSystem.getStraightPath(), true));
+        autonomousChooser.addOption("Curvy path (Test)", driveSystem.followTrajectoryCommand(driveSystem.getCurvyPath(), true));
+        autonomousChooser.addOption("Blue1", new BlueStationONE(driveSystem, armSystem, grabberSystem));
+        autonomousChooser.addOption("Blue3", new BlueStationTHREE(driveSystem, armSystem, grabberSystem));
+        autonomousChooser.addOption("Red1", new RedStationONE(driveSystem, armSystem, grabberSystem));
+        autonomousChooser.addOption("Red3", new RedStationTHREE(driveSystem, armSystem, grabberSystem));
+        autonomousChooser.addOption("Test Pathplanner", new TestingPathplanner(driveSystem, armSystem, grabberSystem));
+
         // chooser.addOption("Test Auto movement", new TestAutoMovment(driveSystem));
         autonomousChooser.addOption("Not moving", new InstantCommand());
         
@@ -147,6 +161,8 @@ public class DisplaySubSystem extends SubsystemBase {
 
         
     }
+
+    
 
     public SendableChooser<Command> getAutonomousChooser() {
         return autonomousChooser;

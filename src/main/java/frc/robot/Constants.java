@@ -41,18 +41,18 @@ public final class Constants {
     public static final double kaVoltSecondsSquarePerMeter = 0.20256;
     public static final double kPDriveVel = 0.17182;
     
-    public static final double kp_XController = 2;//0.831985;
+    public static final double kp_XController = 0.831985;
     public static final double ki_XController = 0.0;
     public static final double kd_XController = 0;
-    public static final double kp_YController = 2; //0.831985;
+    public static final double kp_YController = 0.831985;
     public static final double ki_YController = 0.0;
     public static final double kd_YController = 0;
-    // public static final double kp_RotationController = 2; //0.831985;
-    // public static final double ki_RotationController = 0.0;
-    // public static final double kd_RotationController = 0.07;
-    public static final double kp_RotationController = 2; //1.57;
-    public static final double ki_RotationController = 0.0;     
-    public static final double kd_RotationController = 0.07; //0.02;
+    public static final double kp_RotationController = 0.831985;
+    public static final double ki_RotationController = 0.0;
+    public static final double kd_RotationController = 0.07;
+    // public static final double kp_RotationController = 2; //1.57;
+    // public static final double ki_RotationController = 0.0;     
+    // public static final double kd_RotationController = 0.07; //0.02;
     
     public enum WheelPositions {
         FrontLeft,
@@ -121,10 +121,10 @@ public final class Constants {
         public static final class Shoulder {
             public static final int channel = 1;                      
             public static final int motor = 30;  
-            public static final double upperlimit = 268.5;
+            public static final double upperlimit = 269;
             public static final double lowerlimit = 215.0;
             public static final double safelimit = 260.0;
-            public static final double defaultSetpoint = 225.0;
+            public static final double defaultSetpoint = 268.0;
             public static final double shoulderSpeedMultiplier = 0.85;
               
             public static final double kP = 0.009;
@@ -169,7 +169,7 @@ public final class Constants {
             public static final double lowerLimitUnsafePosMin = 130;
             public static final double shoulderRestrictionPositionLower = 220;
             public static final double shoulderRestrictionPositionUpper = 270;
-            public static final double defaultSetpoint = 104.0;
+            public static final double defaultSetpoint = 130.0;
             public static final double elbowSpeedMultiplier = 1; 
             
             public static final double kP = 0.01; //0.18;  // After tuning, 0.05/2

@@ -1,7 +1,11 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.cscore.VideoSink;
+import edu.wpi.first.cscore.HttpCamera.HttpCameraKind;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -31,7 +35,6 @@ public class VisionSystem extends SubsystemBase {
 
     // variables for Limelight
     double x, y, area;
-    
     static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tx = getLimelightEntry("tx");
     NetworkTableEntry ty = getLimelightEntry("ty");
@@ -41,8 +44,12 @@ public class VisionSystem extends SubsystemBase {
     NetworkTableEntry camMode = getLimelightEntry("camMode");
     NetworkTableEntry pipeline = getLimelightEntry("pipeline");
     NetworkTableEntry botPoseEntry = table.getEntry("botpose");
+    private HttpCamera camera = new HttpCamera("limelight", "http://10.13.59.11:5800/stream.mjpeg", HttpCameraKind.kMJPGStreamer);
     private double[] botPose;
+
     public VisionSystem() {
+        
+        CameraServer.startAutomaticCapture(camera);
         botPose = botPoseEntry.getDoubleArray(new double[6]);
         // limelight initialization
 
@@ -155,6 +162,9 @@ public class VisionSystem extends SubsystemBase {
     }
     public double getPipeline(){
        return pipeline.getInteger(0);
+    }
+    public HttpCamera getCamera(){
+        return camera;
     }
 
     @Override

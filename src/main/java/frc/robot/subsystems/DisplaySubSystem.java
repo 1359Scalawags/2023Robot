@@ -41,7 +41,6 @@ public class DisplaySubSystem extends SubsystemBase {
     private GenericEntry timeEntry; 
     private GenericEntry batteryVoltage; 
     private GenericEntry driveModeEntry;
-    private HttpCamera camera = new HttpCamera("limelight", "http://10.13.59.11:5800/stream.mjpeg", HttpCameraKind.kMJPGStreamer);
     private DrivetrainSubsystem driveSystem;
     private final SendableChooser<Command> autonomousChooser = new SendableChooser<>();
     
@@ -54,7 +53,6 @@ public class DisplaySubSystem extends SubsystemBase {
 
 
     public DisplaySubSystem(VisionSystem vision, DrivetrainSubsystem driveSystem, ArmSubsystem armSystem, GrabberSubsystem grabberSystem) {
-        CameraServer.startAutomaticCapture(camera);
         this.driveSystem = driveSystem;
         // climbSystem = climber;
         // Shuffleboard.selectTab("Match Tab");
@@ -90,7 +88,7 @@ public class DisplaySubSystem extends SubsystemBase {
         //         .withSize(4, 4)
         //         .withPosition(3, 0);
 
-        mainTab.add(camera)
+        mainTab.add(vision.getCamera())
                     .withSize(5, 4)
                     .withPosition(2, 0);
 

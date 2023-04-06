@@ -18,6 +18,7 @@ import com.swervedrivespecialties.swervelib.MotorType;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -129,6 +130,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     PathPlannerTrajectory rotateAndForward = PathPlanner.loadPath("RotateAndForward", constraints);
 
     private boolean isPathfindingAuto = true;
+
+    private SwerveDrivePoseEstimator poseEstimator;
     
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
@@ -189,12 +192,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
         m_backLeftModule.resetToAbsolute();
         m_backRightModule.resetToAbsolute();
 
-        m_Odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation(), new SwerveModulePosition[]
+        //TODO: Pose2d of odometry doesn't have right construction.
+        m_Odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation(), getSwerveModulePosition(), new Pose2d(kMaxAccelerationMetersPerSecondSquared, MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, new Rotation2d()));
+
+        poseEstimator = new SwerveDrivePoseEstimator(m_kinematics, getGyroscopeRotation(), getSwerveModulePosition(), new Pose2d());
+    }
+
+    public SwerveModulePosition[] getSwerveModulePosition(){
+        return new SwerveModulePosition[]
         {
             m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
             m_backLeftModule.getPosition(), m_backRightModule.getPosition()
-        }, new Pose2d(kMaxAccelerationMetersPerSecondSquared, MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, new Rotation2d()));
-
+        };
     }
 
     public SwerveDriveKinematics getKinematics() {
@@ -413,9 +422,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                     m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
                                     m_backLeftModule.getPosition(), m_backRightModule.getPosition()
                                 });
+        
+        poseEstimator.update(getGyroscopeRotation(), getSwerveModulePosition());
 
         if (Robot.isAutonomousMode() && isPathfindingAuto) {
-
+            //Do not apply chassisSpeed if autonomous is being controlled by pathplanner
         }
         else if( Robot.isAutonomousMode() || Robot.isTeleopMode()) {
             if (counter > 1) {

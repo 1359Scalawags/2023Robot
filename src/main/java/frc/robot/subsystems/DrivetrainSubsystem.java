@@ -116,7 +116,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule m_backRightModule;
 
     PathConstraints constraints = new PathConstraints(1.3, 0.5);
-    PathPlannerTrajectory straightPath = PathPlanner.loadPath("Test Forward", constraints);
+    PathConstraints testConstraints = new PathConstraints(1.0, 0.25);
+    // PathPlannerTrajectory straightPath = PathPlanner.loadPath("Test Forward", constraints);
     PathPlannerTrajectory curvyPath = PathPlanner.loadPath("Curvy", constraints);
     PathPlannerTrajectory blue1ToCenter = PathPlanner.loadPath("Blue1ToCenter", constraints);
     PathPlannerTrajectory blue3ToCenter = PathPlanner.loadPath("Blue3ToCenter", constraints);
@@ -126,8 +127,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     PathPlannerTrajectory centerToBlue3 = PathPlanner.loadPath("CenterToBlue3", constraints);
     PathPlannerTrajectory centerToRed1 = PathPlanner.loadPath("CenterToRed1", constraints);
     PathPlannerTrajectory centerToRed3 = PathPlanner.loadPath("CenterToRed3", constraints);
-    PathPlannerTrajectory forwardAndRotate = PathPlanner.loadPath("ForwardAndRotate", constraints);
-    PathPlannerTrajectory rotateAndForward = PathPlanner.loadPath("RotateAndForward", constraints);
+    PathPlannerTrajectory startBackAndRotate = PathPlanner.loadPath("StartBackwardAndRotate", testConstraints);
+    PathPlannerTrajectory endBackAndRotate = PathPlanner.loadPath("EndBackwardAndRotate", testConstraints);
+    PathPlannerTrajectory forward = PathPlanner.loadPath("Forward", testConstraints);
+    PathPlannerTrajectory backward = PathPlanner.loadPath("Backward", testConstraints);
 
     private boolean isPathfindingAuto = true;
 
@@ -210,12 +213,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return m_kinematics;
     }
 
-    public PathPlannerTrajectory getStraightPath() {
-        return straightPath;
-    }
-    public PathPlannerTrajectory getCurvyPath() {
-        return curvyPath;
-    }
+    // public PathPlannerTrajectory getStraightPath() {
+    //     return straightPath;
+    // }
+    // public PathPlannerTrajectory getCurvyPath() {
+    //     return curvyPath;
+    // }
 
     public PathPlannerTrajectory getBlue1ToCenter() {
         return blue1ToCenter;
@@ -241,11 +244,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public PathPlannerTrajectory getCenterToRed3() {
         return centerToRed3;
     }
-    public PathPlannerTrajectory getForwardAndRotate() {
-        return forwardAndRotate;
+    public PathPlannerTrajectory getStartBackwardAndRotate() {
+        return startBackAndRotate;
     }
-    public PathPlannerTrajectory getRotateAndForward() {
-        return rotateAndForward;
+    public PathPlannerTrajectory getEndBackwardAndRotate() {
+        return endBackAndRotate;
+    }
+    public PathPlannerTrajectory getForward() {
+        return forward;
+    }
+    public PathPlannerTrajectory getBackward() {
+        return backward;
     }
     /**
      * Access the modules individually for testing

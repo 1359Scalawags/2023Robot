@@ -24,15 +24,15 @@ public class TestingPathplanner extends SequentialCommandGroup
            
             // new LoadGamepieceOnHighLevel(m_ArmSubsystem, m_GrabberSubsystem),
 
-            m_DrivetrainSubsystem.followTrajectoryCommand(m_DrivetrainSubsystem.getForwardAndRotate(), true),
+            m_DrivetrainSubsystem.followTrajectoryCommand(m_DrivetrainSubsystem.getStartBackwardAndRotate(), true),
 
             new GrabGamePieceOnGround(m_ArmSubsystem, m_GrabberSubsystem),
 
-            m_DrivetrainSubsystem.followTrajectoryCommand(m_DrivetrainSubsystem.getRotateAndForward(), true),
+            m_DrivetrainSubsystem.followTrajectoryCommand(m_DrivetrainSubsystem.getEndBackwardAndRotate(), true),
 
             // new LoadGamepieceOnMidLevel(m_ArmSubsystem, m_GrabberSubsystem),
 
-            m_DrivetrainSubsystem.followTrajectoryCommand(m_DrivetrainSubsystem.getForwardAndRotate(), true)
+            m_DrivetrainSubsystem.followTrajectoryCommand(m_DrivetrainSubsystem.getStartBackwardAndRotate(), true)
 
 
             // m_DrivetrainSubsystem.followTrajectoryCommand(m_DrivetrainSubsystem.getBlue1ToCenter(), true)

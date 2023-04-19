@@ -13,24 +13,26 @@ public class RotateToGamepiece extends CommandBase  {
   private final VisionSystem m_Vision;
   private final DrivetrainSubsystem m_drivetrainSubsystem; 
 
-  private  ChassisSpeeds m_ChassisSpeeds;
+  // private  ChassisSpeeds m_ChassisSpeeds;
   SlewRateLimiter limit = new SlewRateLimiter(Math.toRadians(12));
   /**
    * Creates a new ExampleCommand.
    *
    * @param vision The subsystem used by this command.
    */
-  public RotateToGamepiece(VisionSystem vision,DrivetrainSubsystem drive, ChassisSpeeds chassis) {
+  public RotateToGamepiece(VisionSystem vision,DrivetrainSubsystem drive) {
     m_Vision = vision;
-    m_ChassisSpeeds = chassis;
+    // m_ChassisSpeeds = chassis;
     m_drivetrainSubsystem = drive;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(vision);
+    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+    //Does this mean slew rate is set to 0? would it move then?
     limit.reset(0);
     
   }

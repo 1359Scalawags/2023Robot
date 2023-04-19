@@ -72,7 +72,7 @@ public class RobotContainer {
   private final SwitchPipeline detectCube = new SwitchPipeline(m_VisionSystem, pipeIndex.CubeWhiteLight);
   private final SetDriveMode fieldCentric = new SetDriveMode(m_drivetrainSubsystem, DriveModes.FieldCentric);
   private final SetDriveMode robotCentric = new SetDriveMode(m_drivetrainSubsystem, DriveModes.RobotCentric);
-  private final RotateToGamepiece rotateToGamepiece = new RotateToGamepiece(m_VisionSystem, m_drivetrainSubsystem, null);
+  private final RotateToGamepiece rotateToGamepiece = new RotateToGamepiece(m_VisionSystem, m_drivetrainSubsystem);
   //private final XboxController m_controller = new XboxController(0);
   // SendableChooser<Command> pathChooser = new SendableChooser<>();
   // PathConstraints constraints = new PathConstraints(1.3, 0.5);
@@ -187,7 +187,7 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 2).whileTrue(m_ZeroGyroCommand);
     new JoystickButton(driverJoystick, 3).whileTrue(fieldCentric);
     new JoystickButton(driverJoystick,4).whileTrue(robotCentric); 
-    new JoystickButton(driverJoystick, 5).onTrue(rotateToGamepiece);
+    new JoystickButton(driverJoystick, 5).whileTrue(rotateToGamepiece);
     new JoystickButton(driverJoystick, 6).whileTrue(detectCube);
     new JoystickButton(driverJoystick, 7).whileTrue(detectCone);
     // new JoystickButton(assistantJoystick, 10).whileTrue(m_compressorOff);
@@ -196,13 +196,13 @@ public class RobotContainer {
     new JoystickButton(assistantJoystick, 2).whileTrue(m_opengrabber);
     // new JoystickButton(assistantJoystick, 3).whileTrue(detectCube);
     // new JoystickButton(assistantJoystick, 4).whileTrue(detectCone);
-    new JoystickButton(assistantJoystick, 5).onTrue(m_ArmParkingCommand);
-    new JoystickButton(assistantJoystick, 6).onTrue(m_ArmUnParkingCommand);
-    new JoystickButton(assistantJoystick, 7).onTrue(m_ArmOnSubStationCommand);
+    new JoystickButton(assistantJoystick, 5).whileTrue(m_ArmParkingCommand);
+    new JoystickButton(assistantJoystick, 6).whileTrue(m_ArmUnParkingCommand);
+    new JoystickButton(assistantJoystick, 7).whileTrue(m_ArmOnSubStationCommand);
     // new JoystickButton(assistantJoystick, 7).onTrue(m_GamepieceOnGroundLevel);
-    new JoystickButton(assistantJoystick, 8).onTrue(m_GamepieceOnHighLevel);
-    new JoystickButton(assistantJoystick, 9).onTrue(m_GamepieceOnMidLevel);
-    new JoystickButton(assistantJoystick, 10).onTrue(m_GamepieceOnGroundLevel);
+    new JoystickButton(assistantJoystick, 8).whileTrue(m_GamepieceOnHighLevel);
+    new JoystickButton(assistantJoystick, 9).whileTrue(m_GamepieceOnMidLevel);
+    new JoystickButton(assistantJoystick, 10).whileTrue(m_GamepieceOnGroundLevel);
     // new JoystickButton(assistantJoystick, 6).onTrue(m_ArmOnGroundLevelCommand);
     // new JoystickButton(assistantJoystick, 7).onTrue(m_ArmOnMidLevelCommand);
     // new JoystickButton(assistantJoystick, 8).onTrue(m_ArmOnHighLevelCommand);

@@ -116,13 +116,15 @@ public class DisplaySubSystem extends SubsystemBase {
         autonomousChooser.addOption("Full standard auto", new StandardAuto(driveSystem, armSystem, grabberSystem, false));
         autonomousChooser.setDefaultOption("Only loading", new LoadGamepieceOnHighLevel(armSystem, grabberSystem));
         autonomousChooser.addOption("Only moving", new OnlyMoving(driveSystem));
-        autonomousChooser.addOption("Straight path (Test)", driveSystem.followTrajectoryCommand(driveSystem.getStraightPath(), true));
-        autonomousChooser.addOption("Curvy path (Test)", driveSystem.followTrajectoryCommand(driveSystem.getCurvyPath(), true));
-        autonomousChooser.addOption("Blue1", new BlueStationONE(driveSystem, armSystem, grabberSystem));
-        autonomousChooser.addOption("Blue3", new BlueStationTHREE(driveSystem, armSystem, grabberSystem));
-        autonomousChooser.addOption("Red1", new RedStationONE(driveSystem, armSystem, grabberSystem));
-        autonomousChooser.addOption("Red3", new RedStationTHREE(driveSystem, armSystem, grabberSystem));
-        autonomousChooser.addOption("Test Pathplanner", new TestingPathplanner(driveSystem, armSystem, grabberSystem));
+        // autonomousChooser.addOption("Straight path (Test)", driveSystem.followTrajectoryCommand(driveSystem.getStraightPath(), true));
+        // autonomousChooser.addOption("Curvy path (Test)", driveSystem.followTrajectoryCommand(driveSystem.getCurvyPath(), true));
+        // autonomousChooser.addOption("Blue1", new BlueStationONE(driveSystem, armSystem, grabberSystem));
+        // autonomousChooser.addOption("Blue3", new BlueStationTHREE(driveSystem, armSystem, grabberSystem));
+        // autonomousChooser.addOption("Red1", new RedStationONE(driveSystem, armSystem, grabberSystem));
+        // autonomousChooser.addOption("Red3", new RedStationTHREE(driveSystem, armSystem, grabberSystem));
+        // autonomousChooser.addOption("Test Pathplanner", new TestingPathplanner(driveSystem, armSystem, grabberSystem));
+        autonomousChooser.addOption("Forward (test)", driveSystem.followTrajectoryCommand(driveSystem.getForward(), true));
+        autonomousChooser.addOption("Backward (test)", driveSystem.followTrajectoryCommand(driveSystem.getBackward(), true));
 
         // chooser.addOption("Test Auto movement", new TestAutoMovment(driveSystem));
         autonomousChooser.addOption("Not moving", new InstantCommand());

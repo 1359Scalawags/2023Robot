@@ -29,7 +29,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -136,16 +135,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     private SwerveDrivePoseEstimator poseEstimator;
     
+    ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
     public DrivetrainSubsystem() {
         driveMode = DriveModes.RobotCentric;
-        Shuffleboard.getTab("Drivetrain");
 
         m_frontLeftModule = new MkSwerveModuleBuilder()
-            // .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-            // .withSize(2, 4)
-            // .withPosition(0, 0))
+            .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)
+            .withSize(2, 4)
+            .withPosition(0, 0))
             .withGearRatio(SdsModuleConfigurations.MK4I_L1)
             .withDriveMotor(MotorType.FALCON, FrontLeft.DRIVE_MOTOR)
             .withSteerMotor(MotorType.FALCON, FrontLeft.STEER_MOTOR)

@@ -140,7 +140,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public DrivetrainSubsystem() {
         driveMode = DriveModes.RobotCentric;
-        // ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
         m_frontLeftModule = new MkSwerveModuleBuilder()
             // .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)

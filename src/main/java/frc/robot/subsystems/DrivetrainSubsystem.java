@@ -29,6 +29,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -155,9 +156,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         // We will do the same for the other modules
         m_frontRightModule = new MkSwerveModuleBuilder()
-            // .withLayout(tab.getLayout("Front Right Module", BuiltInLayouts.kList)
-            // .withSize(2, 4)
-            // .withPosition(2, 0))
+            .withLayout(tab.getLayout("Front Right Module", BuiltInLayouts.kList)
+            .withSize(2, 4)
+            .withPosition(2, 0))
             .withGearRatio(SdsModuleConfigurations.MK4I_L1)
             .withDriveMotor(MotorType.FALCON, FrontRight.DRIVE_MOTOR)
             .withSteerMotor(MotorType.FALCON, FrontRight.STEER_MOTOR)
@@ -166,9 +167,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
             .build();
 
         m_backLeftModule = new MkSwerveModuleBuilder()
-            // .withLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList)
-            // .withSize(2, 4)
-            // .withPosition(4, 0))
+            .withLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList)
+            .withSize(2, 4)
+            .withPosition(4, 0))
             .withGearRatio(SdsModuleConfigurations.MK4I_L1)
             .withDriveMotor(MotorType.FALCON, BackLeft.DRIVE_MOTOR)
             .withSteerMotor(MotorType.FALCON, BackLeft.STEER_MOTOR)
@@ -177,9 +178,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
             .build();
 
         m_backRightModule = new MkSwerveModuleBuilder()
-            // .withLayout(tab.getLayout("Back Right Module", BuiltInLayouts.kList)
-            // .withSize(2, 4)
-            // .withPosition(6, 0))
+            .withLayout(tab.getLayout("Back Right Module", BuiltInLayouts.kList)
+            .withSize(2, 4)
+            .withPosition(6, 0))
             .withGearRatio(SdsModuleConfigurations.MK4I_L1)
             .withDriveMotor(MotorType.FALCON, BackRight.DRIVE_MOTOR)
             .withSteerMotor(MotorType.FALCON, BackRight.STEER_MOTOR)

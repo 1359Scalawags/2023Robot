@@ -158,7 +158,7 @@ public final class Constants {
             public static final double onSubStation = 256;
 
             public static final double tolerance = 5.0;
-            public static final double slewRateLimiter = 20;
+            public static final double slewRateLimiter = 20.0;
         }
         public static final class Elbow {
             public static final int channel = 2;        

@@ -38,8 +38,8 @@ public class ArmSubsystem extends SubsystemBase {
   private SparkMaxAbsoluteEncoder elbowSparkMaxEncoder;
   private SparkMaxAbsoluteEncoder shoulderSparkMaxEncoder;
 
-  private SparkMaxTuner elbowTuner;
-  private SparkMaxTuner shoulderTuner;
+  //private SparkMaxTuner elbowTuner;
+  //private SparkMaxTuner shoulderTuner;
 
   private SparkMaxPIDController elbowSparkMaxPIDController;
   private SparkMaxPIDController shoulderSparkMaxPIDController;
@@ -133,8 +133,8 @@ public class ArmSubsystem extends SubsystemBase {
     elbowAbsoluteTargetEntry = tab.add("Elbow absolute target", e_targetPosition)
                                .withSize(2, 1).withPosition(0, 1).getEntry();
 
-    elbowTuner = new SparkMaxTuner("SparkMax Tuner", "Elbow Tuner", 0, elbowSparkMaxPIDController);
-    shoulderTuner = new SparkMaxTuner("SparkMax Tuner", "Shoulder Tuner", 2, shoulderSparkMaxPIDController);
+    //elbowTuner = new SparkMaxTuner("SparkMax Tuner", "Elbow Tuner", 0, elbowSparkMaxPIDController);
+    //shoulderTuner = new SparkMaxTuner("SparkMax Tuner", "Shoulder Tuner", 2, shoulderSparkMaxPIDController);
     
     // angles of the shoulder are incremented by 180 to avoid 0/360 median flip
     shoulderFF = new GravityAssistFeedForward(Constants.Arm.Shoulder.kGravFF * 0.1, Constants.Arm.Shoulder.kGravFF, 180);

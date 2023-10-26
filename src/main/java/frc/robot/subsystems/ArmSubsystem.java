@@ -85,6 +85,7 @@ public class ArmSubsystem extends SubsystemBase {
     elbowMotor.setInverted(false);
     elbowMotor.setIdleMode(IdleMode.kBrake);
     
+    //TODO: Is this preventing motion?
     elbowMotor.setSoftLimit(SoftLimitDirection.kForward, (float)Constants.Arm.Elbow.upperlimit);
     elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)Constants.Arm.Elbow.lowerLimitUnsafePosMin);
     
@@ -114,6 +115,8 @@ public class ArmSubsystem extends SubsystemBase {
     elbowSparkMaxPIDController.setD(Constants.Arm.Elbow.kD);
     elbowSparkMaxPIDController.setFF(Constants.Arm.Elbow.kFF);
     elbowSparkMaxPIDController.setIZone(Constants.Arm.Elbow.kIz);
+
+    //TODO: Do these need to be increased?
     elbowSparkMaxPIDController.setOutputRange(Constants.Arm.Elbow.kMinOutput, Constants.Arm.Elbow.kMaxOutput);
 
     shoulderSparkMaxPIDController.setP(Constants.Arm.Shoulder.kP);
@@ -121,6 +124,8 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderSparkMaxPIDController.setD(Constants.Arm.Shoulder.kD);
     shoulderSparkMaxPIDController.setFF(Constants.Arm.Shoulder.kFF);
     shoulderSparkMaxPIDController.setIZone(Constants.Arm.Shoulder.kIz);
+
+    //TODO: Do these need to be increased?
     shoulderSparkMaxPIDController.setOutputRange(Constants.Arm.Shoulder.kMinOutput, Constants.Arm.Shoulder.kMaxOutput);
 
     shoulderRotationEntry = tab.add("Shoulder relative rotation", getShoulderDegree())

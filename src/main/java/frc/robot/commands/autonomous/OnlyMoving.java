@@ -3,10 +3,8 @@ package frc.robot.commands.autonomous;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.SetDriveMode;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem.DriveModes;
-import frc.robot.subsystems.GrabberSubsystem;
 
 public class OnlyMoving extends SequentialCommandGroup
 {

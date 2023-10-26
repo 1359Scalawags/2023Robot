@@ -2,13 +2,6 @@ package frc.robot.subsystems;
 
 import java.util.Map;
 
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.HttpCamera;
-import edu.wpi.first.cscore.HttpCamera.HttpCameraKind;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -21,18 +14,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.commands.SwitchPipeline;
-import frc.robot.commands.autonomous.BlueStationONE;
-import frc.robot.commands.autonomous.BlueStationTHREE;
-import frc.robot.commands.autonomous.BlueStationTWO;
 import frc.robot.commands.autonomous.LoadGamepieceOnHighLevel;
-import frc.robot.commands.autonomous.MoveBackwards;
 import frc.robot.commands.autonomous.OnlyMoving;
-import frc.robot.commands.autonomous.RedStationONE;
-import frc.robot.commands.autonomous.RedStationTHREE;
-import frc.robot.commands.autonomous.RedStationTWO;
 import frc.robot.commands.autonomous.StandardAuto;
-import frc.robot.commands.autonomous.TestingPathplanner;
 
 public class DisplaySubSystem extends SubsystemBase {
     PowerDistribution m_pdh = new PowerDistribution(Constants.DisplaySystem.PDHCANID, ModuleType.kRev);

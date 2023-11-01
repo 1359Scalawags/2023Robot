@@ -203,6 +203,18 @@ public final class Constants {
 
             public static final double tolerance = 5.0;
             public static final double slewRateLimiter = 60;
+
+            public static final class Limiter {
+                public static final class Upper {
+                    public static final double m = -1;
+                    public static final double b = 440;
+                }
+                public static final class Lower {
+                    public static final double a = 0.0000033922;
+                    public static final double b = -1.46987;  
+                    public static final double c = 444.188;                  
+                }
+            }
         }
     }
 

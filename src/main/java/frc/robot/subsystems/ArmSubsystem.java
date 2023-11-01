@@ -320,18 +320,18 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private double CalcElbowUpper(double x){
-    double m = -1;
-    double b = 440;
+    double m = Constants.Arm.Elbow.Limiter.Upper.m;
+    double b = Constants.Arm.Elbow.Limiter.Upper.b;
     return (m * x + b);
   }
 
   private double CalcElbowLower(double x){
     x+=Constants.Arm.triggerZone;//ElbowTriggerZone;
 
-    double b = 0.0000033922;
-    double c = -1.46987;
-    double d = 444.188;
-    return (b * Math.pow(x, 3) + c * x  + d);
+    double a = Constants.Arm.Elbow.Limiter.Lower.a;
+    double b = Constants.Arm.Elbow.Limiter.Lower.b;
+    double c = Constants.Arm.Elbow.Limiter.Lower.c;
+    return (a * Math.pow(x, 3) + b * x  + c);
   }
 
   public void adjustElbowLimit() {

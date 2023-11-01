@@ -143,7 +143,8 @@ public final class Constants {
             public static final double kV = 0.020769;
             public static final double kA = 0.000916;
 
-            public static final double kGravFF = 0.0008;
+            public static final double kGravityAssistFF_Max = 0.0008;  //when arm parallel to floor
+            public static final double kGravityAssistFF_Min = 0.000001;  //when arm perpendicular to floor
 
             public static final double angleAtFloor = 213.0 - 180.0;
             public static final double targetSpeed = 0.05;

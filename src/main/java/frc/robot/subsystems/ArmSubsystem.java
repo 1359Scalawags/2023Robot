@@ -142,7 +142,7 @@ public class ArmSubsystem extends SubsystemBase {
     //shoulderTuner = new SparkMaxTuner("SparkMax Tuner", "Shoulder Tuner", 2, shoulderSparkMaxPIDController);
     
     // angles of the shoulder are incremented by 180 to avoid 0/360 median flip
-    shoulderFF = new GravityAssistFeedForward(Constants.Arm.Shoulder.kGravFF * 0.1, Constants.Arm.Shoulder.kGravFF, 180);
+    shoulderFF = new GravityAssistFeedForward(Constants.Arm.Shoulder.kGravityAssistFF_Min, Constants.Arm.Shoulder.kGravityAssistFF_Max, 180);
 
     //elbowRateLimiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter * Constants.Arm.rateLimiterMultiplier);
     //shouldRateLimiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter * Constants.Arm.rateLimiterMultiplier);

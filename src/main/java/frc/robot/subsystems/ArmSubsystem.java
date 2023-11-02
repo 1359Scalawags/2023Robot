@@ -398,6 +398,8 @@ public class ArmSubsystem extends SubsystemBase {
   int counter = 0;
   @Override
   public void periodic() {
+
+    // delay when robot first started
     if(delayCounter < 100) {
       delayCounter++;
       return;
@@ -411,7 +413,6 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Elbow Setpoint", e_targetPosition);
       SmartDashboard.putNumber("shoulder Setpoint", s_targetPosition);
     }
-
     else {
       if(isInitialized) {
           //adjustElbowLimit();
@@ -428,6 +429,7 @@ public class ArmSubsystem extends SubsystemBase {
         }
     }
 
+    // updates dashboard on a less frequent schedule
     if (counter > Constants.UI.delayCounter) {
       shoulderRotationEntry.setDouble(getShoulderDegree());
       elbowRotationEntry.setDouble(getElbowDegree());
@@ -438,7 +440,6 @@ public class ArmSubsystem extends SubsystemBase {
     }
     counter++;
 
-      // This method will be called once per scheduler run
   }
 
   @Override

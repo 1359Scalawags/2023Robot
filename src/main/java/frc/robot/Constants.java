@@ -251,7 +251,7 @@ public final class Constants {
 
     public static final class UI {
         public static final double deadband = 0.05;
-        public static final double delayCounter = 5.0;
+        public static final int delayCounter = 7;  // was 5.0
     }
 
 }

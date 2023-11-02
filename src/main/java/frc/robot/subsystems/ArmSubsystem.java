@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -32,8 +33,10 @@ import frc.robot.extensions.SparkMaxTuner;
 public class ArmSubsystem extends SubsystemBase {
 
   
-  private SendableCANSparkMax elbowMotor;
-  private SendableCANSparkMax shoulderMotor;
+  private CANSparkMax elbowMotor;
+  private CANSparkMax shoulderMotor;
+  // private SendableCANSparkMax elbowMotor;
+  // private SendableCANSparkMax shoulderMotor;
 
   private SparkMaxAbsoluteEncoder elbowSparkMaxEncoder;
   private SparkMaxAbsoluteEncoder shoulderSparkMaxEncoder;
@@ -80,7 +83,8 @@ public class ArmSubsystem extends SubsystemBase {
     displayTimer.start();
     lastDisplayTime = displayTimer.get();
 
-    elbowMotor = new SendableCANSparkMax(Constants.Arm.Elbow.motor, MotorType.kBrushless);
+    elbowMotor = new CANSparkMax(Constants.Arm.Elbow.motor, MotorType.kBrushless);
+    // elbowMotor = new SendableCANSparkMax(Constants.Arm.Elbow.motor, MotorType.kBrushless);
     elbowMotor.restoreFactoryDefaults();
     elbowMotor.setInverted(false);
     elbowMotor.setIdleMode(IdleMode.kBrake);
@@ -89,7 +93,8 @@ public class ArmSubsystem extends SubsystemBase {
     elbowMotor.setSoftLimit(SoftLimitDirection.kForward, (float)Constants.Arm.Elbow.upperlimit);
     elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)Constants.Arm.Elbow.lowerLimitUnsafePosMin);
     
-    shoulderMotor = new SendableCANSparkMax(Constants.Arm.Shoulder.motor, MotorType.kBrushless);
+    shoulderMotor = new CANSparkMax(Constants.Arm.Shoulder.motor, MotorType.kBrushless);
+    // shoulderMotor = new SendableCANSparkMax(Constants.Arm.Shoulder.motor, MotorType.kBrushless);
     shoulderMotor.restoreFactoryDefaults();
     shoulderMotor.setInverted(true);
     shoulderMotor.setIdleMode(IdleMode.kBrake);
@@ -420,6 +425,7 @@ public class ArmSubsystem extends SubsystemBase {
           
           //Remove this if not working
           if (counter > Constants.UI.delayCounter) {
+            // FIXME: Why are there arbitrary low and high values for this?
             shoulderSparkMaxPIDController.setFF(MathUtil.clamp(shoulderFF.calculate(getShoulderDegree()), 0, 0.01));
           }
           

@@ -59,7 +59,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   ShuffleboardTab tab = Shuffleboard.getTab("Arm");
 
-  Timer displayTimer = new Timer();
+  Timer consoleDisplayTimer = new Timer();
 
   private boolean isMovable = false;
   double lastDisplayTime = 0;
@@ -80,8 +80,8 @@ public class ArmSubsystem extends SubsystemBase {
   
   /** Creates a new ExampleSubsystem. */
   public ArmSubsystem() {
-    displayTimer.start();
-    lastDisplayTime = displayTimer.get();
+    consoleDisplayTimer.start();
+    lastDisplayTime = consoleDisplayTimer.get();
 
     elbowMotor = new CANSparkMax(Constants.Arm.Elbow.motor, MotorType.kBrushless);
     // elbowMotor = new SendableCANSparkMax(Constants.Arm.Elbow.motor, MotorType.kBrushless);
@@ -304,8 +304,8 @@ public class ArmSubsystem extends SubsystemBase {
     double normalized = MathUtil.inputModulus(offset, 0, 360);
     //avoid spam messages
     REVLibError error = elbowSparkMaxEncoder.setZeroOffset(normalized);
-    if(displayTimer.hasElapsed(0.5)) {
-       displayTimer.reset();
+    if(consoleDisplayTimer.hasElapsed(0.5)) {
+       consoleDisplayTimer.reset();
     //   System.out.println("Offset: " + offset + "    Normalized: " + normalized);      
       
       if(error != REVLibError.kOk) {

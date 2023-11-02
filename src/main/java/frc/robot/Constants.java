@@ -116,7 +116,6 @@ public final class Constants {
         public static final double parkingTolerance = 5.0;
         public static final double boundaryExtension = 5;
         public static final double softStartRatio = 0.5;
-        public static final double rateLimiterMultiplier = 1.5;
         
         public static final class Shoulder {
             public static final int channel = 1;                      
@@ -159,7 +158,7 @@ public final class Constants {
             public static final double onSubStation = 256;
 
             public static final double tolerance = 5.0;
-            public static final double slewRateLimiter = 20.0;
+            public static final double slewRateLimiter = 30.0;  // 20.0 * 1.5
         }
         public static final class Elbow {
             public static final int channel = 2;        
@@ -202,7 +201,7 @@ public final class Constants {
             public static final double onSubStation = 179;
 
             public static final double tolerance = 5.0;
-            public static final double slewRateLimiter = 60;
+            public static final double slewRateLimiter = 90;  // 60.0 * 1.5
 
             public static final class Limiter {
                 public static final class Upper {

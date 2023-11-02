@@ -159,8 +159,8 @@ public class ArmSubsystem extends SubsystemBase {
    * Initialize setpoints at current arm joint positions.
    */
   public void initializeSetpoints() {
-    elbowRateLimiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter * Constants.Arm.rateLimiterMultiplier, -Constants.Arm.Elbow.slewRateLimiter * Constants.Arm.rateLimiterMultiplier, getElbowDegree());
-    shouldRateLimiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter * Constants.Arm.rateLimiterMultiplier);
+    elbowRateLimiter = new SlewRateLimiter(Constants.Arm.Elbow.slewRateLimiter, -Constants.Arm.Elbow.slewRateLimiter, getElbowDegree());
+    shouldRateLimiter = new SlewRateLimiter(Constants.Arm.Shoulder.slewRateLimiter);
     
     //shouldRateLimiter.reset(getElbowDegree());  <<<<<-----This was a problem
     shouldRateLimiter.reset(getShoulderDegree());
@@ -276,6 +276,11 @@ public class ArmSubsystem extends SubsystemBase {
     e_targetPosition = Constants.Arm.Elbow.unParkingDegree;
   }
 
+  
+  public void setFlagForMovingArm(boolean choice) {
+    isMovable = choice;
+  } 
+
   /**
    * Get shoulder's position relative to the floor.
    * @return Angle in degrees
@@ -389,10 +394,6 @@ public class ArmSubsystem extends SubsystemBase {
 //   //   elbowMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)e_lowerLimit);
 //   // }
 //   }
-
-  public void setFlagForMovingArm(boolean choice) {
-    isMovable = choice;
-  } 
 
   int delayCounter = 0;
   int counter = 0;

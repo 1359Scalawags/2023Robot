@@ -51,21 +51,29 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final VisionSystem m_VisionSystem = new VisionSystem();
   private final ZeroGyroCommand m_ZeroGyroCommand = new ZeroGyroCommand(m_drivetrainSubsystem);
-  private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
+  //private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
   // private final TurnCompressorOff m_compressorOff = new TurnCompressorOff(m_grabberSubsystem);
   // private final TurnCompressorOn m_compressorOn = new TurnCompressorOn(m_grabberSubsystem);
   private final GrabCommandOpen m_opengrabber = new GrabCommandOpen(m_grabberSubsystem);
   private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
+  
+  /**
+   * Disable arm commands
+   */
+  /* 
   private final ParkingArm m_ArmParkingCommand = new ParkingArm(m_armSubsystem);
   private final UnParkingArm m_ArmUnParkingCommand = new UnParkingArm(m_armSubsystem);
   private final LoadGamepieceOnHighLevel m_GamepieceOnHighLevel = new LoadGamepieceOnHighLevel(m_armSubsystem, m_grabberSubsystem);
   private final LoadGamepieceOnMidLevel m_GamepieceOnMidLevel = new LoadGamepieceOnMidLevel(m_armSubsystem, m_grabberSubsystem);
   private final LoadGamepieceOnGroundLevel m_GamepieceOnGroundLevel = new LoadGamepieceOnGroundLevel(m_armSubsystem, m_grabberSubsystem);
+  private final ArmOnSubStationCommand m_ArmOnSubStationCommand = new ArmOnSubStationCommand(m_armSubsystem);
+  */
+
+
   // private final ArmOnGroundLevelCommand m_ArmOnGroundLevelCommand = new ArmOnGroundLevelCommand(m_armSubsystem);
   // private final ArmOnMidLevelCommand m_ArmOnMidLevelCommand = new ArmOnMidLevelCommand(m_armSubsystem);
   // private final ArmOnHighLevelCommand m_ArmOnHighLevelCommand = new ArmOnHighLevelCommand(m_armSubsystem);
-  private final ArmOnSubStationCommand m_ArmOnSubStationCommand = new ArmOnSubStationCommand(m_armSubsystem);
   // private final VisionSystem m_VisionSystem = new VisionSystem();
   // private final VisionSystem m_VisionSystem = new VisionSystem();
   private final SwitchPipeline detectCone = new SwitchPipeline(m_VisionSystem, pipeIndex.ConeWhiteLight);
@@ -101,7 +109,7 @@ public class RobotContainer {
   // private final GrabCommandOpen m_opengrabber = new GrabCommandOpen(m_grabberSubsystem);
   // private final GrabCommandClose m_closegrabber = new GrabCommandClose(m_grabberSubsystem); 
   // private final ArmParkingCommand m_ArmParkingCommand = new ArmParkingCommand(m_armSubsystem);
-
+  private final ArmSubsystem m_armSubsystem = null;
   private final DisplaySubSystem m_DisplaySystem = new DisplaySubSystem(m_VisionSystem, m_drivetrainSubsystem, m_armSubsystem, m_grabberSubsystem);
 
   
@@ -152,12 +160,12 @@ public class RobotContainer {
             () -> -modifyAxis(driverJoystick.getZ(), driverJoystick.getThrottle()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.SwerveDrive.rotateMultiplier
     )
     );
-    m_armSubsystem.setDefaultCommand(new DefaultArmCommand(
-            m_armSubsystem,
-            () -> deadband(assistantJoystick.getY(), Constants.UI.deadband) * Constants.Arm.Shoulder.shoulderSpeedMultiplier,
-            () -> deadband(assistantJoystick.getZ(), Constants.UI.deadband) * Constants.Arm.Elbow.elbowSpeedMultiplier
-    )
-    );
+    // m_armSubsystem.setDefaultCommand(new DefaultArmCommand(
+    //         m_armSubsystem,
+    //         () -> deadband(assistantJoystick.getY(), Constants.UI.deadband) * Constants.Arm.Shoulder.shoulderSpeedMultiplier,
+    //         () -> deadband(assistantJoystick.getZ(), Constants.UI.deadband) * Constants.Arm.Elbow.elbowSpeedMultiplier
+    // )
+    // );
 
     // SendableChooser<Command> chooser = new SendableChooser<>();
     // Shuffleboard.getTab("Autonomous").add(chooser);
@@ -196,13 +204,13 @@ public class RobotContainer {
     new JoystickButton(assistantJoystick, 2).whileTrue(m_opengrabber);
     // new JoystickButton(assistantJoystick, 3).whileTrue(detectCube);
     // new JoystickButton(assistantJoystick, 4).whileTrue(detectCone);
-    new JoystickButton(assistantJoystick, 5).whileTrue(m_ArmParkingCommand);
-    new JoystickButton(assistantJoystick, 6).whileTrue(m_ArmUnParkingCommand);
-    new JoystickButton(assistantJoystick, 7).whileTrue(m_ArmOnSubStationCommand);
-    // new JoystickButton(assistantJoystick, 7).onTrue(m_GamepieceOnGroundLevel);
-    new JoystickButton(assistantJoystick, 8).whileTrue(m_GamepieceOnHighLevel);
-    new JoystickButton(assistantJoystick, 9).whileTrue(m_GamepieceOnMidLevel);
-    new JoystickButton(assistantJoystick, 10).whileTrue(m_GamepieceOnGroundLevel);
+    // new JoystickButton(assistantJoystick, 5).whileTrue(m_ArmParkingCommand);
+    // new JoystickButton(assistantJoystick, 6).whileTrue(m_ArmUnParkingCommand);
+    // new JoystickButton(assistantJoystick, 7).whileTrue(m_ArmOnSubStationCommand);
+    // // new JoystickButton(assistantJoystick, 7).onTrue(m_GamepieceOnGroundLevel);
+    // new JoystickButton(assistantJoystick, 8).whileTrue(m_GamepieceOnHighLevel);
+    // new JoystickButton(assistantJoystick, 9).whileTrue(m_GamepieceOnMidLevel);
+    // new JoystickButton(assistantJoystick, 10).whileTrue(m_GamepieceOnGroundLevel);
     // new JoystickButton(assistantJoystick, 6).onTrue(m_ArmOnGroundLevelCommand);
     // new JoystickButton(assistantJoystick, 7).onTrue(m_ArmOnMidLevelCommand);
     // new JoystickButton(assistantJoystick, 8).onTrue(m_ArmOnHighLevelCommand);
@@ -297,9 +305,9 @@ public class RobotContainer {
   //   m_armSubsystem.initializeSetpoints();
   // }
 
-  public Command getInitializeArmCommand() {
-    return new InitializeArm(m_armSubsystem);
-  }
+  // public Command getInitializeArmCommand() {
+  //   return new InitializeArm(m_armSubsystem);
+  // }
 
   public Command zeroGyro() {
     return new ZeroGyroCommand(m_drivetrainSubsystem);

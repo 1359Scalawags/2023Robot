@@ -97,8 +97,8 @@ public class DisplaySubSystem extends SubsystemBase {
         //chooser.addOption("RedStation2", new RedStationTWO(driveSystem, armSystem, grabberSystem, false));
         // autonomousChooser.addOption("RedStation1 ChargeStation", new RedStationONE(driveSystem, armSystem, grabberSystem, true));
         //chooser.addOption("RedStation1", new RedStationONE(driveSystem, armSystem, grabberSystem, false));
-        autonomousChooser.addOption("Full standard auto", new StandardAuto(driveSystem, armSystem, grabberSystem, false));
-        autonomousChooser.setDefaultOption("Only loading", new LoadGamepieceOnHighLevel(armSystem, grabberSystem));
+        // autonomousChooser.addOption("Full standard auto", new StandardAuto(driveSystem, armSystem, grabberSystem, false));
+        // autonomousChooser.setDefaultOption("Only loading", new LoadGamepieceOnHighLevel(armSystem, grabberSystem));
         autonomousChooser.addOption("Only moving", new OnlyMoving(driveSystem));
         // autonomousChooser.addOption("Straight path (Test)", driveSystem.followTrajectoryCommand(driveSystem.getStraightPath(), true));
         // autonomousChooser.addOption("Curvy path (Test)", driveSystem.followTrajectoryCommand(driveSystem.getCurvyPath(), true));

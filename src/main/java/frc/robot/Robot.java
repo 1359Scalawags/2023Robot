@@ -54,8 +54,8 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     // initialize the arm
-    m_initializeArmCommand = m_robotContainer.getInitializeArmCommand();
-    m_initializeArmCommand.schedule();  
+    // m_initializeArmCommand = m_robotContainer.getInitializeArmCommand();
+    // m_initializeArmCommand.schedule();  
     // m_robotContainer.initializeArmSetpoints();    
     // m_robotContainer.grabPiece();
     // System.out.println("Robot Init");
@@ -102,9 +102,8 @@ public class Robot extends TimedRobot {
     //m_robotContainer.initializeArmSetpoints();
 
     // initialize the arm
-    m_initializeArmCommand = m_robotContainer.getInitializeArmCommand();
-    m_initializeArmCommand.schedule();  
-
+    // m_initializeArmCommand = m_robotContainer.getInitializeArmCommand();
+    // m_initializeArmCommand.schedule();  
     // m_robotContainer.setPinAutonomous();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -123,8 +122,8 @@ public class Robot extends TimedRobot {
     //update setpoints before scheduling teleop
     //m_robotContainer.initializeArmSetpoints();
     // initialize the arm
-    m_initializeArmCommand = m_robotContainer.getInitializeArmCommand();
-    m_initializeArmCommand.schedule();  
+    // m_initializeArmCommand = m_robotContainer.getInitializeArmCommand();
+    // m_initializeArmCommand.schedule();  
     // m_robotContainer.setPinTeleop();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -145,8 +144,8 @@ public class Robot extends TimedRobot {
     //update setpoints before scheduling in test mode
     // m_robotContainer.initializeArmSetpoints();
     // initialize the arm
-    m_initializeArmCommand = m_robotContainer.getInitializeArmCommand();
-    m_initializeArmCommand.schedule();  
+    // m_initializeArmCommand = m_robotContainer.getInitializeArmCommand();
+    // m_initializeArmCommand.schedule();  
 
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
